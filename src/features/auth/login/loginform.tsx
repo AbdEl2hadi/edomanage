@@ -1,0 +1,133 @@
+import { useState } from 'react'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { loginSchema } from './login.schema'
+
+import type { SubmitHandler } from 'react-hook-form'
+
+import type { LoginFields } from './login.schema'
+
+export default function Loginform() {
+  /* visible password */
+  const [showPassword, setShowPassword] = useState(false)
+
+  /* validation */
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFields>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+  })
+
+  /* Submit function */
+  const onSubmit: SubmitHandler<LoginFields> = async (data) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    console.log(data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+      <div>
+        <label
+          className="block text-sm font-medium leading-6 text-[#111318] dark:text-white mb-2"
+          htmlFor="email"
+        >
+          Email address
+        </label>
+        <div className="relative rounded-lg shadow-sm">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+            <span
+              className="material-symbols-outlined text-[#616f89] dark:text-gray-400"
+              style={{ fontSize: 20 }}
+            >
+              Email
+            </span>
+          </div>
+          <input
+            id="email"
+            className="form-input block w-full rounded-lg border-0 py-0 h-14 pl-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-base sm:leading-6 transition-all"
+            {...register('email')}
+            placeholder="name@school.com"
+            type="email"
+          />
+        </div>
+        {errors.email && (
+          <p className=" mt-2 text-sm text-red-600" id="email-error">
+            {errors.email.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <label
+            className="block text-sm font-medium leading-6 text-[#111318] dark:text-white"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <div className="text-sm">
+            <a
+              className="font-medium text-primary hover:text-primary/80 transition-colors"
+              href="#"
+            >
+              Forgot password?
+            </a>
+          </div>
+        </div>
+        <div className="relative rounded-lg shadow-sm">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+            <span
+              className="material-symbols-outlined text-[#616f89] dark:text-gray-400"
+              style={{ fontSize: 20 }}
+            >
+              lock
+            </span>
+          </div>
+          <input
+            id="password"
+            className="form-input block w-full rounded-lg border-0 py-0 h-14 pl-12 pr-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-base sm:leading-6 transition-all"
+            {...register('password')}
+            placeholder="Enter your password"
+            type={showPassword ? 'text' : 'password'}
+          />
+          <div className="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer group">
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <span
+                className="material-symbols-outlined text-[#616f89] dark:text-gray-400 group-hover:text-primary transition-colors cursor-pointer"
+                style={{ fontSize: 20 }}
+              >
+                {showPassword ? 'visibility' : 'visibility_off'}
+              </span>
+            </button>
+          </div>
+        </div>
+        {errors.password && (
+          <p className="mt-2 text-sm text-red-600" id="password-error">
+            {errors.password.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <button
+          className="flex w-full justify-center items-center rounded-lg bg-primary h-14 px-3 text-base font-bold leading-6 text-white shadow-sm hover:bg-blue-700  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all duration-200 transform hover:scale-[1.01] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          Log In
+          <span className="material-symbols-outlined ml-2 text-[20px]">
+            arrow_forward
+          </span>
+        </button>
+      </div>
+    </form>
+  )
+}
