@@ -10,13 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as StudentRouteImport } from './routes/student'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeacherNotificationRouteImport } from './routes/teacher/notification'
+import { Route as StudentCoursesRouteImport } from './routes/student/courses'
 import { Route as _loginLoginPageRouteImport } from './routes/__login/loginPage'
 
 const TeacherRoute = TeacherRouteImport.update({
   id: '/teacher',
   path: '/teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentRoute = StudentRouteImport.update({
+  id: '/student',
+  path: '/student',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +36,11 @@ const TeacherNotificationRoute = TeacherNotificationRouteImport.update({
   path: '/notification',
   getParentRoute: () => TeacherRoute,
 } as any)
+const StudentCoursesRoute = StudentCoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => StudentRoute,
+} as any)
 const _loginLoginPageRoute = _loginLoginPageRouteImport.update({
   id: '/__login/loginPage',
   path: '/loginPage',
@@ -37,38 +49,59 @@ const _loginLoginPageRoute = _loginLoginPageRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/loginPage': typeof _loginLoginPageRoute
+  '/student/courses': typeof StudentCoursesRoute
   '/teacher/notification': typeof TeacherNotificationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/loginPage': typeof _loginLoginPageRoute
+  '/student/courses': typeof StudentCoursesRoute
   '/teacher/notification': typeof TeacherNotificationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/__login/loginPage': typeof _loginLoginPageRoute
+  '/student/courses': typeof StudentCoursesRoute
   '/teacher/notification': typeof TeacherNotificationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/teacher' | '/loginPage' | '/teacher/notification'
+  fullPaths:
+    | '/'
+    | '/student'
+    | '/teacher'
+    | '/loginPage'
+    | '/student/courses'
+    | '/teacher/notification'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/teacher' | '/loginPage' | '/teacher/notification'
+  to:
+    | '/'
+    | '/student'
+    | '/teacher'
+    | '/loginPage'
+    | '/student/courses'
+    | '/teacher/notification'
   id:
     | '__root__'
     | '/'
+    | '/student'
     | '/teacher'
     | '/__login/loginPage'
+    | '/student/courses'
     | '/teacher/notification'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  StudentRoute: typeof StudentRouteWithChildren
   TeacherRoute: typeof TeacherRouteWithChildren
   _loginLoginPageRoute: typeof _loginLoginPageRoute
 }
@@ -80,6 +113,13 @@ declare module '@tanstack/react-router' {
       path: '/teacher'
       fullPath: '/teacher'
       preLoaderRoute: typeof TeacherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student': {
+      id: '/student'
+      path: '/student'
+      fullPath: '/student'
+      preLoaderRoute: typeof StudentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -96,6 +136,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherNotificationRouteImport
       parentRoute: typeof TeacherRoute
     }
+    '/student/courses': {
+      id: '/student/courses'
+      path: '/courses'
+      fullPath: '/student/courses'
+      preLoaderRoute: typeof StudentCoursesRouteImport
+      parentRoute: typeof StudentRoute
+    }
     '/__login/loginPage': {
       id: '/__login/loginPage'
       path: '/loginPage'
@@ -105,6 +152,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface StudentRouteChildren {
+  StudentCoursesRoute: typeof StudentCoursesRoute
+}
+
+const StudentRouteChildren: StudentRouteChildren = {
+  StudentCoursesRoute: StudentCoursesRoute,
+}
+
+const StudentRouteWithChildren =
+  StudentRoute._addFileChildren(StudentRouteChildren)
 
 interface TeacherRouteChildren {
   TeacherNotificationRoute: typeof TeacherNotificationRoute
@@ -119,6 +177,7 @@ const TeacherRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  StudentRoute: StudentRouteWithChildren,
   TeacherRoute: TeacherRouteWithChildren,
   _loginLoginPageRoute: _loginLoginPageRoute,
 }

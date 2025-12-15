@@ -1,5 +1,4 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
-
 import SideBar from '@/components/side_bar'
 import TopNav from '@/components/top_nav'
 
