@@ -5,7 +5,7 @@ export default function TopNav() {
   const toggleSideBar = useSideBarStore((state) => state.toggle)
   const isOpen = useSideBarStore((state) => state.isOpen)
   return (
-    <header className="flex items-center justify-between border-b border-[#e7ebf3] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0">
+    <header className=" flex items-center justify-between border-b border-[#e7ebf3] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0">
       {/* Mobile Menu Toggle (Visible only on small screens) */}
       <button
         className="mr-6 mt-1.5 lg:hidden text-[#4c669a] cursor-pointer"
