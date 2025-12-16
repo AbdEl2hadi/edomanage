@@ -1,4 +1,5 @@
 import useSideBarStore from '../services/store/sidebar_show_store'
+import NotificationList from './notificationList'
 
 export default function TopNav() {
   const toggleSideBar = useSideBarStore((state) => state.toggle)
@@ -15,7 +16,7 @@ export default function TopNav() {
         </span>
       </button>
       {/* Search Bar */}
-      <div className="hidden md:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg w-96">
+      <div className="hidden w-96 md:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
         <span
           className="material-symbols-outlined text-[#4c669a]"
           style={{ fontSize: '20px' }}
@@ -29,7 +30,7 @@ export default function TopNav() {
         />
       </div>
       <div className="flex items-center gap-4 ml-auto">
-        <button className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#4c669a] transition-colors">
+        <button className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#4c669a] transition-colors cursor-pointer">
           <span
             className="material-symbols-outlined"
             style={{ fontSize: '24px' }}
@@ -37,15 +38,10 @@ export default function TopNav() {
             chat_bubble
           </span>
         </button>
-        <button className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#4c669a] transition-colors">
-          <span
-            className="material-symbols-outlined"
-            style={{ fontSize: '24px' }}
-          >
-            notifications
-          </span>
-          <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white dark:border-gray-900"></span>
-        </button>
+				<div className="relative group">
+        
+				<NotificationList />
+				</div>
       </div>
     </header>
   )

@@ -1,34 +1,29 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import useSideBarListStore from '../services/store/sidebar_list_store'
 
 import useSideBarStore from '../services/store/sidebar_show_store'
 
-export default function SideBar() {
+export default function SideBar({ info }: { info?: any }) {
+  /* navigate variable*/
+  const navigate = useNavigate()
   /* List of sidebar items  state*/
   const choosenItem = useSideBarListStore((state) => state.choosenItem)
   const setChoosen = useSideBarListStore((state) => state.setChoosen)
 
-  /* handle onClick button of the list*/
-  const handleClick = (itemName: string) => {
-    setChoosen(itemName)
-  }
   /* List of sidebar items */
-  const list = [
-    {
-      name: 'Calendar',
-      icon: 'calendar_month',
-      active: choosenItem === 'calendar',
-    },
-    { name: 'Students', icon: 'group', active: choosenItem === 'students' },
-    { name: 'Classes', icon: 'class', active: choosenItem === 'classes' },
-    {
-      name: 'Notifications',
-      icon: 'notifications',
-      active: choosenItem === 'notifications',
-    },
-    { name: 'Settings', icon: 'settings', active: choosenItem === 'settings' },
-  ]
+  const baseList = info?.list ;
 
+  const list = useMemo(() => baseList.map((item: any) => {
+    const key = item.name.toLowerCase()
+    return { ...item, key, active: choosenItem === key }
+  }), [baseList, choosenItem])
+
+  /* handle onClick button of the list*/
+  const handleClick = useCallback((itemKey: string) => {
+    setChoosen(itemKey)
+    navigate({ to: `/${info?.layout}/${itemKey}` })
+  }, [ info?.layout])
   /* sideBar variable */
   const isOpen = useSideBarStore((state) => state.isOpen)
   const toggleSideBar = useSideBarStore((state) => state.toggle)
@@ -46,7 +41,7 @@ export default function SideBar() {
     handleChange(media)
     media.addEventListener('change', handleChange)
     return () => media.removeEventListener('change', handleChange)
-  }, [setOpen]) // keep setOpen here: satisfies exhaustive-deps and future-proofs even though Zustand actions are stable
+  }, []) 
 
   return (
     <>
@@ -82,10 +77,23 @@ export default function SideBar() {
           </div>
           {/* Navigation */}
           <nav className="flex flex-col gap-2" aria-label="Primary">
-            {list.map((item) => {
+            <div className="lg:hidden  md:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
+              <span
+                className="material-symbols-outlined text-[#4c669a] translate-y-1"
+                style={{ fontSize: '20px' }}
+              >
+                search
+              </span>
+              <input
+                className="bg-transparent border-none outline-none text-sm w-[calc(100%-40px)] text-[#0d121b] dark:text-white placeholder-[#4c669a] focus:ring-0 ml-2.5"
+                placeholder="Search for anything..."
+                type="text"
+              />
+            </div>
+            {list.map((item : any) => {
               return (
                 <button
-                  onClick={() => handleClick(item.name.toLowerCase())}
+                  onClick={() => handleClick(item.key)}
                   key={item.name}
                   className={`flex items-center rounded-lg cursor-pointer ${
                     isOpen ? 'gap-3 px-3 py-2.5' : 'justify-center px-2 py-2'
