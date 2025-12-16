@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { Outlet, createFileRoute, useMatchRoute } from '@tanstack/react-router'
 import SideBar from '@/components/side_bar'
 import TopNav from '@/components/top_nav'
 
@@ -7,6 +7,9 @@ export const Route = createFileRoute('/student')({
 })
 
 function Student() {
+  const matchRoute = useMatchRoute()
+
+  const hideTopNav = Boolean(matchRoute({ to: '/student/notifications' }))
   const info = {
     layout: 'student',
     list: [
@@ -20,7 +23,8 @@ function Student() {
     <div className="bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 h-screen overflow-hidden flex flex-row">
       <SideBar info={info} />
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-        <TopNav />
+        {/* <TopNav /> */}
+        {!hideTopNav && <TopNav />}
         <Outlet />
       </main>
     </div>
