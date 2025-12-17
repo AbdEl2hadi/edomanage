@@ -1,13 +1,20 @@
 import { memo, useEffect, useRef, useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 
 import type { Not } from '@/services/api/getNotification'
 import useSideBarListStore from '@/services/store/sidebar_list_store'
 import { useNotificationsStore } from '@/services/store/notifications_store'
 
 function NotificationList() {
+  /* to know current location*/ 
+  const location = useLocation()
+  const currentPath = location.pathname.split('/')[1]
+
+  /* notification show*/ 
   const [isOpen, setIsOpen] = useState(false)
   const setChoosen = useSideBarListStore((state) => state.setChoosen)
+
+  /* sync with outside click */
   const containerRef = useRef<HTMLDivElement>(null)
 
   const Logo = [
@@ -151,7 +158,7 @@ function NotificationList() {
         </div>
         <div className="p-2 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 text-center">
           <Link
-            to="/teacher/notifications"
+            to={`/${currentPath}/notifications` as any}
             onClick={() => {
               setIsOpen(!isOpen)
               setChoosen('notifications')

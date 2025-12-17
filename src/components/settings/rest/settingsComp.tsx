@@ -1,15 +1,58 @@
-export default function SettingsComp() {
+import ButtonBase from '@mui/material/ButtonBase'
+import Avatar from '@mui/material/Avatar'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { NewInfoSchema } from './settingsAuth.schema'
+
+import type { AvatarState } from '@/services/store/avatar_store'
+import type { NewInfoFields } from './settingsAuth.schema'
+import postNewinfo from '@/services/api/settings/postNewinfo'
+import useAvatarStore from '@/services/store/avatar_store'
+
+export default function SettingsComp({
+  user,
+}: {
+  user: 'teacher' | 'student'
+}) {
+  /* avatar gandle*/
+
+  const avatarSrc = useAvatarStore((state: AvatarState) => state.avatarSrc)
+  const setAvatarSrc = useAvatarStore(
+    (state: AvatarState) => state.setAvatarSrc,
+  )
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      // Read the file as a data URL
+      const reader = new FileReader()
+      reader.onload = () => {
+        setAvatarSrc(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  /* Personal information handle */
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<NewInfoFields>({
+    resolver: zodResolver(NewInfoSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+  })
+
+  const onSubmit = async (data: NewInfoFields) => {
+    const result = await postNewinfo(data)
+    console.log(result)
+  }
+
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Breadcrumbs */}
-        <nav className="flex text-sm font-medium text-slate-500 dark:text-slate-400">
-          <a className="hover:text-primary transition-colors" href="#">
-            Home
-          </a>
-          <span className="mx-2">/</span>
-          <span className="text-slate-900 dark:text-white">Settings</span>
-        </nav>
         {/* Page Heading */}
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">
@@ -20,59 +63,52 @@ export default function SettingsComp() {
             notifications.
           </p>
         </div>
-        {/* Layout: Settings Nav + Forms */}
+        {/* Layout: Forms */}
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
-          {/* Settings Sidebar (Sub-nav) */}
-          <aside className="w-full lg:w-64 shrink-0">
-            <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 sticky top-4">
-              <a
-                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-700 lg:border-l-4 lg:border-l-primary lg:border-y-0 lg:border-r-0 lg:shadow-none lg:bg-transparent lg:dark:bg-transparent lg:rounded-none lg:px-4 text-primary font-bold whitespace-nowrap"
-                href="#"
-              >
-                <span className="material-symbols-outlined">person</span>
-                Public Profile
-              </a>
-              <a
-                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 lg:border-none lg:shadow-none lg:bg-transparent lg:dark:bg-transparent lg:rounded-none lg:px-4 font-medium transition-colors whitespace-nowrap"
-                href="#"
-              >
-                <span className="material-symbols-outlined">lock</span>
-                Security
-              </a>
-              <a
-                className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800 lg:border-none lg:shadow-none lg:bg-transparent lg:dark:bg-transparent lg:rounded-none lg:px-4 font-medium transition-colors whitespace-nowrap"
-                href="#"
-              >
-                <span className="material-symbols-outlined">notifications</span>
-                Notifications
-              </a>
-            </nav>
-          </aside>
           {/* Main Form Area */}
-          <div className="flex-1 space-y-8">
+          <div className="flex-1 bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 space-y-8">
             {/* Profile Header & Picture */}
-            <section className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+            <section>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                 Profile Picture
               </h2>
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="relative group">
-                  <div
-                    className="h-28 w-28 rounded-full bg-cover bg-center border-4 border-slate-50 dark:border-slate-700 shadow-inner"
-                    data-alt="Large student avatar"
-                    style={{
-                      backgroundImage:
-                        'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1c_ApVY14UriiPyY2QEInqTWSYEgz7EnNEjopgQDCLNh6GGBzzN0f7yfVaznMYfXgKKQ7lIlAXhf6eRt-LUQHHJLWb8zZBzlt2I_jB1GxrB4WwsDCpFtvgGUqh4QKwfhOxuZlgOxwoMUpDe58pFzGcR-X6_NqvxzU8ugGDUkJJBkDba6x1HeAzS4-deXZ1w14TnOaTLIH-u6_xX1QRkxZxpp0VKWn1fFkm-dAxXVihUEKtWAV-y6dCdN-dau7acr_DkbpyNCaj_w")',
+                  <ButtonBase
+                    component="label"
+                    role={undefined}
+                    tabIndex={-1} // prevent label from tab focus
+                    aria-label="Avatar image"
+                    sx={{
+                      borderRadius: '50%',
+                      '&:has(:focus-visible)': {
+                        outline: '2px solid',
+                        outlineOffset: '2px',
+                      },
                     }}
-                  ></div>
-                  <button
-                    className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-                    title="Upload new photo"
                   >
-                    <span className="material-symbols-outlined text-sm">
-                      edit
-                    </span>
-                  </button>
+                    <Avatar
+                      alt="Upload new avatar"
+                      src={avatarSrc}
+                      sx={{ width: 90, height: 90 }}
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{
+                        border: 0,
+                        clip: 'rect(0 0 0 0)',
+                        height: '1px',
+                        margin: '-1px',
+                        overflow: 'hidden',
+                        padding: 0,
+                        position: 'absolute',
+                        whiteSpace: 'nowrap',
+                        width: '1px',
+                      }}
+                      onChange={handleAvatarChange}
+                    />
+                  </ButtonBase>
                 </div>
                 <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -82,18 +118,18 @@ export default function SettingsComp() {
                     11th Grade Student
                   </p>
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-sm rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                      Remove
-                    </button>
-                    <button className="px-4 py-2 bg-primary/10 text-primary font-bold text-sm rounded-lg hover:bg-primary/20 transition-colors">
-                      Change Photo
+                    <button
+                      onClick={() => setAvatarSrc(undefined)}
+                      className="px-4 py-2 bg-red-500/40 dark:bg-red-700/60 text-slate-900 dark:text-slate-300 font-bold text-sm rounded-lg hover:bg-red-600/70 dark:hover:bg-red-800/95 transition-colors cursor-pointer"
+                    >
+                      Remove Photo
                     </button>
                   </div>
                 </div>
               </div>
             </section>
             {/* Personal Information */}
-            <section className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+            <section>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                   Personal Information
@@ -108,57 +144,87 @@ export default function SettingsComp() {
                     Full Name
                   </label>
                   <input
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
                     type="text"
                     defaultValue="Alex Johnson"
+                    {...register('fullName')}
                   />
+                  {errors.fullName && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.fullName.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
                     Email Address
                   </label>
-                  <input
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
-                    type="email"
-                    defaultValue="alex.j@schoolexample.com"
-                  />
+                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed flex items-center justify-between">
+                    <span>alex.j@schoolexample.com</span>
+                    <span className="material-symbols-outlined text-lg">
+                      lock
+                    </span>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     Phone Number
                   </label>
                   <input
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
                     type="tel"
-                    defaultValue="+1 (555) 012-3456"
+                    defaultValue="0659******"
+                    {...register('phoneNumber')}
                   />
+                  {errors.phoneNumber && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.phoneNumber.message}
+                    </p>
+                  )}
                 </div>
+                {user === 'teacher' && (
+                  <div className="md:col-span-2 space-y-2">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                      About Me
+                    </label>
+                    <textarea
+                      className="w-full h-32 px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary resize-none"
+                      placeholder="Tell us a bit about yourself..."
+                      {...register('aboutMe')}
+                    />
+                    {errors.aboutMe && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.aboutMe.message}
+                      </p>
+                    )}
+                  </div>
+                )}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
                     Date of Birth
                   </label>
-                  <div className="relative">
-                    <input
-                      className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
-                      type="date"
-                      defaultValue="2007-04-15"
-                    />
+                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed flex items-center justify-between">
+                    <span>2007-04-15</span>
+                    <span className="material-symbols-outlined text-lg">
+                      lock
+                    </span>
                   </div>
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
                     Home Address
                   </label>
-                  <textarea
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary resize-none"
-                    rows={2}
-                    defaultValue="123 Maple Avenue, Springfield, IL 62704"
-                  ></textarea>
+                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed flex items-center justify-between">
+                    <span>123 Maple Avenue, Springfield, IL 62704</span>
+                    <span className="material-symbols-outlined text-lg">
+                      lock
+                    </span>
+                  </div>
                 </div>
               </div>
             </section>
             {/* Academic Details (Read Only) */}
-            <section className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+            <section>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                 Academic Details
               </h2>
@@ -167,30 +233,42 @@ export default function SettingsComp() {
                   <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
                     Student ID
                   </label>
-                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 font-mono text-sm cursor-not-allowed">
-                    482910
+                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 font-mono text-sm cursor-not-allowed flex items-center justify-between">
+                    <span>482910</span>
+                    <span className="material-symbols-outlined text-lg">
+                      lock
+                    </span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                    Current Grade
-                  </label>
-                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed">
-                    11th Grade - Class B
+                {user === 'student' ? (
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Current Grade
+                    </label>
+                    <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed flex items-center justify-between">
+                      <span>11th Grade - Class B</span>
+                      <span className="material-symbols-outlined text-lg">
+                        lock
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                    Homeroom Teacher
-                  </label>
-                  <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed">
-                    Mrs. Sarah Connor
+                ) : (
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Subject
+                    </label>
+                    <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed flex items-center justify-between">
+                      <span>Mathematics</span>
+                      <span className="material-symbols-outlined text-lg">
+                        lock
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </section>
             {/* Notifications */}
-            <section className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+            <section>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                 Notification Preferences
               </h2>
@@ -275,7 +353,7 @@ export default function SettingsComp() {
               </div>
             </section>
             {/* Security Section */}
-            <section className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+            <section>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                 Security
               </h2>
@@ -285,20 +363,32 @@ export default function SettingsComp() {
                     New Password
                   </label>
                   <input
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
                     placeholder="••••••••"
                     type="password"
+                    {...register('newPassword')}
                   />
+                  {errors.newPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.newPassword.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     Confirm Password
                   </label>
                   <input
-                    className="w-full rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
                     placeholder="••••••••"
                     type="password"
+                    {...register('confirmPassword')}
                   />
+                  {errors.confirmPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.confirmPassword.message}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
@@ -327,8 +417,12 @@ export default function SettingsComp() {
               <button className="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                 Cancel
               </button>
-              <button className="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all transform hover:scale-[1.02]">
-                Save Changes
+              <button
+                onClick={handleSubmit(onSubmit)}
+                disabled={isSubmitting}
+                className="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all transform hover:scale-[1.02] cursor-pointer disabled:opacity-50"
+              >
+                {isSubmitting ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </div>

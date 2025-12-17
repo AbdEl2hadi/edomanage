@@ -6,8 +6,8 @@ type SideBarListeState = {
 }
 
 const useSideBarListStore = create<SideBarListeState>((set) => ({
-  choosenItem: 'calendar',
+  choosenItem: window.location.pathname.split('/')[2] || 'calendar',
   setChoosen: (value: string) => set({ choosenItem: value }),
 }))
 
-export default useSideBarListStore;
+export default useSideBarListStore

@@ -1,11 +1,32 @@
 import useSideBarStore from '../services/store/sidebar_show_store'
 import NotificationList from './notificationList'
 
-export default function TopNav() {
+export default function TopNav({ switchTopNav }: { switchTopNav?: boolean }) {
   const toggleSideBar = useSideBarStore((state) => state.toggle)
   const isOpen = useSideBarStore((state) => state.isOpen)
+
+  if (switchTopNav && isOpen) {
+    return null
+  }
+
+  if (switchTopNav ) {
+    return (
+      <header className="h-17.5 flex items-center justify-between border-b border-[#e7ebf3] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0">
+        {/* Mobile Menu Toggle (Visible only on small screens) */}
+        <button
+          className="mr-6 mt-1.5 lg:hidden text-[#4c669a] cursor-pointer"
+          onClick={toggleSideBar}
+        >
+          <span className="material-symbols-outlined">
+            menu
+          </span>
+        </button>
+      </header>
+    )
+  }
+
   return (
-    <header className=" flex items-center justify-between border-b border-[#e7ebf3] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0">
+    <header className="h-17.5 flex items-center justify-between border-b border-[#e7ebf3] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0">
       {/* Mobile Menu Toggle (Visible only on small screens) */}
       <button
         className="mr-6 mt-1.5 lg:hidden text-[#4c669a] cursor-pointer"
@@ -16,7 +37,7 @@ export default function TopNav() {
         </span>
       </button>
       {/* Search Bar */}
-      <div className="hidden w-96 lg:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
+      <div className="hidden w-96 lg:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3 rounded-lg ">
         <span
           className="material-symbols-outlined text-[#4c669a]"
           style={{ fontSize: '20px' }}

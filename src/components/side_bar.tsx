@@ -1,21 +1,23 @@
 import { useCallback, useLayoutEffect, useMemo } from 'react'
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useLocation , useNavigate } from '@tanstack/react-router'
 import Avatar from '@mui/material/Avatar'
-import defaultAvatar from '../assets/default_avatar.svg'
 import useSideBarListStore from '../services/store/sidebar_list_store'
 
 import useSideBarStore from '../services/store/sidebar_show_store'
+import useAvatarStore from '../services/store/avatar_store'
 
 export default function SideBar({ info }: { info?: any }) {
+  /* import avatar state */
+  const avatarSrc = useAvatarStore((state) => state.avatarSrc)
   /* navigate variable*/
   const navigate = useNavigate()
+  const localPath = useLocation().pathname.split('/')[1];
   /* List of sidebar items  state*/
   const choosenItem = useSideBarListStore((state) => state.choosenItem)
   const setChoosen = useSideBarListStore((state) => state.setChoosen)
 
   /* List of sidebar items */
   const baseList = info?.list
-  console.log('SideBar rendered')
 
   const list = useMemo(
     () =>
@@ -41,12 +43,13 @@ export default function SideBar({ info }: { info?: any }) {
 
   // keep sidebar open on desktop (>=1024px) and closed on mobile
   useLayoutEffect(() => {
-    const syncWithWidth = () => setOpen(window.innerWidth >= 1024)
+    const mediaQuery = window.matchMedia('(min-width: 1024px)')
+    const handleChange = () => setOpen(mediaQuery.matches)
 
-    syncWithWidth()
-    window.addEventListener('resize', syncWithWidth)
+    handleChange()
+    mediaQuery.addEventListener('change', handleChange)
 
-    return () => window.removeEventListener('resize', syncWithWidth)
+    return () => mediaQuery.removeEventListener('change', handleChange)
   }, [setOpen])
 
   return (
@@ -99,7 +102,12 @@ export default function SideBar({ info }: { info?: any }) {
             {list.map((item: any) => {
               return (
                 <button
-                  onClick={() => handleClick(item.key)}
+                  onClick={() => {
+                    handleClick(item.key)
+                    if (!window.matchMedia('(min-width: 1024px)').matches) {
+                      setOpen(false)
+                    }
+                  }}
                   key={item.name}
                   className={`flex items-center rounded-lg cursor-pointer ${
                     isOpen ? 'gap-3 px-3 py-2.5' : 'justify-center px-2 py-2'
@@ -128,7 +136,13 @@ export default function SideBar({ info }: { info?: any }) {
             isOpen ? 'p-3' : 'p-2 justify-center'
           }`}
         >
-          <Avatar alt="profile picture" src={defaultAvatar} />
+          <Link 
+          onClick={() =>  {
+            if (!window.matchMedia('(min-width: 1024px)').matches) {setOpen(false)}; 
+            setChoosen('settings');
+          }} 
+            to={`/${localPath}/settings` as any}>
+          <Avatar alt="profile picture" src={avatarSrc} /></Link>
           {isOpen && (
             <>
               <div className="flex flex-col min-w-0">
