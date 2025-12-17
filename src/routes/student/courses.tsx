@@ -65,7 +65,6 @@ export function Courses() {
     },
   ]
 
-  // Optional: dynamic color based on type
   const getColors = (type: string) => {
     switch (type) {
       case 'PDF':

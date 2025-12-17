@@ -8,7 +8,7 @@ type SideBarState = {
 
 const useSideBarStore = create<SideBarState>((set) => ({
   // start open on larger screens; the UI will still hide it on mobile until opened
-  isOpen: true,
+  isOpen: false,
   toggle: () => set((state) => ({ isOpen: !state.isOpen })),
   setOpen: (value) => set({ isOpen: value }),
 }))
