@@ -18,7 +18,10 @@ import { Route as TeacherNotificationsRouteImport } from './routes/teacher/notif
 import { Route as TeacherClassesRouteImport } from './routes/teacher/classes'
 import { Route as TeacherCalendarRouteImport } from './routes/teacher/calendar'
 import { Route as StudentCoursesRouteImport } from './routes/student/courses'
+import { Route as OwnerTeachersRouteImport } from './routes/owner/teachers'
+import { Route as OwnerStudentsRouteImport } from './routes/owner/students'
 import { Route as OwnerSettingsRouteImport } from './routes/owner/settings'
+import { Route as OwnerDashboardRouteImport } from './routes/owner/dashboard'
 import { Route as _loginLoginPageRouteImport } from './routes/__login/loginPage'
 
 const TeacherRoute = TeacherRouteImport.update({
@@ -66,9 +69,24 @@ const StudentCoursesRoute = StudentCoursesRouteImport.update({
   path: '/courses',
   getParentRoute: () => StudentRoute,
 } as any)
+const OwnerTeachersRoute = OwnerTeachersRouteImport.update({
+  id: '/teachers',
+  path: '/teachers',
+  getParentRoute: () => OwnerRoute,
+} as any)
+const OwnerStudentsRoute = OwnerStudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
+  getParentRoute: () => OwnerRoute,
+} as any)
 const OwnerSettingsRoute = OwnerSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => OwnerRoute,
+} as any)
+const OwnerDashboardRoute = OwnerDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => OwnerRoute,
 } as any)
 const _loginLoginPageRoute = _loginLoginPageRouteImport.update({
@@ -83,7 +101,10 @@ export interface FileRoutesByFullPath {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/loginPage': typeof _loginLoginPageRoute
+  '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/settings': typeof OwnerSettingsRoute
+  '/owner/students': typeof OwnerStudentsRoute
+  '/owner/teachers': typeof OwnerTeachersRoute
   '/student/courses': typeof StudentCoursesRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/classes': typeof TeacherClassesRoute
@@ -96,7 +117,10 @@ export interface FileRoutesByTo {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/loginPage': typeof _loginLoginPageRoute
+  '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/settings': typeof OwnerSettingsRoute
+  '/owner/students': typeof OwnerStudentsRoute
+  '/owner/teachers': typeof OwnerTeachersRoute
   '/student/courses': typeof StudentCoursesRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/classes': typeof TeacherClassesRoute
@@ -110,7 +134,10 @@ export interface FileRoutesById {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/__login/loginPage': typeof _loginLoginPageRoute
+  '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/settings': typeof OwnerSettingsRoute
+  '/owner/students': typeof OwnerStudentsRoute
+  '/owner/teachers': typeof OwnerTeachersRoute
   '/student/courses': typeof StudentCoursesRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/classes': typeof TeacherClassesRoute
@@ -125,7 +152,10 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/loginPage'
+    | '/owner/dashboard'
     | '/owner/settings'
+    | '/owner/students'
+    | '/owner/teachers'
     | '/student/courses'
     | '/teacher/calendar'
     | '/teacher/classes'
@@ -138,7 +168,10 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/loginPage'
+    | '/owner/dashboard'
     | '/owner/settings'
+    | '/owner/students'
+    | '/owner/teachers'
     | '/student/courses'
     | '/teacher/calendar'
     | '/teacher/classes'
@@ -151,7 +184,10 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/__login/loginPage'
+    | '/owner/dashboard'
     | '/owner/settings'
+    | '/owner/students'
+    | '/owner/teachers'
     | '/student/courses'
     | '/teacher/calendar'
     | '/teacher/classes'
@@ -232,11 +268,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentCoursesRouteImport
       parentRoute: typeof StudentRoute
     }
+    '/owner/teachers': {
+      id: '/owner/teachers'
+      path: '/teachers'
+      fullPath: '/owner/teachers'
+      preLoaderRoute: typeof OwnerTeachersRouteImport
+      parentRoute: typeof OwnerRoute
+    }
+    '/owner/students': {
+      id: '/owner/students'
+      path: '/students'
+      fullPath: '/owner/students'
+      preLoaderRoute: typeof OwnerStudentsRouteImport
+      parentRoute: typeof OwnerRoute
+    }
     '/owner/settings': {
       id: '/owner/settings'
       path: '/settings'
       fullPath: '/owner/settings'
       preLoaderRoute: typeof OwnerSettingsRouteImport
+      parentRoute: typeof OwnerRoute
+    }
+    '/owner/dashboard': {
+      id: '/owner/dashboard'
+      path: '/dashboard'
+      fullPath: '/owner/dashboard'
+      preLoaderRoute: typeof OwnerDashboardRouteImport
       parentRoute: typeof OwnerRoute
     }
     '/__login/loginPage': {
@@ -250,11 +307,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface OwnerRouteChildren {
+  OwnerDashboardRoute: typeof OwnerDashboardRoute
   OwnerSettingsRoute: typeof OwnerSettingsRoute
+  OwnerStudentsRoute: typeof OwnerStudentsRoute
+  OwnerTeachersRoute: typeof OwnerTeachersRoute
 }
 
 const OwnerRouteChildren: OwnerRouteChildren = {
+  OwnerDashboardRoute: OwnerDashboardRoute,
   OwnerSettingsRoute: OwnerSettingsRoute,
+  OwnerStudentsRoute: OwnerStudentsRoute,
+  OwnerTeachersRoute: OwnerTeachersRoute,
 }
 
 const OwnerRouteWithChildren = OwnerRoute._addFileChildren(OwnerRouteChildren)
