@@ -7,6 +7,7 @@ export const Route = createFileRoute('/teacher')({
 })
 
 function Teacher() {
+  console.log('Teacher layout rendered')
   const info = {
     layout: 'teacher',
     list: [

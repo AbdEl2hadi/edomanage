@@ -16,7 +16,7 @@ export default function TopNav() {
         </span>
       </button>
       {/* Search Bar */}
-      <div className="hidden w-96 md:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
+      <div className="hidden w-96 lg:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
         <span
           className="material-symbols-outlined text-[#4c669a]"
           style={{ fontSize: '20px' }}
@@ -38,10 +38,9 @@ export default function TopNav() {
             chat_bubble
           </span>
         </button>
-				<div className="relative group">
-        
-				<NotificationList />
-				</div>
+        <div className="relative group">
+          <NotificationList />
+        </div>
       </div>
     </header>
   )

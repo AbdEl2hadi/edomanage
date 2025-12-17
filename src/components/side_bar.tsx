@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useLayoutEffect, useMemo } from 'react'
 import { useNavigate } from '@tanstack/react-router'
+import Avatar from '@mui/material/Avatar'
+import defaultAvatar from '../assets/default_avatar.svg'
 import useSideBarListStore from '../services/store/sidebar_list_store'
 
 import useSideBarStore from '../services/store/sidebar_show_store'
@@ -12,36 +14,40 @@ export default function SideBar({ info }: { info?: any }) {
   const setChoosen = useSideBarListStore((state) => state.setChoosen)
 
   /* List of sidebar items */
-  const baseList = info?.list ;
+  const baseList = info?.list
+  console.log('SideBar rendered')
 
-  const list = useMemo(() => baseList.map((item: any) => {
-    const key = item.name.toLowerCase()
-    return { ...item, key, active: choosenItem === key }
-  }), [baseList, choosenItem])
+  const list = useMemo(
+    () =>
+      baseList.map((item: any) => {
+        const key = item.name.toLowerCase()
+        return { ...item, key, active: choosenItem === key }
+      }),
+    [baseList, choosenItem],
+  )
 
   /* handle onClick button of the list*/
-  const handleClick = useCallback((itemKey: string) => {
-    setChoosen(itemKey)
-    navigate({ to: `/${info?.layout}/${itemKey}` })
-  }, [ info?.layout])
+  const handleClick = useCallback(
+    (itemKey: string) => {
+      setChoosen(itemKey)
+      navigate({ to: `/${info?.layout}/${itemKey}` })
+    },
+    [info?.layout],
+  )
   /* sideBar variable */
   const isOpen = useSideBarStore((state) => state.isOpen)
   const toggleSideBar = useSideBarStore((state) => state.toggle)
   const setOpen = useSideBarStore((state) => state.setOpen)
 
-  // when the screen is resized to large, open the sidebar
-  useEffect(() => {
-    const media = window.matchMedia('(min-width: 1024px)')
-    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
-      if (event.matches) {
-        setOpen(true)
-      }
-    }
+  // keep sidebar open on desktop (>=1024px) and closed on mobile
+  useLayoutEffect(() => {
+    const syncWithWidth = () => setOpen(window.innerWidth >= 1024)
 
-    handleChange(media)
-    media.addEventListener('change', handleChange)
-    return () => media.removeEventListener('change', handleChange)
-  }, []) 
+    syncWithWidth()
+    window.addEventListener('resize', syncWithWidth)
+
+    return () => window.removeEventListener('resize', syncWithWidth)
+  }, [setOpen])
 
   return (
     <>
@@ -58,7 +64,7 @@ export default function SideBar({ info }: { info?: any }) {
         className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-[#e7ebf3] dark:border-gray-800 shrink-0 transition-all duration-300 ease-in-out ${
           isOpen
             ? 'translate-x-0 w-72 p-4'
-            : '-translate-x-full w-16 lg:w-16 lg:translate-x-0 p-3'
+            : '-translate-x-full w-16 lg:w-72 lg:translate-x-0 p-3'
         }`}
       >
         <div className="flex flex-col gap-8 overflow-hidden">
@@ -90,7 +96,7 @@ export default function SideBar({ info }: { info?: any }) {
                 type="text"
               />
             </div>
-            {list.map((item : any) => {
+            {list.map((item: any) => {
               return (
                 <button
                   onClick={() => handleClick(item.key)}
@@ -122,32 +128,27 @@ export default function SideBar({ info }: { info?: any }) {
             isOpen ? 'p-3' : 'p-2 justify-center'
           }`}
         >
-          <div
-            className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm"
-            data-alt="Teacher profile picture showing a smiling man in a blue shirt"
-            style={{
-              backgroundImage:
-                'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdIX67RoQiiX9CIhZJfqkZQmQ77xnlDEOwuus1m6Y2sXeSs_eBuYEnNDgy9OceDNmSURFW0urj_ZhtthxuPWjj2P_OeGgb43WgqxsFMHKn2sFcqDjHme_CV3bTsHNdr_j7k19V6vOW6eu0Z4grc1dfr9UvK3bEka7irqWBzg8UmgcnbHmBfWmb4xHaj7aS_6coH2xZxuU24DpxC7wiUexpX81ZiA6EHj9mtVyzcBkOQafM6PFCDOSxtTxB2k72sfPUzbRUES2VRB4");',
-            }}
-          ></div>
+          <Avatar alt="profile picture" src={defaultAvatar} />
           {isOpen && (
-            <div className="flex flex-col min-w-0">
-              <h1 className="text-[#0d121b] dark:text-white text-sm font-semibold truncate">
-                Mr. Anderson
-              </h1>
-              <p className="text-[#4c669a] text-xs font-normal truncate">
-                Science Teacher
-              </p>
-            </div>
+            <>
+              <div className="flex flex-col min-w-0">
+                <h1 className="text-[#0d121b] dark:text-white text-sm font-semibold truncate">
+                  Mr. Anderson
+                </h1>
+                <p className="text-[#4c669a] text-xs font-normal truncate">
+                  Science Teacher
+                </p>
+              </div>
+              <button className="ml-auto text-[#4c669a] hover:text-primary cursor-pointer">
+                <span
+                  className="material-symbols-outlined"
+                  style={{ fontSize: '20px' }}
+                >
+                  logout
+                </span>
+              </button>
+            </>
           )}
-          <button className="ml-auto text-[#4c669a] hover:text-primary">
-            <span
-              className="material-symbols-outlined"
-              style={{ fontSize: '20px' }}
-            >
-              logout
-            </span>
-          </button>
         </div>
       </aside>
     </>
