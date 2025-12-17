@@ -151,7 +151,7 @@ function NotificationList() {
         </div>
         <div className="p-2 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 text-center">
           <Link
-            to="/teacher/notifications"
+            to="/student/notifications"
             onClick={() => {
               setIsOpen(!isOpen)
               setChoosen('notifications')
