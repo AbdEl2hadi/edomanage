@@ -28,7 +28,7 @@ export default function StudentCard(props: StudentInfo) {
       </td>
       <td className="p-4">
         <div className="flex items-center gap-3">
-          {props.imgSrc === '' ? (
+          {!props.imgSrc ? (
             <p>{props.gender}</p>
           ) : (
             <img

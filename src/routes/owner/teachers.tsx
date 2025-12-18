@@ -5,15 +5,11 @@ export const Route = createFileRoute('/owner/teachers')({
 })
 
 function RouteComponent() {
-  
-
   return (
     <main>
-
-
       {/* addition should be disscussed */}
 
-      <header className="h-16 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-8 shrink-0">
+      <header className="sticky top-21.75 z-10 py-6 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-8 shrink-0">
         <button className="md:hidden p-2 text-slate-600 dark:text-slate-300">
           <span className="material-symbols-outlined">menu</span>
         </button>

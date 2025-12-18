@@ -6,7 +6,7 @@ export const Route = createFileRoute('/owner/dashboard')({
 
 function RouteComponent() {
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex h-full w-full overflow-y-auto">
       <main className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative transition-colors duration-200">
         {/* addition should be disscussed */}
 
@@ -28,7 +28,7 @@ function RouteComponent() {
           </div>
         </header> */}
 
-        <div className="flex-1 overflow-y-auto p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
+        <div className="flex-1 min-h-full p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
           <div className="max-w-7xl mx-auto flex flex-col gap-8">
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white dark:bg-surface-dark p-6 rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-black/20 dark:hover:border-gray-700 transition-all group">

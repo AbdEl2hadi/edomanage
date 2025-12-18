@@ -61,7 +61,7 @@ export default function SideBar({ info }: { info?: any }) {
       )}
       <aside
         aria-expanded={isOpen}
-        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-[#e7ebf3] dark:border-gray-800 shrink-0 transition-all duration-300 ease-in-out ${
+        className={`sticky left-0 h-screen inset-y-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-[#e7ebf3] dark:border-gray-800 shrink-0 transition-all duration-300 ease-in-out ${
           isOpen
             ? 'translate-x-0 w-72 p-4'
             : '-translate-x-full w-16 lg:w-72 lg:translate-x-0 p-3'
