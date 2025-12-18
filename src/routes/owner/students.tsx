@@ -11,23 +11,6 @@ function RouteComponent() {
   const addS = useStudentList((state) => state.addS)
   return (
     <main>
-      <header className="h-16 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-8 shrink-0">
-        <button className="md:hidden p-2 text-slate-600 dark:text-slate-300">
-          <span className="material-symbols-outlined">menu</span>
-        </button>
-        <div className="hidden md:flex items-center gap-2 text-sm">
-          <a
-            className="text-slate-500 hover:text-primary transition-colors"
-            href="#"
-          >
-            Dashboard
-          </a>
-          <span className="text-slate-400">/</span>
-          <span className="text-slate-900 dark:text-white font-medium">
-            Student Directory
-          </span>
-        </div>
-      </header>
       <div className="flex-1 overflow-y-auto p-6 md:p-8">
         <div className="max-w-7xl mx-auto flex flex-col gap-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

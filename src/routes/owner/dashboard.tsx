@@ -7,7 +7,7 @@ export const Route = createFileRoute('/owner/dashboard')({
 function RouteComponent() {
   return (
     <div className="flex h-full w-full overflow-y-auto">
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative transition-colors duration-200">
+      <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative transition-colors duration-200">
         {/* addition should be disscussed */}
 
         {/* <header className="h-16 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-8 shrink-0">
