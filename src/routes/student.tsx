@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, useMatchRoute } from '@tanstack/react-router'
+import {Outlet , createFileRoute, useLocation, useMatchRoute } from '@tanstack/react-router'
 import SideBar from '@/components/side_bar'
 import TopNav from '@/components/top_nav'
 
@@ -9,7 +9,10 @@ export const Route = createFileRoute('/student')({
 function Student() {
   const matchRoute = useMatchRoute()
 
-  const hideTopNav = Boolean(matchRoute({ to: '/student/notifications' }))
+  const location = useLocation();
+  const path: Array<string> = [...location.pathname.split('/')]
+
+  const switchTopNav = Boolean(matchRoute({ to: '/student/notifications' }))
   const info = {
     layout: 'student',
     list: [
@@ -24,7 +27,14 @@ function Student() {
       <SideBar info={info} />
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* <TopNav /> */}
-        {!hideTopNav && <TopNav />}
+        <TopNav switchTopNav={switchTopNav} />
+        <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 py-4">
+          <span className="capitalize text-slate-450 dark:text-slate-400">{path[1]}</span>
+          <span className="mx-2 text-slate-400 dark:text-slate-600">/</span>
+          <span className="text-slate-900 dark:text-white capitalize">
+            {path[2]}
+          </span>
+        </nav>
         <Outlet />
       </main>
     </div>

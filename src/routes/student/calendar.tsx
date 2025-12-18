@@ -1,12 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import type { CalendarView } from '@/services/store/calendar_store'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { cn } from '@/lib/utils'
 import { useCalendarStore } from '@/services/store/calendar_store'
 
-type TaskType = 'class' | 'holiday' | 'deadline' | 'personal'
+export const Route = createFileRoute('/student/calendar')({
+  component: StudentCalendar,
+})
+
+type TaskType = 'class' | 'holiday' | 'deadline' | 'sport' | 'club'
 
 type Task = {
   id: string
@@ -18,32 +22,29 @@ const calendarData: Record<number, Array<Task>> = {
   1: [
     {
       id: '1',
-      title: 'Math R01',
-      type: 'class',
-      time: '09:00',
+      title: 'No School ',
+      type: 'holiday',
     },
   ],
   2: [
     {
       id: '1',
-      title: 'Math R04',
-      type: 'class',
-      time: '11:00',
+      title: 'No School ',
+      type: 'holiday',
     },
   ],
   24: [
     {
       id: '1',
-      title: 'Math R06',
-      type: 'class',
-      time: '14:00',
+      title: 'No School ',
+      type: 'holiday',
     },
   ],
   26: [
     {
       id: '1',
-      title: 'Math R02',
-      type: 'class',
+      title: 'No School ',
+      type: 'holiday',
     },
   ],
   3: [
@@ -55,7 +56,7 @@ const calendarData: Record<number, Array<Task>> = {
     },
     {
       id: '3',
-      title: 'Math R05',
+      title: 'Physics R05',
       time: '13:00',
       type: 'class',
     },
@@ -69,7 +70,7 @@ const calendarData: Record<number, Array<Task>> = {
     },
     {
       id: '3',
-      title: 'Math R05',
+      title: 'Physics R05',
       time: '13:00',
       type: 'class',
     },
@@ -83,7 +84,7 @@ const calendarData: Record<number, Array<Task>> = {
     },
     {
       id: '3',
-      title: 'Math R05',
+      title: 'Physics R05',
       time: '13:00',
       type: 'class',
     },
@@ -91,22 +92,28 @@ const calendarData: Record<number, Array<Task>> = {
   4: [
     {
       id: '4',
-      title: 'Final Grade Submission',
+      title: 'History Essay Due',
       type: 'deadline',
     },
   ],
   5: [
     {
       id: '5',
-      title: 'Parent-Teacher Meeting',
+      title: 'Chess Club Meeting',
+      time: '10:00',
+      type: 'club',
+    },
+    {
+      id: '6',
+      title: 'Basketball Practice',
       time: '15:30',
-      type: 'personal',
+      type: 'sport',
     },
   ],
   14: [
     {
       id: '4',
-      title: 'Holiday ',
+      title: 'No School ',
       type: 'holiday',
     },
   ],
@@ -141,34 +148,48 @@ const calendarData: Record<number, Array<Task>> = {
   ],
   19: [
     {
+      id: '5',
+      title: 'Chess Club Meeting',
+      time: '10:00',
+      type: 'club',
+    },
+    {
       id: '6',
-      title: 'Works',
+      title: 'Basketball Practice',
       time: '15:30',
-      type: 'personal',
+      type: 'sport',
     },
   ],
   16: [
     {
+      id: '5',
+      title: 'Chess Club Meeting',
+      time: '10:00',
+      type: 'club',
+    },
+    {
       id: '6',
-      title: 'Workout',
+      title: 'Basketball Practice',
       time: '15:30',
-      type: 'personal',
+      type: 'sport',
     },
   ],
   28: [
     {
+      id: '5',
+      title: 'Chess Club Meeting',
+      time: '10:00',
+      type: 'club',
+    },
+    {
       id: '6',
-      title: 'Personal Meeting',
+      title: 'Basketball Practice',
       time: '15:30',
-      type: 'personal',
+      type: 'sport',
     },
   ],
 }
-export const Route = createFileRoute('/teacher/calendar')({
-  component: TeacherCalendar,
-})
-
-function TeacherCalendar() {
+export function StudentCalendar() {
   const view = useCalendarStore((s) => s.view)
   const setView = useCalendarStore((s) => s.setView)
   const day = useCalendarStore((s) => s.selectedDay)
@@ -180,13 +201,22 @@ function TeacherCalendar() {
         <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
           <div className="flex flex-col gap-1">
             <h1 className="text-[#0d121b] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">
-              Academic Calendar
+              My Schedule
             </h1>
             <p className="text-[#4c669a] dark:text-[#94a3b8] text-sm font-normal">
-              Manage your classes, exams, and events
+              Manage your classes, deadlines, and events
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              className="hidden sm:flex h-10 items-center justify-center gap-2 rounded-lg border border-[#e7ebf3] dark:border-[#2a3441] bg-white dark:bg-[#1a2230] px-4 text-sm font-bold text-[#0d121b] dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-[#2a3441]/80 transition-all"
+            >
+              <span className="material-symbols-outlined text-[20px]">
+                filter_list
+              </span>
+              Filter
+            </Button>
             <Button className="h-10 cursor-pointer flex items-center justify-center rounded-lg bg-primary px-4 text-white text-sm font-bold shadow-md hover:bg-blue-700 transition-all gap-2">
               <span className="material-symbols-outlined text-[20px]">add</span>
               Add Event
@@ -263,10 +293,69 @@ function TeacherCalendar() {
           />
         )}
         {view === 'day' && <DayView day={day} />}
+
+        {/* Sidebar */}
+        <aside className="w-80 shrink-0 hidden xl:flex flex-col gap-6 ">
+          <Card className="bg-white dark:bg-[#1a2230] p-5 rounded-xl border border-[#e7ebf3] dark:border-[#2a3441] shadow-sm">
+            <CardHeader className="flex items-center justify-between mb-4">
+              <CardTitle className="text-base font-bold text-[#0d121b] dark:text-white">
+                Upcoming Deadlines
+              </CardTitle>
+              <a
+                href="#"
+                className="text-xs font-semibold text-primary hover:text-blue-700"
+              >
+                View All
+              </a>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Deadline
+                title="History Essay"
+                subtitle="Due Tomorrow, 11:59 PM"
+                icon="warning"
+                variant="orange"
+              />
+              <Deadline
+                title="History Essay"
+                subtitle="Due Tomorrow, 11:59 PM"
+                icon="warning"
+                variant="orange"
+              />
+              <Deadline
+                title="Math Problem Set 4"
+                subtitle="Due Jan 15, 9:00 AM"
+                icon="assignment"
+                variant="blue"
+              />
+              <Deadline
+                title="Math Problem Set 4"
+                subtitle="Due Jan 15, 9:00 AM"
+                icon="assignment"
+                variant="blue"
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white dark:bg-[#1a2230] p-5 rounded-xl border border-[#e7ebf3] dark:border-[#2a3441] shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base font-bold text-[#0d121b] dark:text-white mb-4">
+                Legend
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Legend color="bg-blue-500" label="Regular Classes" />
+              <Legend color="bg-orange-500" label="Deadlines / Exams" />
+              <Legend color="bg-green-500" label="Sports & Extra-curricular" />
+              <Legend color="bg-purple-500" label="Clubs & Events" />
+              <Legend color="bg-red-500" label="Holidays" />
+            </CardContent>
+          </Card>
+        </aside>
       </div>
     </main>
   )
 }
+
 function CalendarCell({ day }: { day: number }) {
   const { setSelectedDay, setView } = useCalendarStore()
   const tasks = calendarData[day] ?? []
@@ -302,12 +391,63 @@ function TaskItem({ task }: { task: Task }) {
           'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-500',
         task.type === 'deadline' &&
           'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-orange-500',
-        task.type === 'personal' &&
+        task.type === 'sport' &&
           'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-500',
+        task.type === 'club' &&
+          'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border-purple-500',
       )}
     >
       {task.time ? `${task.time} - ` : ''}
       {task.title}
+    </div>
+  )
+}
+
+function Legend({ color, label }: { color: string; label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className={cn('size-3 rounded-full', color)} />
+      <span className="text-sm text-muted-foreground">{label}</span>
+    </div>
+  )
+}
+
+function Deadline({
+  title,
+  subtitle,
+  icon,
+  variant,
+}: {
+  title: string
+  subtitle: string
+  icon: string
+  variant: 'orange' | 'blue'
+}) {
+  return (
+    <div
+      className={cn(
+        'flex gap-3 items-start p-3 rounded-lg border',
+        variant === 'orange' && 'bg-orange-700/10 border-orange-800/40',
+        variant === 'blue' && 'bg-blue-700/10 border-blue-800/40',
+      )}
+    >
+      <span
+        className={cn(
+          'material-symbols-outlined',
+          variant === 'orange' && 'text-orange-500 ',
+          variant === 'blue' && 'text-blue-500 ',
+        )}
+      >
+        {icon}
+      </span>
+      <div>
+        <p className="text-sm font-semibold text-[#0d121b] dark:text-white">
+          {title}
+        </p>
+        <p className="text-[#4c669a] dark:text-[#94a3b8] text-xs text-muted-foreground">
+          {subtitle}
+        </p>
+      </div>
     </div>
   )
 }
@@ -410,8 +550,10 @@ function DayView({ day }: { day: number }) {
                 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-500',
               task.type === 'deadline' &&
                 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-orange-500',
-              task.type === 'personal' &&
+              task.type === 'sport' &&
                 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-500',
+              task.type === 'club' &&
+                'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border-purple-500',
             )}
           >
             {task.time ? `${task.time}  -  ${task.title}` : `${task.title}`}

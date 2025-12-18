@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
+import { NotFound } from './components/NotFound'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
@@ -11,6 +12,7 @@ import reportWebVitals from './reportWebVitals.ts'
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  defaultNotFoundComponent: NotFound,
   context: {},
   defaultPreload: 'intent',
   scrollRestoration: true,
