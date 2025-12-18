@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { useCalendarStore } from '@/services/store/calendar_store'
 
 export const Route = createFileRoute('/student/calendar')({
-  component: RouteComponent,
+  component: StudentCalendar,
 })
 
 type TaskType = 'class' | 'holiday' | 'deadline' | 'sport' | 'club'
@@ -189,7 +189,7 @@ const calendarData: Record<number, Array<Task>> = {
     },
   ],
 }
-export function RouteComponent() {
+export function StudentCalendar() {
   const view = useCalendarStore((s) => s.view)
   const setView = useCalendarStore((s) => s.setView)
   const day = useCalendarStore((s) => s.selectedDay)
