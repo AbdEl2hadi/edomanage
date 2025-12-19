@@ -54,7 +54,31 @@ function RouteComponent() {
 
   return (
     <div className="flex h-full w-full overflow-y-auto">
+<<<<<<< HEAD
       <main className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative transition-colors duration-200">
+=======
+      <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative transition-colors duration-200">
+        {/* addition should be disscussed */}
+
+        {/* <header className="h-16 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-8 shrink-0">
+          <button className="md:hidden p-2 text-slate-600 dark:text-slate-300">
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+          <div className="hidden md:flex items-center gap-2 text-sm">
+            <a
+              className="text-slate-500 hover:text-primary transition-colors"
+              href="#"
+            >
+              Dashboard
+            </a>
+            <span className="text-slate-400">/</span>
+            <span className="text-slate-900 dark:text-white font-medium">
+              Student Directory
+            </span>
+          </div>
+        </header> */}
+
+>>>>>>> 83e6f8100b51436f67bbeeae1d3a2ddeb4406eb9
         <div className="flex-1 min-h-full p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
           <div className="max-w-7xl mx-auto flex flex-col gap-8">
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -24,13 +24,20 @@ function Owner() {
   const path: Array<string> = [...location.pathname.split('/')]
 
   return (
-    <div className="relative bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 flex flex-row">
+    <div className="bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 h-screen overflow-hidden flex flex-row">
       <SideBar info={info} />
-      <main className="flex-1 flex flex-col min-h-screen">
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <TopNav />
         <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 py-4">
           <span className="capitalize text-slate-450 dark:text-slate-400">
             {path[1]}
+<<<<<<< HEAD
+=======
+          </span>
+          <span className="mx-2 text-slate-400 dark:text-slate-600">/</span>
+          <span className="text-slate-900 dark:text-white capitalize">
+            {path[2]}
+>>>>>>> 83e6f8100b51436f67bbeeae1d3a2ddeb4406eb9
           </span>
 
           {path[2] && (

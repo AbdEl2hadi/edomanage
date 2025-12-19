@@ -98,6 +98,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --theme-transition-duration: 250ms;
+  --theme-transition-ease: ease;
+  --theme-transition-properties:
+    background-color, color, border-color, fill, stroke;
+}
+
+.theme-animating *,
+.theme-animating *::before,
+.theme-animating *::after {
+  transition-property: var(--theme-transition-properties);
+  transition-duration: var(--theme-transition-duration);
+  transition-timing-function: var(--theme-transition-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-animating *,
+  .theme-animating *::before,
+  .theme-animating *::after {
+    transition: none !important;
+  }
+}
+
 code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;

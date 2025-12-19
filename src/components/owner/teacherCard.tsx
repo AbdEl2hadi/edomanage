@@ -115,16 +115,8 @@ export default function TeacherCard(props: TeacherCardType) {
                     </Button>
                   </DialogClose>
                   <Button type="submit" className="cursor-pointer">
-
-
-
-
- {/* onClick={()=>editTeacher(props.name,)} */}
-{/* continue woriking on the editing of the teacher profile.ask the others if the change only in the status and the subject or it can be on the other fields too. */}
-
-
-
-
+                    {/* onClick={()=>editTeacher(props.name,)} */}
+                    {/* continue woriking on the editing of the teacher profile.ask the others if the change only in the status and the subject or it can be on the other fields too. */}
                     Save changes
                   </Button>
                 </DialogFooter>
