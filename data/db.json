@@ -1,0 +1,28 @@
+{  
+    "studentsCards":[
+    {
+      "iconName": "groups",
+      "iconColor": "blue",
+      "stateIcon": "trending_up",
+      "percentage": 5,
+      "cardTitle": "Total Students",
+      "info": "452"
+    },
+    {
+      "iconName": "person_add",
+      "iconColor": "purple",
+      "stateIcon": "trending_up",
+      "percentage": 12,
+      "cardTitle": "New Enrollments",
+      "info": "34"
+    },
+    {
+      "iconName": "calendar_month",
+      "iconColor": "orange",
+      "stateIcon": "trending_up",
+      "percentage": 96,
+      "cardTitle": "Average Attendance",
+      "info": "Last 30 days"
+    }
+  ]
+}

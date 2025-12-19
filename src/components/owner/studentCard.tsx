@@ -1,11 +1,11 @@
-import { useStudentList } from '@/services/store/student_List_Functions'
+import { useStudentList } from '@/services/store/studentListFunctions'
 
-export type StudentInfo = {
+export type StudentCardType = {
+  id: string
   imgSrc: string
   gender?: string // in the case where the student does not have a picture
   name: string
   email: string
-  id: string
   grade: string
   parent: {
     phoneNumber: string
@@ -14,9 +14,10 @@ export type StudentInfo = {
   status: string
 }
 
-export default function StudentCard(props: StudentInfo) {
-  const deleteStudent = useStudentList((state) => state.deleteS)
+export default function StudentCard(props: StudentCardType) {
+  const deleteStudent = useStudentList((state) => state.deleteStudent)
   const studentNewList = useStudentList((state) => state.studentList)
+  // const addStudent = useStudentList((state=>))
 
   return (
     <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 transition-colors cursor-pointer">
