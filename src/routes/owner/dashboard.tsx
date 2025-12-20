@@ -1,12 +1,13 @@
-import DashboardChart from '@/components/owner/dashboardChart'
-import UICardComponent, { type UICardType } from '@/components/owner/UICard'
-import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
+import type { UICardType } from '@/components/owner/UICard'
+import DashboardChart from '@/components/owner/dashboardChart'
+import UICardComponent from '@/components/owner/UICard'
 
 export const Route = createFileRoute('/owner/dashboard')({
   component: RouteComponent,
 })
-const UICardList: UICardType[] = [
+const UICardList: Array<UICardType> = [
   {
     id: '0',
     iconName: 'school',
@@ -46,7 +47,7 @@ const UICardList: UICardType[] = [
 ]
 
 function RouteComponent() {
-  const [year, setYear] = useState<Boolean>(false)
+  const [year, setYear] = useState<boolean>(false)
 
   function changeChart() {
     setYear((state) => !state)
@@ -54,9 +55,6 @@ function RouteComponent() {
 
   return (
     <div className="flex h-full w-full overflow-y-auto">
-<<<<<<< HEAD
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-background-light dark:bg-background-dark relative transition-colors duration-200">
-=======
       <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative transition-colors duration-200">
         {/* addition should be disscussed */}
 
@@ -77,8 +75,6 @@ function RouteComponent() {
             </span>
           </div>
         </header> */}
-
->>>>>>> 83e6f8100b51436f67bbeeae1d3a2ddeb4406eb9
         <div className="flex-1 min-h-full p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
           <div className="max-w-7xl mx-auto flex flex-col gap-8">
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

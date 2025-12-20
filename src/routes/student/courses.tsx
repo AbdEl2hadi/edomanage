@@ -145,7 +145,7 @@ export function Courses() {
           </p>
         </div>
       </div>
-      <div className="mb-8 flex flex-col gap-4 rounded-xl bg-white p-4 shadow-sm dark:bg-[#1a202c] md:flex-row md:items-center md:justify-between">
+      <div className="mb-8 flex flex-col gap-4 rounded-xl bg-white p-4 shadow-sm dark:bg-surface-dark md:flex-row md:items-center md:justify-between">
         {/* Tabs */}
         <div className="flex gap-1 overflow-x-auto border-b border-gray-100 pb-2 md:border-none md:pb-0 dark:border-gray-700">
           {['All', 'Assignments', 'Reference'].map((t) => (
@@ -193,7 +193,7 @@ export function Courses() {
           return (
             <div
               key={title}
-              className="group flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-[#1a202c]"
+              className="group flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-surface-dark"
             >
               <div>
                 <div className="mb-4 flex items-start justify-between">

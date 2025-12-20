@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
 import { Route as StudentRouteImport } from './routes/student'
+import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as OwnerRouteImport } from './routes/owner'
+import { Route as LogInRouteImport } from './routes/log-in'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeacherSettingsRouteImport } from './routes/teacher/settings'
 import { Route as TeacherNotificationsRouteImport } from './routes/teacher/notifications'
@@ -26,7 +28,6 @@ import { Route as OwnerSettingsRouteImport } from './routes/owner/settings'
 import { Route as OwnerPaymentsRouteImport } from './routes/owner/payments'
 import { Route as OwnerDashboardRouteImport } from './routes/owner/dashboard'
 import { Route as OwnerAnnouncementsRouteImport } from './routes/owner/announcements'
-import { Route as _loginLoginPageRouteImport } from './routes/__login/loginPage'
 import { Route as OwnerTeachersIndexRouteImport } from './routes/owner/teachers.index'
 import { Route as OwnerTeachersAddRouteImport } from './routes/owner/teachers.add'
 
@@ -40,9 +41,19 @@ const StudentRoute = StudentRouteImport.update({
   path: '/student',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OwnerRoute = OwnerRouteImport.update({
   id: '/owner',
   path: '/owner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogInRoute = LogInRouteImport.update({
+  id: '/log-in',
+  path: '/log-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -115,11 +126,6 @@ const OwnerAnnouncementsRoute = OwnerAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => OwnerRoute,
 } as any)
-const _loginLoginPageRoute = _loginLoginPageRouteImport.update({
-  id: '/__login/loginPage',
-  path: '/loginPage',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const OwnerTeachersIndexRoute = OwnerTeachersIndexRouteImport.update({
   id: '/teachers/',
   path: '/teachers/',
@@ -133,10 +139,11 @@ const OwnerTeachersAddRoute = OwnerTeachersAddRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/log-in': typeof LogInRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/sign-up': typeof SignUpRoute
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
-  '/loginPage': typeof _loginLoginPageRoute
   '/owner/announcements': typeof OwnerAnnouncementsRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/payments': typeof OwnerPaymentsRoute
@@ -155,10 +162,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/log-in': typeof LogInRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/sign-up': typeof SignUpRoute
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
-  '/loginPage': typeof _loginLoginPageRoute
   '/owner/announcements': typeof OwnerAnnouncementsRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/payments': typeof OwnerPaymentsRoute
@@ -178,10 +186,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/log-in': typeof LogInRoute
   '/owner': typeof OwnerRouteWithChildren
+  '/sign-up': typeof SignUpRoute
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
-  '/__login/loginPage': typeof _loginLoginPageRoute
   '/owner/announcements': typeof OwnerAnnouncementsRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/payments': typeof OwnerPaymentsRoute
@@ -202,10 +211,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/log-in'
     | '/owner'
+    | '/sign-up'
     | '/student'
     | '/teacher'
-    | '/loginPage'
     | '/owner/announcements'
     | '/owner/dashboard'
     | '/owner/payments'
@@ -224,10 +234,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/log-in'
     | '/owner'
+    | '/sign-up'
     | '/student'
     | '/teacher'
-    | '/loginPage'
     | '/owner/announcements'
     | '/owner/dashboard'
     | '/owner/payments'
@@ -246,10 +257,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/log-in'
     | '/owner'
+    | '/sign-up'
     | '/student'
     | '/teacher'
-    | '/__login/loginPage'
     | '/owner/announcements'
     | '/owner/dashboard'
     | '/owner/payments'
@@ -269,10 +281,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LogInRoute: typeof LogInRoute
   OwnerRoute: typeof OwnerRouteWithChildren
+  SignUpRoute: typeof SignUpRoute
   StudentRoute: typeof StudentRouteWithChildren
   TeacherRoute: typeof TeacherRouteWithChildren
-  _loginLoginPageRoute: typeof _loginLoginPageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -291,11 +304,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/owner': {
       id: '/owner'
       path: '/owner'
       fullPath: '/owner'
       preLoaderRoute: typeof OwnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/log-in': {
+      id: '/log-in'
+      path: '/log-in'
+      fullPath: '/log-in'
+      preLoaderRoute: typeof LogInRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -396,13 +423,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OwnerAnnouncementsRouteImport
       parentRoute: typeof OwnerRoute
     }
-    '/__login/loginPage': {
-      id: '/__login/loginPage'
-      path: '/loginPage'
-      fullPath: '/loginPage'
-      preLoaderRoute: typeof _loginLoginPageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/owner/teachers/': {
       id: '/owner/teachers/'
       path: '/teachers'
@@ -478,10 +498,11 @@ const TeacherRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LogInRoute: LogInRoute,
   OwnerRoute: OwnerRouteWithChildren,
+  SignUpRoute: SignUpRoute,
   StudentRoute: StudentRouteWithChildren,
   TeacherRoute: TeacherRouteWithChildren,
-  _loginLoginPageRoute: _loginLoginPageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

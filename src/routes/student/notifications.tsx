@@ -116,7 +116,7 @@ export function Notifications() {
   }
   return (
     <main className="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark relative">
-      <div className="max-w-[1000px] mx-auto w-full p-6 md:p-10 flex flex-col gap-8">
+      <div className="max-w-250 mx-auto w-full p-6 md:p-10 flex flex-col gap-8">
         {/* Page Heading & Actions */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
@@ -149,7 +149,7 @@ export function Notifications() {
             <input
               type="text"
               placeholder="Search notification history..."
-              className="bg-gray-200 dark:bg-[#282e39] border border-gray-300 h-12 w-full rounded-xl dark:border-gray-700 focus:border-primary focus:bg-gray-300 dark:focus:bg-[#1a202c] focus:ring-0 pl-12 pr-4 text-[#0d121b] dark:text-white placeholder-[#6b7280] transition-all text-base"
+              className="bg-gray-200 dark:bg-[#282e39] border border-gray-300 h-12 w-full rounded-xl dark:border-gray-700 focus:border-primary focus:bg-gray-300 dark:focus:bg-surface-dark focus:ring-0 pl-12 pr-4 text-[#0d121b] dark:text-white placeholder-[#6b7280] transition-all text-base"
             />
           </label>
 

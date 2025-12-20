@@ -91,7 +91,7 @@ export default function StudentCard(props: StudentCardType) {
             title="Delete"
             onClick={() => {
               deleteStudent(props.name)
-              console.log(studentNewList)git stat
+              console.log(studentNewList)
             }}
           >
             <span className="material-symbols-outlined text-[20px]">
