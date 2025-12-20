@@ -4,14 +4,14 @@ import { getNotification } from '@/services/api/getNotification'
 
 type NotificationState = {
   notifications: Not | []
-	clearNotifications: () => void
+  clearNotifications: () => void
   loading: boolean
   fetchNotifications: () => Promise<void>
 }
 
 export const useNotificationsStore = create<NotificationState>((set) => ({
   notifications: [],
-	clearNotifications: () => set({ notifications: [] }),
+  clearNotifications: () => set({ notifications: [] }),
   loading: false,
   fetchNotifications: async () => {
     set({ loading: true })
@@ -24,6 +24,3 @@ export const useNotificationsStore = create<NotificationState>((set) => ({
     }
   },
 }))
-
-// Selector to prevent unnecessary re-renders
-
