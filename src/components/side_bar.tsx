@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useMemo } from 'react'
-import { Link, useLocation , useNavigate } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 import Avatar from '@mui/material/Avatar'
 import useSideBarListStore from '../services/store/sidebar_list_store'
 
@@ -11,7 +11,7 @@ export default function SideBar({ info }: { info?: any }) {
   const avatarSrc = useAvatarStore((state) => state.avatarSrc)
   /* navigate variable*/
   const navigate = useNavigate()
-  const localPath = useLocation().pathname.split('/')[1];
+  const localPath = useLocation().pathname.split('/')[1]
   /* List of sidebar items  state*/
   const choosenItem = useSideBarListStore((state) => state.choosenItem)
   const setChoosen = useSideBarListStore((state) => state.setChoosen)
@@ -50,7 +50,7 @@ export default function SideBar({ info }: { info?: any }) {
     mediaQuery.addEventListener('change', handleChange)
 
     return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [setOpen])
+  }, [])
 
   return (
     <>
@@ -64,7 +64,7 @@ export default function SideBar({ info }: { info?: any }) {
       )}
       <aside
         aria-expanded={isOpen}
-        className={`sticky left-0 h-screen inset-y-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-[#e7ebf3] dark:border-gray-800 shrink-0 transition-all duration-300 ease-in-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-[#e7ebf3] dark:border-gray-800 shrink-0 transition-all duration-300 ease-in-out ${
           isOpen
             ? 'translate-x-0 w-72 p-4'
             : '-translate-x-full w-16 lg:w-72 lg:translate-x-0 p-3'
@@ -136,13 +136,17 @@ export default function SideBar({ info }: { info?: any }) {
             isOpen ? 'p-3' : 'p-2 justify-center'
           }`}
         >
-          <Link 
-          onClick={() =>  {
-            if (!window.matchMedia('(min-width: 1024px)').matches) {setOpen(false)}; 
-            setChoosen('settings');
-          }} 
-            to={`/${localPath}/settings` as any}>
-          <Avatar alt="profile picture" src={avatarSrc} /></Link>
+          <Link
+            onClick={() => {
+              if (!window.matchMedia('(min-width: 1024px)').matches) {
+                setOpen(false)
+              }
+              setChoosen('settings')
+            }}
+            to={`/${localPath}/settings` as any}
+          >
+            <Avatar alt="profile picture" src={avatarSrc} />
+          </Link>
           {isOpen && (
             <>
               <div className="flex flex-col min-w-0">
