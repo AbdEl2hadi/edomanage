@@ -4,7 +4,7 @@ export type AnnouncementCardType = {
   authorName: string
   title: string
   content: string
-  publishedAt: string //this field should come from the backend as a string so we can display it
+  publishedAt: string // this field should come from the backend as a string so we can display it
   status: 'PUBLISHED' | 'DRAFT' | 'ARCHIVED'
   isPinned?: boolean
   isRead?: boolean
@@ -13,12 +13,12 @@ export type AnnouncementCardType = {
 // You
 // End of Term Exams Schedule
 
-/*The final exam schedule for the Fall 2023 term has been released.
+/* The final exam schedule for the Fall 2023 term has been released.
 Please review the dates carefully. All grades must be submitted by Dec
 20th. Make sure to communicate this to your students early.*/
 
-//Oct 24, 2023
-//Published
+// Oct 24, 2023
+// Published
 
 export default function AnnouncementCard(props: AnnouncementCardType) {
   return (

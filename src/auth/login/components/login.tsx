@@ -1,33 +1,49 @@
-import { FaGoogle } from 'react-icons/fa';
-import { FaMeta } from "react-icons/fa6";
+import { FaGoogle } from 'react-icons/fa'
+import { FaMeta } from 'react-icons/fa6'
+
+import { Link } from '@tanstack/react-router'
 
 import Loginform from '../loginform'
 
-export default function Login() {
+import type { logInSearch } from '@/routes/log-in'
+
+export default function Login({ role, redirectTo }: logInSearch) {
+  const roles = ['owner', 'teacher', 'student'] as const
+  const otherRoles = roles.filter((r) => r !== role)
+
+  const heading =
+    role === 'owner' ? (
+      <>
+        Manage your <br /> Teachers & Students
+      </>
+    ) : role === 'teacher' ? (
+      <>
+        Teach your <br /> Students
+      </>
+    ) : (
+      <>
+        Learn with <br /> Your Classes
+      </>
+    )
+
   return (
     <div className="flex w-full flex-col justify-center px-4 py-12 sm:px-6 lg:w-[45%] lg:px-20 xl:px-24 bg-white dark:bg-background-dark z-10 shadow-xl lg:shadow-none">
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <div className="mb-8">
           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary ring-1 ring-inset ring-primary/20">
-            Teacher Portal
+            {role.charAt(0).toUpperCase() + role.slice(1)} Portal
           </span>
         </div>
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight text-[#111318] dark:text-white sm:text-4xl leading-tight">
-            Teach Your <br /> Student
+            {heading}
           </h1>
           <p className="mt-3 text-base text-[#616f89] dark:text-gray-400">
             Welcome back. Please enter your details.
           </p>
         </div>
-        <div className="mb-8 border-b border-[#dbdfe6] dark:border-gray-700">
-          <nav aria-label="Tabs" className="-mb-px flex space-x-8">
-            <p className="border-b-[3px] border-primary pb-3 px-1 text-sm font-bold text-[#111318] dark:text-white">
-              Log In
-            </p>
-          </nav>
-        </div>
-        <Loginform />
+        <div className="mb-8 border-b border-[#dbdfe6] dark:border-gray-700"></div>
+        <Loginform redirectTo={redirectTo} />
         <div className="mt-8">
           <div className="relative">
             <div
@@ -63,25 +79,32 @@ export default function Login() {
           </div>
         </div>
         <div className="mt-10 text-center">
-          {/* if not a teacher*/}
-
+          {/* if he is owner  */}
+          {role === 'owner' && (
+            <p className="mb-6 text-sm text-[#637588] dark:text-[#9da6b9]">
+              Don’t have an account?{' '}
+              <Link
+                to="/sign-up"
+                className="font-semibold text-primary hover:underline"
+              >
+                Sign up
+              </Link>
+            </p>
+          )}
           <div className="mb-2 text-center">
             <p className="text-[#637588] dark:text-[#9da6b9] text-sm mb-4">
               Not a Teacher? Login as:
             </p>
             <div className="flex justify-center gap-3">
-              <a
-                className="px-4 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#282e39] text-[#111418] dark:text-white text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all"
-                href="#"
-              >
-                Student
-              </a>
-              <a
-                className="px-4 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#282e39] text-[#111418] dark:text-white text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all"
-                href="#"
-              >
-                Owner
-              </a>
+              {otherRoles.map((r) => (
+                <Link
+                  to="/log-in"
+                  className="px-4 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#282e39] text-[#111418] dark:text-white text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all"
+                  search={{ role: r, redirectTo: `/${r}/calendar` }}
+                >
+                  {r.charAt(0).toUpperCase() + r.slice(1)}
+                </Link>
+              ))}
             </div>
           </div>
           <div className="mt-6 flex justify-center space-x-4 text-xs text-[#616f89] dark:text-gray-500">

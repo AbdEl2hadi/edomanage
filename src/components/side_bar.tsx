@@ -64,7 +64,7 @@ export default function SideBar({ info }: { info?: any }) {
       )}
       <aside
         aria-expanded={isOpen}
-        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-[#e7ebf3] dark:border-gray-800 shrink-0 transition-all duration-300 ease-in-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-slate-200/80 dark:border-slate-800 shrink-0 transition-all duration-300 ease-in-out ${
           isOpen
             ? 'translate-x-0 w-72 p-4'
             : '-translate-x-full w-16 lg:w-72 lg:translate-x-0 p-3'
@@ -77,7 +77,7 @@ export default function SideBar({ info }: { info?: any }) {
               <span className="material-symbols-outlined">school</span>
             </div>
             <h2
-              className={`text-xl font-bold tracking-tight text-[#0d121b] dark:text-white transition-opacity duration-200 ${
+              className={`text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 transition-opacity duration-200 ${
                 isOpen ? 'opacity-100' : 'opacity-0 lg:hidden'
               }`}
             >
@@ -86,15 +86,15 @@ export default function SideBar({ info }: { info?: any }) {
           </div>
           {/* Navigation */}
           <nav className="flex flex-col gap-2" aria-label="Primary">
-            <div className="lg:hidden  md:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
+            <div className="lg:hidden  md:flex items-center gap-2 bg-background-light/80 dark:bg-gray-800/60 px-3 py-3.5 rounded-lg ring-1 ring-slate-200/70 dark:ring-slate-700/50">
               <span
-                className="material-symbols-outlined text-[#4c669a] translate-y-1"
+                className="material-symbols-outlined text-slate-500 dark:text-slate-400 translate-y-1"
                 style={{ fontSize: '20px' }}
               >
                 search
               </span>
               <input
-                className="bg-transparent border-none outline-none text-sm w-[calc(100%-40px)] text-[#0d121b] dark:text-white placeholder-[#4c669a] focus:ring-0 ml-2.5"
+                className="bg-transparent border-none outline-none text-sm w-[calc(100%-40px)] text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-0 ml-2.5"
                 placeholder="Search for anything..."
                 type="text"
               />
@@ -114,14 +114,14 @@ export default function SideBar({ info }: { info?: any }) {
                   } ${
                     item.active
                       ? 'bg-primary/10 text-primary dark:bg-primary/20'
-                      : 'text-[#4c669a] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors group'
                   }`}
                 >
                   <span className="material-symbols-outlined group-hover:text-primary transition-colors">
                     {item.icon}
                   </span>
                   {isOpen && (
-                    <p className="text-sm font-medium leading-normal group-hover:text-[#0d121b] dark:group-hover:text-white transition-colors">
+                    <p className="text-sm font-medium leading-normal group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">
                       {item.name}
                     </p>
                   )}
@@ -132,7 +132,7 @@ export default function SideBar({ info }: { info?: any }) {
         </div>
         {/* User Profile */}
         <div
-          className={`flex items-center gap-3 rounded-lg border border-[#e7ebf3] dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 transition-all duration-200 ${
+          className={`flex items-center gap-3 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 transition-all duration-200 ${
             isOpen ? 'p-3' : 'p-2 justify-center'
           }`}
         >
@@ -150,14 +150,14 @@ export default function SideBar({ info }: { info?: any }) {
           {isOpen && (
             <>
               <div className="flex flex-col min-w-0">
-                <h1 className="text-[#0d121b] dark:text-white text-sm font-semibold truncate">
+                <h1 className="text-slate-900 dark:text-slate-100 text-sm font-semibold truncate">
                   Mr. Anderson
                 </h1>
-                <p className="text-[#4c669a] text-xs font-normal truncate">
+                <p className="text-slate-500 dark:text-slate-400 text-xs font-normal truncate">
                   Science Teacher
                 </p>
               </div>
-              <button className="ml-auto text-[#4c669a] hover:text-primary cursor-pointer">
+              <button className="ml-auto text-slate-500 dark:text-slate-400 hover:text-primary cursor-pointer transition-colors">
                 <span
                   className="material-symbols-outlined"
                   style={{ fontSize: '20px' }}

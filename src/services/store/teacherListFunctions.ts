@@ -1,5 +1,5 @@
-import type { TeacherCardType } from "@/components/owner/teacherCard"
 import { create } from "zustand"
+import type { TeacherCardType } from "@/components/owner/teacherCard"
 
 
 type TeacherListMethods = {
@@ -9,7 +9,7 @@ type TeacherListMethods = {
     editTeacher: (name: string, status: string, subject: string) => void
 }
 
-export const teachersList: TeacherCardType[] = [
+export const teachersList: Array<TeacherCardType> = [
     {
         id: 'T-1024',
         imgSrc:

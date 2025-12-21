@@ -1,4 +1,3 @@
-import { useTeacherList } from '@/services/store/teacherListFunctions'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -12,6 +11,7 @@ import {
 } from '../ui/dialog'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
+import { useTeacherList } from '@/services/store/teacherListFunctions'
 
 export type TeacherCardType = {
   id: string

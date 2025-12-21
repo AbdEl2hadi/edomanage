@@ -1,6 +1,6 @@
+import { createFileRoute } from '@tanstack/react-router'
 import type { AnnouncementCardType } from '@/components/owner/announcementCard'
 import AnnouncementCard from '@/components/owner/announcementCard'
-import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/owner/announcements')({
   component: RouteComponent,

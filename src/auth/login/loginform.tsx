@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -8,7 +9,8 @@ import type { SubmitHandler } from 'react-hook-form'
 
 import type { LoginFields } from './login.schema'
 
-export default function Loginform() {
+export default function Loginform({ redirectTo }: { redirectTo: string }) {
+  const navigate = useNavigate();
   /* visible password */
   const [showPassword, setShowPassword] = useState(false)
 
@@ -27,6 +29,7 @@ export default function Loginform() {
   const onSubmit: SubmitHandler<LoginFields> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     console.log(data)
+    navigate({ to: redirectTo });    
   }
 
   return (

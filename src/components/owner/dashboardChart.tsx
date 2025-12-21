@@ -1,17 +1,17 @@
 import { Line } from 'react-chartjs-2'
-import { type ChartOptions, type ScriptableContext } from 'chart.js'
-
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
   Title,
   Tooltip,
-  Legend,
-  Filler,
 } from 'chart.js'
+import type {ChartOptions, ScriptableContext} from 'chart.js';
+
 
 ChartJS.register(
   CategoryScale,
@@ -26,7 +26,7 @@ ChartJS.register(
 
 // still need some changes since the chart is not rerendering when the user changes the time from 6 months to 1 year
 
-export default function DashboardChart({ props }: { props: Boolean }) {
+export default function DashboardChart({ props }: { props: boolean }) {
   const data2 = {
     // should be the data for the 1 year time stamp
     labels: [

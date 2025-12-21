@@ -1,14 +1,15 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import UICardComponent from '../../components/owner/UICard'
+import type {UICardType} from '../../components/owner/UICard';
 import StudentCard from '@/components/owner/studentCard'
 import { useStudentList } from '@/services/store/studentListFunctions'
-import UICardComponent, { type UICardType } from '../../components/owner/UICard'
 
 export const Route = createFileRoute('/owner/students')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const UICardList: UICardType[] = [
+  const UICardList: Array<UICardType> = [
     {
       id: '0',
       iconName: 'groups',

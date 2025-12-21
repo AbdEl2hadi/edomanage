@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signupSchema } from '../signup.schema.ts'
@@ -230,7 +231,7 @@ export function RightPanel() {
           {/* <!-- Submit Button --> */}
           <button
             disabled={isSubmitting}
-            className="flex w-full items-center justify-center rounded-lg bg-primary px-3 py-3 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-blue-600 hover:shadow-primary/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
+            className="flex w-full items-center justify-center rounded-lg bg-primary px-3 py-3 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-blue-600 hover:shadow-primary/40 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
             type="submit"
           >
             {isSubmitting ? 'Creating...' : 'Create Owner Account'}
@@ -253,12 +254,13 @@ export function RightPanel() {
         {/* <!-- Login Link --> */}
         <p className="mt-3 mb-2 text-center text-sm text-slate-600 dark:text-slate-400">
           Already have an account?
-          <a
+          <Link
             className="font-semibold leading-6 text-primary hover:text-primary/80 transition-colors gap-1 ml-1"
-            href="#"
+            to="/log-in"
+            search={{ role: 'owner', redirectTo: '/owner/dashboard' }}
           >
             Log in
-          </a>
+          </Link>
         </p>
       </div>
     </div>

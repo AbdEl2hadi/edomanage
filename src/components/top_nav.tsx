@@ -14,11 +14,10 @@ export default function TopNav() {
 
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const initial = getPreferredTheme()
-    if (typeof document !== 'undefined') {
       const html = document.documentElement
       html.classList.remove('light', 'dark')
       html.classList.add(initial)
-    }
+    
     return initial
   })
 
@@ -69,28 +68,27 @@ export default function TopNav() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
 
   const toggleSideBar = useSideBarStore((state) => state.toggle)
-  const isOpen = useSideBarStore((state) => state.isOpen)
   return (
-    <header className="flex items-center justify-between border-b border-[#e7ebf3] dark:border-gray-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0 transition-colors duration-300">
+    <header className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-surface-light dark:bg-surface-dark px-6 py-5 shrink-0 transition-colors duration-300">
       {/* Mobile Menu Toggle (Visible only on small screens) */}
       <button
-        className="mr-6 mt-1.5 lg:hidden text-[#4c669a] cursor-pointer"
+        className="mr-6 mt-1.5 lg:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer transition-colors"
         onClick={toggleSideBar}
       >
         <span className="material-symbols-outlined">
-          {isOpen ? 'close' : 'menu'}
+          menu
         </span>
       </button>
       {/* Search Bar */}
-      <div className="hidden w-96 lg:flex items-center gap-2 bg-background-light dark:bg-gray-800 px-3 py-3.5 rounded-lg ">
+      <div className="hidden w-96 lg:flex items-center gap-2 bg-background-light/80 dark:bg-gray-800/60 px-3 py-3.5 rounded-lg ring-1 ring-slate-200/70 dark:ring-slate-700/50">
         <span
-          className="material-symbols-outlined text-[#4c669a]"
+          className="material-symbols-outlined text-slate-500 dark:text-slate-400"
           style={{ fontSize: '20px' }}
         >
           search
         </span>
         <input
-          className="bg-transparent border-none outline-none text-sm w-full text-[#0d121b] dark:text-white placeholder-[#4c669a] focus:ring-0"
+          className="bg-transparent border-none outline-none text-sm w-full text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-0"
           placeholder="Search for anything..."
           type="text"
         />
@@ -99,7 +97,7 @@ export default function TopNav() {
         <button
           aria-label="Toggle dark mode"
           aria-pressed={theme === 'dark'}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all border border-slate-200 dark:border-slate-700 cursor-pointer"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
           onClick={toggleTheme}
         >
           {theme === 'dark' ? (

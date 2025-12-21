@@ -1,16 +1,15 @@
-import TeacherCard from '@/components/owner/teacherCard'
+import { Link, createFileRoute  } from '@tanstack/react-router'
 import type { UICardType } from '@/components/owner/UICard'
+import TeacherCard from '@/components/owner/teacherCard'
 import UICardComponent from '@/components/owner/UICard'
 import { useTeacherList } from '@/services/store/teacherListFunctions'
-import { Link } from '@tanstack/react-router'
-import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/owner/teachers/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const UICardList: UICardType[] = [
+  const UICardList: Array<UICardType> = [
     {
       id: '0',
       iconName: 'school',
