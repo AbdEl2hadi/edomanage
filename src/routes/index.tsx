@@ -10,29 +10,29 @@ export const Route = createFileRoute('/')({
 function App() {
   const toggleSideBar = useWelcomeSideBarStore((state) => state.toggle)
 
-  const getPreferredTheme = () => {
-    if (typeof window === 'undefined') return 'light'
+  const getPreferredTheme = () : 'dark' | 'light' => {
     const stored = localStorage.getItem('theme')
-    if (stored === 'dark' || stored === 'light') return stored
+    if (stored) return stored as 'dark' | 'light'
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
       : 'light'
   }
 
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const initial = getPreferredTheme()
-    if (typeof document !== 'undefined') {
+    const initial : 'dark' | 'light' = getPreferredTheme()
+
       const html = document.documentElement
-      html.classList.remove('light', 'dark')
-      html.classList.add(initial)
-    }
+      html.classList.remove('light', 'dark');
+      html.classList.add(initial);
+
     return initial
   })
 
   const themeTimeoutRef = useRef<number | null>(null)
 
+  /* if the user the first time enter this app*/ 
+
   useEffect(() => {
-    if (typeof window === 'undefined') return
 
     const media = window.matchMedia('(prefers-color-scheme: dark)')
     const handleMediaChange = (event: MediaQueryListEvent) => {
@@ -45,13 +45,13 @@ function App() {
     return () => media.removeEventListener('change', handleMediaChange)
   }, [])
 
+/* this to fix theme animation cancel to other animations*/ 
   useEffect(() => {
-    if (typeof document === 'undefined') return
     const html = document.documentElement
-    html.classList.add('theme-animating')
-    html.classList.remove('light', 'dark')
-    html.classList.add(theme)
-    localStorage.setItem('theme', theme)
+    html.classList.add('theme-animating');
+    html.classList.remove('light', 'dark');
+    html.classList.add(theme);
+    localStorage.setItem('theme', theme);
 
     if (themeTimeoutRef.current !== null) {
       window.clearTimeout(themeTimeoutRef.current)
@@ -108,7 +108,6 @@ function App() {
             <div className="flex items-center gap-3">
               <button
                 aria-label="Toggle dark mode"
-                aria-pressed={theme === 'dark'}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
                 onClick={toggleTheme}
               >

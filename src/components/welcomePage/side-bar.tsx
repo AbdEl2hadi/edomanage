@@ -66,28 +66,24 @@ export default function SideBar({ onNavigate }: WelcomeSideBarProps) {
         >
           <a
             className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10 transition-colors"
-            href="#features"
             onClick={handleNavigate('features')}
           >
             Features
           </a>
           <a
             className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10 transition-colors"
-            href="#roles"
             onClick={handleNavigate('roles')}
           >
             Roles
           </a>
           <a
             className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10 transition-colors"
-            href="#contact"
             onClick={handleNavigate('contact')}
           >
             Contact
           </a>
 
-          <a
-            href="#roles"
+          <a         
             onClick={handleNavigate('roles')}
             className="mt-2 flex items-center justify-center rounded-full h-11 px-6 bg-primary text-white text-sm font-bold hover:brightness-95 transition-all cursor-pointer"
           >

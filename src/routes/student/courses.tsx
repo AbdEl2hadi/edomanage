@@ -10,6 +10,7 @@ export const Route = createFileRoute('/student/courses')({
 })
 
 type ResourceCard = {
+  id: string
   icon: React.ElementType
   type: string
   title: string
@@ -22,6 +23,7 @@ export function Courses() {
 
   const resources: Array<ResourceCard> = [
     {
+      id: 'algebra-ii-ch5-notes',
       icon: FaRegFilePdf,
       type: 'PDF',
       title: 'Algebra II - Ch. 5 Notes',
@@ -29,6 +31,7 @@ export function Courses() {
       time: '2h ago',
     },
     {
+      id: 'wwii-documentary-video',
       icon: MdSlowMotionVideo,
       type: 'Video',
       title: 'WWII Documentary',
@@ -36,6 +39,7 @@ export function Courses() {
       time: 'Yesterday',
     },
     {
+      id: 'lab-report-template-docx',
       icon: FaRegFileWord,
       type: 'DOCX',
       title: 'Lab Report Template',
@@ -43,6 +47,7 @@ export function Courses() {
       time: '2d ago',
     },
     {
+      id: 'cell-structure-diagram-jpg',
       icon: FaRegFileImage,
       type: 'JPG',
       title: 'Cell Structure Diagram',
@@ -50,6 +55,7 @@ export function Courses() {
       time: '3d ago',
     },
     {
+      id: 'cell-structure-diagram-url',
       icon: IoLink,
       type: 'URL',
       title: 'Cell Structure Diagram',
@@ -57,6 +63,7 @@ export function Courses() {
       time: '3d ago',
     },
     {
+      id: 'cell-structure-diagram-zip',
       icon: MdOutlineFolderZip,
       type: 'ZIP',
       title: 'Cell Structure Diagram',
@@ -188,11 +195,11 @@ export function Courses() {
       </div>
       {/* Card */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {resources.map(({ icon: Icon, type, title, subject, time }) => {
+        {resources.map(({ id, icon: Icon, type, title, subject, time }) => {
           const colors = getColors(type)
           return (
             <div
-              key={title}
+              key={id}
               className="group flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-surface-dark"
             >
               <div>

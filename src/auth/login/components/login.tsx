@@ -85,6 +85,7 @@ export default function Login({ role, redirectTo }: logInSearch) {
               Don’t have an account?{' '}
               <Link
                 to="/sign-up"
+                replace={true}
                 className="font-semibold text-primary hover:underline"
               >
                 Sign up
@@ -99,6 +100,8 @@ export default function Login({ role, redirectTo }: logInSearch) {
               {otherRoles.map((r) => (
                 <Link
                   to="/log-in"
+                  replace={true}
+                  key={r}
                   className="px-4 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#282e39] text-[#111418] dark:text-white text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all"
                   search={{ role: r, redirectTo: `/${r}/calendar` }}
                 >

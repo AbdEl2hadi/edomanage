@@ -9,7 +9,8 @@
     "test": "vitest run",
     "lint": "eslint",
     "format": "prettier",
-    "check": "prettier --write . && eslint --fix"
+    "check": "prettier --write . && eslint --fix",
+    "start:json-server": "json-server -w src/dataBase/db.json --port 4000"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -36,6 +37,7 @@
     "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "json-server": "1.0.0-beta.3",
     "lucide-react": "^0.545.0",
     "react": "^19.2.0",
     "react-chartjs-2": "^5.3.1",

@@ -1,0 +1,42 @@
+{
+  "students": [
+    {
+      "studentId": "2202007",
+      "name": "Maafa Abdelhadi",
+      "email": "a.maafa@gmail.com",
+      "password": "Adcobu2007"
+    },
+    {
+      "studentId": "2202010",
+      "name": "Benali Mohammed",
+      "email": "m.benali@gmail.com",
+      "password": "benali2010"
+    },
+    {
+      "studentId": "2202015",
+      "name": "Khatir Ayoub",
+      "email": "a.khatir@gmail.com",
+      "password": "khatir2015"
+    },
+    {
+      "id": "fb9a",
+      "email": "a.maafa@gmail.com",
+      "password": "Adcobu2007",
+      "role": "student"
+    },
+    {
+      "id": "f10f",
+      "email": "a.maafa@gmail.com",
+      "password": "Adcobu2007",
+      "role": "student"
+    }
+  ],
+  "teachers": [
+    {
+      "teacherId": "T1001",
+      "name": "Kazi Tani",
+      "email": "k.tani@gmail.com",
+      "password": "kazi2020"
+    }
+  ]
+}

@@ -157,7 +157,7 @@ export default function SideBar({ info }: { info?: any }) {
                   Science Teacher
                 </p>
               </div>
-              <button className="ml-auto text-slate-500 dark:text-slate-400 hover:text-primary cursor-pointer transition-colors">
+              <button onClick={()=>{}} className="ml-auto text-slate-500 dark:text-slate-400 hover:text-primary cursor-pointer transition-colors">
                 <span
                   className="material-symbols-outlined"
                   style={{ fontSize: '20px' }}

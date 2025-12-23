@@ -9,6 +9,7 @@ export const Route = createFileRoute('/student/notifications')({
   component: Notifications,
 })
 type ResourceCard = {
+  id: string
   icon: React.ElementType
   type: string
   title: string
@@ -19,6 +20,7 @@ export function Notifications() {
   const [tab, setTab] = useState('All')
   const resources: Array<ResourceCard> = [
     {
+      id: 'physics-final-exam-rescheduled',
       icon: MdPriorityHigh,
       type: 'Urgent',
       title: 'Physics Final Exam Rescheduled',
@@ -26,6 +28,7 @@ export function Notifications() {
       time: 'Administrative Office • 10 mins ago',
     },
     {
+      id: 'wwii-documentary',
       icon: GiWhiteBook,
       type: 'Book',
       title: 'WWII Documentary',
@@ -33,6 +36,7 @@ export function Notifications() {
       time: 'Administrative Office • 10 mins ago',
     },
     {
+      id: 'lab-report-template',
       icon: FaRegCircleUser,
       type: 'User',
       title: 'Lab Report Template',
@@ -40,6 +44,7 @@ export function Notifications() {
       time: 'Administrative Office • 10 mins ago',
     },
     {
+      id: 'cell-structure-diagram-grade',
       icon: MdOutlineGrade,
       type: 'Grade',
       title: 'Cell Structure Diagram',
@@ -47,6 +52,7 @@ export function Notifications() {
       time: '3d ago',
     },
     {
+      id: 'cell-structure-diagram-user',
       icon: FaRegCircleUser,
       type: 'User',
       title: 'Cell Structure Diagram',
@@ -54,6 +60,7 @@ export function Notifications() {
       time: '3d ago',
     },
     {
+      id: 'cell-structure-diagram-teacher',
       icon: FaUserTie,
       type: 'Teacher',
       title: 'Cell Structure Diagram',
@@ -172,11 +179,11 @@ export function Notifications() {
 
         {/* Notifications List */}
         <div className="flex flex-col gap-3">
-          {resources.map(({ icon: Icon, type, title, subject, time }) => {
+          {resources.map(({ id, icon: Icon, type, title, subject, time }) => {
             const colors = getColors(type)
             return (
               <div
-                key={title}
+                key={id}
                 className={`group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl hover:bg-gray-100 bg-white shadow-sm dark:bg-[#1A202C] dark:hover:bg-[#202736] border-l-4 ${colors.border} transition-all duration-200 cursor-pointer shadow-sm`}
               >
                 <div className="shrink-0">

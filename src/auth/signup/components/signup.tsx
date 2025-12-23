@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signupSchema } from '../signup.schema.ts'
@@ -6,6 +6,7 @@ import { signupSchema } from '../signup.schema.ts'
 import type { SignupFormValues } from '../signup.schema.ts'
 
 export function RightPanel() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -14,8 +15,13 @@ export function RightPanel() {
     resolver: zodResolver(signupSchema),
   })
 
-  const onSubmit = (data: SignupFormValues) => {
+  const onSubmit = async (data: SignupFormValues) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     console.log('FORM DATA:', data)
+    navigate({
+      to: '/owner/dashboard',
+      replace: true,
+    })
   }
   return (
     <div className="flex w-full flex-1 flex-col justify-center bg-background-light dark:bg-background-dark px-1 py-3 lg:px-15 xl:px-20">
@@ -258,6 +264,7 @@ export function RightPanel() {
             className="font-semibold leading-6 text-primary hover:text-primary/80 transition-colors gap-1 ml-1"
             to="/log-in"
             search={{ role: 'owner', redirectTo: '/owner/dashboard' }}
+            replace={true}
           >
             Log in
           </Link>
