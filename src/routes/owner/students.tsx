@@ -43,7 +43,6 @@ function RouteComponent() {
   // const addS = useStudentList((state) => state.addS)
   const navigate = useNavigate()
   return (
-    <main>
       <div className="flex-1 overflow-y-auto p-6 md:p-8">
         <div className="max-w-7xl mx-auto flex flex-col gap-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -76,16 +75,9 @@ function RouteComponent() {
                     search
                   </span>
                   <input
-                    className="w-full pl-10 pr-4 h-10 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm dark:text-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400"
+                    className="w-full pl-10 pr-4 h-10 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-gray-800 text-sm dark:text-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400"
                     placeholder="Search by name, ID, or email..."
                     type="text"
-                    onChange={(e) =>
-                      navigate({
-                        to: '.',
-                        search: { search: e.target.value },
-                        resetScroll: false,
-                      })
-                    }
                   />
                 </div>
               </div>
@@ -126,7 +118,7 @@ function RouteComponent() {
             <div className="overflow-x-auto w-full">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+                  <tr className="bg-slate-50 dark:bg-gray-800  border-b border-slate-200 dark:border-slate-800 text-xs uppercase tracking-wider text-slate-500 theme-animating dark:text-slate-400 font-semibold">
                     <th className="p-4 w-10"></th>
                     <th className="p-4 min-w-60">Student Name</th>
                     <th className="p-4">ID Number</th>
@@ -190,6 +182,5 @@ function RouteComponent() {
           </footer>
         </div>
       </div>
-    </main>
   )
 }

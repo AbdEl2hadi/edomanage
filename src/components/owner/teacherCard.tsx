@@ -32,7 +32,7 @@ export default function TeacherCard(props: TeacherCardType) {
   const editTeacher = useTeacherList((state) => state.editTeacher)
 
   return (
-    <tr className="hover:bg-slate-800/50 transition-colors group cursor-pointer">
+    <tr className="bg-white hover:bg-slate-50 dark:bg-gray-700 dark:hover:bg-slate-700 transition-colors group cursor-pointer">
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-10 w-10 shrink-0 flex items-center relative">
@@ -48,7 +48,7 @@ export default function TeacherCard(props: TeacherCardType) {
             )}
           </div>
           <div className="ml-4">
-            <div className="text-sm font-medium text-white group-hover:text-primary transition-colors">
+            <div className="text-sm font-medium dark:text-white group-hover:text-primary text-black transition-colors">
               {props.name}
             </div>
             <div className="text-xs text-slate-400 cursor-pointer">
@@ -58,12 +58,12 @@ export default function TeacherCard(props: TeacherCardType) {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-slate-200">{props.subject}</div>
-        <div className="text-xs text-slate-500">{props.teachAt}</div>
+        <div className="text-sm text-gray-600 dark:text-slate-200">{props.subject}</div>
+        <div className="text-xs text-gray-400 dark:text-slate-500">{props.teachAt}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-slate-200">{props.email}</div>
-        <div className="text-xs text-slate-500">{props.number}</div>
+        <div className="text-sm text-gray-600 dark:text-slate-200">{props.email}</div>
+        <div className="text-xs text-gray-400 dark:text-slate-500">{props.number}</div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span
@@ -123,9 +123,10 @@ export default function TeacherCard(props: TeacherCardType) {
               </DialogContent>
             </form>
           </Dialog>
-          <button
-            className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-md transition-colors cursor-pointer"
+          <Button
+            className="text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-md transition-colors cursor-pointer text-[25px] px-1.25 text-center"
             title="Delete"
+            variant="outline"
             onClick={() => {
               deleteTeacher(props.name)
               console.log(teacherList)
@@ -134,7 +135,7 @@ export default function TeacherCard(props: TeacherCardType) {
             <span className="material-symbols-outlined text-[20px]">
               delete
             </span>
-          </button>
+          </Button>
         </div>
       </td>
     </tr>

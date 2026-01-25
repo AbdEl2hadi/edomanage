@@ -16,7 +16,6 @@ export type StudentCardType = {
 
 export default function StudentCard(props: StudentCardType) {
   const deleteStudent = useStudentList((state) => state.deleteStudent)
-  const studentNewList = useStudentList((state) => state.studentList)
   // const addStudent = useStudentList((state=>))
 
   return (
@@ -34,14 +33,14 @@ export default function StudentCard(props: StudentCardType) {
           ) : (
             <img
               alt="Male student profile"
-              className="h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+              className="h-10 w-10 rounded-full ring-2 ring-transparent group-hover:ring-primary/50 object-cover border border-slate-200 dark:border-slate-700"
               data-alt="Young male student smiling"
               src={props.imgSrc}
             />
           )}
 
           <div className="flex flex-col">
-            <span className="font-semibold text-slate-900 dark:text-white">
+            <span className="font-semibold text-slate-900 dark:text-white group-hover:text-primary">
               {props.name}
             </span>
             <span className="text-xs text-slate-500 dark:text-slate-400">
@@ -81,7 +80,7 @@ export default function StudentCard(props: StudentCardType) {
       <td className="p-4 text-right">
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
-            className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+            className="p-1.5 cursor-pointer text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
             title="Edit"
           >
             <span className="material-symbols-outlined text-[20px]">edit</span>
@@ -91,7 +90,6 @@ export default function StudentCard(props: StudentCardType) {
             title="Delete"
             onClick={() => {
               deleteStudent(props.name)
-              console.log(studentNewList)
             }}
           >
             <span className="material-symbols-outlined text-[20px]">
