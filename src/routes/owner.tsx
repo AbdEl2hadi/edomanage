@@ -5,6 +5,13 @@ import TopNav from '@/components/top_nav'
 
 export const Route = createFileRoute('/owner')({
   component: Owner,
+  head: () => ({
+    meta: [
+      {
+        title: 'Owner - EduManage',
+      },
+    ],
+  }),
 })
 
 const info = {
@@ -28,7 +35,7 @@ function Owner() {
       <SideBar info={info} />
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <TopNav />
-        <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 py-4">
+        <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-15 py-4 bg-white dark:bg-[#151f2b]">
           <span className="capitalize text-slate-450 dark:text-slate-400">
             {path[1]}
           </span>

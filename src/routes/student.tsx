@@ -9,6 +9,9 @@ import TopNav from '@/components/top_nav'
 
 export const Route = createFileRoute('/student')({
   component: Student,
+  head: () => ({
+    meta: [{ title: 'Student - EduManage' }],
+  }),
 })
 
 function Student() {

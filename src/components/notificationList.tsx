@@ -1,16 +1,17 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
+import { useQueryClient } from '@tanstack/react-query'
 
-import type { Not } from '@/services/api/getNotification'
+import Loading from './loading'
 import useSideBarListStore from '@/services/store/sidebar_list_store'
-import { useNotificationsStore } from '@/services/store/notifications_store'
+import useGetNotPanel from '@/services/api/getNotification'
 
 function NotificationList() {
-  /* to know current location*/ 
+  /* to know current location*/
   const location = useLocation()
   const currentPath = location.pathname.split('/')[1]
 
-  /* notification show*/ 
+  /* notification show*/
   const [isOpen, setIsOpen] = useState(false)
   const setChoosen = useSideBarListStore((state) => state.setChoosen)
 
@@ -39,14 +40,16 @@ function NotificationList() {
     },
   ]
 
-  /* notification */
-  const notifications: Not | [] = useNotificationsStore(
-    (state) => state.notifications,
-  )
-  const clearNotifications = useNotificationsStore(
-    (state) => state.clearNotifications,
-  )
-  const loadingNot: boolean = useNotificationsStore((state) => state.loading)
+  /* get notifications from React Query */
+  const { data : notifications = [], isLoading } = useGetNotPanel()
+  const queryClient = useQueryClient()
+  console.log('Notifications fetched:', notifications)
+
+  /* clear notifications */
+
+  const clearNotifications = () => {
+    queryClient.setQueryData(['notifications', 'panel'], [])
+  }
 
   // Close when clicking outside
   useEffect(() => {
@@ -63,11 +66,32 @@ function NotificationList() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [isOpen])
 
+  /* mark as read for notification icon*/
+
+  const [isRead, setIsRead] = useState(false)
+  const countRef = useRef(0)
+  useEffect(() => {
+    if (notifications.length > 0) {
+      const currentCount = notifications.length
+      if (currentCount > countRef.current) {
+        setIsRead(false)
+      }
+      countRef.current = currentCount
+    } else if (notifications.length === 0) {
+      setIsRead(true)
+    }
+  }, [notifications, isOpen])
+
+  const popUpOPen = () => {
+    setIsOpen(!isOpen)
+    setIsRead(true)
+  }
+
   return (
     <div className="relative" ref={containerRef}>
       <button
         aria-expanded={isOpen}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => popUpOPen()}
         className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#4c669a] transition-colors cursor-pointer"
       >
         <span
@@ -76,7 +100,9 @@ function NotificationList() {
         >
           notifications
         </span>
-        <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white dark:border-gray-900"></span>
+        {!isRead && (
+          <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white dark:border-gray-900"></span>
+        )}
       </button>
 
       {/* notification list */}
@@ -106,9 +132,13 @@ function NotificationList() {
           </div>
         </div>
         <div className="max-h-95 overflow-y-auto custom-scrollbar">
-          {loadingNot ? (
-            <div className="flex items-center justify-center h-32">
-              <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div>
+          {isLoading ? (
+            <div className="h-full w-full flex items-center justify-center">
+              <Loading
+                className="h-[80%] w-[80%] p-10"
+                text="searching..."
+                description="Please wait while we fetch the notifications for you."
+              />
             </div>
           ) : notifications.length == 0 ? (
             <div className="flex flex-col items-center justify-center h-32 text-center px-4">
@@ -122,38 +152,44 @@ function NotificationList() {
               </p>
             </div>
           ) : (
-            notifications.map((noti: any) => {
-              return (
-                <div
-                  key={noti.id}
-                  className="flex gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800/50 cursor-pointer bg-blue-50/30 dark:bg-blue-900/10"
-                >
-                  <div className="shrink-0 mt-1">
-                    <div
-                      className={`size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ${Logo.find((l) => l.type === noti.type)?.style}`}
-                    >
-                      <span className="material-symbols-outlined text-[18px]">
-                        {noti.type}
+            notifications
+              .sort((a, b) => {
+                const aTime = new Date(a.time).getTime()
+                const bTime = new Date(b.time).getTime()
+                return bTime - aTime
+              })
+              .map((noti: any) => {
+                return (
+                  <div
+                    key={noti.id}
+                    className="flex gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800/50 cursor-pointer bg-blue-50/30 dark:bg-blue-900/10"
+                  >
+                    <div className="shrink-0 mt-1">
+                      <div
+                        className={`size-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center ${Logo.find((l) => l.type === noti.type)?.style}`}
+                      >
+                        <span className="material-symbols-outlined text-[18px]">
+                          {noti.type}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-0.5 w-full">
+                      <div className="flex justify-between items-start">
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">
+                          {noti.title}
+                        </p>
+                        <span className="size-2 rounded-full bg-blue-500 mt-1.5 shrink-0"></span>
+                      </div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+                        {noti.message}
+                      </p>
+                      <span className="text-[10px] text-slate-400 mt-1">
+                        {noti.time}
                       </span>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-0.5 w-full">
-                    <div className="flex justify-between items-start">
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        {noti.title}
-                      </p>
-                      <span className="size-2 rounded-full bg-blue-500 mt-1.5 shrink-0"></span>
-                    </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
-                      {noti.message}
-                    </p>
-                    <span className="text-[10px] text-slate-400 mt-1">
-                      {noti.time}
-                    </span>
-                  </div>
-                </div>
-              )
-            })
+                )
+              })
           )}
         </div>
         <div className="p-2 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 text-center">

@@ -6,6 +6,9 @@ import { useTeacherList } from '@/services/store/teacherListFunctions'
 
 export const Route = createFileRoute('/owner/teachers/')({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: 'Owner | Teachers - EduManage' }],
+  }),
 })
 
 function RouteComponent() {

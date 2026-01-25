@@ -7,6 +7,9 @@ import { FaUserTie } from 'react-icons/fa'
 
 export const Route = createFileRoute('/student/notifications')({
   component: Notifications,
+  head: () => ({
+    meta: [{ title: 'Student | Notifications - EduManage' }],
+  }),
 })
 type ResourceCard = {
   id: string

@@ -4,6 +4,9 @@ import { RightPanel } from '../auth/signup/components/signup'
 
 export const Route = createFileRoute('/sign-up')({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: 'Sign Up - EduManage' }],
+  }),
 })
 
 function RouteComponent() {

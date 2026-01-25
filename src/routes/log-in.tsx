@@ -12,6 +12,9 @@ export type logInSearch = z.infer<typeof logInSearchSchema>
 
 export const Route = createFileRoute('/log-in')({
   component: login,
+  head: () => ({
+    meta: [{ title: ' EduManage | Log-In' }],
+  }),
   validateSearch: (search: Record<string, unknown>): logInSearch =>
     logInSearchSchema.parse(search),
 })
