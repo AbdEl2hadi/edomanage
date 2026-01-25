@@ -59,25 +59,6 @@ function RouteComponent() {
   return (
     <div className="flex h-full w-full overflow-y-auto">
       <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative transition-colors duration-200">
-        {/* addition should be disscussed */}
-
-        {/* <header className="h-16 bg-surface-light dark:bg-surface-dark border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-8 shrink-0">
-          <button className="md:hidden p-2 text-slate-600 dark:text-slate-300">
-            <span className="material-symbols-outlined">menu</span>
-          </button>
-          <div className="hidden md:flex items-center gap-2 text-sm">
-            <a
-              className="text-slate-500 hover:text-primary transition-colors"
-              href="#"
-            >
-              Dashboard
-            </a>
-            <span className="text-slate-400">/</span>
-            <span className="text-slate-900 dark:text-white font-medium">
-              Student Directory
-            </span>
-          </div>
-        </header> */}
         <div className="flex-1 min-h-full p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
           <div className="max-w-7xl mx-auto flex flex-col gap-8">
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -97,7 +78,7 @@ function RouteComponent() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <select className="bg-slate-50 dark:bg-[#1E2532] border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-slate-300 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 outline-none cursor-pointer">
+                    <select className="bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-slate-300 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 outline-none cursor-pointer">
                       <option>Last 6 Months</option>
                       <option onClick={changeChart}>Last Year</option>
                     </select>
@@ -111,7 +92,7 @@ function RouteComponent() {
                     Quick Actions
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
                       <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
                         person_add
                       </span>
@@ -119,7 +100,7 @@ function RouteComponent() {
                         Add Student
                       </span>
                     </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
                       <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
                         group_add
                       </span>
@@ -127,7 +108,7 @@ function RouteComponent() {
                         Add Teacher
                       </span>
                     </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
                       <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
                         campaign
                       </span>
@@ -135,7 +116,7 @@ function RouteComponent() {
                         Alert
                       </span>
                     </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
                       <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
                         description
                       </span>
@@ -183,7 +164,7 @@ function RouteComponent() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-slate-50 dark:bg-[#1E2532] text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
+                    <tr className="bg-slate-50 dark:bg-gray-800 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
                       <th className="px-6 py-4 font-semibold">User / Event</th>
                       <th className="px-6 py-4 font-semibold">Role</th>
                       <th className="px-6 py-4 font-semibold">Action Type</th>
@@ -193,7 +174,7 @@ function RouteComponent() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-gray-800">
-                    <tr className="hover:bg-slate-50 dark:hover:bg-[#1E2532] transition-colors group cursor-pointer">
+                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors group cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="size-9 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-sm font-bold border border-transparent dark:border-indigo-500/30">
@@ -225,7 +206,7 @@ function RouteComponent() {
                         </p>
                       </td>
                     </tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-[#1E2532] transition-colors group cursor-pointer">
+                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors group cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="size-9 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-sm font-bold border border-transparent dark:border-emerald-500/30">
@@ -257,7 +238,7 @@ function RouteComponent() {
                         </p>
                       </td>
                     </tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-[#1E2532] transition-colors group cursor-pointer">
+                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors group cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="size-9 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-300 flex items-center justify-center text-sm font-bold border border-transparent dark:border-orange-500/30">

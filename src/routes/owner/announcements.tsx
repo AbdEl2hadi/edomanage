@@ -79,8 +79,7 @@ const announcementPlaceHolder: Array<AnnouncementCardType> = [
 
 function RouteComponent() {
   return (
-    <main className="flex-1 py-8 px-4 sm:px-8">
-      <div className="flex flex-col w-full gap-8">
+      <div className="flex-1 py-8 px-4 sm:px-8 flex flex-col w-full overflow-y-auto gap-8">
         <div className="flex flex-col gap-8">
           <div className="flex flex-wrap justify-between items-end gap-4">
             <div className="flex flex-col gap-2">
@@ -200,11 +199,10 @@ function RouteComponent() {
             Create your first announcement to share updates with teachers,
             students, and parents.
           </p>
-          <button className="bg-primary text-white px-6 py-3 rounded-lg font-bold">
+          <button className="bg-primary text-white px-6 py-3 rounded-lg font-bold cursor-pointer">
             Create Announcement
           </button>
         </div>
       </div>
-    </main>
   )
 }

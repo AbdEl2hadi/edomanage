@@ -23,10 +23,7 @@ function RouteComponent() {
               </p>
             </div>
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-gray-800 overflow-hidden">
-              <form
-                className="flex flex-col"
-                // onsubmit="event.preventDefault();"
-              >
+              <form className="flex flex-col">
                 <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
                   <div className="relative group cursor-pointer">
                     <div className="size-32 rounded-full bg-[#f0f2f4] dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm transition-all group-hover:border-primary/20">
