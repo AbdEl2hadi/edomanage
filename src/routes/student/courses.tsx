@@ -7,6 +7,9 @@ import { IoLink } from 'react-icons/io5'
 
 export const Route = createFileRoute('/student/courses')({
   component: Courses,
+  head: () => ({
+    meta: [{ title: 'Student | Courses - EduManage' }],
+  }),
 })
 
 type ResourceCard = {

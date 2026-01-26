@@ -6,6 +6,9 @@ import UICardComponent from '@/components/owner/UICard'
 
 export const Route = createFileRoute('/owner/dashboard')({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: 'Owner | Dashboard - EduManage' }],
+  }),
 })
 const UICardList: Array<UICardType> = [
   {

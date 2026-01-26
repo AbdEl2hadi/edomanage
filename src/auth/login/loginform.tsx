@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Activity, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,6 +14,8 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   const navigate = useNavigate()
   /* visible password */
   const [showPassword, setShowPassword] = useState(false)
+  /* login not found account */
+  const [notFound , setNotFound] = useState<string|null>(null)
 
   /* validation */
   const {
@@ -29,18 +31,29 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   /* Submit function */
   const onSubmit: SubmitHandler<LoginFields> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    const response = await postLogin({
-      ...data,
-      role: redirectTo.split('/')[1],
-    })
+    
+    try {
+    
+      const response = await postLogin({
+        ...data,
+        role: redirectTo.split('/')[1],
+      })
 
     console.log(response)
-    if (response) {
+    if (response.length > 0) {
       navigate({
         to: redirectTo,
         replace: true,
       })
+      setNotFound(null)
+
     }
+    else {
+      setNotFound('Account not found. Please check your email and password.')
+    }
+  } catch (error) {
+    setNotFound(error instanceof Error ? error.message : 'An unknown error occurred')
+  }
   }
 
   return (
@@ -141,6 +154,11 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
             arrow_forward
           </span>
         </button>
+        <Activity mode={notFound ? 'visible' : 'hidden'} >
+          <p className="mt-4 text-sm text-red-600 text-center" >
+            {notFound}
+          </p>
+        </Activity>
       </div>
     </form>
   )

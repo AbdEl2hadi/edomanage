@@ -30,7 +30,11 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "^0.7.0",
+<<<<<<< HEAD
     "@tanstack/react-query": "^5.90.20",
+=======
+    "@tanstack/react-query": "^5.90.16",
+>>>>>>> 8bbd93da00a5dddb551532d22a319958fcf9bc8e
     "@tanstack/react-router": "^1.132.0",
     "@tanstack/react-router-devtools": "^1.132.0",
     "@tanstack/router-plugin": "^1.132.0",
@@ -39,6 +43,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "json-server": "1.0.0-beta.3",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.545.0",
     "react": "^19.2.0",
     "react-chartjs-2": "^5.3.1",
@@ -53,6 +58,7 @@
   "devDependencies": {
     "@tanstack/devtools-vite": "^0.3.11",
     "@tanstack/eslint-config": "^0.3.0",
+    "@tanstack/eslint-plugin-query": "^5.91.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^22.10.2",

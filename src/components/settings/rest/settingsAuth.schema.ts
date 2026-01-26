@@ -6,7 +6,7 @@ export const NewInfoSchema = z
     fullName: z.string().min(1, 'Full name is required'),
     phoneNumber: z
       .string()
-      .regex(/^\d{10}$/, 'Phone number must be exactly 10 digits'),
+      .regex(/^(?:06|05|07)\d{8}$/, 'Phone number is not valid'),
     aboutMe: z.string().optional(),
     newPassword: z
       .string()

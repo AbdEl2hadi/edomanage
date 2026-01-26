@@ -4,8 +4,24 @@ import type { UICardType } from '../../components/owner/UICard'
 import StudentCard from '@/components/owner/studentCard'
 import { useStudentList } from '@/services/store/studentListFunctions'
 
+type StudentsSearch = {
+  search?: string
+}
+
 export const Route = createFileRoute('/owner/students')({
+  validateSearch: (search: Record<string, unknown>): StudentsSearch => {
+    return {
+      search: typeof search.search === 'string' ? search.search : undefined,
+    }
+  },
   component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Owner | Students - EduManage',
+      },
+    ],
+  }),
 })
 
 function RouteComponent() {

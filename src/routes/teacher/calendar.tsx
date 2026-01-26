@@ -166,6 +166,9 @@ const calendarData: Record<number, Array<Task>> = {
 }
 export const Route = createFileRoute('/teacher/calendar')({
   component: TeacherCalendar,
+  head: () => ({
+    meta: [{ title: 'Teacher | Calendar - EduManage' }],
+  }),
 })
 
 function TeacherCalendar() {

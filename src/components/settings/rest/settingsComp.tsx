@@ -1,14 +1,19 @@
-import ButtonBase from '@mui/material/ButtonBase'
-import Avatar from '@mui/material/Avatar'
+
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import IconButton from '../iconButton'
 import { NewInfoSchema } from './settingsAuth.schema'
 
-import type { AvatarState } from '@/services/store/avatar_store'
+
 import type { NewInfoFields } from './settingsAuth.schema'
+import type { AvatarState } from '@/services/store/avatar_store'
+
+
+
 import postNewinfo from '@/services/api/settings/postNewinfo'
 import useAvatarStore from '@/services/store/avatar_store'
+
 
 export default function SettingsComp({
   user,
@@ -16,23 +21,10 @@ export default function SettingsComp({
   user: 'teacher' | 'student'
 }) {
   /* avatar gandle*/
-
-  const avatarSrc = useAvatarStore((state: AvatarState) => state.avatarSrc)
-  const setAvatarSrc = useAvatarStore(
-    (state: AvatarState) => state.setAvatarSrc,
-  )
-
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      // Read the file as a data URL
-      const reader = new FileReader()
-      reader.onload = () => {
-        setAvatarSrc(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
+const setAvatarSrc = useAvatarStore(
+			(state: AvatarState) => state.setAvatarSrc,
+		);
+  
 
   /* Personal information handle */
   const {
@@ -74,41 +66,7 @@ export default function SettingsComp({
               </h2>
               <div className="flex flex-col sm:flex-row items-center gap-6">
                 <div className="relative group">
-                  <ButtonBase
-                    component="label"
-                    role={undefined}
-                    tabIndex={-1} // prevent label from tab focus
-                    aria-label="Avatar image"
-                    sx={{
-                      borderRadius: '50%',
-                      '&:has(:focus-visible)': {
-                        outline: '2px solid',
-                        outlineOffset: '2px',
-                      },
-                    }}
-                  >
-                    <Avatar
-                      alt="Upload new avatar"
-                      src={avatarSrc}
-                      sx={{ width: 90, height: 90 }}
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      style={{
-                        border: 0,
-                        clip: 'rect(0 0 0 0)',
-                        height: '1px',
-                        margin: '-1px',
-                        overflow: 'hidden',
-                        padding: 0,
-                        position: 'absolute',
-                        whiteSpace: 'nowrap',
-                        width: '1px',
-                      }}
-                      onChange={handleAvatarChange}
-                    />
-                  </ButtonBase>
+                  <IconButton type="avatar" />
                 </div>
                 <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -120,7 +78,7 @@ export default function SettingsComp({
                   <div className="flex gap-3">
                     <button
                       onClick={() => setAvatarSrc(undefined)}
-                      className="px-4 py-2 bg-red-500/40 dark:bg-red-700/60 text-slate-900 dark:text-slate-300 font-bold text-sm rounded-lg hover:bg-red-600/70 dark:hover:bg-red-800/95 transition-colors cursor-pointer"
+                      className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-semibold rounded-lg transition-colors cursor-pointer"
                     >
                       Remove Photo
                     </button>
@@ -144,7 +102,7 @@ export default function SettingsComp({
                     Full Name
                   </label>
                   <input
-                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
                     type="text"
                     defaultValue="Alex Johnson"
                     {...register('fullName')}
@@ -171,7 +129,7 @@ export default function SettingsComp({
                     Phone Number
                   </label>
                   <input
-                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
                     type="tel"
                     defaultValue="0659******"
                     {...register('phoneNumber')}
@@ -188,7 +146,7 @@ export default function SettingsComp({
                       About Me
                     </label>
                     <textarea
-                      className="w-full h-32 px-4 py-3 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary resize-none"
+                      className="w-full h-32 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none placeholder:text-slate-400"
                       placeholder="Tell us a bit about yourself..."
                       {...register('aboutMe')}
                     />
@@ -363,7 +321,7 @@ export default function SettingsComp({
                     New Password
                   </label>
                   <input
-                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
                     placeholder="••••••••"
                     type="password"
                     {...register('newPassword')}
@@ -379,7 +337,7 @@ export default function SettingsComp({
                     Confirm Password
                   </label>
                   <input
-                    className="w-full h-11 px-4 rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-primary focus:ring-primary"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
                     placeholder="••••••••"
                     type="password"
                     {...register('confirmPassword')}

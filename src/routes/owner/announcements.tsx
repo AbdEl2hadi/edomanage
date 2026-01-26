@@ -4,6 +4,9 @@ import AnnouncementCard from '@/components/owner/announcementCard'
 
 export const Route = createFileRoute('/owner/announcements')({
   component: RouteComponent,
+  head: () => ({
+    meta: [{ title: 'Owner | Announcements - EduManage' }],
+  }),
 })
 const announcementPlaceHolder: Array<AnnouncementCardType> = [
   {

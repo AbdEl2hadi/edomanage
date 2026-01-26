@@ -122,5 +122,43 @@
       "number": "+1 (555) 444-5555",
       "status": "New"
     }
+  ],
+  "owners": [
+    {
+      "ownerId": "O5001",
+      "name": "Aced Benyahia",
+      "email": "aced@gmail.com",
+      "password": "aced2024"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "type": "campaign",
+      "title": "New Course Material",
+      "message": "New course material available for Mathematics 101.",
+      "time": "2 hours ago"
+    },
+    {
+      "id": 2,
+      "type": "warning",
+      "title": "Assignment Deadline",
+      "message": "Your assignment submission deadline is tomorrow.",
+      "time": "5 hours ago"
+    },
+    {
+      "id": 3,
+      "type": "check_circle",
+      "title": "Profile Updated",
+      "message": "Your profile has been successfully updated.",
+      "time": "1 day ago"
+    },
+    {
+      "id": 4,
+      "type": "school",
+      "title": "Grades Posted",
+      "message": "New grades have been posted for History 202.",
+      "time": "2 days ago"
+    }
   ]
 }

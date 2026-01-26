@@ -8,6 +8,9 @@ import { useCalendarStore } from '@/services/store/calendar_store'
 
 export const Route = createFileRoute('/student/calendar')({
   component: StudentCalendar,
+  head: () => ({
+    meta: [{ title: 'Student | Calendar - EduManage' }],
+  }),
 })
 
 type TaskType = 'class' | 'holiday' | 'deadline' | 'sport' | 'club'

@@ -4,12 +4,14 @@ import TopNav from '@/components/top_nav'
 
 export const Route = createFileRoute('/teacher')({
   component: Teacher,
+  head: () => ({
+    meta: [{ title: 'Teacher - EduManage' }],
+  }),
 })
 
 function Teacher() {
   const location = useLocation();
   const path: Array<string> = [...location.pathname.split('/')]
-  console.log('Teacher layout rendered')
   const info = {
     layout: 'teacher',
     list: [

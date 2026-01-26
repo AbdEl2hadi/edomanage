@@ -5,12 +5,19 @@ import SideBar from '@/components/welcomePage/side-bar'
 
 export const Route = createFileRoute('/')({
   component: App,
+  head: () => ({
+    meta: [
+      {
+        title: 'EduManage',
+      },
+    ],
+  }),
 })
 
 function App() {
   const toggleSideBar = useWelcomeSideBarStore((state) => state.toggle)
 
-  const getPreferredTheme = () : 'dark' | 'light' => {
+  const getPreferredTheme = (): 'dark' | 'light' => {
     const stored = localStorage.getItem('theme')
     if (stored) return stored as 'dark' | 'light'
     return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -19,21 +26,20 @@ function App() {
   }
 
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const initial : 'dark' | 'light' = getPreferredTheme()
+    const initial: 'dark' | 'light' = getPreferredTheme()
 
-      const html = document.documentElement
-      html.classList.remove('light', 'dark');
-      html.classList.add(initial);
+    const html = document.documentElement
+    html.classList.remove('light', 'dark')
+    html.classList.add(initial)
 
     return initial
   })
 
   const themeTimeoutRef = useRef<number | null>(null)
 
-  /* if the user the first time enter this app*/ 
+  /* if the user the first time enter this app*/
 
   useEffect(() => {
-
     const media = window.matchMedia('(prefers-color-scheme: dark)')
     const handleMediaChange = (event: MediaQueryListEvent) => {
       if (!localStorage.getItem('theme')) {
@@ -45,13 +51,21 @@ function App() {
     return () => media.removeEventListener('change', handleMediaChange)
   }, [])
 
-/* this to fix theme animation cancel to other animations*/ 
+  /* this to fix theme animation cancel to other animations*/
   useEffect(() => {
     const html = document.documentElement
-    html.classList.add('theme-animating');
-    html.classList.remove('light', 'dark');
-    html.classList.add(theme);
-    localStorage.setItem('theme', theme);
+    html.classList.add('theme-animating')
+    html.classList.remove('light', 'dark')
+    html.classList.add(theme)
+    localStorage.setItem('theme', theme)
+
+    /* const metaTheme = document.querySelector('meta[name="theme-color"]')
+    if (metaTheme) {
+      metaTheme.setAttribute(
+        'content',
+        theme === 'dark' ? '#101622' : '#f6f6f8',
+      )
+    }*/
 
     if (themeTimeoutRef.current !== null) {
       window.clearTimeout(themeTimeoutRef.current)
@@ -102,13 +116,13 @@ function App() {
                 </span>
               </div>
               <h2 className="text-slate-900 dark:text-white text-xl font-bold tracking-tight">
-                SchoolManage
+                EduManage
               </h2>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="absolute right-15 md:right-100 lg:right-5 ">
               <button
                 aria-label="Toggle dark mode"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
                 onClick={toggleTheme}
               >
                 {theme === 'dark' ? (
@@ -120,19 +134,15 @@ function App() {
                     dark_mode
                   </span>
                 )}
-                <span className="text-xs font-semibold hidden sm:block">
-                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                </span>
-              </button>
-
-              <button
-                className="md:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer transition-colors"
-                onClick={toggleSideBar}
-                aria-label="Open menu"
-              >
-                <span className="material-symbols-outlined">menu</span>
               </button>
             </div>
+            <button
+              className="md:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer transition-colors"
+              onClick={toggleSideBar}
+              aria-label="Open menu"
+            >
+              <span className="material-symbols-outlined">menu</span>
+            </button>
             <div className="hidden md:flex items-center gap-8">
               <a
                 className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary transition-colors"

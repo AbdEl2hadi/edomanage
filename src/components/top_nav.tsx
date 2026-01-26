@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import useSideBarStore from '../services/store/sidebar_show_store'
+
+
 import NotificationList from './notificationList'
 
 export default function TopNav() {
@@ -14,10 +16,10 @@ export default function TopNav() {
 
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const initial = getPreferredTheme()
-      const html = document.documentElement
-      html.classList.remove('light', 'dark')
-      html.classList.add(initial)
-    
+    const html = document.documentElement
+    html.classList.remove('light', 'dark')
+    html.classList.add(initial)
+
     return initial
   })
 
@@ -75,9 +77,7 @@ export default function TopNav() {
         className="mr-6 mt-1.5 lg:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer transition-colors"
         onClick={toggleSideBar}
       >
-        <span className="material-symbols-outlined">
-          menu
-        </span>
+        <span className="material-symbols-outlined">menu</span>
       </button>
       {/* Search Bar */}
       <div className="hidden w-96 lg:flex items-center gap-2 bg-background-light/80 dark:bg-gray-800/60 px-3 py-3.5 rounded-lg ring-1 ring-slate-200/70 dark:ring-slate-700/50">
@@ -93,11 +93,10 @@ export default function TopNav() {
           type="text"
         />
       </div>
-      <div className="flex items-center gap-4 ml-auto">
+      <div className="flex items-center gap-4 ml-auto ">
         <button
           aria-label="Toggle dark mode"
-          aria-pressed={theme === 'dark'}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
+          className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
           onClick={toggleTheme}
         >
           {theme === 'dark' ? (
@@ -109,9 +108,6 @@ export default function TopNav() {
               dark_mode
             </span>
           )}
-          <span className="text-xs font-semibold hidden sm:block">
-            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-          </span>
         </button>
         <div className="relative group">
           <NotificationList />
