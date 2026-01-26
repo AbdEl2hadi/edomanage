@@ -1,42 +1,126 @@
 {
   "students": [
     {
-      "studentId": "2202007",
-      "name": "Maafa Abdelhadi",
-      "email": "a.maafa@gmail.com",
-      "password": "Adcobu2007"
+      "imgSrc": "hello",
+      "gender": "male",
+      "name": "James Anderson",
+      "email": "james.a@student.edu",
+      "id": "#ST-2024-001",
+      "grade": "Grade 11 - A",
+      "parent": {
+        "name": "Sarah Anderson",
+        "phoneNumber": "+1 (555) 123-4567"
+      },
+      "status": "Active"
     },
     {
-      "studentId": "2202010",
-      "name": "Benali Mohammed",
-      "email": "m.benali@gmail.com",
-      "password": "benali2010"
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuBohAD1HcNUu1rOzCCUNdxiJbeNHzGUHT2uaEm4ec8RSk3Zmeq6pGET5P49TpSIpakvQxLDuNX5O9YnXklVnmsm6qlz15dGH5DWI-o1yroi8IrgwGcUP6ImKqo5iXII28cjt-qqr74948QV7gf8MvTjNCEr89ApKHFHT1qNkfM2KidzJ7kocSSOXFLBu6gGW9j76vOXtcTPD_-p9pNjufyfn7f2EsrmVRrkxbDszY_sbU9uITRLSZ06sVhobN2TXPjpuIC7XAKuwoEb",
+      "gender": "female",
+      "name": "Emily Chen",
+      "email": "e.chen@student.edu",
+      "id": "#ST-2024-045",
+      "grade": "Grade 10 - B",
+      "parent": {
+        "name": "David Chen",
+        "phoneNumber": "+1 (555) 987-6543"
+      },
+      "status": "Active"
     },
     {
-      "studentId": "2202015",
-      "name": "Khatir Ayoub",
-      "email": "a.khatir@gmail.com",
-      "password": "khatir2015"
+      "imgSrc": "",
+      "gender": "male",
+      "name": "Michael Ross",
+      "email": "mike.ross@student.edu",
+      "id": "#ST-2023-112",
+      "grade": "Grade 12 - A",
+      "parent": {
+        "name": "Rachel Ross",
+        "phoneNumber": "+1 (555) 444-2222"
+      },
+      "status": "Inactive"
     },
     {
-      "id": "fb9a",
-      "email": "a.maafa@gmail.com",
-      "password": "Adcobu2007",
-      "role": "student"
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuDUxvYm5zr_xNAj89vLbuPPqe0ynjaWRtk8DEYiocbs_HvvnV_c_rrK_Ylk6Q2nJYKJRIFNXsEmLlm5BFFaNNwo8AlPB2SlhjSqLyfiy-SULwxAB4zZsCA3JcyCa-k4DFBSMufluEOLjgaWEVJncDXusn1uVPCssSZlSfTcQQKUfBkGd83fI1GUrYD1ggcVoWvfAx15H5T2TFZKnT6d_0UGuYzVg4dO6m-Rd0CKcX56lGpr6CC2d9fw0jkmSc4w06sZEJ8-5lLeRHby",
+      "gender": "female",
+      "name": "Sophia Martinez",
+      "email": "sophia.m@student.edu",
+      "id": "#ST-2024-089",
+      "grade": "Grade 9 - C",
+      "parent": {
+        "name": "Carlos Martinez",
+        "phoneNumber": "+1 (555) 777-8888"
+      },
+      "status": "Pending"
     },
     {
-      "id": "f10f",
-      "email": "a.maafa@gmail.com",
-      "password": "Adcobu2007",
-      "role": "student"
+      "imgSrc": "",
+      "gender": "male",
+      "name": "khatir ayoub",
+      "email": "khatir.a@student.edu",
+      "id": "#esi-2024-089",
+      "grade": "Grade 2 - A",
+      "parent": {
+        "name": "mohamed khatir",
+        "phoneNumber": "+1 026 777-8888"
+      },
+      "status": "hello world"
     }
   ],
   "teachers": [
     {
-      "teacherId": "T1001",
-      "name": "Kazi Tani",
-      "email": "k.tani@gmail.com",
-      "password": "kazi2020"
+      "id": "T-1024",
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuBhlIOBVVsnV_uapAsHlZs-uEgRI3Psz6ygRfODlQJUO7UvdC7Y6ZUTuN_HIMfKvz6VuQVfq4cNWXr6qOzFQugIRo4Xdu3BC7dmyPMPNUFj2kkC140TiPB59Qy3IBaL18zFT9nJVHzxv_hhpqGB1z-5PGarR_Rw1oFsGU18rGw_qmcCV0VA0qx5xX3ELAMbZmpmm5FSlKWIyzEAWx0s2vzRAnfAIsW5koYVQ0B33N6qVhNzQhgqLQPMV2kct8DH5tP8Kag7GpGg6OaH",
+      "name": "Sarah Jenkins",
+      "subject": "Mathematics",
+      "gender": "female",
+      "teachAt": "High School",
+      "email": "sarah.j@school.edu",
+      "number": "+1 (555) 123-4567",
+      "status": "Active"
+    },
+    {
+      "id": "T-1045",
+      "imgSrc": "",
+      "name": "Michael Ross",
+      "gender": "male",
+      "subject": "Physics",
+      "teachAt": "Senior Department",
+      "email": "m.ross@school.edu",
+      "number": "+1 (555) 987-6543",
+      "status": "Active"
+    },
+    {
+      "id": "T-1088",
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuCEAi7Yhn48HHbCi9YDQ5-I37uRyKbIIWzroJrSsB0fejFn41f3hLNJW8Oh5Co99RRfahvly6Ira_L38nVxN6igr9xn7RFIxRFqyEttFdOOC45OMz-lK2acfxYaIOVtYAUrZdT8tqHC88-5ZK8UPJBWU26_tRn6QaAIItzUNdw1_YsE2R2VHTNZrwcd0MryKQfW9IrJXM-RA9nCoekelzR6HrhR5EKvgOS3U45kcFDpYu91SPrfxVXA64c9gIQM71NP8b3-nWQRdQ9K",
+      "name": "James Wilson",
+      "subject": "History",
+      "gender": "male",
+      "teachAt": "Middle School",
+      "email": "james.w@school.edu",
+      "number": "+1 (555) 333-2211",
+      "status": "On Leave"
+    },
+    {
+      "id": "T-1102",
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuAmuZExrNKCjOKCWvgt7uHLFmjYmAh1Q3qyhwdSQ9ID2i6cVCVT5SVLKCR7EHcV4Dgy6jDv8vouiq88wnGoOuXKgIL5ISxE-rYbyPdKAWUHvaIUe0zhV8O2mdnrvD7QKxnfKMHxoQeBCN4s9qjQ8NxMrOU8Z1N0j7AN7xTWN8V0Yekw-wUgWHuWu3-ABWJKOjhxRhibjNfiOuuqmIETvkF7Y7Vg3UbYuizR8QoOUIPghroYEEb6D4WKuc_2OwCVMsFoF3yWE-1WfVEV",
+      "name": "Anita Patel",
+      "subject": "Chemistry",
+      "gender": "female",
+      "teachAt": "Lab Department",
+      "email": "anita.p@school.edu",
+      "number": "+1 (555) 777-8899",
+      "status": "Active"
+    },
+    {
+      "id": "T-1120",
+      "imgSrc": "",
+      "name": "David Kim",
+      "subject": "Physical Education",
+      "gender": "male",
+      "teachAt": "Sports Dept",
+      "email": "david.k@school.edu",
+      "number": "+1 (555) 444-5555",
+      "status": "New"
     }
   ]
 }

@@ -32,7 +32,7 @@ export default function TeacherCard(props: TeacherCardType) {
   const editTeacher = useTeacherList((state) => state.editTeacher)
 
   return (
-    <tr className="bg-white hover:bg-slate-50 dark:bg-gray-700 dark:hover:bg-slate-700 transition-colors group cursor-pointer">
+    <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 transition-colors">
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-10 w-10 shrink-0 flex items-center relative">
@@ -58,35 +58,56 @@ export default function TeacherCard(props: TeacherCardType) {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-600 dark:text-slate-200">{props.subject}</div>
-        <div className="text-xs text-gray-400 dark:text-slate-500">{props.teachAt}</div>
+        <div className="text-sm text-gray-600 dark:text-slate-200">
+          {props.subject}
+        </div>
+        <div className="text-xs text-gray-400 dark:text-slate-500">
+          {props.teachAt}
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-600 dark:text-slate-200">{props.email}</div>
-        <div className="text-xs text-gray-400 dark:text-slate-500">{props.number}</div>
+        <div className="text-sm text-gray-600 dark:text-slate-200">
+          {props.email}
+        </div>
+        <div className="text-xs text-gray-400 dark:text-slate-500">
+          {props.number}
+        </div>
       </td>
-      <td className="px-6 py-4 whitespace-nowrap">
+      <td className="p-4">
         <span
-          className={`px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full  ${props.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : props.status === 'On Leave' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}`}
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${props.status === 'Active' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800' : props.status === 'Pending' || 'On Leave' ? 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800' : props.status === 'Inactive' || 'Invalid' ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800' : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'}`}
         >
-          {props.status}
+          <span
+            className={`w-1.5 h-1.5 rounded-full ${props.status === 'Active' ? 'bg-emerald-400' : props.status === 'Pending' || 'On Leave' ? 'bg-orange-500' : props.status === 'Inactive' || 'Invalid' ? 'bg-red-600' : 'bg-white '}`}
+          ></span>
+          {props.status === 'Active' ||
+          'New' ||
+          props.status === 'Inactive' ||
+          props.status === 'Pending' ||
+          'On Leave'
+            ? props.status
+            : 'invalid'}
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className=" flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <Dialog>
             <form>
               <DialogTrigger
                 asChild
                 className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
               >
-                <Button variant="outline">
+                <Button
+                  variant="outline"
+                  title="edit"
+                  className="cursor-pointer"
+                >
                   <span className="material-symbols-outlined text-[20px]">
                     edit
                   </span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-100 bg-slate-700 text-white">
+              <DialogContent className="sm:max-w-100 bg-slate-50 dark:bg-gray-800 text-black dark:text-slate-400">
                 <DialogHeader>
                   <DialogTitle>Edit profile</DialogTitle>
                   <DialogDescription>
@@ -96,16 +117,43 @@ export default function TeacherCard(props: TeacherCardType) {
                 </DialogHeader>
                 <div className="grid gap-4">
                   <div className="grid gap-3">
-                    <Label htmlFor="subject-1">Subject</Label>
+                    <Label htmlFor="name">Subject</Label>
+                    <Input id="name" name="name" defaultValue={props.name} />
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="subject">Name</Label>
                     <Input
-                      id="subject-1"
+                      id="subject"
                       name="Subject"
-                      defaultValue="analyse"
+                      defaultValue={props.subject}
                     />
                   </div>
                   <div className="grid gap-3">
-                    <Label htmlFor="status-1">Status</Label>
-                    <Input id="status-1" name="status" defaultValue="new" />
+                    <div className="grid gap-3">
+                      <h1 className="underline">Contacts :</h1>
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        defaultValue={props.email}
+                      />
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="phone-number">Phone number</Label>
+                      <Input
+                        id="phone-number"
+                        name="phone-number"
+                        defaultValue={props.number}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid gap-3">
+                    <Label htmlFor="status">Status</Label>
+                    <Input
+                      id="status"
+                      name="status"
+                      defaultValue={props.status}
+                    />
                   </div>
                 </div>
                 <DialogFooter>
@@ -114,7 +162,7 @@ export default function TeacherCard(props: TeacherCardType) {
                       Cancel
                     </Button>
                   </DialogClose>
-                  <Button type="submit" className="cursor-pointer">
+                  <Button type="submit" className="cursor-pointer text-white">
                     {/* onClick={()=>editTeacher(props.name,)} */}
                     {/* continue woriking on the editing of the teacher profile.ask the others if the change only in the status and the subject or it can be on the other fields too. */}
                     Save changes
