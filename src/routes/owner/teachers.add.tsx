@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import type { TeacherCardType } from '@/components/owner/teacherCard'
 
 export const Route = createFileRoute('/owner/teachers/add')({
   component: RouteComponent,
@@ -6,6 +7,12 @@ export const Route = createFileRoute('/owner/teachers/add')({
     meta: [{ title: 'Owner | Add Teacher - EduManage' }],
   }),
 })
+
+export type TeacherProfile = TeacherCardType & {
+  dateOfBirth: Date
+  address: string
+  joiningDate: Date
+}
 
 function RouteComponent() {
   return (
@@ -77,24 +84,15 @@ function RouteComponent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        First Name
+                        Full name
                       </label>
                       <input
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="e.g. Sarah"
+                        placeholder="e.g. Sarah Connor"
                         type="text"
                       />
                     </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Last Name
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="e.g. Connor"
-                        type="text"
-                      />
-                    </div>
+
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
                         Date of Birth
@@ -117,7 +115,6 @@ function RouteComponent() {
                           </option>
                           <option value="female">Female</option>
                           <option value="male">Male</option>
-                          <option value="other">Other</option>
                         </select>
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
                           <span className="material-symbols-outlined">
@@ -219,16 +216,6 @@ function RouteComponent() {
                           </span>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Designation
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="e.g. Senior Lecturer"
-                        type="text"
-                      />
                     </div>
                     <div className="flex flex-col gap-1.5 md:col-span-2">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
