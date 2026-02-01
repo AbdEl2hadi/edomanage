@@ -60,13 +60,6 @@ function App() {
     localStorage.setItem('theme', theme)
 
     /* const metaTheme = document.querySelector('meta[name="theme-color"]')
-    if (metaTheme) {
-      metaTheme.setAttribute(
-        'content',
-        theme === 'dark' ? '#101622' : '#f6f6f8',
-      )
-    }*/
-
     if (themeTimeoutRef.current !== null) {
       window.clearTimeout(themeTimeoutRef.current)
     }
@@ -313,7 +306,7 @@ function App() {
                 {/* Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 h-auto md:h-125">
                   {/* Large Feature 1 */}
-                  <div className="md:col-span-2 md:row-span-2 rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-8 flex flex-col overflow-hidden relative group cursor-pointer transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-1">
+                  <div className="md:col-span-2 md:row-span-2 rounded-xl bg-white dark:bg-surface-dark border border-slate-200/70 shadow dark:border-white/10 p-8 flex flex-col overflow-hidden relative group cursor-pointer transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-1">
                     <div className="z-10">
                       <span className="w-10 h-10 flex items-center justify-center rounded-full bg-primary mb-4">
                         <span className="material-symbols-outlined text-white">
@@ -341,7 +334,7 @@ function App() {
                     </div>
                   </div>
                   {/* Small Feature 2 */}
-                  <div className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 transition-all duration-200 ease-out cursor-pointer hover:shadow-md hover:-translate-y-1">
+                  <div className="rounded-xl bg-white dark:bg-surface-dark shadow border border-slate-200/70 dark:border-white/10 p-6 flex flex-col justify-between transition-all duration-200 ease-out cursor-pointer hover:shadow-md hover:-translate-y-1">
                     <span className="material-symbols-outlined text-4xl text-primary mb-2">
                       payments
                     </span>
@@ -355,7 +348,7 @@ function App() {
                     </div>
                   </div>
                   {/* Small Feature 3 */}
-                  <div className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 transition-all duration-200 ease-out cursor-pointer hover:shadow-md hover:-translate-y-1">
+                  <div className="rounded-xl bg-white dark:bg-surface-dark shadow border border-slate-200/70 dark:border-white/10 p-6 flex flex-col justify-between transition-all duration-200 ease-out cursor-pointer hover:shadow-md hover:-translate-y-1">
                     <span className="material-symbols-outlined text-4xl text-primary mb-2">
                       chat
                     </span>
@@ -488,17 +481,17 @@ function App() {
             id="create-account"
           >
             <div className="px-5 md:px-10 lg:px-40 py-16 flex justify-center">
-              <div className="max-w-300 w-full bg-slate-900 dark:bg-surface-dark border border-slate-900/10 dark:border-white/10 rounded-2xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+              <div className="max-w-300 w-full bg-white dark:bg-surface-dark border border-slate-900/10 dark:border-white/10 rounded-2xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                 <div className="flex flex-col gap-4">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
                     Ready to transform your school?
                   </h2>
-                  <p className="text-white/70 text-lg">
+                  <p className="text-slate-600 dark:text-slate-400 text-lg">
                     Join over 500+ schools modernizing education today.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-bold hover:brightness-110 transition-all duration-200 cursor-pointer shadow-[0_0_20px_rgba(249,245,6,0.3)]">
+                  <button className="flex items-center justify-center rounded-full h-14 px-8 bg-primary shadow-lg shadow-blue-500/25 text-white text-lg font-bold hover:brightness-110 transition-all duration-200 cursor-pointer">
                     <Link to="/sign-up">Create an Account</Link>
                   </button>
                 </div>
