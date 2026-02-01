@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import UICardComponent from '../../components/owner/UICard'
 import type { UICardType } from '../../components/owner/UICard'
 import type { StudentCardType } from '@/components/owner/studentCard'
@@ -9,7 +9,7 @@ type StudentsSearch = {
   search?: string
 }
 
-export const Route = createFileRoute('/owner/students')({
+export const Route = createFileRoute('/owner/students/')({
   validateSearch: (search: Record<string, unknown>): StudentsSearch => {
     return {
       search: typeof search.search === 'string' ? search.search : undefined,
@@ -68,10 +68,12 @@ function RouteComponent() {
               Manage student enrollments, records, and academic status.
             </p>
           </div>
-          <button className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all shadow-sm shadow-blue-500/30 active:scale-95 cursor-pointer">
-            <span className="material-symbols-outlined text-[20px]">add</span>
-            <span>Add Student</span>
-          </button>
+          <Link to="/owner/students/add">
+            <button className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all shadow-sm shadow-blue-500/30 active:scale-95 cursor-pointer">
+              <span className="material-symbols-outlined text-[20px]">add</span>
+              <span>Add New Student</span>
+            </button>
+          </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {UICardList.map((card, i) => (

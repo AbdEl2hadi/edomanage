@@ -1,14 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import type { TeacherCardType } from '@/components/owner/teacherCard'
+import type { StudentCardType } from '@/components/owner/studentCard'
 
-export const Route = createFileRoute('/owner/teachers/add')({
+export const Route = createFileRoute('/owner/students/add')({
   component: RouteComponent,
   head: () => ({
-    meta: [{ title: 'Owner | Add Teacher - EduManage' }],
+    meta: [{ title: 'Owner | Add Student - EduManage' }],
   }),
 })
 
-export type TeacherProfile = TeacherCardType & {
+export type StudentProfile = StudentCardType & {
   dateOfBirth: Date
   address: string
   joiningDate: Date
@@ -22,11 +22,11 @@ function RouteComponent() {
           <div className="flex flex-col gap-6 pb-12">
             <div className="flex flex-col gap-1">
               <h1 className="text-[#111318] dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
-                Add New Teacher
+                Add New Student
               </h1>
               <p className="text-[#616f89] dark:text-gray-400 text-base">
-                Enter the details below to create a new faculty account and
-                assign permissions.
+                Enter the details below to create a new student account and
+                assign access
               </p>
             </div>
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-gray-800 overflow-hidden">
@@ -55,7 +55,7 @@ function RouteComponent() {
                       Profile Photo
                     </h3>
                     <p className="text-[#616f89] dark:text-gray-400 text-sm max-w-md">
-                      Upload a clear photo of the teacher. Accepted formats:
+                      Upload a clear photo of the student. Accepted formats:
                       JPG, PNG. Max size: 5MB.
                     </p>
                     <div className="flex gap-3 mt-2 justify-center sm:justify-start">
@@ -145,7 +145,7 @@ function RouteComponent() {
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Phone Number
+                        Parent / Guardian Phone Number
                       </label>
                       <input
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
@@ -170,26 +170,26 @@ function RouteComponent() {
                     <span className="material-symbols-outlined text-primary">
                       school
                     </span>
-                    Academic Role
+                    Academic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Employee ID
+                        Student ID
                       </label>
                       <input
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800/50 border-none px-4 text-[#616f89] dark:text-gray-400 cursor-not-allowed"
                         readOnly
                         type="text"
-                        value="TCH-2024-001"
+                        value="STD-2024-001"
                       />
                       <p className="text-xs text-[#616f89] dark:text-gray-500">
-                        Auto-generated system ID
+                        Auto-generated student ID
                       </p>
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Joining Date
+                        Enrollment Date
                       </label>
                       <input
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
@@ -198,57 +198,26 @@ function RouteComponent() {
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Department
+                        Class / Grade
                       </label>
                       <div className="relative">
                         <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
                           <option disabled selected value="">
-                            Select Department
+                            Select Grade
                           </option>
-                          <option value="science">Science</option>
-                          <option value="math">Mathematics</option>
-                          <option value="literature">Literature</option>
-                          <option value="arts">Arts &amp; Humanities</option>
+                          <option value="science">Grade 1</option>
+                          <option value="math">Grade 2</option>
+                          <option value="literature">Grade 3</option>
+                          <option value="arts">Grade 4</option>
+                          <option value="history">Grade 5</option>
+                          <option value="geography">Grade 6</option>
+                          <option value="chemistry">Grade 7</option>
                         </select>
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
                           <span className="material-symbols-outlined">
                             expand_more
                           </span>
                         </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5 md:col-span-2">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Subject Specialization
-                      </label>
-                      <div className="w-full min-h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none p-2 flex flex-wrap gap-2 items-center">
-                        <div className="bg-white dark:bg-gray-700 text-[#111318] dark:text-white text-sm font-medium px-2 py-1 rounded flex items-center gap-1 shadow-sm">
-                          Mathematics
-                          <button
-                            type="button"
-                            className="hover:text-red-500 flex items-center justify-center"
-                          >
-                            <span className="material-symbols-outlined text-[16px]">
-                              close
-                            </span>
-                          </button>
-                        </div>
-                        <div className="bg-white dark:bg-gray-700 text-[#111318] dark:text-white text-sm font-medium px-2 py-1 rounded flex items-center gap-1 shadow-sm">
-                          Physics
-                          <button
-                            type="button"
-                            className="hover:text-red-500 flex items-center justify-center"
-                          >
-                            <span className="material-symbols-outlined text-[16px]">
-                              close
-                            </span>
-                          </button>
-                        </div>
-                        <input
-                          className="bg-transparent border-none text-sm p-1 placeholder:text-[#9ca3af] focus:ring-0 flex-1 min-w-50 text-[#111318] dark:text-white"
-                          placeholder="Type and press Enter to add..."
-                          type="text"
-                        />
                       </div>
                     </div>
                   </div>
@@ -267,8 +236,7 @@ function RouteComponent() {
                           System Access
                         </p>
                         <p className="text-[#616f89] dark:text-gray-400 text-sm">
-                          Allow this teacher to log in to the portal
-                          immediately.
+                          Allow this student to log in to the portal.
                         </p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
@@ -300,7 +268,7 @@ function RouteComponent() {
                         </button>
                       </div>
                       <p className="text-xs text-[#616f89] dark:text-gray-500">
-                        The teacher will be asked to change this password upon
+                        The student will be asked to change this password upon
                         first login.
                       </p>
                     </div>
@@ -320,7 +288,7 @@ function RouteComponent() {
                     <span className="material-symbols-outlined text-[18px]">
                       check
                     </span>
-                    Create Teacher Account
+                    Create Student Account
                   </button>
                 </div>
               </form>

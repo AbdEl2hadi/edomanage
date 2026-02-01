@@ -59,7 +59,6 @@ function App() {
     html.classList.add(theme)
     localStorage.setItem('theme', theme)
 
-    /* const metaTheme = document.querySelector('meta[name="theme-color"]')
     if (themeTimeoutRef.current !== null) {
       window.clearTimeout(themeTimeoutRef.current)
     }
