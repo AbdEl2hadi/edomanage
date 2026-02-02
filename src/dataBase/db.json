@@ -1,44 +1,62 @@
 {
   "students": [
     {
-      "studentId": "2202007",
-      "name": "Maafa Abdelhadi",
-      "email": "a.maafa@gmail.com",
-      "password": "Adcobu2007"
+      "imgSrc": "hello",
+      "gender": "male",
+      "name": "James Anderson",
+      "email": "james.a@student.edu",
+      "id": "#ST-2024-001",
+      "grade": "Grade 11 - A",
+      "parentName": "Sarah Anderson",
+      "parentPhoneNumber": "+1 (555) 123-4567",
+      "status": "Active"
     },
     {
-      "studentId": "2202010",
-      "name": "Benali Mohammed",
-      "email": "m.benali@gmail.com",
-      "password": "benali2010"
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuBohAD1HcNUu1rOzCCUNdxiJbeNHzGUHT2uaEm4ec8RSk3Zmeq6pGET5P49TpSIpakvQxLDuNX5O9YnXklVnmsm6qlz15dGH5DWI-o1yroi8IrgwGcUP6ImKqo5iXII28cjt-qqr74948QV7gf8MvTjNCEr89ApKHFHT1qNkfM2KidzJ7kocSSOXFLBu6gGW9j76vOXtcTPD_-p9pNjufyfn7f2EsrmVRrkxbDszY_sbU9uITRLSZ06sVhobN2TXPjpuIC7XAKuwoEb",
+      "gender": "female",
+      "name": "Emily Chen",
+      "email": "e.chen@student.edu",
+      "id": "#ST-2024-045",
+      "grade": "Grade 10 - B",
+      "parentName": "David Chen",
+      "parentPhoneNumber": "+1 (555) 987-6543",
+      "status": "Active"
     },
     {
-      "studentId": "2202015",
-      "name": "Khatir Ayoub",
-      "email": "a.khatir@gmail.com",
-      "password": "khatir2015"
+      "imgSrc": "",
+      "gender": "male",
+      "name": "Michael Ross",
+      "email": "mike.ross@student.edu",
+      "id": "#ST-2023-112",
+      "grade": "Grade 12 - A",
+      "parentName": "Rachel Ross",
+      "parentPhoneNumber": "+1 (555) 444-2222",
+      "status": "Inactive"
     },
     {
-      "id": "fb9a",
-      "email": "a.maafa@gmail.com",
-      "password": "Adcobu2007",
-      "role": "student"
+      "imgSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuDUxvYm5zr_xNAj89vLbuPPqe0ynjaWRtk8DEYiocbs_HvvnV_c_rrK_Ylk6Q2nJYKJRIFNXsEmLlm5BFFaNNwo8AlPB2SlhjSqLyfiy-SULwxAB4zZsCA3JcyCa-k4DFBSMufluEOLjgaWEVJncDXusn1uVPCssSZlSfTcQQKUfBkGd83fI1GUrYD1ggcVoWvfAx15H5T2TFZKnT6d_0UGuYzVg4dO6m-Rd0CKcX56lGpr6CC2d9fw0jkmSc4w06sZEJ8-5lLeRHby",
+      "gender": "female",
+      "name": "Sophia Martinez",
+      "email": "sophia.m@student.edu",
+      "id": "#ST-2024-089",
+      "grade": "Grade 9 - C",
+      "parentName": "Carlos Martinez",
+      "parentPhoneNumber": "+1 (555) 777-8888",
+      "status": "Pending"
     },
     {
-      "id": "f10f",
-      "email": "a.maafa@gmail.com",
-      "password": "Adcobu2007",
-      "role": "student"
+      "imgSrc": "",
+      "gender": "male",
+      "name": "khatir ayoub",
+      "email": "khatir.a@student.edu",
+      "id": "#esi-2024-089",
+      "grade": "Grade 2 - A",
+      "parentName": "mohamed khatir",
+      "parentPhoneNumber": "+1 026 777-8888",
+      "status": "hello world"
     }
   ],
-  "teachers": [
-    {
-      "teacherId": "T1001",
-      "name": "Kazi Tani",
-      "email": "k.tani@gmail.com",
-      "password": "kazi2020"
-    }
-  ],
+  "teachers": [],
   "owners": [
     {
       "ownerId": "O5001",

@@ -69,8 +69,13 @@ importers:
         specifier: ^0.7.0
         version: 0.7.11(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(csstype@3.2.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(solid-js@1.9.10)
       '@tanstack/react-query':
+<<<<<<< HEAD
+        specifier: ^5.90.20
+        version: 5.90.20(react@19.2.3)
+=======
         specifier: ^5.90.16
         version: 5.90.16(react@19.2.3)
+>>>>>>> 8bbd93da00a5dddb551532d22a319958fcf9bc8e
       '@tanstack/react-router':
         specifier: ^1.132.0
         version: 1.141.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1654,8 +1659,13 @@ packages:
     resolution: {integrity: sha512-LS54XNyxyTs5m/pl1lkwlg7uZM3lvsv2FIIV1rsJgnfwVCnI+n4ZGZ2CcjNT13BPu/3hPP+iHmliBSscJxW5FQ==}
     engines: {node: '>=12'}
 
+<<<<<<< HEAD
+  '@tanstack/query-core@5.90.20':
+    resolution: {integrity: sha512-OMD2HLpNouXEfZJWcKeVKUgQ5n+n3A2JFmBaScpNDUqSrQSjiveC7dKMe53uJUg1nDG16ttFPz2xfilz6i2uVg==}
+=======
   '@tanstack/query-core@5.90.16':
     resolution: {integrity: sha512-MvtWckSVufs/ja463/K4PyJeqT+HMlJWtw6PrCpywznd2NSgO3m4KwO9RqbFqGg6iDE8vVMFWMeQI4Io3eEYww==}
+>>>>>>> 8bbd93da00a5dddb551532d22a319958fcf9bc8e
 
   '@tanstack/react-devtools@0.7.11':
     resolution: {integrity: sha512-a2Lmz8x+JoDrsU6f7uKRcyyY+k8mA/n5mb9h7XJ3Fz/y3+sPV9t7vAW1s5lyNkQyyDt6V1Oim99faLthoJSxMw==}
@@ -1666,8 +1676,13 @@ packages:
       react: '>=16.8'
       react-dom: '>=16.8'
 
+<<<<<<< HEAD
+  '@tanstack/react-query@5.90.20':
+    resolution: {integrity: sha512-vXBxa+qeyveVO7OA0jX1z+DeyCA4JKnThKv411jd5SORpBKgkcVnYKCiBgECvADvniBX7tobwBmg01qq9JmMJw==}
+=======
   '@tanstack/react-query@5.90.16':
     resolution: {integrity: sha512-bpMGOmV4OPmif7TNMteU/Ehf/hoC0Kf98PDc0F4BZkFrEapRMEqI/V6YS0lyzwSV6PQpY1y4xxArUIfBW5LVxQ==}
+>>>>>>> 8bbd93da00a5dddb551532d22a319958fcf9bc8e
     peerDependencies:
       react: ^18 || ^19
 
@@ -5407,7 +5422,11 @@ snapshots:
 
   '@tanstack/history@1.141.0': {}
 
+<<<<<<< HEAD
+  '@tanstack/query-core@5.90.20': {}
+=======
   '@tanstack/query-core@5.90.16': {}
+>>>>>>> 8bbd93da00a5dddb551532d22a319958fcf9bc8e
 
   '@tanstack/react-devtools@0.7.11(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(csstype@3.2.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(solid-js@1.9.10)':
     dependencies:
@@ -5422,9 +5441,15 @@ snapshots:
       - solid-js
       - utf-8-validate
 
+<<<<<<< HEAD
+  '@tanstack/react-query@5.90.20(react@19.2.3)':
+    dependencies:
+      '@tanstack/query-core': 5.90.20
+=======
   '@tanstack/react-query@5.90.16(react@19.2.3)':
     dependencies:
       '@tanstack/query-core': 5.90.16
+>>>>>>> 8bbd93da00a5dddb551532d22a319958fcf9bc8e
       react: 19.2.3
 
   '@tanstack/react-router-devtools@1.141.6(@tanstack/react-router@1.141.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@tanstack/router-core@1.141.6)(csstype@3.2.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(solid-js@1.9.10)':
