@@ -190,7 +190,7 @@ function TeacherCalendar() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Button className="h-10 cursor-pointer flex items-center justify-center rounded-lg bg-primary px-4 text-white text-sm font-bold shadow-md hover:bg-blue-700 transition-all gap-2">
+            <Button className="h-10 cursor-pointer flex items-center justify-center rounded-lg bg-primary px-4 text-white text-sm font-bold shadow-md hover:bg-blue-700 gap-2">
               <span className="material-symbols-outlined text-[20px]">add</span>
               Add Event
             </Button>
@@ -203,21 +203,21 @@ function TeacherCalendar() {
             <Button
               variant="secondary"
               size="sm"
-              className="h-9 px-3 rounded-lg bg-[#e7ebf3] dark:bg-[#2a3441] text-[#0d121b] dark:text-white text-sm font-bold hover:bg-[#dce2ee] dark:hover:bg-[#364252] transition-colors"
+              className="h-9 px-3 rounded-lg bg-[#e7ebf3] dark:bg-[#2a3441] text-[#0d121b] dark:text-white text-sm font-bold hover:bg-[#dce2ee] dark:hover:bg-[#364252]"
             >
               Today
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="p-1.5 rounded-lg hover:bg-[#f8f9fc] dark:hover:bg-[#2a3441] text-[#0d121b] dark:text-white transition-colors"
+              className="p-1.5 rounded-lg hover:bg-[#f8f9fc] dark:hover:bg-[#2a3441] text-[#0d121b] dark:text-white"
             >
               <span className="material-symbols-outlined">chevron_left</span>
             </Button>
             <Button
               variant="ghost"
               size="icon"
-              className="p-1.5 rounded-lg hover:bg-[#f8f9fc] dark:hover:bg-[#2a3441] text-[#0d121b] dark:text-white transition-colors"
+              className="p-1.5 rounded-lg hover:bg-[#f8f9fc] dark:hover:bg-[#2a3441] text-[#0d121b] dark:text-white"
             >
               <span className="material-symbols-outlined">chevron_right</span>
             </Button>
@@ -235,7 +235,7 @@ function TeacherCalendar() {
               <label
                 key={v}
                 className={cn(
-                  'cursor-pointer flex-1 lg:flex-none flex items-center justify-center px-4 py-1.5 rounded-md text-sm font-medium transition-all',
+                  'cursor-pointer flex-1 lg:flex-none flex items-center justify-center px-4 py-1.5 rounded-md text-sm font-medium',
                   view === v
                     ? 'bg-white dark:bg-[#2a3441] text-primary shadow-sm'
                     : 'text-[#4c669a] dark:text-[#64748b]',
@@ -276,7 +276,7 @@ function CalendarCell({ day }: { day: number }) {
 
   return (
     <div
-      className="min-h-[100px] border border-[#e7ebf3] dark:border-[#2a3441] rounded-lg m-1 p-2 hover:bg-muted/50 transition-colors"
+      className="min-h-[100px] border border-[#e7ebf3] dark:border-[#2a3441] rounded-lg m-1 p-2 hover:bg-muted/50"
       onClick={() => {
         setSelectedDay(day)
         setView('day')

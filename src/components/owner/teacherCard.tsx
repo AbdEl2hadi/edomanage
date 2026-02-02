@@ -32,14 +32,14 @@ export default function TeacherCard(props: TeacherCardType) {
   const editTeacher = useTeacherList((state) => state.editTeacher)
 
   return (
-    <tr className="bg-white hover:bg-slate-50 dark:bg-gray-700 dark:hover:bg-slate-700 transition-colors group cursor-pointer">
+    <tr className="bg-white hover:bg-slate-50 dark:bg-gray-700 dark:hover:bg-slate-700 group cursor-pointer">
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-10 w-10 shrink-0 flex items-center relative">
             {props.imgSrc ? (
               <img
                 alt="Portrait of Sarah Jenkins"
-                className="h-10 w-10 rounded-full object-cover border border-slate-600 ring-2 ring-transparent group-hover:ring-primary/50 transition-all"
+                className="h-10 w-10 rounded-full object-cover border border-slate-600 ring-2 ring-transparent group-hover:ring-primary/50"
                 data-alt="Portrait of Sarah Jenkins"
                 src={props.imgSrc}
               />
@@ -48,7 +48,7 @@ export default function TeacherCard(props: TeacherCardType) {
             )}
           </div>
           <div className="ml-4">
-            <div className="text-sm font-medium dark:text-white group-hover:text-primary text-black transition-colors">
+            <div className="text-sm font-medium dark:text-white group-hover:text-primary text-black">
               {props.name}
             </div>
             <div className="text-xs text-slate-400 cursor-pointer">
@@ -58,12 +58,20 @@ export default function TeacherCard(props: TeacherCardType) {
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-600 dark:text-slate-200">{props.subject}</div>
-        <div className="text-xs text-gray-400 dark:text-slate-500">{props.teachAt}</div>
+        <div className="text-sm text-gray-600 dark:text-slate-200">
+          {props.subject}
+        </div>
+        <div className="text-xs text-gray-400 dark:text-slate-500">
+          {props.teachAt}
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <div className="text-sm text-gray-600 dark:text-slate-200">{props.email}</div>
-        <div className="text-xs text-gray-400 dark:text-slate-500">{props.number}</div>
+        <div className="text-sm text-gray-600 dark:text-slate-200">
+          {props.email}
+        </div>
+        <div className="text-xs text-gray-400 dark:text-slate-500">
+          {props.number}
+        </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <span
@@ -73,12 +81,15 @@ export default function TeacherCard(props: TeacherCardType) {
         </span>
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div
+          className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100"
+          style={{ transition: 'opacity 0.2s ease-in-out' }}
+        >
           <Dialog>
             <form>
               <DialogTrigger
                 asChild
-                className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+                className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md"
               >
                 <Button variant="outline">
                   <span className="material-symbols-outlined text-[20px]">
@@ -124,7 +135,7 @@ export default function TeacherCard(props: TeacherCardType) {
             </form>
           </Dialog>
           <Button
-            className="text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-md transition-colors cursor-pointer text-[25px] px-1.25 text-center"
+            className="text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-md cursor-pointer text-[25px] px-1.25 text-center"
             title="Delete"
             variant="outline"
             onClick={() => {

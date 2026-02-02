@@ -22,7 +22,10 @@ Please review the dates carefully. All grades must be submitted by Dec
 
 export default function AnnouncementCard(props: AnnouncementCardType) {
   return (
-    <div className="group relative flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white dark:bg-[#1e293b] border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
+    <div
+      className="group relative flex flex-col md:flex-row gap-6 p-6 rounded-xl bg-white dark:bg-[#1e293b] border-l-4 border-l-primary shadow-sm hover:shadow-md"
+      style={{ transition: 'box-shadow 0.2s ease-in-out' }}
+    >
       <div className="flex-1 flex flex-col gap-3">
         <div className="flex items-center gap-3">
           {props.isPinned && (
@@ -35,7 +38,9 @@ export default function AnnouncementCard(props: AnnouncementCardType) {
               {props.isPinned}
             </span>
           )}
-          <span className={` inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${props.audience === 'All School'?'text-slate-200 bg-slate-700': props.audience === 'Parents & Students'?'text-purple-200 bg-purple-700': "text-blue-200 bg-blue-700" }`}>
+          <span
+            className={` inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${props.audience === 'All School' ? 'text-slate-200 bg-slate-700' : props.audience === 'Parents & Students' ? 'text-purple-200 bg-purple-700' : 'text-blue-200 bg-blue-700'}`}
+          >
             {props.audience}
           </span>
         </div>

@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useWelcomeSideBarStore from '../services/store/welcome_store'
 import SideBar from '@/components/welcomePage/side-bar'
 
@@ -35,8 +35,6 @@ function App() {
     return initial
   })
 
-  const themeTimeoutRef = useRef<number | null>(null)
-
   /* if the user the first time enter this app*/
 
   useEffect(() => {
@@ -51,10 +49,8 @@ function App() {
     return () => media.removeEventListener('change', handleMediaChange)
   }, [])
 
-  /* this to fix theme animation cancel to other animations*/
   useEffect(() => {
     const html = document.documentElement
-    html.classList.add('theme-animating')
     html.classList.remove('light', 'dark')
     html.classList.add(theme)
     localStorage.setItem('theme', theme)
@@ -66,23 +62,6 @@ function App() {
         theme === 'dark' ? '#101622' : '#f6f6f8',
       )
     }*/
-
-    if (themeTimeoutRef.current !== null) {
-      window.clearTimeout(themeTimeoutRef.current)
-    }
-
-    themeTimeoutRef.current = window.setTimeout(() => {
-      html.classList.remove('theme-animating')
-      themeTimeoutRef.current = null
-    }, 300)
-
-    return () => {
-      if (themeTimeoutRef.current !== null) {
-        window.clearTimeout(themeTimeoutRef.current)
-        themeTimeoutRef.current = null
-      }
-      html.classList.remove('theme-animating')
-    }
   }, [theme])
 
   const toggleTheme = () =>
@@ -122,7 +101,7 @@ function App() {
             <div className="absolute right-15 md:right-100 lg:right-5 ">
               <button
                 aria-label="Toggle dark mode"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 transition-all border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
                 onClick={toggleTheme}
               >
                 {theme === 'dark' ? (
@@ -137,7 +116,7 @@ function App() {
               </button>
             </div>
             <button
-              className="md:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer transition-colors"
+              className="md:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer"
               onClick={toggleSideBar}
               aria-label="Open menu"
             >
@@ -145,21 +124,21 @@ function App() {
             </button>
             <div className="hidden md:flex items-center gap-8">
               <a
-                className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary transition-colors"
+                className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary"
                 href="#features"
                 onClick={scrollToSection('features')}
               >
                 Features
               </a>
               <a
-                className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary transition-colors"
+                className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary"
                 href="#roles"
                 onClick={scrollToSection('roles')}
               >
                 Roles
               </a>
               <a
-                className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary transition-colors"
+                className="text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-primary"
                 href="#contact"
                 onClick={scrollToSection('contact')}
               >
@@ -168,7 +147,7 @@ function App() {
               <a
                 href="#roles"
                 onClick={scrollToSection('roles')}
-                className="flex items-center justify-center rounded-full h-10 px-6 bg-primary text-white text-sm font-bold hover:brightness-95 transition-all cursor-pointer"
+                className="flex items-center justify-center rounded-full h-10 px-6 bg-primary text-white text-sm font-bold hover:brightness-95 cursor-pointer"
               >
                 Login
               </a>
@@ -199,7 +178,8 @@ function App() {
                     <a
                       href="#create-account"
                       onClick={scrollToSection('create-account')}
-                      className="flex items-center justify-center rounded-full h-12 px-8 bg-primary text-white text-base font-bold hover:scale-105 transition-transform duration-200 cursor-pointer"
+                      className="flex items-center justify-center rounded-full h-12 px-8 bg-primary text-white text-base font-bold hover:scale-105 cursor-pointer"
+                      style={{ transition: 'transform 0.2s ease-in-out' }}
                     >
                       Get Started
                     </a>
@@ -207,7 +187,7 @@ function App() {
                     <a
                       href="#features"
                       onClick={scrollToSection('features')}
-                      className="flex items-center justify-center rounded-full h-12 px-8 bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white text-base font-bold hover:bg-slate-200/80 dark:hover:bg-white/15 transition-colors duration-200 cursor-pointer"
+                      className="flex items-center justify-center rounded-full h-12 px-8 bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white text-base font-bold hover:bg-slate-200/80 dark:hover:bg-white/15 cursor-pointer"
                     >
                       View Demo
                     </a>
@@ -215,7 +195,10 @@ function App() {
                 </div>
                 {/* Hero Image */}
                 <div className="flex-1 w-full relative">
-                  <div className="relative w-full aspect-4/3 rounded-xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 ease-out">
+                  <div
+                    className="relative w-full aspect-4/3 rounded-xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0"
+                    style={{ transition: 'transform 0.5s ease-out' }}
+                  >
                     <div className="absolute inset-0 bg-linear-to-tr from-black/20 to-transparent z-10"></div>
                     <div
                       className="w-full h-full bg-cover bg-center"
@@ -252,7 +235,13 @@ function App() {
             <div className="px-4 md:px-40 flex flex-1 justify-center py-12">
               <div className="layout-content-container flex flex-col max-w-240 flex-1">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer">
+                  <div
+                    className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer"
+                    style={{
+                      transition:
+                        'transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out',
+                    }}
+                  >
                     <div className="flex items-center gap-3 mb-2">
                       <span className="material-symbols-outlined text-primary text-3xl">
                         domain
@@ -265,7 +254,13 @@ function App() {
                       50+
                     </p>
                   </div>
-                  <div className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer">
+                  <div
+                    className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer"
+                    style={{
+                      transition:
+                        'transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out',
+                    }}
+                  >
                     <div className="flex items-center gap-3 mb-2">
                       <span className="material-symbols-outlined text-primary text-3xl">
                         groups
@@ -278,7 +273,13 @@ function App() {
                       10k+
                     </p>
                   </div>
-                  <div className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer">
+                  <div
+                    className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer"
+                    style={{
+                      transition:
+                        'transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out',
+                    }}
+                  >
                     <div className="flex items-center gap-3 mb-2">
                       <span className="material-symbols-outlined text-primary text-3xl">
                         cast_for_education
@@ -313,7 +314,13 @@ function App() {
                 {/* Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 h-auto md:h-125">
                   {/* Large Feature 1 */}
-                  <div className="md:col-span-2 md:row-span-2 rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-8 flex flex-col overflow-hidden relative group cursor-pointer transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-1">
+                  <div
+                    className="md:col-span-2 md:row-span-2 rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-8 flex flex-col overflow-hidden relative group cursor-pointer hover:shadow-lg hover:-translate-y-1"
+                    style={{
+                      transition:
+                        'translate 0.2s ease-out'
+                    }}
+                  >
                     <div className="z-10">
                       <span className="w-10 h-10 flex items-center justify-center rounded-full bg-primary mb-4">
                         <span className="material-symbols-outlined text-white">
@@ -328,7 +335,10 @@ function App() {
                         student performance and financial health.
                       </p>
                     </div>
-                    <div className="absolute right-0 bottom-0 w-3/4 h-3/4 bg-linear-to-tl from-gray-100 to-transparent dark:from-white/5 rounded-tl-full translate-x-10 translate-y-10 group-hover:translate-x-5 group-hover:translate-y-5 transition-transform duration-500">
+                    <div
+                      className="absolute right-0 bottom-0 w-3/4 h-3/4 bg-linear-to-tl from-gray-100 to-transparent dark:from-white/5 rounded-tl-full translate-x-10 translate-y-10 group-hover:translate-x-5 group-hover:translate-y-5"
+                      style={{ transition: 'transform 0.5s ease-in-out' }}
+                    >
                       <div className="w-full h-full p-8 flex items-end justify-end">
                         {/* Abstract representation of a chart */}
                         <div className="flex items-end gap-2 w-full h-1/2 opacity-50">
@@ -341,7 +351,12 @@ function App() {
                     </div>
                   </div>
                   {/* Small Feature 2 */}
-                  <div className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 transition-all duration-200 ease-out cursor-pointer hover:shadow-md hover:-translate-y-1">
+                  <div
+                    className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 cursor-pointer hover:shadow-md hover:-translate-y-1"
+                    style={{
+                      transition: 'translate 0.2s ease-out',
+                    }}
+                  >
                     <span className="material-symbols-outlined text-4xl text-primary mb-2">
                       payments
                     </span>
@@ -355,7 +370,12 @@ function App() {
                     </div>
                   </div>
                   {/* Small Feature 3 */}
-                  <div className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 transition-all duration-200 ease-out cursor-pointer hover:shadow-md hover:-translate-y-1">
+                  <div
+                    className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 cursor-pointer hover:shadow-md hover:-translate-y-1"
+                    style={{
+                      transition: 'translate 0.2s ease-out',
+                    }}
+                  >
                     <span className="material-symbols-outlined text-4xl text-primary mb-2">
                       chat
                     </span>
@@ -397,8 +417,11 @@ function App() {
             <div className="px-5 md:px-10 lg:px-40 flex justify-center">
               <div className="max-w-300 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Owner Card */}
-                <div className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out group cursor-pointer">
-                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                <div
+                  className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
+                  style={{ transition: 'translate 0.2s ease-out' }}
+                >
+                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
                     <span className="material-symbols-outlined text-3xl">
                       domain
                     </span>
@@ -418,15 +441,20 @@ function App() {
                       role: 'owner',
                       redirectTo: '/owner/dashboard',
                     }}
-                    className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold transition-colors duration-200 text-slate-900 dark:text-white cursor-pointer"
+                    className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
                   >
                     Login as Owner
                   </Link>
                 </div>
 
                 {/* Teacher Card */}
-                <div className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out group cursor-pointer">
-                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                <div
+                  className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
+                  style={{
+                    transition: 'translate 0.2s ease-out',
+                  }}
+                >
+                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
                     <span className="material-symbols-outlined text-3xl">
                       auto_stories
                     </span>
@@ -446,15 +474,18 @@ function App() {
                       role: 'teacher',
                       redirectTo: '/teacher/calendar',
                     }}
-                    className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold transition-colors duration-200 text-slate-900 dark:text-white cursor-pointer"
+                    className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
                   >
                     Login as Teacher
                   </Link>
                 </div>
 
                 {/* Student Card */}
-                <div className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out group cursor-pointer">
-                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                <div
+                  className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
+                  style={{ transition: 'translate 0.2s ease-out' }}
+                >
+                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
                     <span className="material-symbols-outlined text-3xl">
                       backpack
                     </span>
@@ -474,7 +505,7 @@ function App() {
                       role: 'student',
                       redirectTo: '/student/calendar',
                     }}
-                    className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold transition-colors duration-200 text-slate-900 dark:text-white cursor-pointer"
+                    className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
                   >
                     Login as Student
                   </Link>
@@ -488,17 +519,20 @@ function App() {
             id="create-account"
           >
             <div className="px-5 md:px-10 lg:px-40 py-16 flex justify-center">
-              <div className="max-w-300 w-full bg-slate-900 dark:bg-surface-dark border border-slate-900/10 dark:border-white/10 rounded-2xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+              <div className="max-w-300 w-full bg-surface-light dark:bg-surface-dark border border-slate-900/10 dark:border-white/10 rounded-2xl p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                 <div className="flex flex-col gap-4">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                     Ready to transform your school?
                   </h2>
-                  <p className="text-white/70 text-lg">
+                  <p className="text-slate-700 dark:text-slate-300 text-lg">
                     Join over 500+ schools modernizing education today.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-bold hover:brightness-110 transition-all duration-200 cursor-pointer shadow-[0_0_20px_rgba(249,245,6,0.3)]">
+                  <button
+                    className="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-bold hover:brightness-110 cursor-pointer shadow-[0_0_20px_rgba(249,245,6,0.3)]"
+                    style={{ transition: 'filter 0.2s ease-in-out' }}
+                  >
                     <Link to="/sign-up">Create an Account</Link>
                   </button>
                 </div>
@@ -529,19 +563,19 @@ function App() {
                     Product
                   </h4>
                   <a
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
                     href="#"
                   >
                     Features
                   </a>
                   <a
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
                     href="#"
                   >
                     Pricing
                   </a>
                   <a
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
                     href="#"
                   >
                     Security
@@ -552,19 +586,19 @@ function App() {
                     Company
                   </h4>
                   <a
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
                     href="#"
                   >
                     About Us
                   </a>
                   <a
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
                     href="#"
                   >
                     Careers
                   </a>
                   <a
-                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                    className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
                     href="#"
                   >
                     Contact
@@ -576,7 +610,7 @@ function App() {
                   </h4>
                   <div className="flex gap-4">
                     <a
-                      className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-primary hover:text-white transition-colors text-slate-600 dark:text-slate-200"
+                      className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-primary hover:text-white text-slate-600 dark:text-slate-200"
                       href="#"
                     >
                       {/* Twitter Icon stub */}
@@ -589,7 +623,7 @@ function App() {
                       </svg>
                     </a>
                     <a
-                      className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-primary hover:text-white transition-colors text-slate-600 dark:text-slate-200"
+                      className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-primary hover:text-white text-slate-600 dark:text-slate-200"
                       href="#"
                     >
                       {/* Linkedin Icon stub */}

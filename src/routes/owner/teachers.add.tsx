@@ -26,7 +26,7 @@ function RouteComponent() {
               <form className="flex flex-col">
                 <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
                   <div className="relative group cursor-pointer">
-                    <div className="size-32 rounded-full bg-[#f0f2f4] dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm transition-all group-hover:border-primary/20">
+                    <div className="size-32 rounded-full bg-[#f0f2f4] dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm group-hover:border-primary/20">
                       <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
                         person_add
                       </span>
@@ -54,13 +54,13 @@ function RouteComponent() {
                     <div className="flex gap-3 mt-2 justify-center sm:justify-start">
                       <button
                         type="button"
-                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white text-sm font-medium rounded-lg"
                       >
                         Remove
                       </button>
                       <button
                         type="button"
-                        className="px-4 py-2 text-primary hover:bg-primary/10 text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 text-primary hover:bg-primary/10 text-sm font-medium rounded-lg"
                       >
                         Upload Image
                       </button>
@@ -80,7 +80,7 @@ function RouteComponent() {
                         First Name
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50"
                         placeholder="e.g. Sarah"
                         type="text"
                       />
@@ -90,7 +90,7 @@ function RouteComponent() {
                         Last Name
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50"
                         placeholder="e.g. Connor"
                         type="text"
                       />
@@ -101,7 +101,7 @@ function RouteComponent() {
                       </label>
                       <div className="relative">
                         <input
-                          className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
+                          className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50"
                           type="date"
                         />
                       </div>
@@ -111,7 +111,7 @@ function RouteComponent() {
                         Gender
                       </label>
                       <div className="relative">
-                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
+                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none">
                           <option disabled selected value="">
                             Select Gender
                           </option>
@@ -141,7 +141,7 @@ function RouteComponent() {
                         Email Address <span className="text-red-500">*</span>
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50"
                         placeholder="sarah.connor@school.edu"
                         type="email"
                       />
@@ -151,7 +151,7 @@ function RouteComponent() {
                         Phone Number
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50"
                         placeholder="+1 (555) 000-0000"
                         type="tel"
                       />
@@ -161,7 +161,7 @@ function RouteComponent() {
                         Residential Address
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50"
                         placeholder="123 Education Lane, Springfield"
                         type="text"
                       />
@@ -195,7 +195,7 @@ function RouteComponent() {
                         Joining Date
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50"
                         type="date"
                       />
                     </div>
@@ -204,7 +204,7 @@ function RouteComponent() {
                         Department
                       </label>
                       <div className="relative">
-                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
+                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none">
                           <option disabled selected value="">
                             Select Department
                           </option>
@@ -225,7 +225,7 @@ function RouteComponent() {
                         Designation
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
+                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50"
                         placeholder="e.g. Senior Lecturer"
                         type="text"
                       />
@@ -290,7 +290,7 @@ function RouteComponent() {
                           className="sr-only peer"
                           type="checkbox"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
                       </label>
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -299,7 +299,7 @@ function RouteComponent() {
                       </label>
                       <div className="relative">
                         <input
-                          className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
+                          className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50"
                           type="password"
                           value="Teacher@2024"
                         />
@@ -322,13 +322,13 @@ function RouteComponent() {
                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
                   <button
                     type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors"
+                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2"
                   >
                     <span className="material-symbols-outlined text-[18px]">
                       check

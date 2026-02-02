@@ -1,19 +1,13 @@
-
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import IconButton from '../iconButton'
 import { NewInfoSchema } from './settingsAuth.schema'
 
-
 import type { NewInfoFields } from './settingsAuth.schema'
 import type { AvatarState } from '@/services/store/avatar_store'
 
-
-
 import postNewinfo from '@/services/api/settings/postNewinfo'
 import useAvatarStore from '@/services/store/avatar_store'
-
 
 export default function SettingsComp({
   user,
@@ -21,10 +15,9 @@ export default function SettingsComp({
   user: 'teacher' | 'student'
 }) {
   /* avatar gandle*/
-const setAvatarSrc = useAvatarStore(
-			(state: AvatarState) => state.setAvatarSrc,
-		);
-  
+  const setAvatarSrc = useAvatarStore(
+    (state: AvatarState) => state.setAvatarSrc,
+  )
 
   /* Personal information handle */
   const {
@@ -78,7 +71,7 @@ const setAvatarSrc = useAvatarStore(
                   <div className="flex gap-3">
                     <button
                       onClick={() => setAvatarSrc(undefined)}
-                      className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-semibold rounded-lg transition-colors cursor-pointer"
+                      className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-semibold rounded-lg cursor-pointer"
                     >
                       Remove Photo
                     </button>
@@ -102,7 +95,7 @@ const setAvatarSrc = useAvatarStore(
                     Full Name
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                     type="text"
                     defaultValue="Alex Johnson"
                     {...register('fullName')}
@@ -129,7 +122,7 @@ const setAvatarSrc = useAvatarStore(
                     Phone Number
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                     type="tel"
                     defaultValue="0659******"
                     {...register('phoneNumber')}
@@ -146,7 +139,7 @@ const setAvatarSrc = useAvatarStore(
                       About Me
                     </label>
                     <textarea
-                      className="w-full h-32 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none placeholder:text-slate-400"
+                      className="w-full h-32 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none placeholder:text-slate-400"
                       placeholder="Tell us a bit about yourself..."
                       {...register('aboutMe')}
                     />
@@ -250,7 +243,7 @@ const setAvatarSrc = useAvatarStore(
                       type="checkbox"
                       value=""
                     />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
@@ -270,7 +263,7 @@ const setAvatarSrc = useAvatarStore(
                       type="checkbox"
                       value=""
                     />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
@@ -290,7 +283,7 @@ const setAvatarSrc = useAvatarStore(
                       type="checkbox"
                       value=""
                     />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
                   </label>
                 </div>
                 <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
@@ -305,7 +298,7 @@ const setAvatarSrc = useAvatarStore(
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input className="sr-only peer" type="checkbox" value="" />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
                   </label>
                 </div>
               </div>
@@ -321,7 +314,7 @@ const setAvatarSrc = useAvatarStore(
                     New Password
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                     placeholder="••••••••"
                     type="password"
                     {...register('newPassword')}
@@ -337,7 +330,7 @@ const setAvatarSrc = useAvatarStore(
                     Confirm Password
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                     placeholder="••••••••"
                     type="password"
                     {...register('confirmPassword')}
@@ -372,13 +365,13 @@ const setAvatarSrc = useAvatarStore(
             </section>
             {/* Action Buttons */}
             <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-              <button className="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+              <button className="px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800">
                 Cancel
               </button>
               <button
                 onClick={handleSubmit(onSubmit)}
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all transform hover:scale-[1.02] cursor-pointer disabled:opacity-50"
+                className="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-blue-700 shadow-md shadow-blue-500/20 transform hover:scale-[1.02] cursor-pointer disabled:opacity-50"
               >
                 {isSubmitting ? 'Saving...' : 'Save Changes'}
               </button>

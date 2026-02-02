@@ -19,8 +19,17 @@ type ResourceCard = {
   subject: string
   time: string
 }
+const tabFilters: Array<TypeTabFilter> = [
+  'All',
+  'Unread',
+  'Urgent',
+  'Teachers',
+  'Administration',
+]
+type TypeTabFilter = 'All' | 'Unread' | 'Urgent' | 'Teachers' | 'Administration'
+
 export function Notifications() {
-  const [tab, setTab] = useState('All')
+  const [tab, setTab] = useState<TypeTabFilter>('All')
   const resources: Array<ResourceCard> = [
     {
       id: 'physics-final-exam-rescheduled',
@@ -139,7 +148,7 @@ export function Notifications() {
             </p>
           </div>
 
-          <button className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary dark:bg-[#282e39] hover:bg-blue-700 dark:hover:bg-[#323b49] text-white text-sm font-bold transition-all active:scale-95">
+          <button className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary dark:bg-[#282e39] hover:bg-blue-700 dark:hover:bg-[#323b49] text-white text-sm font-bold active:scale-95">
             <span className="material-symbols-outlined text-[18px]">
               done_all
             </span>
@@ -151,7 +160,7 @@ export function Notifications() {
         <div className="flex flex-col gap-4">
           {/* Search Bar */}
           <label className="group relative flex w-full md:max-w-md items-center">
-            <span className="absolute left-4 text-[#9da6b9] group-focus-within:text-primary transition-colors">
+            <span className="absolute left-4 text-[#9da6b9] group-focus-within:text-primary">
               <span className="material-symbols-outlined text-[24px]">
                 search
               </span>
@@ -159,24 +168,33 @@ export function Notifications() {
             <input
               type="text"
               placeholder="Search notification history..."
-              className="bg-gray-200 dark:bg-[#282e39] border border-gray-300 h-12 w-full rounded-xl dark:border-gray-700 focus:border-primary focus:bg-gray-300 dark:focus:bg-surface-dark focus:ring-0 pl-12 pr-4 text-[#0d121b] dark:text-white placeholder-[#6b7280] transition-all text-base"
+              className="bg-gray-200 dark:bg-[#282e39] border border-gray-300 h-12 w-full rounded-xl dark:border-gray-700 focus:border-primary focus:bg-gray-300 dark:focus:bg-surface-dark focus:ring-0 pl-12 pr-4 text-[#0d121b] dark:text-white placeholder-[#6b7280] text-base"
             />
           </label>
 
           {/* Filter Chips */}
 
           <div className="flex flex-wrap items-center gap-2">
-            {['All', 'Unread', 'Urgent', 'Teachers', 'Administration'].map(
-              (t) => (
+            {tabFilters.map((t) => {
+              const isActive = tab === t
+              const variantClasses = isActive
+                ? 'bg-primary text-white hover:scale-105'
+                : 'border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#282e39] hover:bg-gray-50 dark:hover:bg-[#374151] text-[#9da6b9] hover:text-gray-600 dark:hover:text-white'
+              return (
                 <button
                   key={t}
-                  onClick={() => setTab(t as any)}
-                  className={` flex h-9 items-center justify-center px-4 rounded-full text-sm font-medium ${tab === t ? 'bg-primary text-white  transition-transform hover:scale-105' : 'border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#282e39] hover:bg-gray-50 dark:hover:bg-[#374151] text-[#9da6b9] hover:text-gray-600 dark:hover:text-white transition-colors'}`}
+                  onClick={() => setTab(t)}
+                  className={` flex h-9 items-center justify-center px-4 rounded-full text-sm font-medium ${variantClasses}`}
+                  style={
+                    isActive
+                      ? { transition: 'transform 0.2s ease-in-out' }
+                      : undefined
+                  }
                 >
                   {t === 'All' ? 'All Resources' : t}
                 </button>
-              ),
-            )}
+              )
+            })}
           </div>
         </div>
 
@@ -187,8 +205,8 @@ export function Notifications() {
             return (
               <div
                 key={id}
-                className={`group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl hover:bg-gray-100 bg-white shadow-sm dark:bg-[#1A202C] dark:hover:bg-[#202736] border-l-4 ${colors.border} transition-all duration-200 cursor-pointer shadow-sm`}
-              >
+                className={`group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl hover:bg-gray-100 bg-white shadow-sm dark:bg-[#1A202C] dark:hover:bg-[#202736] border-l-4 ${colors.border} cursor-pointer shadow-sm`}
+                >
                 <div className="shrink-0">
                   <div className="absolute right-4 top-4 size-2 rounded-full bg-primary" />
 
@@ -205,7 +223,7 @@ export function Notifications() {
                       {title}
                     </h3>
                     <span
-                      className={`inline-flex items-center rounded-md ${colors.bg} ${colors.darkBg} px-2 py-0.5 text-xs font-medium ${colors.text} ring-1 ring-inset ${colors.ring}}`}
+                      className={`inline-flex items-center rounded-md ${colors.bg} ${colors.darkBg} px-2 py-0.5 text-xs font-medium ${colors.text} ring-1 ring-inset ${colors.ring}`}
                     >
                       {type}
                     </span>
@@ -219,7 +237,7 @@ export function Notifications() {
                 </div>
 
                 <div className="hidden md:flex shrink-0 items-center self-center">
-                  <span className="material-symbols-outlined text-gray-400 hover:text-black dark:text-[#4b5563] dark:group-hover:text-white transition-colors">
+                  <span className="material-symbols-outlined text-gray-400 hover:text-black dark:text-[#4b5563] dark:group-hover:text-white">
                     chevron_right
                   </span>
                 </div>

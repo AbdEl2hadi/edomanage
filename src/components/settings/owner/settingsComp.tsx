@@ -50,7 +50,7 @@ export default function SettingsComp() {
             </div>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-lg transition-all shadow-sm shadow-blue-500/20 active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-lg shadow-sm shadow-blue-500/20 active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleSubmit(onSubmit)}
               disabled={isSubmitting}
             >
@@ -86,11 +86,14 @@ export default function SettingsComp() {
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 <div className="relative group shrink-0">
                   <div
-                    className="w-32 h-32 rounded-lg bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center overflow-hidden bg-cover bg-center cursor-pointer hover:border-primary transition-colors"
+                    className="w-32 h-32 rounded-lg bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600 flex items-center justify-center overflow-hidden bg-cover bg-center cursor-pointer hover:border-primary"
                     data-alt="School logo preview placeholder"
                   >
                     <IconButton type="schoolLogo" />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div
+                      className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                      style={{ transition: 'opacity 0.2s ease-in-out' }}
+                    >
                       <span className="material-symbols-outlined text-white">
                         edit
                       </span>
@@ -110,7 +113,7 @@ export default function SettingsComp() {
                   <div className="flex gap-3">
                     <button
                       onClick={() => setSchoolLogoSrc(defaultSchoolLogo)}
-                      className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-semibold rounded-lg transition-colors cursor-pointer"
+                      className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-semibold rounded-lg cursor-pointer"
                     >
                       Remove Photo
                     </button>
@@ -128,7 +131,7 @@ export default function SettingsComp() {
                     School Name
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                     type="text"
                     defaultValue="Sunnydale Academy"
                     {...register('SchoolName')}
@@ -160,7 +163,7 @@ export default function SettingsComp() {
                     Description / Motto
                   </label>
                   <textarea
-                    className="w-full p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none placeholder:text-slate-400"
+                    className="w-full p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none placeholder:text-slate-400"
                     rows={3}
                     defaultValue="Where bright futures begin."
                     {...register('description')}
@@ -176,7 +179,7 @@ export default function SettingsComp() {
                     Email Address
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"
                     type="email"
                     defaultValue="admin@sunnydale.edu"
                     {...register('email')}
@@ -192,7 +195,7 @@ export default function SettingsComp() {
                     Phone Number
                   </label>
                   <input
-                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"
                     type="tel"
                     defaultValue="+1 (555) 123-4567"
                     {...register('phoneNumber')}
@@ -240,7 +243,7 @@ export default function SettingsComp() {
                     className="sr-only peer"
                     type="checkbox"
                   />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
                 </label>
               </div>
               {/* Toggle Item */}
@@ -259,7 +262,7 @@ export default function SettingsComp() {
                     className="sr-only peer"
                     type="checkbox"
                   />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
                 </label>
               </div>
               {/* Toggle Item */}
@@ -274,7 +277,7 @@ export default function SettingsComp() {
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer shrink-0">
                   <input className="sr-only peer" type="checkbox" />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
                 </label>
               </div>
             </div>
@@ -290,7 +293,7 @@ export default function SettingsComp() {
                   New Password
                 </label>
                 <input
-                  className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                  className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                   placeholder="••••••••"
                   type="password"
                   {...register('newPassword')}
@@ -306,7 +309,7 @@ export default function SettingsComp() {
                   Confirm Password
                 </label>
                 <input
-                  className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400"
+                  className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
                   placeholder="••••••••"
                   type="password"
                   {...register('confirmPassword')}
@@ -361,7 +364,7 @@ export default function SettingsComp() {
                   This will remove all the data from the current academic year
                 </p>
               </div>
-              <button className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 font-semibold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors whitespace-nowrap cursor-pointer">
+              <button className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 font-semibold rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 whitespace-nowrap cursor-pointer">
                 Delete School
               </button>
             </div>

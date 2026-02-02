@@ -19,7 +19,7 @@ export default function StudentCard(props: StudentCardType) {
   // const addStudent = useStudentList((state=>))
 
   return (
-    <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 transition-colors cursor-pointer">
+    <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 cursor-pointer">
       <td className="p-4">
         <input
           className="rounded border-slate-300 dark:border-slate-700 dark:bg-slate-900 text-primary focus:ring-primary/20 h-4 w-4 cursor-pointer"
@@ -78,15 +78,18 @@ export default function StudentCard(props: StudentCardType) {
         </span>
       </td>
       <td className="p-4 text-right">
-        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div
+          className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100"
+          style={{ transition: 'opacity 0.2s ease-in-out' }}
+        >
           <button
-            className="p-1.5 cursor-pointer text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+            className="p-1.5 cursor-pointer text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md"
             title="Edit"
           >
             <span className="material-symbols-outlined text-[20px]">edit</span>
           </button>
           <button
-            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md"
             title="Delete"
             onClick={() => {
               deleteStudent(props.name)
@@ -97,7 +100,7 @@ export default function StudentCard(props: StudentCardType) {
             </span>
           </button>
           <button
-            className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md"
             title="More"
           >
             <span className="material-symbols-outlined text-[20px]">

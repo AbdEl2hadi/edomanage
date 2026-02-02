@@ -65,7 +65,7 @@ export function RightPanel() {
                 </div>
                 <input
                   id="full-name"
-                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6 transition-all"
+                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6"
                   {...register('fullName')}
                   placeholder="Enter Full Name"
                 />
@@ -94,7 +94,7 @@ export function RightPanel() {
                 </div>
                 <input
                   id="school-name"
-                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6 transition-all"
+                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6"
                   {...register('schoolName')}
                   placeholder="Enter School Name"
                 />
@@ -125,7 +125,7 @@ export function RightPanel() {
               </div>
               <input
                 id="email"
-                className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6 transition-all"
+                className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6"
                 {...register('email')}
                 placeholder="name@school.com"
                 type="email"
@@ -156,7 +156,7 @@ export function RightPanel() {
                 </div>
                 <input
                   id="password"
-                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6 transition-all"
+                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6"
                   {...register('password')}
                   placeholder="Enter Password"
                 />
@@ -184,7 +184,7 @@ export function RightPanel() {
                 </div>
                 <input
                   id="password"
-                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6 transition-all"
+                  className="form-input block w-full rounded-lg border-0 py-0 h-10 pl-12  text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500  focus:ring-inset  sm:text-base sm:leading-6"
                   {...register('confirmPassword')}
                   placeholder="Enter Password"
                 />
@@ -237,7 +237,7 @@ export function RightPanel() {
           {/* <!-- Submit Button --> */}
           <button
             disabled={isSubmitting}
-            className="flex w-full items-center justify-center rounded-lg bg-primary px-3 py-3 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-blue-600 hover:shadow-primary/40 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
+            className="flex w-full items-center justify-center rounded-lg bg-primary px-3 py-3 text-sm font-bold text-white shadow-lg shadow-primary/25 hover:bg-blue-600 hover:shadow-primary/40 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
             type="submit"
           >
             {isSubmitting ? 'Creating...' : 'Create Owner Account'}
@@ -261,7 +261,7 @@ export function RightPanel() {
         <p className="mt-3 mb-2 text-center text-sm text-slate-600 dark:text-slate-400">
           Already have an account?
           <Link
-            className="font-semibold leading-6 text-primary hover:text-primary/80 transition-colors gap-1 ml-1"
+            className="font-semibold leading-6 text-primary hover:text-primary/80 gap-1 ml-1"
             to="/log-in"
             search={{ role: 'owner', redirectTo: '/owner/dashboard' }}
             replace={true}

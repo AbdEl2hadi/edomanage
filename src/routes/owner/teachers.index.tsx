@@ -56,7 +56,7 @@ function RouteComponent() {
             </p>
           </div>
           <Link to="/owner/teachers/add">
-            <button className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all shadow-sm shadow-blue-500/30 active:scale-95 cursor-pointer">
+            <button className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-sm shadow-blue-500/30 active:scale-95 cursor-pointer">
               <span className="material-symbols-outlined text-[20px]">add</span>
               <span className="font-medium">Add New Teacher</span>
             </button>
@@ -75,15 +75,20 @@ function RouteComponent() {
               </span>
             </div>
             <input
-              className="block w-full pl-10 pr-3 py-2.5 border bg-slate-50 dark:bg-[#1E2532] text-slate-500 dark:text-slate-400 rounded-lg leading-5  placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm transition-shadow"
+              className="block w-full pl-10 pr-3 py-2.5 border bg-slate-50 dark:bg-[#1E2532] text-slate-500 dark:text-slate-400 rounded-lg leading-5  placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
               placeholder="Search by name, email, or subject..."
               type="text"
+              style={{ transition: 'box-shadow 0.2s ease-in-out' }}
             />
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
             <select
               className="flex items-center h-10 rounded-lg bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-slate-500 
-    focus:ring-0 border border-slate-300 dark:border-gray-900 duration-200 dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer"
+    focus:ring-0 border border-slate-300 dark:border-gray-900 dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer"
+              style={{
+                transition:
+                  'background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out',
+              }}
             >
               <span>All Subjects</span>
               <span className="material-symbols-outlined text-[18px]">
@@ -97,7 +102,11 @@ function RouteComponent() {
             </select>
             <select
               className="flex items-center h-10 rounded-lg bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-slate-500 
-    focus:ring-0 border border-slate-300 dark:border-gray-900 duration-200 dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer"
+    focus:ring-0 border border-slate-300 dark:border-gray-900 dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer"
+              style={{
+                transition:
+                  'background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out',
+              }}
             >
               <span>Status: Active</span>
               <span className="material-symbols-outlined text-[18px]">
@@ -110,7 +119,11 @@ function RouteComponent() {
             </select>
             <select
               className="flex items-center h-10 rounded-lg bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-slate-500 
-    focus:ring-0 border border-slate-300 dark:border-gray-900 duration-200 dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer"
+      focus:ring-0 border border-slate-300 dark:border-gray-900 dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer"
+              style={{
+                transition:
+                  'background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out',
+              }}
             >
               <span className="material-symbols-outlined text-[18px]">
                 sort
@@ -191,7 +204,7 @@ function RouteComponent() {
                   className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px "
                 >
                   <a
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border dark:border-slate-700 dark:bg-surface-dark text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border dark:border-slate-700 dark:bg-surface-dark text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white"
                     href="#"
                   >
                     <span className="sr-only">Previous</span>
@@ -207,13 +220,13 @@ function RouteComponent() {
                     1
                   </a>
                   <a
-                    className="hover:bg-slate-50 border-slate-700 text-slate-400 bg-whitepnpm  hover:text-white relative inline-flex items-center px-4 py-2 border text-sm  dark:border-slate-700 dark:bg-surface-dark font-medium transition-colors"
+                    className="hover:bg-slate-50 border-slate-700 text-slate-400 bg-whitepnpm  hover:text-white relative inline-flex items-center px-4 py-2 border text-sm  dark:border-slate-700 dark:bg-surface-dark font-medium"
                     href="#"
                   >
                     2
                   </a>
                   <a
-                    className="bg-surface-dark hover:bg-slate-50 hover:bg-slate-50 border-slate-700 text-slate-400 bg-white hover:bg-slate-800 hover:text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium transition-colors dark:border-slate-700 dark:bg-surface-dark "
+                    className="bg-surface-dark hover:bg-slate-50  border-slate-700 text-slate-400  hover:bg-slate-800 hover:text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium dark:border-slate-700 dark:bg-surface-dark "
                     href="#"
                   >
                     3
@@ -222,13 +235,13 @@ function RouteComponent() {
                     ...
                   </span>
                   <a
-                    className=" hover:bg-slate-50 bg-surface-dark border-slate-700 text-slate-400 dark:border-slate-700 bg-white dark:bg-surface-dark  hover:bg-slate-800 hover:text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium transition-colors"
+                    className=" hover:bg-slate-50 bg-surface-dark border-slate-700 text-slate-400 dark:border-slate-700 bg-white dark:bg-surface-dark  hover:bg-slate-800 hover:text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium"
                     href="#"
                   >
                     8
                   </a>
                   <a
-                    className="relative hover:bg-slate-50 inline-flex items-center px-2 py-2 rounded-r-md border border-slate-700 bg-white bg-surface-dark  dark:border-slate-700 dark:bg-surface-dark text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+                    className="relative hover:bg-slate-50 inline-flex items-center px-2 py-2 rounded-r-md border border-slate-700 bg-white bg-surface-dark  dark:border-slate-700 dark:bg-surface-dark text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white"
                     href="#"
                   >
                     <span className="sr-only">Next</span>

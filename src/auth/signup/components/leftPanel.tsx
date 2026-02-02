@@ -1,5 +1,3 @@
-
-
 export function LeftPanel() {
   return (
     <div className="relative hidden lg:flex w-1/2 flex-col justify-between p-8 overflow-hidden bg-surface-dark group">
@@ -14,11 +12,12 @@ export function LeftPanel() {
       </div>
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+        className="absolute inset-0 bg-cover bg-center group-hover:scale-105"
         data-alt="Modern university campus building facade with sleek glass architecture at twilight"
         style={{
           backgroundImage:
             "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkWAa3uZ8HcWWJzbB3NAtRBqhiNS8DkznHU7d9e68ynTQosKHAuPcQfa3FaxDs2ka0IOwt-1aRWAdq8u86wIy79aoIDpD1H_gV9zhWeq5hpBzsQiy-ltIdsvZ17b5lN09xzg5U0LrCsWX_e549oRmi-6m2WygvFzIT3m551q8BJD-i6X0dINtZQ0RmWDwT4O8tdxr7ANg8y_ZPW8orGBnxqBI8Mammdkr4oS_jZnL3pzJyypmKsEAn-lb42J5OhWB7VfYO9P-F61zh')",
+          transition: 'transform 0.7s ease-in-out',
         }}
       />
       {/* Overlay Gradient */}

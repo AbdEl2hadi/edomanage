@@ -28,26 +28,29 @@ export default function SideBar({ onNavigate }: WelcomeSideBarProps) {
 
   return (
     <div
-      className={`fixed inset-x-0 top-16 bottom-0 z-40 md:hidden transition-[visibility] duration-200 ${
+      className={`fixed inset-x-0 top-16 bottom-0 z-40 md:hidden ${
         isOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
       }`}
       role="dialog"
       aria-modal="true"
       aria-hidden={!isOpen}
+      style={{ transition: 'visibility 0.2s ease-in-out' }}
     >
       <button
         type="button"
-        className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-200 ${
+        className={`absolute inset-0 bg-black/30 backdrop-blur-sm ${
           isOpen ? 'opacity-100' : 'opacity-0'
         }`}
         aria-label="Close menu"
         onClick={closeSideBar}
+        style={{ transition: 'opacity 0.2s ease-in-out' }}
       />
 
       <aside
-        className={`absolute right-0 top-0 h-full w-[85%] max-w-sm overflow-y-auto bg-background-light dark:bg-background-dark border-l border-slate-200/70 dark:border-white/10 shadow-xl transition-transform duration-300 ease-out motion-reduce:transition-none ${
+        className={`absolute right-0 top-0 h-full w-[85%] max-w-sm overflow-y-auto bg-background-light dark:bg-background-dark border-l border-slate-200/70 dark:border-white/10 shadow-xl ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
+        style={{ transition: 'transform 0.3s ease-out' }}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200/70 dark:border-white/10">
           <div className="flex items-center gap-3">
@@ -65,27 +68,27 @@ export default function SideBar({ onNavigate }: WelcomeSideBarProps) {
           aria-label="Welcome navigation"
         >
           <a
-            className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10 transition-colors"
+            className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10"
             onClick={handleNavigate('features')}
           >
             Features
           </a>
           <a
-            className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10 transition-colors"
+            className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10"
             onClick={handleNavigate('roles')}
           >
             Roles
           </a>
           <a
-            className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10 transition-colors"
+            className="rounded-lg px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/70 dark:hover:bg-white/10"
             onClick={handleNavigate('contact')}
           >
             Contact
           </a>
 
-          <a         
+          <a
             onClick={handleNavigate('roles')}
-            className="mt-2 flex items-center justify-center rounded-full h-11 px-6 bg-primary text-white text-sm font-bold hover:brightness-95 transition-all cursor-pointer"
+            className="mt-2 flex items-center justify-center rounded-full h-11 px-6 bg-primary text-white text-sm font-bold hover:brightness-95 cursor-pointer"
           >
             Login
           </a>

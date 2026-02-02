@@ -22,7 +22,7 @@ export const Route = createFileRoute('/log-in')({
 function login() {
   const { role, redirectTo } = Route.useSearch()
   return (
-    <div className="bg-background-light dark:bg-background-dark text-[#111318] dark:text-white font-display overflow-x-hidden transition-colors duration-200">
+    <div className="bg-background-light dark:bg-background-dark text-[#111318] dark:text-white font-display overflow-x-hidden">
       <div className="flex min-h-screen w-full flex-row">
         <Login role={role} redirectTo={redirectTo} />
         <Screen />

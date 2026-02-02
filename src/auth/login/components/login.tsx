@@ -63,14 +63,14 @@ export default function Login({ role, redirectTo }: logInSearch) {
           </div>
           <div className="mt-6 grid grid-cols-2 gap-4">
             <a
-              className="flex w-full items-center justify-center gap-3 rounded-lg bg-white dark:bg-[#1a2234] px-3 py-3 text-sm font-semibold text-[#111318] dark:text-white shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-700 hover:bg-background-light dark:hover:bg-gray-800 transition-colors"
+              className="flex w-full items-center justify-center gap-3 rounded-lg bg-white dark:bg-[#1a2234] px-3 py-3 text-sm font-semibold text-[#111318] dark:text-white shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-700 hover:bg-background-light dark:hover:bg-gray-800"
               href="#"
             >
               <FaGoogle className="h-5 w-5" />
               <span>Google</span>
             </a>
             <a
-              className="flex w-full items-center justify-center gap-3 rounded-lg bg-white dark:bg-[#1a2234] px-3 py-3 text-sm font-semibold text-[#111318] dark:text-white shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-700 hover:bg-background-light dark:hover:bg-gray-800 transition-colors"
+              className="flex w-full items-center justify-center gap-3 rounded-lg bg-white dark:bg-[#1a2234] px-3 py-3 text-sm font-semibold text-[#111318] dark:text-white shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-700 hover:bg-background-light dark:hover:bg-gray-800"
               href="#"
             >
               <FaMeta className="h-5 w-5" />
@@ -102,7 +102,7 @@ export default function Login({ role, redirectTo }: logInSearch) {
                   to="/log-in"
                   replace={true}
                   key={r}
-                  className="px-4 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#282e39] text-[#111418] dark:text-white text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all"
+                  className="px-4 py-2 rounded-lg bg-[#f0f2f5] dark:bg-[#282e39] text-[#111418] dark:text-white text-sm font-medium hover:bg-primary/10 hover:text-primary"
                   search={{ role: r, redirectTo: `/${r}/calendar` }}
                 >
                   {r.charAt(0).toUpperCase() + r.slice(1)}
