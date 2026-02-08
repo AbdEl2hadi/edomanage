@@ -2,17 +2,17 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 /* richTextEditor*/
 import { DialogTitle } from '@radix-ui/react-dialog'
-import RichTextEditor from '../ui/tipTap'
+import RichTextEditor from '../../ui/tipTap'
 
 /* dropDownMenu*/
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTrigger,
-} from '../ui/dialog'
+} from '../../ui/dialog'
 
 import { PubNotificationSchema } from './pubnotification.schema'
 import useGetSendToList from './getSendToList'

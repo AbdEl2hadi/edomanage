@@ -92,6 +92,34 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+/* theme transition */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(root) {
+  animation-name: fade-out-theme;
+}
+
+::view-transition-new(root) {
+  animation-name: fade-in-theme;
+}
+
+@keyframes fade-out-theme {
+  from { opacity: 1 }
+  to { opacity: 0 }
+}
+
+@keyframes fade-in-theme {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+/* main */
+
 body {
   font-family: 'Lexend', sans-serif;
   @apply m-0;

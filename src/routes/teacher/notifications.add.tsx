@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import AddNotification from '@/components/notification/addNotification'
-import { sendToListQueryOptions } from '@/components/notification/getSendToList'
+import AddNotification from '@/components/teacher/notification/addNotification'
+import { sendToListQueryOptions } from '@/components/teacher/notification/getSendToList'
 import { queryClient } from '@/lib/queryClient'
 
 export const Route = createFileRoute('/teacher/notifications/add')({

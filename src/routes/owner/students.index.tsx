@@ -55,7 +55,7 @@ function RouteComponent() {
       info: 'Last 30 days',
     },
   ]
-  const {data : studentList} = useGetStudent()
+  const { data : studentList  } = useGetStudent();
   return (
     <div className="flex-1 overflow-y-auto p-6 md:p-8">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">

@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
 import useWelcomeSideBarStore from '../services/store/welcome_store'
 import SideBar from '@/components/welcomePage/side-bar'
+import { ModeToggle } from '../features/theme/mode-toggle';
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -17,55 +17,10 @@ export const Route = createFileRoute('/')({
 function App() {
   const toggleSideBar = useWelcomeSideBarStore((state) => state.toggle)
 
-  const getPreferredTheme = (): 'dark' | 'light' => {
-    const stored = localStorage.getItem('theme')
-    if (stored) return stored as 'dark' | 'light'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light'
-  }
+  /* use theme provider */
+  
+  
 
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const initial: 'dark' | 'light' = getPreferredTheme()
-
-    const html = document.documentElement
-    html.classList.remove('light', 'dark')
-    html.classList.add(initial)
-
-    return initial
-  })
-
-  /* if the user the first time enter this app*/
-
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleMediaChange = (event: MediaQueryListEvent) => {
-      if (!localStorage.getItem('theme')) {
-        setTheme(event.matches ? 'dark' : 'light')
-      }
-    }
-
-    media.addEventListener('change', handleMediaChange)
-    return () => media.removeEventListener('change', handleMediaChange)
-  }, [])
-
-  useEffect(() => {
-    const html = document.documentElement
-    html.classList.remove('light', 'dark')
-    html.classList.add(theme)
-    localStorage.setItem('theme', theme)
-
-    /* const metaTheme = document.querySelector('meta[name="theme-color"]')
-    if (metaTheme) {
-      metaTheme.setAttribute(
-        'content',
-        theme === 'dark' ? '#101622' : '#f6f6f8',
-      )
-    }*/
-  }, [theme])
-
-  const toggleTheme = () =>
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
 
   /* for smooth scrolling when go to #*/
   const scrollToId = (id: string) => {
@@ -99,21 +54,7 @@ function App() {
               </h2>
             </div>
             <div className="absolute right-15 md:right-100 lg:right-5 ">
-              <button
-                aria-label="Toggle dark mode"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-800/70 hover:bg-slate-200/80 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/70 cursor-pointer"
-                onClick={toggleTheme}
-              >
-                {theme === 'dark' ? (
-                  <span className="material-symbols-outlined text-[18px]">
-                    light_mode
-                  </span>
-                ) : (
-                  <span className="material-symbols-outlined text-[18px]">
-                    dark_mode
-                  </span>
-                )}
-              </button>
+              <ModeToggle />
             </div>
             <button
               className="md:hidden text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white cursor-pointer"

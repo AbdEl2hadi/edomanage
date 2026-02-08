@@ -8,6 +8,7 @@ import { routeTree } from './routeTree.gen'
 import { NotFound } from './components/NotFound'
 import Loading from './components/loading.tsx'
 import { queryClient } from './lib/queryClient'
+import { ThemeProvider } from './features/theme/theme-provider'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
@@ -42,9 +43,11 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme" >
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </ThemeProvider>
     </StrictMode>,
   )
 }
