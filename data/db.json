@@ -136,5 +136,117 @@
       "number": "+213555010",
       "status": "Inactive"
     }
+  ],
+  "students": [
+    {
+      "id": "STU-001",
+      "imgSrc": "",
+      "gender": "M",
+      "name": "Adam Benali",
+      "email": "adam.benali@student.edu",
+      "grade": "Grade 10",
+      "parentPhoneNumber": "+213-555-123-001",
+      "parentName": "Karim Benali",
+      "status": "Active"
+    },
+    {
+      "id": "STU-002",
+      "imgSrc": "",
+      "gender": "F",
+      "name": "Sara Mekkaoui",
+      "email": "sara.mekkaoui@student.edu",
+      "grade": "Grade 11",
+      "parentPhoneNumber": "+213-555-123-002",
+      "parentName": "Nadia Mekkaoui",
+      "status": "Pending"
+    },
+    {
+      "id": "STU-003",
+      "imgSrc": "",
+      "gender": "M",
+      "name": "Yacine Toumi",
+      "email": "yacine.toumi@student.edu",
+      "grade": "Grade 12",
+      "parentPhoneNumber": "+213-555-123-003",
+      "parentName": "Ahmed Toumi",
+      "status": "Active"
+    },
+    {
+      "id": "STU-004",
+      "imgSrc": "",
+      "gender": "F",
+      "name": "Lina Bouchareb",
+      "email": "lina.bouchareb@student.edu",
+      "grade": "Grade 9",
+      "parentPhoneNumber": "+213-555-123-004",
+      "parentName": "Samira Bouchareb",
+      "status": "Inactive"
+    },
+    {
+      "id": "STU-005",
+      "imgSrc": "",
+      "gender": "M",
+      "name": "Oussama Khelifi",
+      "email": "oussama.khelifi@student.edu",
+      "grade": "Grade 10",
+      "parentPhoneNumber": "+213-555-123-005",
+      "parentName": "Mohamed Khelifi",
+      "status": "Active"
+    },
+    {
+      "id": "STU-006",
+      "imgSrc": "",
+      "gender": "F",
+      "name": "Ines Rahmani",
+      "email": "ines.rahmani@student.edu",
+      "grade": "Grade 11",
+      "parentPhoneNumber": "+213-555-123-006",
+      "parentName": "Leila Rahmani",
+      "status": "Pending"
+    },
+    {
+      "id": "STU-007",
+      "imgSrc": "",
+      "gender": "M",
+      "name": "Anis Cherif",
+      "email": "anis.cherif@student.edu",
+      "grade": "Grade 12",
+      "parentPhoneNumber": "+213-555-123-007",
+      "parentName": "Rachid Cherif",
+      "status": "Active"
+    },
+    {
+      "id": "STU-008",
+      "imgSrc": "",
+      "gender": "F",
+      "name": "Meriem Ziani",
+      "email": "meriem.ziani@student.edu",
+      "grade": "Grade 9",
+      "parentPhoneNumber": "+213-555-123-008",
+      "parentName": "Fatima Ziani",
+      "status": "Inactive"
+    },
+    {
+      "id": "STU-009",
+      "imgSrc": "",
+      "gender": "M",
+      "name": "Bilal Hamidi",
+      "email": "bilal.hamidi@student.edu",
+      "grade": "Grade 10",
+      "parentPhoneNumber": "+213-555-123-009",
+      "parentName": "Sofiane Hamidi",
+      "status": "Active"
+    },
+    {
+      "id": "STU-010",
+      "imgSrc": "",
+      "gender": "F",
+      "name": "Aya Saidi",
+      "email": "aya.saidi@student.edu",
+      "grade": "Grade 11",
+      "parentPhoneNumber": "+213-555-123-010",
+      "parentName": "Amel Saidi",
+      "status": "Pending"
+    }
   ]
 }
