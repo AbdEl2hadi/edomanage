@@ -79,7 +79,7 @@ export default function TeacherCard({
             {imgSrc ? (
               <img
                 alt="Portrait of Sarah Jenkins"
-                className="h-10 w-10 rounded-full object-cover border border-slate-600 ring-2 ring-transparent group-hover:ring-primary/50 transition-all"
+                className="h-10 w-10 rounded-full object-cover border border-slate-600 ring-2 ring-transparent group-hover:ring-primary/50"
                 data-alt="Portrait of Sarah Jenkins"
                 src={imgSrc}
               />
@@ -144,7 +144,11 @@ export default function TeacherCard({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <DialogTrigger
                 asChild
+<<<<<<< HEAD
                 className="p-1.5 text-slate-400 dark:text-white hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+=======
+                className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md"
+>>>>>>> aa2b66427b472579a06c0f1d0c4be2a1f81aa6be
               >
                 <Button
                   variant="outline"
@@ -226,7 +230,7 @@ export default function TeacherCard({
             </form>
           </Dialog>
           <Button
-            className="text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-md transition-colors cursor-pointer text-[25px] px-1.25 text-center"
+            className="text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-md cursor-pointer text-[25px] px-1.25 text-center"
             title="Delete"
             variant="outline"
             onClick={() => deleteTeacher(id)}

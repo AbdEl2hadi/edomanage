@@ -15,7 +15,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   /* visible password */
   const [showPassword, setShowPassword] = useState(false)
   /* login not found account */
-  const [notFound , setNotFound] = useState<string|null>(null)
+  const [notFound, setNotFound] = useState<string | null>(null)
 
   /* validation */
   const {
@@ -31,29 +31,28 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   /* Submit function */
   const onSubmit: SubmitHandler<LoginFields> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    
+
     try {
-    
       const response = await postLogin({
         ...data,
         role: redirectTo.split('/')[1],
       })
 
-    console.log(response)
-    if (response.length > 0) {
-      navigate({
-        to: redirectTo,
-        replace: true,
-      })
-      setNotFound(null)
-
+      console.log(response)
+      if (response.length > 0) {
+        navigate({
+          to: redirectTo,
+          replace: true,
+        })
+        setNotFound(null)
+      } else {
+        setNotFound('Account not found. Please check your email and password.')
+      }
+    } catch (error) {
+      setNotFound(
+        error instanceof Error ? error.message : 'An unknown error occurred',
+      )
     }
-    else {
-      setNotFound('Account not found. Please check your email and password.')
-    }
-  } catch (error) {
-    setNotFound(error instanceof Error ? error.message : 'An unknown error occurred')
-  }
   }
 
   return (
@@ -76,7 +75,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
           </div>
           <input
             id="email"
-            className="form-input block w-full rounded-lg border-0 py-0 h-14 pl-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-base sm:leading-6 transition-all"
+            className="form-input block w-full rounded-lg border-0 py-0 h-14 pl-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-base sm:leading-6"
             {...register('email')}
             placeholder="name@school.com"
             type="email"
@@ -99,7 +98,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
           </label>
           <div className="text-sm">
             <a
-              className="font-medium text-primary hover:text-primary/80 transition-colors"
+              className="font-medium text-primary hover:text-primary/80"
               href="#"
             >
               Forgot password?
@@ -117,7 +116,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
           </div>
           <input
             id="password"
-            className="form-input block w-full rounded-lg border-0 py-0 h-14 pl-12 pr-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-base sm:leading-6 transition-all"
+            className="form-input block w-full rounded-lg border-0 py-0 h-14 pl-12 pr-12 text-[#111318] dark:text-white dark:bg-[#1a2234] shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-600 placeholder:text-[#616f89] dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-base sm:leading-6"
             {...register('password')}
             placeholder="Enter your password"
             type={showPassword ? 'text' : 'password'}
@@ -128,7 +127,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
               onClick={() => setShowPassword(!showPassword)}
             >
               <span
-                className="material-symbols-outlined text-[#616f89] dark:text-gray-400 group-hover:text-primary transition-colors cursor-pointer"
+                className="material-symbols-outlined text-[#616f89] dark:text-gray-400 group-hover:text-primary cursor-pointer"
                 style={{ fontSize: 20 }}
               >
                 {showPassword ? 'visibility' : 'visibility_off'}
@@ -145,7 +144,11 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
 
       <div>
         <button
-          className="flex w-full justify-center items-center rounded-lg bg-primary h-14 px-3 text-base font-bold leading-6 text-white shadow-sm hover:bg-blue-700  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-all duration-200 transform hover:scale-[1.01] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex w-full justify-center items-center rounded-lg bg-primary h-14 px-3 text-base font-bold leading-6 text-white shadow-sm hover:bg-blue-700  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transform hover:scale-[1.01] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+          style={{
+            transition:
+              'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
+          }}
           type="submit"
           disabled={isSubmitting}
         >
@@ -154,10 +157,8 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
             arrow_forward
           </span>
         </button>
-        <Activity mode={notFound ? 'visible' : 'hidden'} >
-          <p className="mt-4 text-sm text-red-600 text-center" >
-            {notFound}
-          </p>
+        <Activity mode={notFound ? 'visible' : 'hidden'}>
+          <p className="mt-4 text-sm text-red-600 text-center">{notFound}</p>
         </Activity>
       </div>
     </form>

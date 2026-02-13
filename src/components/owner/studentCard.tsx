@@ -1,3 +1,4 @@
+import { Button } from '../ui/button'
 import {
   Dialog,
   DialogClose,
@@ -8,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog'
-import { Button } from '../ui/button'
+
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import useDeleteStudent from '@/services/api/deleteStudent'
@@ -38,7 +39,7 @@ export default function StudentCard({
 }: StudentCardType) {
   const { mutate: deleteStudent } = useDeleteStudent()
   return (
-    <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 transition-colors cursor-pointer">
+    <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 cursor-pointer">
       <td className="p-4">
         <input
           className="rounded border-slate-300 dark:border-slate-700 dark:bg-slate-900 text-primary focus:ring-primary/20 h-4 w-4 cursor-pointer"

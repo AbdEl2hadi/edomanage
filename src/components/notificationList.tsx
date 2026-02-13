@@ -41,14 +41,14 @@ function NotificationList() {
   ]
 
   /* get notifications from React Query */
-  const { data : notifications = [], isLoading } = useGetNotPanel()
+  const { data: notifications = [], isLoading } = useGetNotPanel()
   const queryClient = useQueryClient()
   console.log('Notifications fetched:', notifications)
 
   /* clear notifications */
 
   const clearNotifications = () => {
-    queryClient.setQueryData(['notifications', 'panel'], [])
+    queryClient.setQueryData(['notifications'], [])
   }
 
   // Close when clicking outside
@@ -92,7 +92,7 @@ function NotificationList() {
       <button
         aria-expanded={isOpen}
         onClick={() => popUpOPen()}
-        className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#4c669a] transition-colors cursor-pointer"
+        className="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#4c669a] cursor-pointer"
       >
         <span
           className="material-symbols-outlined"
@@ -116,7 +116,8 @@ function NotificationList() {
       )}
 
       <div
-        className={`absolute right-0 top-full mt-3 w-80 sm:w-96 bg-white dark:bg-[#151b2b] rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 z-50 overflow-hidden origin-top-right transition-all duration-200 ease-out ${isOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}
+        className={`absolute right-0 top-full mt-3 w-80 sm:w-96 bg-white dark:bg-[#151b2b] rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 z-50 overflow-hidden origin-top-right ${isOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}
+        style={{ transition: 'opacity 0.2s ease-out, transform 0.2s ease-out' }}
       >
         <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
           <h3 className="font-semibold text-slate-900 dark:text-white text-sm">
@@ -125,7 +126,7 @@ function NotificationList() {
           <div className="flex gap-2">
             <button
               onClick={clearNotifications}
-              className="text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors cursor-pointer"
+              className="text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 cursor-pointer"
             >
               Clear all
             </button>
@@ -162,7 +163,7 @@ function NotificationList() {
                 return (
                   <div
                     key={noti.id}
-                    className="flex gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800/50 cursor-pointer bg-blue-50/30 dark:bg-blue-900/10"
+                    className="flex gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800/50 cursor-pointer bg-blue-50/30 dark:bg-blue-900/10"
                   >
                     <div className="shrink-0 mt-1">
                       <div
@@ -199,7 +200,7 @@ function NotificationList() {
               setIsOpen(!isOpen)
               setChoosen('notifications')
             }}
-            className="text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors py-1 w-full cursor-pointer"
+            className="text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary py-1 w-full cursor-pointer"
           >
             View All Notifications
           </Link>

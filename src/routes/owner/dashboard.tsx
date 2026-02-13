@@ -58,7 +58,7 @@ function RouteComponent() {
 
   return (
     <div className="flex h-full w-full overflow-y-auto">
-      <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative transition-colors duration-200">
+      <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative">
         <div className="flex-1 min-h-full p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
           <div className="max-w-7xl mx-auto flex flex-col gap-8">
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -67,7 +67,7 @@ function RouteComponent() {
               ))}
             </section>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <section className="lg:col-span-2 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm p-6 transition-all">
+              <section className="lg:col-span-2 bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm p-6">
                 <div className="flex justify-between items-center mb-6">
                   <div>
                     <h3 className="text-lg font-bold text-[#111318] dark:text-white">
@@ -87,37 +87,37 @@ function RouteComponent() {
                 <DashboardChart props={year} />
               </section>
               <section className="flex flex-col gap-6">
-                <div className="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm p-6 transition-all">
+                <div className="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm p-6">
                   <h3 className="text-lg font-bold text-[#111318] dark:text-white mb-4">
                     Quick Actions
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
-                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer">
+                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400">
                         person_add
                       </span>
                       <span className="text-xs font-semibold dark:text-slate-300">
                         Add Student
                       </span>
                     </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
-                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer">
+                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400">
                         group_add
                       </span>
                       <span className="text-xs font-semibold dark:text-slate-300">
                         Add Teacher
                       </span>
                     </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
-                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer">
+                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400">
                         campaign
                       </span>
                       <span className="text-xs font-semibold dark:text-slate-300">
                         Alert
                       </span>
                     </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 transition-all group cursor-pointer">
-                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
+                    <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-100 dark:border-gray-700/50 bg-slate-50 dark:bg-gray-800 hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer">
+                      <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400">
                         description
                       </span>
                       <span className="text-xs font-semibold dark:text-slate-300">
@@ -144,7 +144,7 @@ function RouteComponent() {
                       Server maintenance scheduled for Sunday, 2:00 AM.
                     </p>
                   </div>
-                  <div className="absolute -bottom-4 -right-4 text-white/10 group-hover:text-white/20 transition-colors duration-500">
+                  <div className="absolute -bottom-4 -right-4 text-white/10 group-hover:text-white/20">
                     <span className="material-symbols-outlined text-[120px]">
                       dns
                     </span>
@@ -152,12 +152,12 @@ function RouteComponent() {
                 </div>
               </section>
             </div>
-            <section className="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden transition-all">
+            <section className="bg-white dark:bg-surface-dark rounded-xl border border-slate-200 dark:border-gray-800 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-[#111318] dark:text-white">
                   Recent Activities
                 </h3>
-                <button className="text-sm font-semibold text-primary dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors cursor-pointer">
+                <button className="text-sm font-semibold text-primary dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 cursor-pointer">
                   View All
                 </button>
               </div>
@@ -174,7 +174,7 @@ function RouteComponent() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-gray-800">
-                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors group cursor-pointer">
+                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 group cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="size-9 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-sm font-bold border border-transparent dark:border-indigo-500/30">
@@ -206,7 +206,7 @@ function RouteComponent() {
                         </p>
                       </td>
                     </tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors group cursor-pointer">
+                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 group cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="size-9 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-sm font-bold border border-transparent dark:border-emerald-500/30">
@@ -238,7 +238,7 @@ function RouteComponent() {
                         </p>
                       </td>
                     </tr>
-                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 transition-colors group cursor-pointer">
+                    <tr className="hover:bg-slate-50 dark:hover:bg-gray-800 group cursor-pointer">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="size-9 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-300 flex items-center justify-center text-sm font-bold border border-transparent dark:border-orange-500/30">

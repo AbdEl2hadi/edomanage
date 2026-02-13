@@ -127,13 +127,13 @@ export function Courses() {
     <main className="flex-1 overflow-y-auto bg-background-light p-4 dark:bg-background-dark md:p-8">
       {/* Breadcrumbs */}
       <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-        <a className="hover:text-primary transition-colors" href="#">
+        <a className="hover:text-primary" href="#">
           Home
         </a>
         <span className="material-symbols-outlined text-[16px]">
           chevron_right
         </span>
-        <a className="hover:text-primary transition-colors" href="#">
+        <a className="hover:text-primary" href="#">
           Student
         </a>
         <span className="material-symbols-outlined text-[16px]">
@@ -162,7 +162,7 @@ export function Courses() {
             <button
               key={t}
               onClick={() => setTab(t as any)}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition-colors ${tab === t ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}`}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold ${tab === t ? 'bg-primary/10 text-primary' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'}`}
             >
               {t === 'All' ? 'All Resources' : t}
             </button>
@@ -203,7 +203,7 @@ export function Courses() {
           return (
             <div
               key={id}
-              className="group flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-surface-dark"
+              className="group flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md dark:border-gray-700 dark:bg-surface-dark"
             >
               <div>
                 <div className="mb-4 flex items-start justify-between">
@@ -216,7 +216,7 @@ export function Courses() {
                     {type}
                   </span>
                 </div>
-                <h3 className="mb-1 text-lg font-bold text-[#0d121b] dark:text-white group-hover:text-primary transition-colors">
+                <h3 className="mb-1 text-lg font-bold text-[#0d121b] dark:text-white group-hover:text-primary">
                   {title}
                 </h3>
                 <p className="text-sm font-medium text-[#4c669a] dark:text-gray-400">
@@ -227,17 +227,17 @@ export function Courses() {
                 <span className="text-xs text-gray-400">{time}</span>
 
                 {type === 'Video' ? (
-                  <button className="flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-2 py-2 text-[12px] font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-primary dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <button className="flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-2 py-2 text-[12px] font-bold text-gray-700 hover:bg-gray-50 hover:text-primary dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
                     <HiEye className="text-[16px]" />
                     <span>Watch</span>
                   </button>
                 ) : type === 'URL' ? (
-                  <button className="flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-3 py-2 text-[12px] font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-primary dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
+                  <button className="flex items-center gap-1.5 rounded-lg bg-white border border-gray-200 px-3 py-2 text-[12px] font-bold text-gray-700 hover:bg-gray-50 hover:text-primary dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700">
                     <HiExternalLink className="text-[17px]" />
                     <span>Open</span>
                   </button>
                 ) : (
-                  <button className="flex items-center gap-1.5 rounded-lg bg-primary px-2 py-2 text-[12px] font-bold text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                  <button className="flex items-center gap-1.5 rounded-lg bg-primary px-2 py-2 text-[12px] font-bold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     <HiDownload className="text-[16px]" />
                     <span>Download</span>
                   </button>
@@ -249,7 +249,7 @@ export function Courses() {
       </div>
       {/* Pagination / Load More */}
       <div className="mt-8 flex justify-center pb-8">
-        <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-6 py-2.5 text-sm font-bold text-gray-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+        <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-6 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
           Load More Resources
           <span className="material-symbols-outlined text-[18px]">
             expand_more

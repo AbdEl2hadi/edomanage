@@ -1,0 +1,266 @@
+.simple-editor-wrapper {
+  --simple-editor-bg: var(--tt-card-bg-color, #ffffff);
+  --simple-editor-border: var(
+    --tt-card-border-color,
+    rgba(148, 163, 184, 0.24)
+  );
+  --simple-editor-text: var(--tt-gray-light-900, #0f172a);
+  --simple-editor-primary: var(--primary, #135bec);
+  --simple-editor-primary-soft: color-mix(
+    in srgb,
+    var(--simple-editor-primary) 12%,
+    transparent
+  );
+  --simple-editor-primary-strong: color-mix(
+    in srgb,
+    var(--simple-editor-primary) 18%,
+    transparent
+  );
+  --simple-editor-muted: rgba(148, 163, 184, 0.35);
+  --tt-toolbar-bg-color: var(--simple-editor-bg);
+  --tt-toolbar-border-color: var(--simple-editor-border);
+  --tt-button-default-bg-color: transparent;
+  --tt-button-hover-bg-color: var(--simple-editor-primary-soft);
+  --tt-button-default-text-color: var(--simple-editor-text);
+  --tt-button-hover-text-color: var(--simple-editor-text);
+  --tt-button-active-text-color: var(--primary-foreground, #ffffff);
+  --tt-button-active-hover-text-color: var(--primary-foreground, #ffffff);
+  --tt-button-default-icon-color: var(--simple-editor-text);
+  --tt-button-hover-icon-color: var(--simple-editor-primary);
+  --tt-button-active-icon-color: var(--primary-foreground, #ffffff);
+  --tt-button-default-dropdown-arrows-color: var(--simple-editor-muted);
+  --tt-button-hover-dropdown-arrows-color: var(--simple-editor-primary);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--simple-editor-border);
+  background-color: var(--simple-editor-bg);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.dark .simple-editor-wrapper {
+  --simple-editor-bg: rgba(15, 23, 42, 0.9);
+  --simple-editor-border: rgba(51, 65, 85, 0.65);
+  --simple-editor-text: var(--tt-gray-dark-900, #f8fafc);
+  --simple-editor-primary-soft: color-mix(
+    in srgb,
+    var(--simple-editor-primary) 25%,
+    transparent
+  );
+  --simple-editor-primary-strong: color-mix(
+    in srgb,
+    var(--simple-editor-primary) 35%,
+    transparent
+  );
+  --simple-editor-muted: rgba(148, 163, 184, 0.45);
+  --tt-button-active-icon-color: var(--primary-foreground, #ffffff);
+  --tt-button-active-text-color: var(--tt-gray-dark-a-900, #f8fafc);
+}
+
+.simple-editor-wrapper .tiptap-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--simple-editor-bg);
+  border-bottom: 1px solid var(--simple-editor-border);
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+
+.simple-editor-content {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--simple-editor-bg);
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  min-height: 18rem;
+  padding: 1.5rem 1.5rem 3rem;
+  overflow-y: auto;
+}
+
+.simple-editor-wrapper .tiptap-toolbar-group {
+  gap: 0.35rem;
+}
+
+.simple-editor-wrapper .tiptap-button {
+  border: 1px solid transparent;
+  border-radius: 0.625rem;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.simple-editor-wrapper .tiptap-button:hover:not([disabled]) {
+  border-color: var(--simple-editor-primary-soft);
+  box-shadow: 0 4px 12px rgba(19, 91, 236, 0.12);
+}
+
+.simple-editor-wrapper .tiptap-button[data-active-state='on']:not([disabled]) {
+  border-color: var(--simple-editor-primary-strong);
+  background: linear-gradient(
+      145deg,
+      var(--simple-editor-primary-strong),
+      transparent
+    )
+    var(--simple-editor-bg);
+  box-shadow: 0 6px 16px rgba(19, 91, 236, 0.18);
+}
+
+.dark
+  .simple-editor-wrapper
+  .tiptap-button[data-active-state='on']:not([disabled]) {
+  box-shadow: 0 6px 16px rgba(19, 91, 236, 0.28);
+}
+
+.simple-editor-wrapper .simple-editor-theme-toggle {
+  border-radius: 9999px;
+  padding: 0.35rem 0.5rem;
+  min-width: 0;
+}
+
+.simple-editor-wrapper .simple-editor-theme-toggle .tiptap-button-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.tiptap-dropdown-menu {
+  --dropdown-primary: var(--simple-editor-primary, var(--primary, #135bec));
+  --dropdown-border: var(--simple-editor-border, rgba(148, 163, 184, 0.24));
+  --dropdown-text: var(--simple-editor-text, var(--tt-gray-light-900, #0f172a));
+  --dropdown-bg: var(--simple-editor-bg, var(--tt-card-bg-color, #ffffff));
+  --dropdown-soft: color-mix(in srgb, var(--dropdown-primary) 18%, transparent);
+  --dropdown-strong: color-mix(
+    in srgb,
+    var(--dropdown-primary) 32%,
+    transparent
+  );
+  --dropdown-border-color: color-mix(
+    in srgb,
+    var(--dropdown-primary) 16%,
+    var(--dropdown-border)
+  );
+  border-radius: 0.875rem;
+  border: 1px solid var(--dropdown-border-color);
+  background:
+    linear-gradient(
+      140deg,
+      color-mix(in srgb, var(--dropdown-primary) 12%, transparent) 0%,
+      transparent 55%
+    ),
+    var(--dropdown-bg);
+  box-shadow: 0 22px 42px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(18px);
+  padding: 0.55rem;
+  color: var(--dropdown-text);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  z-index: 50;
+}
+
+.tiptap-dropdown-menu:hover {
+  --dropdown-border-color: color-mix(
+    in srgb,
+    var(--dropdown-primary) 24%,
+    var(--dropdown-border)
+  );
+  box-shadow: 0 26px 52px rgba(15, 23, 42, 0.22);
+}
+
+.dark .tiptap-dropdown-menu {
+  --dropdown-border: rgba(51, 65, 85, 0.65);
+  --dropdown-bg: rgba(15, 23, 42, 0.92);
+  --dropdown-text: var(--simple-editor-text, var(--tt-gray-dark-900, #f8fafc));
+  box-shadow: 0 24px 48px rgba(6, 11, 25, 0.55);
+}
+
+.tiptap-dropdown-menu .tiptap-button {
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: border-color 0.18s ease;
+}
+
+.tiptap-dropdown-menu .tiptap-button[data-active-state='on'] {
+  border-color: var(--dropdown-strong);
+}
+
+.tiptap-dropdown-menu .tiptap-button:hover {
+  border-color: var(--dropdown-soft);
+}
+
+.tiptap-dropdown-menu [role='menuitem'] {
+  border-radius: 0.5rem;
+}
+
+/* Color Highlight Popover Styles */
+.tiptap-card {
+  --card-primary: var(--simple-editor-primary, var(--primary, #135bec));
+  --card-border: var(--simple-editor-border, rgba(148, 163, 184, 0.24));
+  --card-bg: var(--simple-editor-bg, var(--tt-card-bg-color, #ffffff));
+  --card-soft: color-mix(in srgb, var(--card-primary) 18%, transparent);
+  border-radius: 0.875rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.14);
+  backdrop-filter: blur(12px);
+}
+
+.dark .tiptap-card {
+  --card-border: rgba(51, 65, 85, 0.65);
+  --card-bg: rgba(15, 23, 42, 0.92);
+  box-shadow: 0 16px 32px rgba(6, 11, 25, 0.45);
+}
+
+.tiptap-card .tiptap-button-highlight {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.tiptap-card .tiptap-button:hover .tiptap-button-highlight {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tiptap-card .tiptap-button[data-active-state='on'] .tiptap-button-highlight {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 0 2px var(--card-primary),
+    0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor:focus {
+  box-shadow: inset 0 0 0 1px
+    var(--tt-border-color-tint, rgba(148, 163, 184, 0.35));
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor p {
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .simple-editor-wrapper .tiptap-toolbar {
+    padding: 0.5rem;
+  }
+
+  .simple-editor-wrapper .tiptap-toolbar-group {
+    gap: 0.25rem;
+  }
+
+  .simple-editor-content .tiptap.ProseMirror.simple-editor {
+    min-height: 16rem;
+    padding: 1.25rem 1.25rem 2.25rem;
+  }
+}

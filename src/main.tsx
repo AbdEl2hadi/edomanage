@@ -1,18 +1,17 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { NotFound } from './components/NotFound'
 import Loading from './components/loading.tsx'
+import { queryClient } from './lib/queryClient'
+import { ThemeProvider } from './features/theme/theme-provider'
 
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
-
-// Create a client for React Query
-const queryClient = new QueryClient()
 
 // Create a new router instance
 const router = createRouter({
@@ -25,16 +24,11 @@ const router = createRouter({
   ),
   defaultPendingMs: 50,
   defaultPendingMinMs: 50,
-  context: {
-    queryClient,
-  },
   defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
 })
-
-
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -49,9 +43,11 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme" >
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </ThemeProvider>
     </StrictMode>,
   )
 }

@@ -57,7 +57,7 @@ function RouteComponent() {
             </p>
           </div>
           <Link to="/owner/teachers/add">
-            <button className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all shadow-sm shadow-blue-500/30 active:scale-95 cursor-pointer">
+            <button className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-sm shadow-blue-500/30 active:scale-95 cursor-pointer">
               <span className="material-symbols-outlined text-[20px]">add</span>
               <span className="font-medium">Add New Teacher</span>
             </button>
@@ -68,7 +68,6 @@ function RouteComponent() {
             <UICardComponent {...card} key={card.id} />
           ))}
         </div>
-
         <div className=" bg-surface-dark rounded-xl border border-slate-300 dark:border-gray-800 shadow-lg overflow-hidden flex flex-col">
           <div className="bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex flex-col">
             {teacherList.data?.length === 0 ? (

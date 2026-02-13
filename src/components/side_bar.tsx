@@ -44,7 +44,9 @@ export default function SideBar({ info }: { info?: any }) {
   // keep sidebar open on desktop (>=1024px) and closed on mobile
   useLayoutEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1024px)')
-    const handleChange = () => setOpen(mediaQuery.matches)
+    const handleChange = () => {
+      setOpen(mediaQuery.matches)
+    }
 
     handleChange()
     mediaQuery.addEventListener('change', handleChange)
@@ -64,11 +66,20 @@ export default function SideBar({ info }: { info?: any }) {
       )}
       <aside
         aria-expanded={isOpen}
-        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-slate-200/80 dark:border-slate-800 shrink-0 transition-all duration-300 ease-in-out ${
-          isOpen
-            ? 'translate-x-0 w-72 p-4'
-            : '-translate-x-full w-16 lg:w-72 lg:translate-x-0 p-3'
+        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-slate-200/80 dark:border-slate-800 shrink-0 w-72 p-4 transform-gpu transition duration-300 ease-in-out will-change-transform ${
+          !isOpen ? 'lg:w-20 lg:p-3' : ''
         }`}
+        style={{
+          transform:
+            typeof window !== 'undefined' &&
+            window.matchMedia('(min-width: 1024px)').matches
+              ? 'translateX(0)'
+              : isOpen
+                ? 'translateX(0)'
+                : 'translateX(-110%)',
+          transition:
+            'transform 300ms ease-in-out, padding 200ms ease, width 200ms ease',
+        }}
       >
         <div className="flex flex-col gap-8 overflow-hidden">
           {/* Brand + toggle */}
@@ -77,9 +88,10 @@ export default function SideBar({ info }: { info?: any }) {
               <span className="material-symbols-outlined">school</span>
             </div>
             <h2
-              className={`text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 transition-opacity duration-200 ${
+              className={`text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 ${
                 isOpen ? 'opacity-100' : 'opacity-0 lg:hidden'
               }`}
+              style={{ transition: 'opacity 0.2s ease-in-out' }}
             >
               EduManage
             </h2>
@@ -114,14 +126,14 @@ export default function SideBar({ info }: { info?: any }) {
                   } ${
                     item.active
                       ? 'bg-primary/10 text-primary dark:bg-primary/20'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors group'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 group'
                   }`}
                 >
-                  <span className="material-symbols-outlined group-hover:text-primary transition-colors">
+                  <span className="material-symbols-outlined group-hover:text-primary">
                     {item.icon}
                   </span>
                   {isOpen && (
-                    <p className="text-sm font-medium leading-normal group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors">
+                    <p className="text-sm font-medium leading-normal group-hover:text-slate-900 dark:group-hover:text-slate-100">
                       {item.name}
                     </p>
                   )}
@@ -132,7 +144,7 @@ export default function SideBar({ info }: { info?: any }) {
         </div>
         {/* User Profile */}
         <div
-          className={`flex items-center gap-3 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 transition-all duration-200 ${
+          className={`flex items-center gap-3 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 ${
             isOpen ? 'p-3' : 'p-2 justify-center'
           }`}
         >
@@ -157,7 +169,10 @@ export default function SideBar({ info }: { info?: any }) {
                   Science Teacher
                 </p>
               </div>
-              <button onClick={()=>{}} className="ml-auto text-slate-500 dark:text-slate-400 hover:text-primary cursor-pointer transition-colors">
+              <button
+                onClick={() => {}}
+                className="ml-auto text-slate-500 dark:text-slate-400 hover:text-primary cursor-pointer"
+              >
                 <span
                   className="material-symbols-outlined"
                   style={{ fontSize: '20px' }}
