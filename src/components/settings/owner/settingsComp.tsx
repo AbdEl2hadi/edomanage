@@ -8,6 +8,7 @@ import defaultSchoolLogo from '../../../assets/default-school-logo.svg'
 import { newInfoOwnerSchema } from './settings.schema'
 import type { SchoolLogoState } from '@/services/store/school_logo'
 import type { NewInfoOwnerFields } from './settings.schema'
+import { Switch } from '@/components/ui/switch'
 
 import useSchoolLogoStore from '@/services/store/school_logo'
 
@@ -34,38 +35,18 @@ export default function SettingsComp() {
     console.log(result)
   }
   return (
-    <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">
-      {/* Sticky Header */}
-      <header className="shrink-0 bg-white dark:bg-[#151f2b] border-b border-slate-200 dark:border-slate-800 z-10">
-        <div className="px-6 py-4 md:px-10 md:py-5 max-w-6xl mx-auto w-full">
-          {/* Page Title & Actions */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex flex-col gap-1">
-              <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                School Profile
-              </h1>
-              <p className="text-slate-500 dark:text-slate-400 text-sm md:text-base">
-                Manage application-wide settings and school identity.
-              </p>
-            </div>
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-lg shadow-sm shadow-blue-500/20 active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
-            >
-              <span className="material-symbols-outlined text-[20px]">
-                save
-              </span>
-              <span> {isSubmitting ? 'Saving...' : 'Save Changes'}</span>
-            </button>
-          </div>
+    <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Page Heading */}
+        <div className="flex flex-col gap-1">
+          <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">
+            School Profile
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400">
+            Manage application-wide settings and school identity.
+          </p>
         </div>
-      </header>
-
-      {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto p-6 md:p-10 scroll-smooth">
-        <div className="max-w-4xl mx-auto flex flex-col gap-8 pb-20">
+        <div className="flex flex-col gap-8">
           {/* Section: General Info & Logo */}
           <section className="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
@@ -237,14 +218,7 @@ export default function SettingsComp() {
                     platform.
                   </p>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                  <input
-                    defaultChecked
-                    className="sr-only peer"
-                    type="checkbox"
-                  />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
-                </label>
+                <Switch defaultChecked className="shrink-0" />
               </div>
               {/* Toggle Item */}
               <div className="p-4 md:px-6 md:py-5 flex items-center justify-between gap-4">
@@ -256,14 +230,7 @@ export default function SettingsComp() {
                     Allow parents to view grades and attendance records.
                   </p>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                  <input
-                    defaultChecked
-                    className="sr-only peer"
-                    type="checkbox"
-                  />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
-                </label>
+                <Switch defaultChecked className="shrink-0" />
               </div>
               {/* Toggle Item */}
               <div className="p-4 md:px-6 md:py-5 flex items-center justify-between gap-4">
@@ -275,71 +242,92 @@ export default function SettingsComp() {
                     Allow new students to register via the public website.
                   </p>
                 </div>
-                <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                  <input className="sr-only peer" type="checkbox" />
-                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 dark:border-gray-600 peer-checked:bg-primary"></div>
-                </label>
+                <Switch className="shrink-0" />
               </div>
             </div>
           </section>
           {/* Security section */}
-          <section>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-              Security
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  New Password
-                </label>
-                <input
-                  className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
-                  placeholder="••••••••"
-                  type="password"
-                  {...register('newPassword')}
-                />
-                {errors.newPassword && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.newPassword.message}
-                  </p>
-                )}
+          <section className="bg-white dark:bg-[#151f2b] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+                  Security
+                </h2>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  Update passwords and security options.
+                </p>
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                  Confirm Password
-                </label>
-                <input
-                  className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
-                  placeholder="••••••••"
-                  type="password"
-                  {...register('confirmPassword')}
-                />
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
+              <span className="material-symbols-outlined text-slate-300 dark:text-slate-600 text-3xl">
+                security
+              </span>
             </div>
-            <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
-              <div className="flex gap-3 items-center">
-                <div className="p-2 bg-white dark:bg-slate-800 rounded shadow-sm text-slate-700 dark:text-slate-300">
-                  <span className="material-symbols-outlined">smartphone</span>
+            <div className="p-6 md:p-8 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    New Password
+                  </label>
+                  <input
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
+                    placeholder="••••••••"
+                    type="password"
+                    {...register('newPassword')}
+                  />
+                  {errors.newPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.newPassword.message}
+                    </p>
+                  )}
                 </div>
-                <div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">
-                    Two-Factor Authentication
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Add an extra layer of security to your account.
-                  </p>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Confirm Password
+                  </label>
+                  <input
+                    className="w-full h-11 px-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary outline-none placeholder:text-slate-400"
+                    placeholder="••••••••"
+                    type="password"
+                    {...register('confirmPassword')}
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.confirmPassword.message}
+                    </p>
+                  )}
                 </div>
               </div>
-              <button className="text-primary text-sm font-bold hover:underline">
-                Enable
-              </button>
+              <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
+                <div className="flex gap-3 items-center">
+                  <div className="p-2 bg-white dark:bg-slate-800 rounded shadow-sm text-slate-700 dark:text-slate-300">
+                    <span className="material-symbols-outlined">
+                      smartphone
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">
+                      Two-Factor Authentication
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Add an extra layer of security to your account.
+                    </p>
+                  </div>
+                </div>
+                <button className="text-primary text-sm font-bold hover:underline">
+                  Enable
+                </button>
+              </div>
             </div>
           </section>
+          {/* Action Buttons */}
+          <div className="flex items-center justify-end gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+            <button
+              onClick={handleSubmit(onSubmit)}
+              disabled={isSubmitting}
+              className="px-6 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-blue-700 shadow-md shadow-blue-500/20 transform hover:scale-[1.02] cursor-pointer disabled:opacity-50"
+            >
+              {isSubmitting ? 'Saving...' : 'Save Changes'}
+            </button>
+          </div>
           {/* Section: Danger Zone */}
           <section className="border border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-900/10 rounded-xl shadow-sm overflow-hidden">
             <div className="p-6 border-b border-red-100 dark:border-red-900/30 flex justify-between items-center">

@@ -67,9 +67,6 @@ import { useIsBreakpoint } from '@/hooks/use-is-breakpoint'
 import { useWindowSize } from '@/hooks/use-window-size'
 import { useCursorVisibility } from '@/hooks/use-cursor-visibility'
 
-// --- Components ---
-import { ThemeToggle } from '@/components/tiptap-templates/simple/theme-toggle'
-
 // --- Lib ---
 import { MAX_FILE_SIZE, handleImageUpload } from '@/lib/tiptap-utils'
 

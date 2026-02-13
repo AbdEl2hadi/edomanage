@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import useWelcomeSideBarStore from '../services/store/welcome_store'
-import SideBar from '@/components/welcomePage/side-bar'
 import { ModeToggle } from '../features/theme/mode-toggle';
+import SideBar from '@/components/welcomePage/side-bar'
 
 export const Route = createFileRoute('/')({
   component: App,

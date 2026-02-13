@@ -157,7 +157,7 @@ function useFileUpload(options: UploadOptions) {
     }
   }
 
-  const uploadFiles = async (files: File[]): Promise<string[]> => {
+  const uploadFiles = async (files: Array<File>): Promise<Array<string>> => {
     if (!files || files.length === 0) {
       options.onError?.(new Error('No files to upload'))
       return []
@@ -273,7 +273,7 @@ interface ImageUploadDragAreaProps {
    * Callback function triggered when files are dropped or selected
    * @param {File[]} files - Array of File objects that were dropped or selected
    */
-  onFile: (files: File[]) => void
+  onFile: (files: Array<File>) => void
   /**
    * Optional child elements to render inside the drag area
    * @optional
@@ -445,7 +445,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
     maxSize,
     limit,
     accept,
-    upload: extensionOptions.upload,
+    upload: extensionOptions.upload!,
     onSuccess: extensionOptions.onSuccess,
     onError: extensionOptions.onError,
   }
@@ -453,7 +453,7 @@ export const ImageUploadNode: React.FC<NodeViewProps> = (props) => {
   const { fileItems, uploadFiles, removeFileItem, clearAllFiles } =
     useFileUpload(uploadOptions)
 
-  const handleUpload = async (files: File[]) => {
+  const handleUpload = async (files: Array<File>) => {
     const urls = await uploadFiles(files)
 
     if (urls.length > 0) {
