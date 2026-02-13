@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { TeacherCardType } from "@/components/owner/teacherCard";
+import type { TeacherProfileType } from "@/components/owner/teacherCard";
 
 async function deleteTeacher(id: string) {
     const response = await fetch(`http://localhost:4000/teachers/${id}`, {
@@ -18,9 +18,9 @@ export default function useDeleteTeacher() {
         },
         onMutate: (id: string) => {
             queryClient.cancelQueries({ queryKey: ['teachers'] });
-            const oldTeacherList = queryClient.getQueryData<Array<TeacherCardType>>(['teachers']);
-            const newTeacherList = oldTeacherList?.filter((old: TeacherCardType) => old.id !== id);
-            queryClient.setQueryData<Array<TeacherCardType>>(['teachers'], newTeacherList);
+            const oldTeacherList = queryClient.getQueryData<Array<TeacherProfileType>>(['teachers']);
+            const newTeacherList = oldTeacherList?.filter((old: TeacherProfileType) => old.id !== id);
+            queryClient.setQueryData<Array<TeacherProfileType>>(['teachers'], newTeacherList);
         }
     })
 } 

@@ -56,7 +56,118 @@
       "status": "hello world"
     }
   ],
-  "teachers": [],
+  "teachers": [
+    {
+      "id": "T001",
+      "imgSrc": "https://randomuser.me/api/portraits/men/1.jpg",
+      "name": "John Smith",
+      "subject": "Mathematics",
+      "gender": "Male",
+      "teachAt": "Grade 9-12",
+      "email": "john.smith@example.com",
+      "number": "+213555001",
+      "status": "Active"
+    },
+    {
+      "id": "T002",
+      "imgSrc": "https://randomuser.me/api/portraits/women/2.jpg",
+      "name": "Sarah Johnson",
+      "subject": "Physics",
+      "gender": "Female",
+      "teachAt": "Grade 10-12",
+      "email": "sarah.johnson@example.com",
+      "number": "+213555002",
+      "status": "Active"
+    },
+    {
+      "id": "T003",
+      "imgSrc": "https://randomuser.me/api/portraits/men/3.jpg",
+      "name": "Michael Brown",
+      "subject": "Chemistry",
+      "gender": "Male",
+      "teachAt": "Grade 11-12",
+      "email": "michael.brown@example.com",
+      "number": "+213555003",
+      "status": "Pending"
+    },
+    {
+      "id": "T004",
+      "imgSrc": "https://randomuser.me/api/portraits/women/4.jpg",
+      "name": "Emily Davis",
+      "subject": "English",
+      "gender": "Female",
+      "teachAt": "Grade 9-10",
+      "email": "emily.davis@example.com",
+      "number": "+213555004",
+      "status": "Active"
+    },
+    {
+      "id": "T005",
+      "imgSrc": "https://randomuser.me/api/portraits/men/5.jpg",
+      "name": "David Wilson",
+      "subject": "History",
+      "gender": "Male",
+      "teachAt": "Grade 10-12",
+      "email": "david.wilson@example.com",
+      "number": "+213555005",
+      "status": "Inactive"
+    },
+    {
+      "id": "T006",
+      "imgSrc": "https://randomuser.me/api/portraits/women/6.jpg",
+      "name": "Olivia Martinez",
+      "subject": "Biology",
+      "gender": "Female",
+      "teachAt": "Grade 11-12",
+      "email": "olivia.martinez@example.com",
+      "number": "+213555006",
+      "status": "On Leave"
+    },
+    {
+      "id": "T007",
+      "imgSrc": "https://randomuser.me/api/portraits/men/7.jpg",
+      "name": "James Anderson",
+      "subject": "Geography",
+      "gender": "Male",
+      "teachAt": "Grade 9-11",
+      "email": "james.anderson@example.com",
+      "number": "+213555007",
+      "status": "Active"
+    },
+    {
+      "id": "T008",
+      "imgSrc": "https://randomuser.me/api/portraits/women/8.jpg",
+      "name": "Sophia Thomas",
+      "subject": "Computer Science",
+      "gender": "Female",
+      "teachAt": "Grade 10-12",
+      "email": "sophia.thomas@example.com",
+      "number": "+213555008",
+      "status": "Pending"
+    },
+    {
+      "id": "T009",
+      "imgSrc": "https://randomuser.me/api/portraits/men/9.jpg",
+      "name": "William Jackson",
+      "subject": "Physical Education",
+      "gender": "Male",
+      "teachAt": "Grade 9-12",
+      "email": "william.jackson@example.com",
+      "number": "+213555009",
+      "status": "Active"
+    },
+    {
+      "id": "T010",
+      "imgSrc": "https://randomuser.me/api/portraits/women/10.jpg",
+      "name": "Ava White",
+      "subject": "Art",
+      "gender": "Female",
+      "teachAt": "Grade 9-10",
+      "email": "ava.white@example.com",
+      "number": "+213555010",
+      "status": "Inactive"
+    }
+  ],
   "owners": [
     {
       "ownerId": "O5001",

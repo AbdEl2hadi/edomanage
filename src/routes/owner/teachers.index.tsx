@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import type { UICardType } from '@/components/owner/UICard'
-import type { TeacherCardType } from '@/components/owner/teacherCard'
+import type { TeacherProfileType } from '@/components/owner/teacherCard'
 import UICardComponent from '@/components/owner/UICard'
 import useGetTeacher from '@/services/api/getTeachers'
 import TeacherCard from '@/components/owner/teacherCard'
@@ -71,7 +71,7 @@ function RouteComponent() {
         <div className=" bg-surface-dark rounded-xl border border-slate-300 dark:border-gray-800 shadow-lg overflow-hidden flex flex-col">
           <div className="bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex flex-col">
             {teacherList.data?.length === 0 ? (
-              <h1 className='p-4'>There are no teachers</h1>
+              <h1 className="p-4">There are no teachers</h1>
             ) : (
               <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row gap-4 justify-between items-center">
                 <div className="flex w-full lg:w-auto gap-3 items-center flex-1">
@@ -160,7 +160,7 @@ function RouteComponent() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                     {!teacherList.isLoading &&
-                      teacherList.data?.map((teacher: TeacherCardType) => (
+                      teacherList.data?.map((teacher: TeacherProfileType) => (
                         <TeacherCard {...teacher} key={teacher.id} />
                       ))}
                   </tbody>
