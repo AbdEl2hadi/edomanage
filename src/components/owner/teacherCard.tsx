@@ -144,11 +144,7 @@ export default function TeacherCard({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <DialogTrigger
                 asChild
-<<<<<<< HEAD
                 className="p-1.5 text-slate-400 dark:text-white hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
-=======
-                className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-md"
->>>>>>> aa2b66427b472579a06c0f1d0c4be2a1f81aa6be
               >
                 <Button
                   variant="outline"
