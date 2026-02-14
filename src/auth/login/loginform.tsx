@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from './login.schema'
-import { postLogin } from './postlogin'
+// import { postLogin } from './postlogin'
 
 import type { SubmitHandler } from 'react-hook-form'
 
@@ -15,7 +15,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   /* visible password */
   const [showPassword, setShowPassword] = useState(false)
   /* login not found account */
-  const [notFound, setNotFound] = useState<string | null>(null)
+  const [notFound] = useState<string | null>(null)
 
   /* validation */
   const {
@@ -29,15 +29,18 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   })
 
   /* Submit function */
-  const onSubmit: SubmitHandler<LoginFields> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFields> = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    try {
+    navigate({
+      to: redirectTo,
+      replace: true,
+    })
+    /* try {
       const response = await postLogin({
         ...data,
         role: redirectTo.split('/')[1],
       })
-
+    
       console.log(response)
       if (response.length > 0) {
         navigate({
@@ -52,7 +55,7 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
       setNotFound(
         error instanceof Error ? error.message : 'An unknown error occurred',
       )
-    }
+    }*/
   }
 
   return (
