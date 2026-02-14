@@ -1,4 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import type { UICardType } from '@/components/owner/UICard'
 import type { TeacherProfileType } from '@/components/owner/teacherCard'
 import UICardComponent from '@/components/owner/UICard'
@@ -13,6 +14,19 @@ export const Route = createFileRoute('/owner/teachers/')({
 })
 
 function RouteComponent() {
+  const [page, setPage] = useState(1)
+  function incrementPage() {
+    setPage(page + 1)
+    console.log(page)
+  }
+
+  function decrementPage() {
+    setPage(page - 1)
+  }
+  function showPage() {
+    console.log(page)
+  }
+
   const UICardList: Array<UICardType> = [
     {
       id: '0',
@@ -160,9 +174,11 @@ function RouteComponent() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                     {!teacherList.isLoading &&
-                      teacherList.data?.map((teacher: TeacherProfileType) => (
-                        <TeacherCard {...teacher} key={teacher.id} />
-                      ))}
+                      teacherList.data
+                        ?.slice(5 * (page - 1), 5 * page)
+                        .map((teacher: TeacherProfileType) => (
+                          <TeacherCard {...teacher} key={teacher.id} />
+                        ))}
                   </tbody>
                 </table>
               </div>
@@ -170,25 +186,33 @@ function RouteComponent() {
             {teacherList.data?.length !== 0 && (
               <div className="p-4 border-t bg-slate-50 dark:bg-gray-800  border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Showing
-                  <span className="font-semibold text-slate-900 dark:text-white">
-                    1-10
-                  </span>
-                  of
-                  <span className="font-semibold text-slate-900 dark:text-white">
-                    452
-                  </span>
-                  students
+                  Showing <strong>{5 * (page - 1) + 1}</strong> to{' '}
+                  <strong>{5 * page}</strong> of{' '}
+                  <strong>{teacherList.data?.length}</strong> students
                 </p>
                 <div className="flex items-center gap-2 ">
                   <button
-                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors"
-                    disabled
+                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer"
+                    disabled={page === 1}
+                    onClick={decrementPage}
                   >
                     Previous
                   </button>
                   <div className="flex items-center">
-                    <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium ">
+                    {page && (
+                      <>
+                        <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium ">
+                          1
+                        </button>
+                        <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium ">
+                          2
+                        </button>
+                        <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium ">
+                          {}
+                        </button>
+                      </>
+                    )}
+                    {/* <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium ">
                       1
                     </button>
                     <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
@@ -202,9 +226,12 @@ function RouteComponent() {
                     </span>
                     <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
                       12
-                    </button>
+                    </button> */}
                   </div>
-                  <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
+                  <button
+                    className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer"
+                    onClick={incrementPage}
+                  >
                     Next
                   </button>
                 </div>

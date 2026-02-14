@@ -19,7 +19,6 @@ function RouteComponent() {
   const { mutate: addTeacher } = useAddTeacher()
 
   function onSubmit(data: TeacherProfileType) {
-    console.log(data)
     addTeacher(data)
   }
 
