@@ -276,7 +276,7 @@ function CalendarCell({ day }: { day: number }) {
 
   return (
     <div
-      className="min-h-[100px] border border-[#e7ebf3] dark:border-[#2a3441] rounded-lg m-1 p-2 hover:bg-muted/50"
+      className="min-h-25 border border-[#e7ebf3] dark:border-[#2a3441] rounded-lg m-1 p-2 hover:bg-muted/50"
       onClick={() => {
         setSelectedDay(day)
         setView('day')

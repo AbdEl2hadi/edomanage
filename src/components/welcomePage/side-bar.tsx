@@ -29,28 +29,33 @@ export default function SideBar({ onNavigate }: WelcomeSideBarProps) {
   return (
     <div
       className={`fixed inset-x-0 top-16 bottom-0 z-40 md:hidden ${
-        isOpen ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+        isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
       role="dialog"
       aria-modal="true"
       aria-hidden={!isOpen}
-      style={{ transition: 'visibility 0.2s ease-in-out' }}
+      style={{
+        visibility: isOpen ? 'visible' : 'hidden',
+        transition: isOpen ? 'visibility 0s' : 'visibility 0s 0.3s',
+      }}
     >
       <button
         type="button"
-        className={`absolute inset-0 bg-black/30 backdrop-blur-sm ${
-          isOpen ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="absolute inset-0 bg-black/30 backdrop-blur-sm"
         aria-label="Close menu"
         onClick={closeSideBar}
-        style={{ transition: 'opacity 0.2s ease-in-out' }}
+        style={{
+          opacity: isOpen ? 1 : 0,
+          transition: 'opacity 0.3s ease-in-out',
+        }}
       />
 
       <aside
-        className={`absolute right-0 top-0 h-full w-[85%] max-w-sm overflow-y-auto bg-background-light dark:bg-background-dark border-l border-slate-200/70 dark:border-white/10 shadow-xl ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-        style={{ transition: 'transform 0.3s ease-out' }}
+        className="absolute right-0 top-0 h-full w-[60%] max-w-sm overflow-y-auto bg-background-light dark:bg-background-dark border-l border-slate-200/70 dark:border-white/10 shadow-xl"
+        style={{
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.3s ease-out',
+        }}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200/70 dark:border-white/10">
           <div className="flex items-center gap-3">

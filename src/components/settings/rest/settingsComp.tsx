@@ -5,6 +5,7 @@ import { NewInfoSchema } from './settingsAuth.schema'
 
 import type { NewInfoFields } from './settingsAuth.schema'
 import type { AvatarState } from '@/services/store/avatar_store'
+import { Switch } from '@/components/ui/switch'
 
 import postNewinfo from '@/services/api/settings/postNewinfo'
 import useAvatarStore from '@/services/store/avatar_store'
@@ -182,7 +183,7 @@ export default function SettingsComp({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                    Student ID
+                    {user.split('')[0].toUpperCase() + user.slice(1)} ID
                   </label>
                   <div className="w-full px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-transparent text-slate-500 dark:text-slate-400 font-mono text-sm cursor-not-allowed flex items-center justify-between">
                     <span>482910</span>
@@ -218,7 +219,7 @@ export default function SettingsComp({
                 )}
               </div>
             </section>
-            {/* Notifications */}
+            {/* Notifications settings */}
             <section>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                 Notification Preferences
@@ -236,36 +237,26 @@ export default function SettingsComp({
                       Receive alerts 24h before an assignment is due.
                     </p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      defaultChecked
-                      className="sr-only peer"
-                      type="checkbox"
-                      value=""
-                    />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
-                  </label>
+                  <Switch defaultChecked className="shrink-0" />
                 </div>
-                <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">
-                      New Grades Posted
-                    </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Get notified immediately when a teacher grades your work.
-                    </p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      defaultChecked
-                      className="sr-only peer"
-                      type="checkbox"
-                      value=""
-                    />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
-                  </label>
-                </div>
+                {user == 'student' && (
+                  <>
+                    {' '}
+                    <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">
+                          New Grades Posted
+                        </p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          Get notified immediately when a teacher grades your
+                          work.
+                        </p>
+                      </div>
+                      <Switch defaultChecked className="shrink-0" />
+                    </div>{' '}
+                  </>
+                )}
                 <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
                 <div className="flex items-center justify-between">
                   <div>
@@ -276,15 +267,7 @@ export default function SettingsComp({
                       Important news regarding school closures or events.
                     </p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      defaultChecked
-                      className="sr-only peer"
-                      type="checkbox"
-                      value=""
-                    />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
-                  </label>
+                  <Switch defaultChecked className="shrink-0" />
                 </div>
                 <div className="h-px bg-slate-100 dark:bg-slate-800 w-full"></div>
                 <div className="flex items-center justify-between">
@@ -296,10 +279,7 @@ export default function SettingsComp({
                       Receive newsletters and promotional content.
                     </p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input className="sr-only peer" type="checkbox" value="" />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 peer-checked:bg-primary"></div>
-                  </label>
+                  <Switch className="shrink-0" />
                 </div>
               </div>
             </section>

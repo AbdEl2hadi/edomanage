@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Controller, useForm } from 'react-hook-form'
+import {  useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { TeacherProfileType } from '@/components/owner/teacherCard'
 import { TeacherProfileSchema } from '@/components/owner/teacherCard'
