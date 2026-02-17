@@ -25,7 +25,7 @@ export const TeacherProfileSchema = z.object({
     .string()
     .min(4, 'the minimum size of the name is 4 characters')
     .max(20, 'the maximum size of the name is 20 characters'),
-  subject: z.array(z.string()).min(1, 'at least one subject !'),
+  subjects: z.array(z.string()).min(1, 'at least one subjects !'),
   gender: z.enum(['male', 'female']),
   departement: z.string(),
   email: z.string().email(),
@@ -47,7 +47,7 @@ export default function TeacherCard({
   id,
   imgSrc,
   name,
-  subject,
+  subjects,
   gender,
   departement,
   email,
@@ -59,8 +59,20 @@ export default function TeacherCard({
 
   const { mutate: editTeacher } = useEditTeacher()
 
-  function onSubmit(data: TeacherProfileType) {
-    editTeacher(data)
+  function onSubmit(data: TeacherProfileType | undefined, errors: any) {
+    if (errors) {
+      console.log('Errors : ', errors)
+    } else if (data) {
+      console.log('Data : ', data)
+      editTeacher(data)
+    }
+  }
+  function removeSubjects(value: string) {
+    form.setValue(
+      'subjects',
+      subjects.filter((s) => s !== value),
+      { shouldValidate: true },
+    )
   }
 
   const form = useForm<TeacherProfileType>({
@@ -68,7 +80,7 @@ export default function TeacherCard({
       id: id,
       imgSrc: imgSrc,
       name: name,
-      subject: subject,
+      subjects: subjects,
       gender: gender,
       departement: departement,
       email: email,
@@ -96,7 +108,7 @@ export default function TeacherCard({
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="text-sm text-gray-600 dark:text-slate-200">
-          {subject}
+          {subjects}
         </div>
         <div className="text-xs text-gray-400 dark:text-slate-500">
           {departement}
@@ -145,21 +157,22 @@ export default function TeacherCard({
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <div className=" flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <Dialog>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <DialogTrigger
-                asChild
-                className="p-1.5 text-slate-400 dark:text-white hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
-              >
-                <Button
-                  variant="outline"
-                  title="edit"
-                  className="cursor-pointer"
-                >
-                  <span className="material-symbols-outlined text-[20px]">
-                    edit
-                  </span>
-                </Button>
-              </DialogTrigger>
+            <DialogTrigger
+              asChild
+              className="p-1.5 text-slate-400 dark:text-white hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+            >
+              <Button variant="outline" title="edit" className="cursor-pointer">
+                <span className="material-symbols-outlined text-[20px]">
+                  edit
+                </span>
+              </Button>
+            </DialogTrigger>
+            <form
+              onSubmit={form.handleSubmit(
+                (data) => onSubmit(data, undefined),
+                (errors) => onSubmit(undefined, errors),
+              )}
+            >
               <DialogContent className="min-w-150 sm:max-w-100 bg-slate-50 dark:bg-gray-800 text-black dark:text-white">
                 <DialogHeader>
                   <DialogTitle>Edit profile</DialogTitle>
@@ -169,18 +182,37 @@ export default function TeacherCard({
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4">
+                  <div className="grid gap-3 flex-1">
+                    <Label htmlFor="image">image</Label>
+                    <Input id="image" {...form.register('imgSrc')} />
+                  </div>
                   <div className="flex gap-10 border-b pb-6 mt-5 border-slate-300">
                     <div className="grid gap-3 flex-1">
                       <Label htmlFor="name">Name</Label>
-                      <Input id="name" name="name" defaultValue={name} />
+                      <Input id="name" {...form.register('name')} />
                     </div>
                     <div className="grid gap-3 flex-1">
-                      <Label htmlFor="subject">Subject</Label>
-                      <Input
-                        id="subject"
-                        name="Subject"
-                        defaultValue={subject}
-                      />
+                      <Label htmlFor="subjects">Subjects</Label>
+                      {/* <Input id="subjects" {...form.register('subjects')} /> */}
+                      {subjects.map((subject) => (
+                        <div
+                          key={subject}
+                          className="bg-white dark:bg-gray-700 text-neutral-900 dark:text-white text-sm font-medium px-2 py-1 rounded flex items-center gap-1 shadow-sm"
+                        >
+                          {subject}
+                          <button
+                            type="button"
+                            className="hover:text-red-500 flex items-center justify-center"
+                            onClick={() => {
+                              removeSubjects(subject)
+                            }}
+                          >
+                            <span className="material-symbols-outlined text-[16px]">
+                              close
+                            </span>
+                          </button>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   <div className="grid gap-3">
@@ -189,22 +221,18 @@ export default function TeacherCard({
                         Contacts :
                       </h1>
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" name="email" defaultValue={email} />
+                      <Input id="email" {...form.register('email')} />
                     </div>
                     <div className="grid gap-3">
                       <Label htmlFor="phone-number">Phone number</Label>
-                      <Input
-                        id="phone-number"
-                        name="phone-number"
-                        defaultValue={number}
-                      />
+                      <Input id="phone-number" {...form.register('number')} />
                     </div>
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="status">Status</Label>
                     <select
                       className="px-4 py-2 rounded border dark:bg-gray-800 dark:text-white"
-                      value={status}
+                      {...form.register('status')}
                     >
                       <option value="All" disabled>
                         All Status
@@ -288,12 +316,12 @@ export default function TeacherCard({
             <div class="space-y-1.5">
               <label
                 class="text-sm font-semibold text-slate-700 dark:text-slate-300"
-                for="subject"
-                >Subject</label
+                for="subjects"
+                >Subjects</label
               >
               <input
                 class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary focus:border-primary rounded-lg text-sm text-slate-900 dark:text-white transition-all outline-none"
-                id="subject"
+                id="subjects"
                 type="text"
                 value="English"
               />

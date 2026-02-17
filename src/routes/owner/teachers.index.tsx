@@ -15,6 +15,8 @@ export const Route = createFileRoute('/owner/teachers/')({
 
 function RouteComponent() {
   const [page, setPage] = useState(1)
+  // additional idea is to put an input for where to put the number of the page he wants.               jump to page input
+  // another idea is that he can put in an input the number of students he wants in a single page.      students/teachers  per page selector
 
   function incrementPage() {
     if (page !== totalPages) {
@@ -175,8 +177,8 @@ function RouteComponent() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                     {!teacherList.isLoading &&
-                    teacherList.data?.slice(5 * (page - 1), 5 * page).length ===
-                      0 ? (
+                    teacherList.data?.slice(10 * (page - 1), 10 * page)
+                      .length === 0 ? (
                       <h1 className="p-4 text-xl self-center">
                         there is no more teachers
                       </h1>
@@ -194,9 +196,9 @@ function RouteComponent() {
             {teacherList.data?.length !== 0 && (
               <div className="p-4 border-t bg-slate-50 dark:bg-gray-800  border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Showing <strong>{5 * (page - 1) + 1}</strong> to
-                  <strong>{5 * page}</strong> of{' '}
-                  <strong>{teacherList.data?.length}</strong>
+                  Showing <strong>{10 * (page - 1) + 1}</strong> to
+                  <strong>{10 * page}</strong> of
+                  <strong>{totalPages * 10}</strong>
                   teachers
                 </p>
                 <div className="flex items-center gap-2 ">
@@ -281,12 +283,9 @@ function RouteComponent() {
                     )}
                   </div>
                   <button
-                    className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer ${totalPages !== page ? 'visible' : 'invisible'}
+                    className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer ${teacherList.data?.slice(10 * (page - 1), 10 * page) < 10 ? 'visible' : 'invisible'}
                     dark:text-white  dark:bg-[#1E2532]  hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400`}
                     onClick={incrementPage}
-                    disabled={
-                      teacherList.data?.slice(5 * (page - 1), 5 * page) === 0
-                    }
                   >
                     Next
                   </button>

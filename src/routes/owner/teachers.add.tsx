@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
@@ -17,7 +17,7 @@ function RouteComponent() {
   const form = useForm<TeacherProfileType>({
     resolver: zodResolver(TeacherProfileSchema),
     defaultValues: {
-      subject: [],
+      subjects: [],
       id: 'T000',
     },
   })
@@ -33,27 +33,36 @@ function RouteComponent() {
   }
 
   const { mutate: addTeacher } = useAddTeacher()
-  const subjects = form.watch('subject')
+  const subjects = form.watch('subjects')
 
-  function addSubject(value: string) {
-    if (!value) {
+  function addSubjects(subject: string) {
+    if (!subject) {
       return
     }
-    if (subjects.includes(value)) {
+    if (subjects.includes(subject)) {
       return
     }
-    form.setValue('subject', [...subjects, value], {
+    form.setValue('subjects', [...subjects, subject], {
       shouldValidate: true,
       shouldDirty: true,
     })
   }
 
-  function removeSubject(value: string) {
+  function removeSubjects(value: string) {
     form.setValue(
-      'subject',
+      'subjects',
       subjects.filter((s) => s !== value),
       { shouldValidate: true },
     )
+  }
+
+  function onSubmit(data: TeacherProfileType | undefined, errors: any) {
+    if (errors) {
+      console.log('Errors : ', errors)
+    } else if (data) {
+      console.log('Data : ', data)
+      addTeacher(data)
+    }
   }
 
   return (
@@ -74,12 +83,8 @@ function RouteComponent() {
               <form
                 className="flex flex-col"
                 onSubmit={form.handleSubmit(
-                  (data) => {
-                    ;(console.log('Data : ', data), addTeacher(data))
-                  },
-                  (errors) => {
-                    console.log('Errors : ', errors)
-                  },
+                  (data) => onSubmit(data, undefined),
+                  (errors) => onSubmit(undefined, errors),
                 )}
               >
                 <div className="p-8 border-b border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
@@ -283,7 +288,7 @@ function RouteComponent() {
                     </div>
                     <div className="flex flex-col gap-1.5 md:col-span-2">
                       <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Subject Specialization
+                        Subjects Specialization
                       </label>
                       <div className="w-full min-h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none p-2 flex flex-wrap gap-2 items-center">
                         {subjects.map((subject) => (
@@ -296,7 +301,7 @@ function RouteComponent() {
                               type="button"
                               className="hover:text-red-500 flex items-center justify-center"
                               onClick={() => {
-                                removeSubject(subject)
+                                removeSubjects(subject)
                               }}
                             >
                               <span className="material-symbols-outlined text-[16px]">
@@ -312,7 +317,7 @@ function RouteComponent() {
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                               e.preventDefault()
-                              addSubject(e.currentTarget.value.trim())
+                              addSubjects(e.currentTarget.value.trim())
                               e.currentTarget.value = ''
                             }
                           }}
@@ -378,12 +383,16 @@ function RouteComponent() {
                   </div>
                 </div>
                 <div className="p-6 bg-slate-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
-                  <button
-                    type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-slate-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
-                  >
-                    Cancel
-                  </button>
+                  <Link to="/owner/teachers">
+                    <button
+                      type="button"
+                      className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-slate-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
+                      onClick={() => {}}
+                    >
+                      previous
+                    </button>
+                  </Link>
+
                   <button
                     type="submit"
                     className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
