@@ -1,8 +1,8 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import UICardComponent from '../../components/owner/UICard'
 import type { UICardType } from '../../components/owner/UICard'
 import type { StudentCardType } from '@/components/owner/studentCard'
-import type { StudentProfile } from './students.add'
 import StudentCard from '@/components/owner/studentCard'
 import useGetStudent from '@/services/api/getStudents'
 
@@ -27,6 +27,18 @@ export const Route = createFileRoute('/owner/students/')({
 })
 
 function RouteComponent() {
+  const [page, setPage] = useState(1)
+  function incrementPage() {
+    if (page !== totalPages) {
+      setPage(page + 1)
+    }
+  }
+  function decrementPage() {
+    setPage(page - 1)
+  }
+  function toPage(page: number) {
+    setPage(page)
+  }
   const UICardList: Array<UICardType> = [
     {
       id: '0',
@@ -57,6 +69,8 @@ function RouteComponent() {
     },
   ]
   const studentList = useGetStudent()
+  const totalPages = studentList.data?.length / 5
+
   return (
     <div className="flex-1 overflow-y-auto p-6 md:p-8">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
@@ -150,9 +164,11 @@ function RouteComponent() {
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm ">
                   {!studentList.isLoading &&
-                    studentList.data.map((student: StudentCardType) => (
-                      <StudentCard {...student} key={student.id} />
-                    ))}
+                    studentList.data
+                      ?.slice(5 * (page - 1), 5 * page)
+                      .map((student: StudentCardType) => (
+                        <StudentCard {...student} key={student.id} />
+                      ))}
                 </tbody>
               </table>
             </div>
@@ -160,41 +176,99 @@ function RouteComponent() {
           {studentList.data?.length !== 0 && (
             <div className="p-4 border-t bg-slate-50 dark:bg-gray-800  border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                Showing
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  1-10
-                </span>
-                of
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  452
-                </span>
-                students
+                Showing <strong>{5 * (page - 1) + 1}</strong> to
+                <strong>{5 * page}</strong> of{' '}
+                <strong>{studentList.data?.length}</strong>
+                teachers
               </p>
               <div className="flex items-center gap-2 ">
                 <button
-                  className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors"
-                  disabled
+                  className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer ${page !== 1 ? 'visible' : 'invisible'} 
+                  dark:text-white  dark:bg-[#1E2532]  hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400`}
+                  disabled={page === 1}
+                  onClick={decrementPage}
                 >
                   Previous
                 </button>
                 <div className="flex items-center">
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium">
-                    1
-                  </button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
-                    2
-                  </button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
-                    3
-                  </button>
-                  <span className="w-8 h-8 flex items-center justify-center text-slate-400 text-sm">
-                    ...
-                  </span>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
-                    12
-                  </button>
+                  {page === 1 ? (
+                    <>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium bg-blue-600 text-white "
+                        onClick={() => toPage(page)}
+                      >
+                        {page}
+                      </button>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer"
+                        onClick={() => toPage(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                      {totalPages > page + 2 && (
+                        <>
+                          <button
+                            className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer  ${totalPages > page + 2 ? 'visible' : 'invisible'}`}
+                          >
+                            ...
+                          </button>
+
+                          <button
+                            className="w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer"
+                            onClick={() => toPage(totalPages)}
+                          >
+                            {totalPages}
+                          </button>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer "
+                        onClick={() => toPage(page - 1)}
+                      >
+                        {page - 1}
+                      </button>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium bg-blue-600 text-white "
+                        onClick={() => toPage(page)}
+                      >
+                        {page}
+                      </button>
+                      <button
+                        className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer ${totalPages >= page + 1 ? 'visible' : 'invisible'}`}
+                        onClick={() => toPage(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                      {totalPages > page + 2 && (
+                        <>
+                          <button
+                            className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer `}
+                          >
+                            ...
+                          </button>
+
+                          <button
+                            className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer ${totalPages > page + 2 ? 'visible' : 'invisible'}`}
+                            onClick={() => toPage(totalPages)}
+                          >
+                            {totalPages}
+                          </button>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
-                <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
+                <button
+                  className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer ${totalPages !== page ? 'visible' : 'invisible'}
+                  dark:text-white  dark:bg-[#1E2532]  hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400`}
+                  onClick={incrementPage}
+                  disabled={
+                    studentList.data?.slice(5 * (page - 1), 5 * page) === 0
+                  }
+                >
                   Next
                 </button>
               </div>

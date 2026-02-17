@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import {  useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import type { TeacherProfileType } from '@/components/owner/teacherCard'
 import { TeacherProfileSchema } from '@/components/owner/teacherCard'
 import useAddTeacher from '@/services/api/addTeacher'
@@ -15,13 +16,23 @@ export const Route = createFileRoute('/owner/teachers/add')({
 function RouteComponent() {
   const form = useForm<TeacherProfileType>({
     resolver: zodResolver(TeacherProfileSchema),
+    defaultValues: {
+      subject: [],
+      id: 'T000',
+    },
   })
-  const { mutate: addTeacher } = useAddTeacher()
 
-  function onSubmit(data: TeacherProfileType) {
-    addTeacher(data)
+  const [showPassword, setShowPassword] = useState(false)
+  const [allowAccess, setAllowAccess] = useState(true)
+
+  function togglePassword() {
+    setShowPassword(!showPassword)
+  }
+  function toggleAllowAccess() {
+    setAllowAccess(!allowAccess)
   }
 
+  const { mutate: addTeacher } = useAddTeacher()
   const subjects = form.watch('subject')
 
   function addSubject(value: string) {
@@ -62,7 +73,14 @@ function RouteComponent() {
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
               <form
                 className="flex flex-col"
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(
+                  (data) => {
+                    ;(console.log('Data : ', data), addTeacher(data))
+                  },
+                  (errors) => {
+                    console.log('Errors : ', errors)
+                  },
+                )}
               >
                 <div className="p-8 border-b border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
                   <div className="relative group cursor-pointer">
@@ -97,15 +115,9 @@ function RouteComponent() {
                     <div className="flex gap-3 mt-2 justify-center sm:justify-start">
                       <button
                         type="button"
-                        className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-neutral-900 dark:text-white text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white hover:text-red-400 border border-slate-300 hover:border-red-400 text-sm font-medium rounded-lg transition-colors"
                       >
                         Remove
-                      </button>
-                      <button
-                        type="button"
-                        className="px-4 py-2 text-primary hover:bg-primary/10 text-sm font-medium rounded-lg transition-colors"
-                      >
-                        Upload Image
                       </button>
                     </div>
                   </div>
@@ -122,12 +134,16 @@ function RouteComponent() {
                       <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
                         Full name
                       </label>
+
                       <input
                         className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="e.g. Sarah Connor"
                         type="text"
                         {...form.register('name')}
                       />
+                      <p className="text-red-500 transition-all">
+                        {form.formState.errors.name?.message}
+                      </p>
                     </div>
 
                     <div className="flex flex-col gap-1.5">
@@ -151,13 +167,13 @@ function RouteComponent() {
                           className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all"
                           {...form.register('gender')}
                         >
-                          <option disabled selected value="">
+                          <option disabled value="">
                             Select Gender
                           </option>
                           <option value="female">Female</option>
                           <option value="male">Male</option>
                         </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-gray-400">
+                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-gray-400">
                           <span className="material-symbols-outlined">
                             expand_more
                           </span>
@@ -222,11 +238,11 @@ function RouteComponent() {
                         Employee ID
                       </label>
                       <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800/50 border-none px-4 text-slate-500 dark:text-gray-400 cursor-not-allowed"
-                        readOnly
+                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800/50 border-none px-4 text-slate-500 dark:text-gray-400"
                         type="text"
-                        value="TCH-2024-001"
                       />
+                      {/* here either the admin writes the ID or the system auto generates it*/}
+
                       <p className="text-xs text-slate-500 dark:text-gray-500">
                         Auto-generated system ID
                       </p>
@@ -247,10 +263,10 @@ function RouteComponent() {
                       </label>
                       <div className="relative">
                         <select
-                          className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all"
+                          className="w-full h-11 rounded-lg self-center bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all"
                           {...form.register('departement')}
                         >
-                          <option disabled selected value="">
+                          <option disabled value="">
                             Select Department
                           </option>
                           <option value="science">Science</option>
@@ -258,7 +274,7 @@ function RouteComponent() {
                           <option value="literature">Literature</option>
                           <option value="arts">Arts &amp; Humanities</option>
                         </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-gray-400">
+                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-gray-400">
                           <span className="material-symbols-outlined">
                             expand_more
                           </span>
@@ -271,7 +287,10 @@ function RouteComponent() {
                       </label>
                       <div className="w-full min-h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none p-2 flex flex-wrap gap-2 items-center">
                         {subjects.map((subject) => (
-                          <div className="bg-white dark:bg-gray-700 text-neutral-900 dark:text-white text-sm font-medium px-2 py-1 rounded flex items-center gap-1 shadow-sm">
+                          <div
+                            key={subject}
+                            className="bg-white dark:bg-gray-700 text-neutral-900 dark:text-white text-sm font-medium px-2 py-1 rounded flex items-center gap-1 shadow-sm"
+                          >
                             {subject}
                             <button
                               type="button"
@@ -322,7 +341,8 @@ function RouteComponent() {
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
-                          checked
+                          checked={allowAccess}
+                          onClick={toggleAllowAccess}
                           className="sr-only peer"
                           type="checkbox"
                         />
@@ -336,15 +356,17 @@ function RouteComponent() {
                       <div className="relative">
                         <input
                           className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
-                          type="password"
-                          value="Teacher@2024"
+                          {...form.register('password')}
+                          type={showPassword ? 'text' : 'password'}
+                          value="Teacher@2026"
                         />
                         <button
                           type="button"
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-neutral-900 dark:hover:text-white dark:text-gray-400"
+                          className="absolute right-2 top-6 -translate-y-1/2 text-slate-500 hover:text-neutral-900 dark:hover:text-white dark:text-gray-400 cursor-pointer self-center"
+                          onClick={togglePassword}
                         >
                           <span className="material-symbols-outlined">
-                            visibility
+                            {showPassword ? 'visibility_off' : 'visibility'}
                           </span>
                         </button>
                       </div>
@@ -358,13 +380,13 @@ function RouteComponent() {
                 <div className="p-6 bg-slate-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
                   <button
                     type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-slate-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors"
+                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-slate-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[18px]">
                       check

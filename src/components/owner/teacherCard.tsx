@@ -14,12 +14,13 @@ import {
 } from '../ui/dialog'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
+import ProfilePicGenerator from './profilePicGenerator'
 import useDeleteTeacher from '@/services/api/deleteTeacher'
 import useEditTeacher from '@/services/api/editTeacher'
 
 export const TeacherProfileSchema = z.object({
   id: z.string().min(4, 'the minimum size of the id is 4 characters'),
-  imgSrc: z.string(),
+  imgSrc: z.string().url().optional(),
   name: z
     .string()
     .min(4, 'the minimum size of the name is 4 characters')
@@ -28,11 +29,16 @@ export const TeacherProfileSchema = z.object({
   gender: z.enum(['male', 'female']),
   departement: z.string(),
   email: z.string().email(),
-  number: z.number().min(10, 'the minimum size of the number is 10 digits'),
-  status: z.enum(['Active', 'Inactive', 'pending', 'new']),
-  dateOfBirth: z.date(),
+  number: z.string().min(10, 'the minimum size of the number is 10 digits'),
+  status: z.enum(['Active', 'Inactive', 'pending', 'new']).optional(),
+  dateOfBirth: z.coerce.date(),
   address: z.string(),
-  joiningDate: z.date(),
+  joiningDate: z.coerce.date(),
+  password: z
+    .string()
+    .min(4, 'the minimum size of the password is 4 characters')
+    .max(20, 'the maximum size of the password is 20 characters'),
+  role: z.enum(['admin', 'teacher', 'student']).optional(),
 })
 
 export type TeacherProfileType = z.infer<typeof TeacherProfileSchema>
@@ -47,6 +53,7 @@ export default function TeacherCard({
   email,
   number,
   status,
+  password,
 }: TeacherProfileType) {
   const { mutate: deleteTeacher } = useDeleteTeacher()
 
@@ -67,6 +74,7 @@ export default function TeacherCard({
       email: email,
       number: number,
       status: status,
+      password: password,
     },
     resolver: zodResolver(TeacherProfileSchema),
   })
@@ -76,16 +84,7 @@ export default function TeacherCard({
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-10 w-10 shrink-0 flex items-center relative">
-            {imgSrc ? (
-              <img
-                alt="Portrait of Sarah Jenkins"
-                className="h-10 w-10 rounded-full object-cover border border-slate-600 ring-2 ring-transparent group-hover:ring-primary/50"
-                data-alt="Portrait of Sarah Jenkins"
-                src={imgSrc}
-              />
-            ) : (
-              <p className="text-s">{gender}</p>
-            )}
+            <ProfilePicGenerator name={name} imgSrc={imgSrc} />
           </div>
           <div className="ml-4">
             <div className="text-sm font-medium dark:text-white group-hover:text-primary text-black transition-colors">
@@ -112,29 +111,34 @@ export default function TeacherCard({
       <td className="p-4">
         <span
           className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-            status === 'Active'
-              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
-              : ['Pending', 'On Leave'].includes(status)
-                ? 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800'
-                : ['Inactive', 'Invalid'].includes(status)
-                  ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800'
-                  : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
+            status === undefined
+              ? 'bg-slate-100 dark:bg-slate-800'
+              : status === 'Active'
+                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+                : ['Pending', 'On Leave'].includes(status)
+                  ? 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800'
+                  : ['Inactive', 'Invalid'].includes(status)
+                    ? 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800'
+                    : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
           }`}
         >
           <span
             className={`w-1.5 h-1.5 rounded-full ${
-              status === 'Active'
-                ? 'bg-emerald-400'
-                : ['Pending', 'On Leave'].includes(status)
-                  ? 'bg-orange-500'
-                  : ['Inactive', 'Invalid'].includes(status)
-                    ? 'bg-red-600'
-                    : 'bg-white'
+              status === undefined
+                ? 'bg-slate-300 dark:bg-slate-400'
+                : status === 'Active'
+                  ? 'bg-emerald-400'
+                  : ['Pending', 'On Leave'].includes(status)
+                    ? 'bg-orange-500'
+                    : ['Inactive', 'Invalid'].includes(status)
+                      ? 'bg-red-600'
+                      : 'bg-white'
             }`}
           ></span>
-          {['Active', 'New', 'Inactive', 'Pending', 'On Leave'].includes(status)
-            ? status
-            : 'invalid'}
+          {status === undefined ||
+          !['Active', 'New', 'Inactive', 'Pending', 'On Leave'].includes(status)
+            ? 'invalid'
+            : status}
         </span>
       </td>
 
