@@ -1,4 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import UICardComponent from '../../components/owner/UICard'
 import type { UICardType } from '../../components/owner/UICard'
 import type { StudentCardType } from '@/components/owner/studentCard'
@@ -26,6 +27,18 @@ export const Route = createFileRoute('/owner/students/')({
 })
 
 function RouteComponent() {
+  const [page, setPage] = useState(1)
+  function incrementPage() {
+    if (page !== totalPages) {
+      setPage(page + 1)
+    }
+  }
+  function decrementPage() {
+    setPage(page - 1)
+  }
+  function toPage(page: number) {
+    setPage(page)
+  }
   const UICardList: Array<UICardType> = [
     {
       id: '0',
@@ -55,7 +68,9 @@ function RouteComponent() {
       info: 'Last 30 days',
     },
   ]
-  const { data : studentList  } = useGetStudent();
+  const studentList = useGetStudent()
+  const totalPages = studentList.data?.length / 5
+
   return (
     <div className="flex-1 overflow-y-auto p-6 md:p-8">
       <div className="max-w-7xl mx-auto flex flex-col gap-8">
@@ -149,9 +164,11 @@ function RouteComponent() {
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm ">
                   {!studentList.isLoading &&
-                    studentList.data?.map((student: StudentCardType) => (
-                      <StudentCard {...student} key={student.id} />
-                    ))}
+                    studentList.data
+                      ?.slice(5 * (page - 1), 5 * page)
+                      .map((student: StudentCardType) => (
+                        <StudentCard {...student} key={student.id} />
+                      ))}
                 </tbody>
               </table>
             </div>
@@ -159,174 +176,106 @@ function RouteComponent() {
           {studentList.data?.length !== 0 && (
             <div className="p-4 border-t bg-slate-50 dark:bg-gray-800  border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                Showing
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  1-10
-                </span>
-                of
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  452
-                </span>
-                students
+                Showing <strong>{5 * (page - 1) + 1}</strong> to
+                <strong>{5 * page}</strong> of{' '}
+                <strong>{studentList.data?.length}</strong>
+                teachers
               </p>
               <div className="flex items-center gap-2 ">
                 <button
-                  className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors"
-                  disabled
+                  className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer ${page !== 1 ? 'visible' : 'invisible'} 
+                  dark:text-white  dark:bg-[#1E2532]  hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400`}
+                  disabled={page === 1}
+                  onClick={decrementPage}
                 >
                   Previous
                 </button>
                 <div className="flex items-center">
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium">
-                    1
-                  </button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
-                    2
-                  </button>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
-                    3
-                  </button>
-                  <span className="w-8 h-8 flex items-center justify-center text-slate-400 text-sm">
-                    ...
-                  </span>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
-                    12
-                  </button>
+                  {page === 1 ? (
+                    <>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium bg-blue-600 text-white "
+                        onClick={() => toPage(page)}
+                      >
+                        {page}
+                      </button>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer"
+                        onClick={() => toPage(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                      {totalPages > page + 2 && (
+                        <>
+                          <button
+                            className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer  ${totalPages > page + 2 ? 'visible' : 'invisible'}`}
+                          >
+                            ...
+                          </button>
+
+                          <button
+                            className="w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer"
+                            onClick={() => toPage(totalPages)}
+                          >
+                            {totalPages}
+                          </button>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer "
+                        onClick={() => toPage(page - 1)}
+                      >
+                        {page - 1}
+                      </button>
+                      <button
+                        className="w-8 h-8 flex items-center justify-center rounded-lg text-sm font-medium bg-blue-600 text-white "
+                        onClick={() => toPage(page)}
+                      >
+                        {page}
+                      </button>
+                      <button
+                        className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer ${totalPages >= page + 1 ? 'visible' : 'invisible'}`}
+                        onClick={() => toPage(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                      {totalPages > page + 2 && (
+                        <>
+                          <button
+                            className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer `}
+                          >
+                            ...
+                          </button>
+
+                          <button
+                            className={`w-8 h-8 flex items-center justify-center rounded-lg hover:border-slate-900 light:text-black dark:text-white text-sm font-medium cursor-pointer ${totalPages > page + 2 ? 'visible' : 'invisible'}`}
+                            onClick={() => toPage(totalPages)}
+                          >
+                            {totalPages}
+                          </button>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
-                <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors">
+                <button
+                  className={`px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium transition-colors cursor-pointer ${totalPages !== page ? 'visible' : 'invisible'}
+                  dark:text-white  dark:bg-[#1E2532]  hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400`}
+                  onClick={incrementPage}
+                  disabled={
+                    studentList.data?.slice(5 * (page - 1), 5 * page) === 0
+                  }
+                >
                   Next
                 </button>
               </div>
             </div>
           )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {UICardList.map((card, i) => (
-            <UICardComponent {...card} key={i} />
-          ))}
-        </div>
-        <div className="bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex flex-col">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col lg:flex-row gap-4 justify-between items-center">
-            <div className="flex w-full lg:w-auto gap-3 items-center flex-1">
-              <div className="relative w-full max-w-md">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">
-                  search
-                </span>
-                <input
-                  className="w-full pl-10 pr-4 h-10 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-gray-800 text-sm dark:text-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400"
-                  placeholder="Search by name, ID, or email..."
-                  type="text"
-                />
-              </div>
-            </div>
-            <div className="flex w-full lg:w-auto gap-3 overflow-x-auto pb-1 lg:pb-0">
-              <select
-                className="flex items-center h-10 rounded-lg border-none bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-slate-500 
-    focus:ring-0 border-slate-100 dark:border-gray-700/50  dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer"
-                style={{
-                  transition:
-                    'background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out',
-                }}
-              >
-                <option>All Grades</option>
-                <option>Grade 9</option>
-                <option>Grade 10</option>
-                <option>Grade 11</option>
-                <option>Grade 12</option>
-              </select>
-              <select
-                className="flex items-center h-10 rounded-lg border-none bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-slate-500 
-    focus:ring-0 border-slate-100 dark:border-gray-700/50  dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer"
-                style={{
-                  transition:
-                    'background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out',
-                }}
-              >
-                <option>All Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
-                <option>Suspended</option>
-              </select>
-              <select
-                className=" flex items-center h-10 rounded-lg border-none bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-slate-500 
-    focus:ring-0 border-slate-100 dark:border-gray-700/50  dark:text-white  dark:bg-[#1E2532] hover:bg-primary/5 dark:hover:bg-primary/10 hover:border-primary/30 dark:hover:border-primary/40 hover:text-primary dark:hover:text-blue-400 group cursor-pointer"
-                style={{
-                  transition:
-                    'background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out',
-                }}
-              >
-                <span className="material-symbols-outlined text-[18px]">
-                  filter_list
-                </span>
-                <option>More Filters</option>
-                <option>name</option>
-                <option>id</option>
-                <option>grade</option>
-              </select>
-            </div>
-          </div>
-          <div className="overflow-x-auto w-full">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50 dark:bg-gray-800  border-b border-slate-200 dark:border-slate-800 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
-                  <th className="p-4 w-10"></th>
-                  <th className="p-4 min-w-60">Student Name</th>
-                  <th className="p-4">ID Number</th>
-                  <th className="p-4">Grade</th>
-                  <th className="p-4 min-w-40">Parent Contact</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-                {studentList.map((student : any) => (
-                  <StudentCard {...student} key={student.id} />
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Showing
-              <span className="font-semibold text-slate-900 dark:text-white">
-                1-10
-              </span>
-              of
-              <span className="font-semibold text-slate-900 dark:text-white">
-                452
-              </span>
-              students
-            </p>
-            <div className="flex items-center gap-2">
-              <button
-                className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium"
-                disabled
-              >
-                Previous
-              </button>
-              <div className="flex items-center">
-                <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-medium">
-                  1
-                </button>
-                <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium">
-                  2
-                </button>
-                <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium">
-                  3
-                </button>
-                <span className="w-8 h-8 flex items-center justify-center text-slate-400 text-sm">
-                  ...
-                </span>
-                <button className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium">
-                  12
-                </button>
-              </div>
-              <button className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-sm font-medium">
-                Next
-              </button>
-            </div>
-          </div>
-        </div>
+
         <footer className="mt-12 mb-6 text-center text-xs text-slate-400">
           © 2026 EduManage School System. All rights reserved.
         </footer>

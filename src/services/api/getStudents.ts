@@ -10,5 +10,5 @@ async function getStudent() {
 }
 
 export default function useGetStudent() {
-    return useQuery({ queryKey: ['students'], queryFn: getStudent})
+    return useQuery({ queryKey: ['students'], queryFn: getStudent })
 }

@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import type { StudentCardType } from '@/components/owner/studentCard'
 
 export const Route = createFileRoute('/owner/students/add')({
@@ -15,6 +16,16 @@ export type StudentProfile = StudentCardType & {
 }
 
 function RouteComponent() {
+  const [showPassword, setShowPassword] = useState(false)
+  const [allowAccess, setAllowAccess] = useState(true)
+
+  function togglePassword() {
+    setShowPassword(!showPassword)
+  }
+  function toggleAllowAccess() {
+    setAllowAccess(!allowAccess)
+  }
+
   return (
     <div className="flex h-full w-full">
       <main className="flex-1 flex flex-col h-full min-w-0 bg-background-light dark:bg-background-dark overflow-hidden relative">
@@ -61,15 +72,9 @@ function RouteComponent() {
                     <div className="flex gap-3 mt-2 justify-center sm:justify-start">
                       <button
                         type="button"
-                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white hover:text-red-400 text-sm font-medium rounded-lg transition-colors"
                       >
                         Remove
-                      </button>
-                      <button
-                        type="button"
-                        className="px-4 py-2 text-primary hover:bg-primary/10 text-sm font-medium rounded-lg transition-colors"
-                      >
-                        Upload Image
                       </button>
                     </div>
                   </div>
@@ -116,7 +121,7 @@ function RouteComponent() {
                           <option value="female">Female</option>
                           <option value="male">Male</option>
                         </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
+                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
                           <span className="material-symbols-outlined">
                             expand_more
                           </span>
@@ -213,7 +218,7 @@ function RouteComponent() {
                           <option value="geography">Grade 6</option>
                           <option value="chemistry">Grade 7</option>
                         </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
+                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
                           <span className="material-symbols-outlined">
                             expand_more
                           </span>
@@ -241,7 +246,8 @@ function RouteComponent() {
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
-                          checked
+                          checked={allowAccess}
+                          onClick={toggleAllowAccess}
                           className="sr-only peer"
                           type="checkbox"
                         />
@@ -255,15 +261,16 @@ function RouteComponent() {
                       <div className="relative">
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
-                          type="password"
+                          type={showPassword ? 'text' : 'password'}
                           value="Teacher@2024"
                         />
                         <button
                           type="button"
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318] dark:hover:text-white dark:text-gray-400"
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318] dark:hover:text-white dark:text-gray-400 cursor-pointer"
+                          onClick={togglePassword}
                         >
                           <span className="material-symbols-outlined">
-                            visibility
+                            {showPassword ? 'visibility_off' : 'visibility'}
                           </span>
                         </button>
                       </div>
@@ -277,13 +284,13 @@ function RouteComponent() {
                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
                   <button
                     type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors"
+                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[18px]">
                       check
