@@ -573,7 +573,7 @@
   "resources": [
     {
       "id": "1",
-      "collectionId": null,
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
       "fileName": "Chapter 4 - Algebra Basics.pdf",
       "type": "pdf",
       "dateAdded": "Oct 24, 2023",

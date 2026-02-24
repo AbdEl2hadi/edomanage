@@ -1,11 +1,6 @@
 import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
-import { resourcesMock } from './data'
+import axios from 'axios'
 import type { PaginationData, Resource, ResourceFilter } from './types'
-
-
-
-
-
 
 const parseDateAdded = (dateValue: string): number => {
   const timestamp = Date.parse(dateValue)
@@ -35,8 +30,10 @@ const getResources = async (
   collectionId: string | undefined,
   filterAndPagination: ResourceFilter,
 ): Promise<PaginationData<Resource>> => {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
-
+  await new Promise((resolve) => setTimeout(resolve, 200))
+  const API_URL = 'http://localhost:4000/resources'
+  const response = await axios.get<Array<any>>(API_URL)
+  const resources = response.data
   const {
     pageIndex = 1,
     pageSize = 5,
@@ -55,13 +52,13 @@ const getResources = async (
     return acc
   }, {})
 
-  const filtered = resourcesMock
+  const filtered = resources
     .filter((resource) => {
       if (collectionId === undefined) {
         return true
       }
 
-      return resource.collectionId === collectionId
+      return String(resource.collectionId) === String(collectionId)
     })
     .filter((resource) => {
       return Object.entries(normalizedFilters).every(([key, value]) => {
@@ -99,10 +96,7 @@ const getResources = async (
   }
 }
 
-
-
-
-/* api */ 
+/* api */
 export const getResourcesQueryOptions = (
   collectionId: string | undefined,
   filterAndPagination: ResourceFilter,
