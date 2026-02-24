@@ -173,37 +173,218 @@
       "ownerId": "O5001",
       "name": "Aced Benyahia",
       "email": "aced@gmail.com",
-      "password": "aced2024"
+      "password": "aced2024",
+      "id": "7872"
     }
   ],
   "notifications": [
     {
-      "id": 1,
+      "id": "1",
       "type": "campaign",
       "title": "New Course Material",
       "message": "New course material available for Mathematics 101.",
       "time": "2 hours ago"
     },
     {
-      "id": 2,
+      "id": "2",
       "type": "warning",
       "title": "Assignment Deadline",
       "message": "Your assignment submission deadline is tomorrow.",
       "time": "5 hours ago"
     },
     {
-      "id": 3,
+      "id": "3",
       "type": "check_circle",
       "title": "Profile Updated",
       "message": "Your profile has been successfully updated.",
       "time": "1 day ago"
     },
     {
-      "id": 4,
+      "id": "4",
       "type": "school",
       "title": "Grades Posted",
       "message": "New grades have been posted for History 202.",
       "time": "2 days ago"
+    }
+  ],
+  "resources": [
+    {
+      "id": "1",
+      "collectionId": null,
+      "fileName": "Chapter 4 - Algebra Basics.pdf",
+      "type": "pdf",
+      "dateAdded": "Oct 24, 2023",
+      "size": "2.4 MB"
+    },
+    {
+      "id": "2",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Mid-Term Review Notes.docx",
+      "type": "docx",
+      "dateAdded": "Oct 22, 2023",
+      "size": "450 KB"
+    },
+    {
+      "id": "3",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Student Scores Data.xlsx",
+      "type": "xlsx",
+      "dateAdded": "Oct 21, 2023",
+      "size": "1.2 MB"
+    },
+    {
+      "id": "4",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Diagram_Trigonometry.png",
+      "type": "png",
+      "dateAdded": "Oct 20, 2023",
+      "size": "3.1 MB"
+    },
+    {
+      "id": "5",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Practice Exam - Set A.pdf",
+      "type": "pdf",
+      "dateAdded": "Oct 18, 2023",
+      "size": "1.8 MB"
+    },
+    {
+      "id": "6",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Supplementary_Materials.zip",
+      "type": "zip",
+      "dateAdded": "Oct 15, 2023",
+      "size": "5.4 MB"
+    },
+    {
+      "id": "7",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Additional Notes.pdf",
+      "type": "pdf",
+      "dateAdded": "Oct 14, 2023",
+      "size": "1.1 MB"
+    },
+    {
+      "id": "8",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Graphing_Calculator_Guide.pdf",
+      "type": "pdf",
+      "dateAdded": "Oct 13, 2023",
+      "size": "2.7 MB"
+    },
+    {
+      "id": "9",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Formula_Sheet.docx",
+      "type": "docx",
+      "dateAdded": "Oct 12, 2023",
+      "size": "300 KB"
+    },
+    {
+      "id": "10",
+      "collectionId": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "fileName": "Lesson Plan - Week 6.pptx",
+      "type": "pptx",
+      "dateAdded": "Oct 11, 2023",
+      "size": "4.2 MB"
+    },
+    {
+      "id": "11",
+      "collectionId": "c2f8e4b5-7d3e-5e69-9d0b-1a2b3c4d5e6f",
+      "fileName": "Physics Lab Instructions.pdf",
+      "type": "pdf",
+      "dateAdded": "Nov 03, 2023",
+      "size": "1.6 MB"
+    },
+    {
+      "id": "12",
+      "collectionId": "c2f8e4b5-7d3e-5e69-9d0b-1a2b3c4d5e6f",
+      "fileName": "Wave Motion Worksheet.docx",
+      "type": "docx",
+      "dateAdded": "Nov 01, 2023",
+      "size": "520 KB"
+    },
+    {
+      "id": "13",
+      "collectionId": "c2f8e4b5-7d3e-5e69-9d0b-1a2b3c4d5e6f",
+      "fileName": "Lab Results Template.xlsx",
+      "type": "xlsx",
+      "dateAdded": "Oct 30, 2023",
+      "size": "860 KB"
+    },
+    {
+      "id": "14",
+      "collectionId": "c2f8e4b5-7d3e-5e69-9d0b-1a2b3c4d5e6f",
+      "fileName": "Projectile_Motion_Demo.mp4",
+      "type": "mp4",
+      "dateAdded": "Oct 29, 2023",
+      "size": "18.3 MB"
+    },
+    {
+      "id": "15",
+      "collectionId": "d3a7f5c6-8e4f-6f7a-0c1d-2b3c4d5e6f7a",
+      "fileName": "Chemistry Safety Rules.pdf",
+      "type": "pdf",
+      "dateAdded": "Sep 24, 2023",
+      "size": "980 KB"
+    },
+    {
+      "id": "16",
+      "collectionId": "d3a7f5c6-8e4f-6f7a-0c1d-2b3c4d5e6f7a",
+      "fileName": "Organic Compounds Overview.pptx",
+      "type": "pptx",
+      "dateAdded": "Sep 22, 2023",
+      "size": "6.1 MB"
+    },
+    {
+      "id": "17",
+      "collectionId": "d3a7f5c6-8e4f-6f7a-0c1d-2b3c4d5e6f7a",
+      "fileName": "Periodic Table (Printable).png",
+      "type": "png",
+      "dateAdded": "Sep 20, 2023",
+      "size": "2.2 MB"
+    },
+    {
+      "id": "18",
+      "collectionId": "d3a7f5c6-8e4f-6f7a-0c1d-2b3c4d5e6f7a",
+      "fileName": "Exam Prep Bundle.zip",
+      "type": "zip",
+      "dateAdded": "Sep 18, 2023",
+      "size": "9.7 MB"
+    }
+  ],
+  "collections": [
+    {
+      "id": "b1e9f3a4-6c2d-4d58-8c9a-0f1e2a3b4c5d",
+      "name": "Exam Prep",
+      "filesCount": 12,
+      "sizeMB": 24,
+      "createdAt": "2023-10-01T12:00:00Z",
+      "updatedAt": "2023-10-15T12:00:00Z"
+    },
+    {
+      "id": "c2f8e4b5-7d3e-5e69-9d0b-1a2b3c4d5e6f",
+      "name": "Lab Reports",
+      "filesCount": 8,
+      "sizeMB": 156,
+      "createdAt": "2023-09-20T12:00:00Z",
+      "updatedAt": "2023-10-10T12:00:00Z"
+    },
+    {
+      "id": "d3a7f5c6-8e4f-6f7a-0c1d-2b3c4d5e6f7a",
+      "name": "Homework Sheets",
+      "filesCount": 24,
+      "sizeMB": 8,
+      "createdAt": "2023-10-05T12:00:00Z",
+      "updatedAt": "2023-10-20T12:00:00Z"
+    },
+    {
+      "id": "527d3ced-2883-446a-9e95-72d3968e71f2",
+      "name": "tp-IsI",
+      "filesCount": 0,
+      "createdAt": "2026-02-24T20:45:57.662Z",
+      "updatedAt": "2026-02-24T20:45:57.662Z",
+      "sizeMB": 0
     }
   ]
 }

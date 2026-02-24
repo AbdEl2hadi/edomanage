@@ -43,7 +43,6 @@ function NotificationList() {
   /* get notifications from React Query */
   const { data: notifications = [], isLoading } = useGetNotPanel()
   const queryClient = useQueryClient()
-  console.log('Notifications fetched:', notifications)
 
   /* clear notifications */
 

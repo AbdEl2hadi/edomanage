@@ -246,7 +246,6 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
   const onSubmit: SubmitHandler<PubNotificationType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    console.log(data)
   }
 
   /* get list of sendTo options*/

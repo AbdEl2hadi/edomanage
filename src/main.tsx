@@ -16,6 +16,7 @@ import reportWebVitals from './reportWebVitals.ts'
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  defaultErrorComponent: NotFound,
   defaultNotFoundComponent: NotFound,
   defaultPendingComponent: () => (
     <div className="min-h-screen w-full ">

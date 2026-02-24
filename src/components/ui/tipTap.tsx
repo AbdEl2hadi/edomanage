@@ -7,5 +7,5 @@ export default function RichTextEditor({
   value?: string
   onChange?: (value: string) => void
 }) {
-  return <SimpleEditor initialContent={value} onChange={(val) => { onChange?.(val); console.log(val) }} />
+  return <SimpleEditor initialContent={value} onChange={(val) => { onChange?.(val) }} />
 }

@@ -32,7 +32,6 @@ export default function SettingsComp() {
 
   const onSubmit = async (data: NewInfoOwnerFields) => {
     const result = await postNewinfo(data)
-    console.log(result)
   }
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12">

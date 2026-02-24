@@ -17,7 +17,6 @@ export function RightPanel() {
 
   const onSubmit = async (data: SignupFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    console.log('FORM DATA:', data)
     navigate({
       to: '/owner/dashboard',
       replace: true,

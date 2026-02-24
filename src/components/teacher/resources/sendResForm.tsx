@@ -2,12 +2,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { resourceSchema } from './res.schema'
 
-import type { Folder } from '@/routes/teacher/classes'
+
 
 import type { ResourceType } from './res.schema'
 import type { SubmitHandler } from 'react-hook-form'
+import type { Collection } from '@/services/api/teacher/getCollection'
 
-export default function SendResForm({ folders }: { folders: Array<Folder> }) {
+export default function SendResForm({ folders }: { folders: Array<Collection> }) {
   /* form validation  */
   const {
     register,
@@ -24,7 +25,6 @@ export default function SendResForm({ folders }: { folders: Array<Folder> }) {
   const onSubmit: SubmitHandler<ResourceType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    console.log(data)
     reset()
   }
 

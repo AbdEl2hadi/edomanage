@@ -33,7 +33,6 @@ export default function SettingsComp({
 
   const onSubmit = async (data: NewInfoFields) => {
     const result = await postNewinfo(data)
-    console.log(result)
   }
 
   return (
