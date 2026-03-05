@@ -26,6 +26,7 @@ import type {
   NotificationAttachment,
   NotificationFilter,
 } from '@/services/api/teacher/types'
+import Loading from '@/components/loading'
 import useGetTeacherNotifications from '@/services/api/teacher/getTeacherNotifications'
 import useAddTeacherNotification from '@/services/api/teacher/addTeacherNotification'
 
@@ -94,7 +95,11 @@ export default function AddNotification({
     pageSize: filters.pageSize ?? 5,
   }
 
-  const { data: notificationsData } = useGetTeacherNotifications(filters)
+  const {
+    data: notificationsData,
+    isLoading: isNotificationsLoading,
+    isError: isNotificationsError,
+  } = useGetTeacherNotifications(filters)
   const data: Array<Notification> = notificationsData?.data ?? []
   const rowCount = notificationsData?.rowCount ?? 0
 
@@ -117,27 +122,61 @@ export default function AddNotification({
         </div>
         <div className="flex flex-col xl:flex-row gap-6 h-full items-start">
           <div className="w-full xl:w-7/12 flex flex-col gap-4 order-2 xl:order-1">
-            <OwnNotificationTable
-              data={data}
-              columns={columns}
-              pagination={paginationState}
-              paginationOptions={{
-                onPaginationChange: (pagination) => {
-                  const nextPagination =
-                    typeof pagination === 'function'
-                      ? pagination(paginationState)
-                      : pagination
+            {isNotificationsLoading ? (
+              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#151b2b] overflow-hidden">
+                <Loading
+                  className="py-16"
+                  text="Loading notifications…"
+                  description="Please wait while we fetch your notifications."
+                />
+              </div>
+            ) : isNotificationsError ? (
+              <div className="rounded-xl border border-red-200 dark:border-red-900/40 bg-red-50 dark:bg-red-900/10 flex flex-col items-center justify-center gap-3 py-16 text-center px-6">
+                <span className="material-symbols-outlined text-red-400 text-5xl">
+                  notifications_off
+                </span>
+                <p className="text-base font-semibold text-slate-700 dark:text-slate-200">
+                  Failed to load notifications
+                </p>
+                <p className="text-sm text-slate-400">
+                  Could not fetch notification data. Please try again later.
+                </p>
+              </div>
+            ) : data.length === 0 ? (
+              <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#151b2b] flex flex-col items-center justify-center gap-3 py-16 text-center px-6">
+                <span className="material-symbols-outlined text-slate-300 dark:text-slate-600 text-6xl">
+                  mark_unread_chat_alt
+                </span>
+                <p className="text-base font-semibold text-slate-700 dark:text-slate-200">
+                  No notifications yet
+                </p>
+                <p className="text-sm text-slate-400">
+                  Use the form to send your first notification.
+                </p>
+              </div>
+            ) : (
+              <OwnNotificationTable
+                data={data}
+                columns={columns}
+                pagination={paginationState}
+                paginationOptions={{
+                  onPaginationChange: (pagination) => {
+                    const nextPagination =
+                      typeof pagination === 'function'
+                        ? pagination(paginationState)
+                        : pagination
 
-                  onFilterChange({
-                    pageIndex: nextPagination.pageIndex,
-                    pageSize: nextPagination.pageSize,
-                  })
-                },
-                rowCount,
-              }}
-              filters={filters}
-              onFilterChange={onFilterChange}
-            />
+                    onFilterChange({
+                      pageIndex: nextPagination.pageIndex,
+                      pageSize: nextPagination.pageSize,
+                    })
+                  },
+                  rowCount,
+                }}
+                filters={filters}
+                onFilterChange={onFilterChange}
+              />
+            )}
           </div>
           <div className="w-full xl:w-5/12 flex flex-col gap-4 order-1 xl:order-2">
             <div className="sticky top-4">
@@ -198,7 +237,11 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
   }
 
   /* get list of sendTo options*/
-  const { data: sendToList = [] } = useGetSendToList()
+  const {
+    data: sendToList = [],
+    isLoading: isSendToLoading,
+    isError: isSendToError,
+  } = useGetSendToList()
 
   const watchedSendTo = watch('sendTo')
   const watchedAttachments = watch('attachments')
@@ -290,42 +333,58 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
                         </DialogDescription>
                       </DialogHeader>
                       <div className="mt-4 flex flex-col gap-3 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg max-h-60 overflow-y-auto">
-                        {sendToList.map((item) => {
-                          const isSelected = selectedSendTo.includes(item.value)
-                          return (
-                            <button
-                              key={item.value}
-                              type="button"
-                              className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer ${
-                                isSelected
-                                  ? 'bg-primary/10 text-primary border border-primary'
-                                  : 'bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700'
-                              }`}
-                              onClick={() => {
-                                if (isSelected) {
-                                  setValue(
-                                    'sendTo',
-                                    selectedSendTo.filter(
-                                      (v) => v !== item.value,
-                                    ),
-                                  )
-                                } else {
-                                  setValue('sendTo', [
-                                    ...selectedSendTo,
-                                    item.value,
-                                  ])
-                                }
-                              }}
-                            >
-                              <span>{item.label}</span>
-                              {isSelected && (
-                                <span className="material-symbols-outlined text-[18px]">
-                                  check_circle
-                                </span>
-                              )}
-                            </button>
-                          )
-                        })}
+                        {isSendToLoading ? (
+                          <p className="text-center text-xs text-slate-400 py-4">
+                            Loading audience list…
+                          </p>
+                        ) : isSendToError ? (
+                          <p className="text-center text-xs text-red-400 py-4">
+                            Failed to load audience list.
+                          </p>
+                        ) : sendToList.length === 0 ? (
+                          <p className="text-center text-xs text-slate-400 py-4">
+                            No options available.
+                          </p>
+                        ) : (
+                          sendToList.map((item) => {
+                            const isSelected = selectedSendTo.includes(
+                              item.value,
+                            )
+                            return (
+                              <button
+                                key={item.value}
+                                type="button"
+                                className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-primary/10 text-primary border border-primary'
+                                    : 'bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700'
+                                }`}
+                                onClick={() => {
+                                  if (isSelected) {
+                                    setValue(
+                                      'sendTo',
+                                      selectedSendTo.filter(
+                                        (v) => v !== item.value,
+                                      ),
+                                    )
+                                  } else {
+                                    setValue('sendTo', [
+                                      ...selectedSendTo,
+                                      item.value,
+                                    ])
+                                  }
+                                }}
+                              >
+                                <span>{item.label}</span>
+                                {isSelected && (
+                                  <span className="material-symbols-outlined text-[18px]">
+                                    check_circle
+                                  </span>
+                                )}
+                              </button>
+                            )
+                          })
+                        )}
                       </div>
                     </DialogContent>
                   </Dialog>

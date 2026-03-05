@@ -46,7 +46,7 @@ export function DataTable<T extends Record<string, unknown>>({
   return (
     <>
       <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
-        <Table className="w-full border-collapse text-left text-sm text-slate-500 dark:text-slate-400">
+        <Table className="w-full table-fixed border-collapse text-left text-sm text-slate-500 dark:text-slate-400">
           <TableHeader className="bg-slate-50 dark:bg-slate-900/50 text-xs uppercase text-slate-500 dark:text-slate-400">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -54,7 +54,12 @@ export function DataTable<T extends Record<string, unknown>>({
                   return (
                     <TableHead
                       key={header.id}
-                      className="px-6 py-3 font-semibold"
+                      className="px-3 py-3 font-semibold overflow-hidden"
+                      style={
+                        header.column.columnDef.size
+                          ? { width: `${header.column.columnDef.size}%` }
+                          : undefined
+                      }
                       scope="col"
                     >
                       {header.isPlaceholder
@@ -82,7 +87,10 @@ export function DataTable<T extends Record<string, unknown>>({
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="px-6 py-4">
+                    <TableCell
+                      key={cell.id}
+                      className="px-3 py-3 overflow-hidden"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
