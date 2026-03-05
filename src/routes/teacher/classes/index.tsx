@@ -1,9 +1,10 @@
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { ResourceSearchSchema } from './$folderId'
+import { AddOrEditCollectionDialog } from './allCollections'
 import type { Resource } from '@/services/api/teacher/types'
 import SendResForm from '@/components/teacher/resources/sendResForm'
-import { DataTable } from '@/components/table/data-table'
-import { columns } from '@/components/teacher/columns'
+import { ResourcesTable } from '@/components/teacher/resources/resources-table'
+import { columns } from '@/components/teacher/resources/columns'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource.ts'
 import { queryClient } from '@/lib/queryClient'
 import useGetResources, {
@@ -12,15 +13,6 @@ import useGetResources, {
 import useAllGetCollection, {
   getAllCollectionsQueryOptions,
 } from '@/services/api/teacher/getAllCollections'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
 
 export const Route = createFileRoute('/teacher/classes/')({
   component: RouteComponent,
@@ -122,7 +114,10 @@ function RouteComponent() {
       <div className="px-6 mb-8">
         <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 flex items-center justify-between">
           <span>Collections</span>
-          <Link to={"/teacher/classes/allCollections"} className="cursor-pointer text-primary text-xs font-semibold hover:underline">
+          <Link
+            to={'/teacher/classes/allCollections'}
+            className="cursor-pointer text-primary text-xs font-semibold hover:underline"
+          >
             View All
           </Link>
         </h3>
@@ -192,7 +187,7 @@ function RouteComponent() {
                   params={{ folderId: folder.id.toString() }}
                   search={undefined}
                 >
-                  <div className="group cursor-pointer rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 py-6 transition-all hover:border-primary/50 hover:shadow-md">
+                  <div className="group cursor-pointer rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 py-9 transition-all hover:border-primary/50 hover:shadow-md">
                     <div className="flex items-start justify-between mb-3">
                       <span className="material-symbols-outlined text-4xl text-primary/80 group-hover:text-primary transition-colors filled">
                         folder
@@ -208,52 +203,11 @@ function RouteComponent() {
                 </Link>
               </div>
             ))}
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="group cursor-pointer rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-transparent p-4 flex flex-col items-center justify-center text-center hover:border-primary hover:bg-primary/5 transition-all min-h-32">
-                  <span className="material-symbols-outlined text-3xl text-slate-400 mb-2 group-hover:text-primary">
-                    add
-                  </span>
-                  <span className="text-sm font-medium text-slate-500 dark:text-slate-400 group-hover:text-primary">
-                    Create Collection
-                  </span>
-                </div>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Create a New Collection</DialogTitle>
-                  <DialogDescription>
-                    Fill in the details below to create a new collection.
-                  </DialogDescription>
-                </DialogHeader>
-                <form className="py-4 flex flex-col gap-4">
-                  <div>
-                    <label
-                      className="block text-sm font-medium mb-1"
-                      htmlFor="collection-name"
-                    >
-                      Name
-                    </label>
-                    <input
-                      id="collection-name"
-                      name="name"
-                      type="text"
-                      required
-                      className="w-full rounded border border-slate-300 dark:border-slate-700 px-3 py-2 bg-transparent text-slate-900 dark:text-white"
-                    />
-                  </div>
-                  <DialogFooter>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 rounded bg-primary text-white hover:bg-blue-700 cursor-pointer"
-                    >
-                      Create
-                    </button>
-                  </DialogFooter>
-                </form>
-                
-              </DialogContent>
-            </Dialog>
+            <AddOrEditCollectionDialog
+              role="add"
+              refetchFolders={refetchFolders}
+              className="group cursor-pointer rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-transparent p-4 flex flex-col items-center justify-center text-center hover:border-primary hover:bg-primary/5 transition-all min-h-32"
+            />
           </div>
         )}
       </div>
@@ -263,7 +217,7 @@ function RouteComponent() {
         </h3>
       </div>
       <div className="px-6 pb-12 py-5">
-        <DataTable
+        <ResourcesTable
           data={data}
           columns={columns}
           pagination={paginationState}

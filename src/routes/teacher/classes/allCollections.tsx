@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { cn } from '../../../lib/utils'
 import type { SubmitHandler } from 'react-hook-form'
 import useGetAllCollections, {
   getAllCollectionsQueryOptions,
@@ -30,7 +31,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AnimatedAlert } from '@/components/ui/alert'
 
 import addOrEditCollection from '@/services/api/teacher/addOrEditCollection'
 import deleteCollection from '@/services/api/teacher/deleteCollection'
@@ -101,7 +102,10 @@ function RouteComponent() {
         {/* Folders Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* Create New Card (opens dialog) */}
-          <AddOrEditCollectionDialog role={'add'} refetchFolders={refetchFolders} />
+          <AddOrEditCollectionDialog
+            role={'add'}
+            refetchFolders={refetchFolders}
+          />
           {isFoldersFetching ? (
             <Loading />
           ) : isFoldersError || !folders ? (
@@ -147,7 +151,11 @@ function RouteComponent() {
                       delete
                     </span>
                   </button>
-                  <AddOrEditCollectionDialog role={'edit'} id={folder.id} refetchFolders={refetchFolders} />
+                  <AddOrEditCollectionDialog
+                    role={'edit'}
+                    id={folder.id}
+                    refetchFolders={refetchFolders}
+                  />
                   <Link
                     to={`/teacher/classes/$folderId`}
                     params={{ folderId: folder.id.toString() }}
@@ -204,7 +212,10 @@ function RouteComponent() {
               cannot be undone.
             </AlertDialogDescription>
             <AlertDialogFooter>
-              <AlertDialogCancel className='cursor-pointer' onClick={() => setIsAlertOpen(false)}>
+              <AlertDialogCancel
+                className="cursor-pointer"
+                onClick={() => setIsAlertOpen(false)}
+              >
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction
@@ -233,44 +244,35 @@ function RouteComponent() {
                     )
                   }
                 }}
-                className='cursor-pointer'
+                className="cursor-pointer"
               >
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-
-        {toast.show && (
-          <div className="fixed right-6 top-6 z-50 w-80">
-            <Alert
-              className={
-                toast.type === 'error'
-                  ? 'bg-red-600 text-white border-red-700'
-                  : 'bg-emerald-600 text-white border-emerald-700'
-              }
-              variant={toast.type === 'error' ? 'destructive' : 'default'}
-            >
-              <AlertTitle>
-                {toast.type === 'error' ? 'Error' : 'Success'}
-              </AlertTitle>
-              <AlertDescription>{toast.message}</AlertDescription>
-            </Alert>
-          </div>
-        )}
+        <div className="fixed right-6 top-6 z-50 w-80">
+          <AnimatedAlert
+            state={toast.show}
+            type={toast.type}
+            message={toast.message}
+          />
+        </div>
       </div>
     </main>
   )
 }
 
-function AddOrEditCollectionDialog({
+export function AddOrEditCollectionDialog({
   role,
   id,
   refetchFolders,
+  className,
 }: {
   role: 'add' | 'edit'
   id?: string
   refetchFolders: () => void
+  className?: string
 }) {
   /* handle form collection*/
   const {
@@ -300,7 +302,12 @@ function AddOrEditCollectionDialog({
             <span className="material-symbols-outlined text-lg">edit</span>
           </button>
         ) : (
-          <div className="group flex flex-col items-center justify-center gap-4 p-8 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/30 hover:border-primary hover:bg-primary/5 transition-all cursor-pointer min-h-60">
+          <div
+            className={cn(
+              'group flex flex-col items-center justify-center gap-4 p-8 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white/50 dark:bg-slate-800/30 hover:border-primary hover:bg-primary/5 transition-all cursor-pointer min-h-60',
+              className,
+            )}
+          >
             <div className="size-14 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
               <span className="material-symbols-outlined text-3xl">
                 create_new_folder

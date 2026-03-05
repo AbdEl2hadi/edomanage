@@ -9,7 +9,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    devtools(),
+    ...(process.env.VITE_TANSTACK_DEVTOOLS === 'true' ? [devtools()] : []),
     tanstackRouter({
       target: 'react',
       autoCodeSplitting: true,

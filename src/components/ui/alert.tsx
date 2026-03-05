@@ -1,5 +1,7 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import {  cva } from "class-variance-authority"
+import{ AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import type {VariantProps} from "class-variance-authority";
 
 import { cn } from "@/lib/utils"
 
@@ -63,4 +65,56 @@ function AlertDescription({
   )
 }
 
-export { Alert, AlertTitle, AlertDescription }
+function AnimatedAlert({state ,type,message} : {state: boolean; type: "error" | "success" | "warning" ;  message : string} ) {
+  const reduceMotion = useReducedMotion();
+  return<AnimatePresence>
+        {state && (
+          <motion.div
+            
+            initial={
+                reduceMotion
+                  ? { opacity: 1, y: 0, scale: 1 }
+                  : { opacity: 0, y: -12, scale: 0.98 }
+              }
+              animate={
+                reduceMotion
+                  ? { opacity: 1, y: 0, scale: 1 }
+                  : { opacity: 1, y: 0, scale: 1.02 }
+              }
+              exit={
+                reduceMotion
+                  ? { opacity: 1, y: 0, scale: 1 }
+                  : { opacity: 0, y: -12, scale: 0.98 }
+              }
+              transition={{
+                opacity: { duration: 1 },
+                y: reduceMotion
+                  ? { duration: 0.2 }
+                  : { type: 'spring', stiffness: 600, damping: 28, mass: 0.4 },
+                scale: reduceMotion
+                  ? { duration: 0.2 }
+                  : { type: 'spring', stiffness: 800, damping: 32, mass: 0.35 },
+              }}
+          >
+          
+            <Alert
+              className={
+                type === 'error'
+                  ? 'bg-red-600 text-white border-red-700'
+                  : 'bg-emerald-600 text-white border-emerald-700'
+                
+              }
+              variant={type === 'error' ? 'destructive' : 'default'}
+            >
+              <AlertTitle>
+                {type === 'error' ? 'Error' : 'Success'}
+              </AlertTitle>
+              <AlertDescription>{message}</AlertDescription>
+            </Alert>
+          
+        </motion.div>
+        )}
+        </AnimatePresence>
+}
+
+export { Alert, AlertTitle, AlertDescription , AnimatedAlert }

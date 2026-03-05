@@ -5,7 +5,7 @@ type ResourceWithCollection = Resource & { collectionId: string }
 export const resourcesMock: Array<ResourceWithCollection> = [
   {
     id: 1,
-    collectionId:crypto.randomUUID(),
+    collectionId: crypto.randomUUID(),
     fileName: 'Chapter 4 - Algebra Basics.pdf',
     type: 'pdf',
     dateAdded: 'Oct 24, 2023',
@@ -13,7 +13,7 @@ export const resourcesMock: Array<ResourceWithCollection> = [
   },
   {
     id: 2,
-    collectionId:crypto.randomUUID(),
+    collectionId: crypto.randomUUID(),
     fileName: 'Mid-Term Review Notes.docx',
     type: 'docx',
     dateAdded: 'Oct 22, 2023',
@@ -21,7 +21,7 @@ export const resourcesMock: Array<ResourceWithCollection> = [
   },
   {
     id: 3,
-    collectionId:crypto.randomUUID(),
+    collectionId: crypto.randomUUID(),
     fileName: 'Student Scores Data.xlsx',
     type: 'xlsx',
     dateAdded: 'Oct 21, 2023',
@@ -29,7 +29,7 @@ export const resourcesMock: Array<ResourceWithCollection> = [
   },
   {
     id: 4,
-    collectionId:crypto.randomUUID(),
+    collectionId: crypto.randomUUID(),
     fileName: 'Diagram_Trigonometry.png',
     type: 'png',
     dateAdded: 'Oct 20, 2023',
@@ -37,7 +37,7 @@ export const resourcesMock: Array<ResourceWithCollection> = [
   },
   {
     id: 5,
-    collectionId:crypto.randomUUID(),
+    collectionId: crypto.randomUUID(),
     fileName: 'Practice Exam - Set A.pdf',
     type: 'pdf',
     dateAdded: 'Oct 18, 2023',

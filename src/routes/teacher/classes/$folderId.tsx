@@ -1,19 +1,20 @@
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 
 import z from 'zod'
-import { columns } from '../../../components/teacher/columns.tsx'
+import { columns } from '../../../components/teacher/resources/columns.tsx'
 
-import type { Resource, ResourceFilter } from '@/services/api/teacher/types'
+import type { Resource, ResourceFilter } from '@/services/api/teacher/types.ts'
 
-import { DataTable } from '@/components/table/data-table'
+import { ResourcesTable } from '@/components/teacher/resources/resources-table.tsx'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource.ts'
 import useGetResources, {
   getResourcesQueryOptions,
 } from '@/services/api/teacher/getResources.ts'
 import { queryClient } from '@/lib/queryClient'
-import useGetCollection, { getCollectionQueryOptions } from '@/services/api/teacher/getCollection.ts'
+import useGetCollection, {
+  getCollectionQueryOptions,
+} from '@/services/api/teacher/getCollection.ts'
 import Loading from '@/components/loading.tsx'
-
 
 const SortOptions = z.enum(['newest', 'oldest', 'name', 'size'])
 
@@ -48,12 +49,9 @@ function RouteComponent() {
     pageIndex: filters.pageIndex ?? 1,
     pageSize: filters.pageSize ?? 5,
   }
-  /* useQuery to get data */ 
-  const { data: collectionData , isFetching } = useGetCollection(collectionId)
-  const { data: resourcesData } = useGetResources(
-    collectionId,
-    filters,
-  )
+  /* useQuery to get data */
+  const { data: collectionData, isFetching } = useGetCollection(collectionId)
+  const { data: resourcesData } = useGetResources(collectionId, filters)
   /* fix time */
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -65,34 +63,30 @@ function RouteComponent() {
     return date.toLocaleDateString(undefined, options)
   }
 
-
-  /* fix data to table*/ 
+  /* fix data to table*/
   const data: Array<Resource> = resourcesData?.data ?? []
   const rowCount = resourcesData?.rowCount ?? 0
 
-
   /* */
-  return (
-    isFetching ? ( <Loading /> ) 
-    : collectionData === undefined ? (
-      <div className="flex-1 flex items-center justify-center">
-        <p className="text-sm text-slate-500">Collection not found.</p>
-        <button
-          className="ml-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
-          onClick={() => router.history.back()}
-        >
-          Go Back
-        </button>
-        <button
-          className="ml-4 px-4 py-2 bg-secondary text-white rounded-md hover:bg-secondary-dark transition-colors"
-          onClick={() => router.invalidate()}
-        >
-          View All Collections
-        </button>
-      </div>
-    )
-    :
-    (
+  return isFetching ? (
+    <Loading />
+  ) : collectionData === undefined ? (
+    <div className="flex-1 flex items-center justify-center">
+      <p className="text-sm text-slate-500">Collection not found.</p>
+      <button
+        className="ml-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
+        onClick={() => router.history.back()}
+      >
+        Go Back
+      </button>
+      <button
+        className="ml-4 px-4 py-2 bg-secondary text-white rounded-md hover:bg-secondary-dark transition-colors"
+        onClick={() => router.invalidate()}
+      >
+        View All Collections
+      </button>
+    </div>
+  ) : (
     <main className="flex-1 flex flex-col min-w-0 overflow-y-auto h-[calc(100vh-64px)]">
       <div className="px-6 py-4">
         <div className="flex flex-col gap-4">
@@ -114,11 +108,15 @@ function RouteComponent() {
                 </span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{collectionData.name} </h1>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                  {collectionData.name}{' '}
+                </h1>
                 <div className="flex items-center gap-3 mt-1 text-sm text-slate-500 dark:text-slate-400">
                   <span>Created {formatDate(collectionData.createdAt)}</span>
                   <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                  <span>Last updated {formatDate(collectionData.updatedAt )}</span>
+                  <span>
+                    Last updated {formatDate(collectionData.updatedAt)}
+                  </span>
                   <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
                   <span>{collectionData.filesCount} files</span>
                   <span className="size-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
@@ -130,7 +128,7 @@ function RouteComponent() {
         </div>
       </div>
       <div className="px-6 pb-12">
-        <DataTable
+        <ResourcesTable
           data={data}
           columns={columns}
           pagination={paginationState}
@@ -149,5 +147,5 @@ function RouteComponent() {
         />
       </div>
     </main>
-  ))
+  )
 }

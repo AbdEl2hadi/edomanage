@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 /* richTextEditor*/
 import { DialogTitle } from '@radix-ui/react-dialog'
-import RichTextEditor from '../../ui/tipTap'
+import QuillEditor from '../../ui/quillEditor'
 
 /* dropDownMenu*/
 import { Button } from '../../ui/button'
@@ -14,17 +14,90 @@ import {
   DialogTrigger,
 } from '../../ui/dialog'
 
-import { PubNotificationSchema } from './pubnotification.schema'
+import { getPubNotificationSchema } from './pubnotification.schema'
 import useGetSendToList from './getSendToList'
+import OwnNotificationTable from './ownNotification-table'
+import { columns } from './columns'
 import type { PubNotificationType } from './pubnotification.schema'
 
 import type { SubmitHandler } from 'react-hook-form'
+import type {
+  Notification,
+  NotificationAttachment,
+  NotificationFilter,
+} from '@/services/api/teacher/types'
+import useGetTeacherNotifications from '@/services/api/teacher/getTeacherNotifications'
+import useAddTeacherNotification from '@/services/api/teacher/addTeacherNotification'
+
+const inferAttachmentKind = (file: File): NotificationAttachment['kind'] => {
+  if (file.type.startsWith('image/')) {
+    return 'image'
+  }
+
+  if (file.type.startsWith('video/')) {
+    return 'video'
+  }
+
+  return 'document'
+}
+
+const fileToDataUrl = async (file: File): Promise<string> => {
+  return await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+        return
+      }
+
+      reject(new Error('Failed to read file'))
+    }
+
+    reader.onerror = () => {
+      reject(new Error('Failed to read file'))
+    }
+
+    reader.readAsDataURL(file)
+  })
+}
+
+const mapFilesToAttachments = async (
+  files: Array<File>,
+): Promise<Array<NotificationAttachment>> => {
+  return await Promise.all(
+    files.map(async (file) => {
+      const href = await fileToDataUrl(file)
+      const extension = file.name.split('.').pop()?.toUpperCase() ?? 'FILE'
+
+      return {
+        href,
+        label: file.name,
+        extension,
+        kind: inferAttachmentKind(file),
+      }
+    }),
+  )
+}
 
 export default function AddNotification({
   role,
+  filters,
+  onFilterChange,
 }: {
   role: 'teacher' | 'admin'
+  filters: NotificationFilter
+  onFilterChange: (nextFilters: Partial<NotificationFilter>) => void
 }) {
+  const paginationState = {
+    pageIndex: filters.pageIndex ?? 1,
+    pageSize: filters.pageSize ?? 5,
+  }
+
+  const { data: notificationsData } = useGetTeacherNotifications(filters)
+  const data: Array<Notification> = notificationsData?.data ?? []
+  const rowCount = notificationsData?.rowCount ?? 0
+
   return (
     <main className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10 relative">
       <div className="max-w-350 mx-auto flex flex-col gap-8 h-full">
@@ -44,172 +117,27 @@ export default function AddNotification({
         </div>
         <div className="flex flex-col xl:flex-row gap-6 h-full items-start">
           <div className="w-full xl:w-7/12 flex flex-col gap-4 order-2 xl:order-1">
-            <div className=" flex flex-col gap-4 bg-white dark:bg-[#151b2b] p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-              <div className="flex flex-col gap-1 p-2 border-b border-slate-300 dark:border-slate-800">
-                <span className="font-semibold text-slate-900 dark:text-white">
-                  {role === 'admin' ? 'Announcement' : 'Notification'} History
-                </span>
-                <p className="text-slate-500 dark:text-slate-400 text-sm">
-                  Review past{' '}
-                  {role === 'admin' ? 'announcements' : 'notifications'} sent
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="relative flex-1 min-w-50">
-                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">
-                    search
-                  </span>
-                  <input
-                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/50 border-none rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400"
-                    placeholder="Search title or content..."
-                    type="text"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <select className="bg-slate-50 dark:bg-slate-800/50 border-none rounded-lg text-sm text-slate-700 dark:text-slate-300 py-2 pl-3 pr-8 focus:ring-2 focus:ring-primary/20 cursor-pointer">
-                    <option>All Status</option>
-                    <option>Published</option>
-                    <option>Draft</option>
-                    <option>Archived</option>
-                  </select>
-                  <button className="p-2 text-slate-500 hover:text-primary hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
-                    <span className="material-symbols-outlined text-[20px]">
-                      filter_list
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-[#151b2b] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-100 dark:border-slate-800 text-xs uppercase text-slate-400 bg-slate-50/50 dark:bg-slate-800/30">
-                      <th className="px-5 py-4 font-semibold">Announcement</th>
-                      <th className="px-5 py-4 font-semibold">Audience</th>
-                      <th className="px-5 py-4 font-semibold">Status</th>
-                      <th className="px-5 py-4 font-semibold text-right">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                      <td className="px-5 py-4 align-top max-w-70">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                            School Closure Due to Heavy Snow
-                          </span>
-                          <span className="text-slate-500 dark:text-slate-400 line-clamp-1 text-xs">
-                            Due to severe weather conditions, the campus will be
-                            closed tomorrow, Jan 15th.
-                          </span>
-                          <span className="text-slate-400 text-xs mt-1">
-                            Today, 9:41 AM
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 align-top">
-                        <div className="flex -space-x-1">
-                          <div className="flex items-center justify-center px-2 py-1 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-medium border border-blue-100 dark:border-blue-800">
-                            Teachers
-                          </div>
-                          <div className="flex items-center justify-center px-2 py-1 rounded bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-medium border border-purple-100 dark:border-purple-800 relative z-10">
-                            Students
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 align-top">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-100 dark:border-green-900/50">
-                          <span className="size-1.5 rounded-full bg-green-500" />{' '}
-                          Published
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 align-top text-right">
-                        <button className="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                          <span className="material-symbols-outlined text-[20px]">
-                            more_vert
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                      <td className="px-5 py-4 align-top max-w-70">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                            Mid-Term Exam Schedule
-                          </span>
-                          <span className="text-slate-500 dark:text-slate-400 line-clamp-1 text-xs">
-                            The draft schedule for mid-terms is now available
-                            for review by department heads.
-                          </span>
-                          <span className="text-slate-400 text-xs mt-1">
-                            Oct 24, 2023
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 align-top">
-                        <div className="flex items-center px-2 py-1 w-fit rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-medium border border-blue-100 dark:border-blue-800">
-                          Teachers
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 align-top">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                          <span className="size-1.5 rounded-full bg-slate-400" />{' '}
-                          Draft
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 align-top text-right">
-                        <button className="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                          <span className="material-symbols-outlined text-[20px]">
-                            more_vert
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr className="group hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                      <td className="px-5 py-4 align-top max-w-70">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                            Annual Sports Day Registration
-                          </span>
-                          <span className="text-slate-500 dark:text-slate-400 line-clamp-1 text-xs">
-                            Students must register for events by Friday. Please
-                            distribute forms.
-                          </span>
-                          <span className="text-slate-400 text-xs mt-1">
-                            Oct 10, 2023
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 align-top">
-                        <div className="flex items-center px-2 py-1 w-fit rounded bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-medium border border-purple-100 dark:border-purple-800">
-                          Students
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 align-top">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-100 dark:border-amber-900/50">
-                          <span className="size-1.5 rounded-full bg-amber-500" />{' '}
-                          Archived
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 align-top text-right">
-                        <button className="text-slate-400 hover:text-primary p-1 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                          <span className="material-symbols-outlined text-[20px]">
-                            more_vert
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex justify-center">
-                <button className="text-sm font-medium text-primary hover:underline">
-                  View All History
-                </button>
-              </div>
-            </div>
+            <OwnNotificationTable
+              data={data}
+              columns={columns}
+              pagination={paginationState}
+              paginationOptions={{
+                onPaginationChange: (pagination) => {
+                  const nextPagination =
+                    typeof pagination === 'function'
+                      ? pagination(paginationState)
+                      : pagination
+
+                  onFilterChange({
+                    pageIndex: nextPagination.pageIndex,
+                    pageSize: nextPagination.pageSize,
+                  })
+                },
+                rowCount,
+              }}
+              filters={filters}
+              onFilterChange={onFilterChange}
+            />
           </div>
           <div className="w-full xl:w-5/12 flex flex-col gap-4 order-1 xl:order-2">
             <div className="sticky top-4">
@@ -230,28 +158,54 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
     register,
     control,
     handleSubmit,
+    reset,
     setValue,
     watch,
     formState: { errors, isSubmitting },
   } = useForm<PubNotificationType>({
-    resolver: zodResolver(PubNotificationSchema),
+    resolver: zodResolver(getPubNotificationSchema(role)),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     defaultValues: {
-      sendTo: [],
+      attachments: [],
+      sendTo: role === 'teacher' ? ['Students'] : [],
+      type: 'Teacher',
     },
   })
 
+  const addTeacherNotificationMutation = useAddTeacherNotification()
+
   /* Submit function */
   const onSubmit: SubmitHandler<PubNotificationType> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const attachments = await mapFilesToAttachments(data.attachments ?? [])
 
+    await addTeacherNotificationMutation.mutateAsync({
+      role,
+      subject: data.subject.trim(),
+      content: data.content.trim(),
+      attachments,
+      sendTo: role === 'admin' ? data.sendTo : undefined,
+      type: data.type,
+    })
+
+    reset({
+      attachments: [],
+      subject: '',
+      content: '',
+      sendTo: [],
+      type: 'Teacher',
+    })
   }
 
   /* get list of sendTo options*/
   const { data: sendToList = [] } = useGetSendToList()
 
-  const selectedSendTo = watch('sendTo')
+  const watchedSendTo = watch('sendTo')
+  const watchedAttachments = watch('attachments')
+  const selectedSendTo = Array.isArray(watchedSendTo) ? watchedSendTo : []
+  const selectedAttachments = Array.isArray(watchedAttachments)
+    ? watchedAttachments
+    : []
 
   return (
     <>
@@ -282,103 +236,211 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
               </span>
             )}
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-              Send To
-            </label>
-            <div className="flex gap-3 flex-wrap">
-              {selectedSendTo.map((value) => {
-                const item = sendToList.find((s) => s.value === value)
-                if (!item) return null
-                return (
-                  <div
-                    key={item.value}
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium border border-slate-300 dark:border-slate-700"
-                  >
-                    <span>{item.label}</span>
-                    <button
-                      type="button"
-                      className="size-4 flex items-center justify-center rounded-full hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                      onClick={() => {
-                        setValue(
-                          'sendTo',
-                          selectedSendTo.filter((v) => v !== value),
-                        )
-                      }}
-                    >
-                      <span className="material-symbols-outlined text-[16px]">
-                        close
-                      </span>
-                    </button>
-                  </div>
-                )
-              })}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    type="button"
-                    className="inline-flex items-center justify-center size-8 rounded-full border-2 border-dashed bg-transparent border-slate-300 dark:border-slate-600 text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">
-                      add
-                    </span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-sm bg-background-light dark:bg-background-dark">
-                  <DialogHeader>
-                    <DialogTitle className="font-bold text-slate-900 dark:text-white">
-                      Select Audience
-                    </DialogTitle>
-                    <DialogDescription className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                      Choose who will receive this{' '}
-                      {role === 'admin' ? 'announcement' : 'notification'}.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="mt-4 flex flex-col gap-3 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg max-h-60 overflow-y-auto">
-                    {sendToList.map((item) => {
-                      const isSelected = selectedSendTo.includes(item.value)
-                      return (
+          {role === 'admin' && (
+            <>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Send To
+                </label>
+                <div className="flex gap-3 flex-wrap">
+                  {selectedSendTo.map((value) => {
+                    const item = sendToList.find((s) => s.value === value)
+                    if (!item) return null
+                    return (
+                      <div
+                        key={item.value}
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium border border-slate-300 dark:border-slate-700"
+                      >
+                        <span>{item.label}</span>
                         <button
-                          key={item.value}
                           type="button"
-                          className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer ${
-                            isSelected
-                              ? 'bg-primary/10 text-primary border border-primary'
-                              : 'bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700'
-                          }`}
+                          className="size-4 flex items-center justify-center rounded-full hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                           onClick={() => {
-                            if (isSelected) {
-                              setValue(
-                                'sendTo',
-                                selectedSendTo.filter((v) => v !== item.value),
-                              )
-                            } else {
-                              setValue('sendTo', [
-                                ...selectedSendTo,
-                                item.value,
-                              ])
-                            }
+                            setValue(
+                              'sendTo',
+                              selectedSendTo.filter((v) => v !== value),
+                            )
                           }}
                         >
-                          <span>{item.label}</span>
-                          {isSelected && (
-                            <span className="material-symbols-outlined text-[18px]">
-                              check_circle
-                            </span>
-                          )}
+                          <span className="material-symbols-outlined text-[16px]">
+                            close
+                          </span>
                         </button>
-                      )
-                    })}
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
+                      </div>
+                    )
+                  })}
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        type="button"
+                        className="inline-flex items-center justify-center size-8 rounded-full border-2 border-dashed bg-transparent border-slate-300 dark:border-slate-600 text-slate-400 hover:border-primary hover:text-primary hover:bg-primary/5 transition-all cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">
+                          add
+                        </span>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-sm bg-background-light dark:bg-background-dark">
+                      <DialogHeader>
+                        <DialogTitle className="font-bold text-slate-900 dark:text-white">
+                          Select Audience
+                        </DialogTitle>
+                        <DialogDescription className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                          Choose who will receive this announcement.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="mt-4 flex flex-col gap-3 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-lg max-h-60 overflow-y-auto">
+                        {sendToList.map((item) => {
+                          const isSelected = selectedSendTo.includes(item.value)
+                          return (
+                            <button
+                              key={item.value}
+                              type="button"
+                              className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer ${
+                                isSelected
+                                  ? 'bg-primary/10 text-primary border border-primary'
+                                  : 'bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700'
+                              }`}
+                              onClick={() => {
+                                if (isSelected) {
+                                  setValue(
+                                    'sendTo',
+                                    selectedSendTo.filter(
+                                      (v) => v !== item.value,
+                                    ),
+                                  )
+                                } else {
+                                  setValue('sendTo', [
+                                    ...selectedSendTo,
+                                    item.value,
+                                  ])
+                                }
+                              }}
+                            >
+                              <span>{item.label}</span>
+                              {isSelected && (
+                                <span className="material-symbols-outlined text-[18px]">
+                                  check_circle
+                                </span>
+                              )}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </div>
+              {errors.sendTo && (
+                <span className="text-xs text-red-500 mt-1">
+                  {errors.sendTo.message}
+                </span>
+              )}
+            </>
+          )}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              Type
+            </label>
+            <select
+              {...register('type')}
+              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            >
+              <option value="Teacher">General</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Administrative">Administrative</option>
+              <option value="User">User</option>
+              <option value="Grade">Grade</option>
+              <option value="Book">Book</option>
+            </select>
           </div>
-          {errors.sendTo && (
+          {errors.type && (
             <span className="text-xs text-red-500 mt-1">
-              {errors.sendTo.message}
+              {errors.type.message}
             </span>
           )}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+              Attach Files
+            </label>
+            <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-3 py-3 dark:border-slate-700 dark:bg-slate-800/40">
+              <div className="flex flex-wrap items-center gap-2">
+                <label className="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-700 hover:border-primary hover:text-primary dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200">
+                  <span className="material-symbols-outlined text-[18px]">
+                    upload_file
+                  </span>
+                  <span>Add files</span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    multiple
+                    accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.svg,.bmp,.avif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.odt,.ods,.odp"
+                    onChange={(event) => {
+                      const pickedFiles = Array.from(event.target.files ?? [])
+                      if (pickedFiles.length === 0) {
+                        return
+                      }
+
+                      const nextFiles = [
+                        ...selectedAttachments,
+                        ...pickedFiles,
+                      ].slice(0, 3)
+                      setValue('attachments', nextFiles, {
+                        shouldValidate: true,
+                      })
+
+                      event.currentTarget.value = ''
+                    }}
+                  />
+                </label>
+                <span className="text-xs text-slate-500 dark:text-slate-400">
+                  Max 3 files • 5MB each • PDF, images, Word, Excel, PowerPoint,
+                  CSV, TXT, ODF
+                </span>
+              </div>
+
+              {selectedAttachments.length > 0 && (
+                <div className="mt-3 flex flex-col gap-2">
+                  {selectedAttachments.map((file, index) => (
+                    <div
+                      key={`${file.name}-${index}`}
+                      className="flex items-center justify-between rounded-md border border-slate-200 bg-white px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-900"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-medium text-slate-800 dark:text-slate-200">
+                          {file.name}
+                        </p>
+                        <p className="text-slate-500 dark:text-slate-400">
+                          {(file.size / (1024 * 1024)).toFixed(2)} MB
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        className="rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-red-500 dark:hover:bg-slate-800"
+                        onClick={() => {
+                          const nextFiles = selectedAttachments.filter(
+                            (_, attachmentIndex) => attachmentIndex !== index,
+                          )
+                          setValue('attachments', nextFiles, {
+                            shouldValidate: true,
+                          })
+                        }}
+                      >
+                        <span className="material-symbols-outlined text-[16px]">
+                          close
+                        </span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {errors.attachments && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.attachments.message}
+              </span>
+            )}
+          </div>
           <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Content
           </label>
@@ -387,7 +449,7 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <RichTextEditor value={field.value} onChange={field.onChange} />
+              <QuillEditor value={field.value} onChange={field.onChange} />
             )}
           />
           {errors.content && (
@@ -402,7 +464,9 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
             <button
               type="submit"
               className="px-4 py-2 bg-primary hover:bg-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none"
-              disabled={isSubmitting}
+              disabled={
+                isSubmitting || addTeacherNotificationMutation.isPending
+              }
             >
               <span>Publish Now</span>
               <span className="material-symbols-outlined text-[18px]">
@@ -411,6 +475,13 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
             </button>
           </div>
         </div>
+        {addTeacherNotificationMutation.isError && (
+          <div className="px-5 pb-4">
+            <p className="text-xs text-red-500">
+              Couldn&apos;t publish notification. Please try again.
+            </p>
+          </div>
+        )}
       </form>
     </>
   )

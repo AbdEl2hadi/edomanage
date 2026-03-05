@@ -24,12 +24,13 @@ import { Route as StudentCalendarRouteImport } from './routes/student/calendar'
 import { Route as OwnerSettingsRouteImport } from './routes/owner/settings'
 import { Route as OwnerPaymentsRouteImport } from './routes/owner/payments'
 import { Route as OwnerDashboardRouteImport } from './routes/owner/dashboard'
+import { Route as OwnerCalendarRouteImport } from './routes/owner/calendar'
 import { Route as OwnerAnnouncementsRouteImport } from './routes/owner/announcements'
-import { Route as TeacherNotificationsIndexRouteImport } from './routes/teacher/notifications.index'
+import { Route as TeacherNotificationsIndexRouteImport } from './routes/teacher/notifications/index'
 import { Route as TeacherClassesIndexRouteImport } from './routes/teacher/classes/index'
 import { Route as OwnerTeachersIndexRouteImport } from './routes/owner/teachers.index'
 import { Route as OwnerStudentsIndexRouteImport } from './routes/owner/students.index'
-import { Route as TeacherNotificationsAddRouteImport } from './routes/teacher/notifications.add'
+import { Route as TeacherNotificationsAddRouteImport } from './routes/teacher/notifications/add'
 import { Route as TeacherClassesAllCollectionsRouteImport } from './routes/teacher/classes/allCollections'
 import { Route as TeacherClassesFolderIdRouteImport } from './routes/teacher/classes/$folderId'
 import { Route as OwnerTeachersAddRouteImport } from './routes/owner/teachers.add'
@@ -110,6 +111,11 @@ const OwnerDashboardRoute = OwnerDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => OwnerRoute,
 } as any)
+const OwnerCalendarRoute = OwnerCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => OwnerRoute,
+} as any)
 const OwnerAnnouncementsRoute = OwnerAnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/owner/announcements': typeof OwnerAnnouncementsRoute
+  '/owner/calendar': typeof OwnerCalendarRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/payments': typeof OwnerPaymentsRoute
   '/owner/settings': typeof OwnerSettingsRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/owner/announcements': typeof OwnerAnnouncementsRoute
+  '/owner/calendar': typeof OwnerCalendarRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/payments': typeof OwnerPaymentsRoute
   '/owner/settings': typeof OwnerSettingsRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/owner/announcements': typeof OwnerAnnouncementsRoute
+  '/owner/calendar': typeof OwnerCalendarRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
   '/owner/payments': typeof OwnerPaymentsRoute
   '/owner/settings': typeof OwnerSettingsRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/owner/announcements'
+    | '/owner/calendar'
     | '/owner/dashboard'
     | '/owner/payments'
     | '/owner/settings'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/owner/announcements'
+    | '/owner/calendar'
     | '/owner/dashboard'
     | '/owner/payments'
     | '/owner/settings'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/owner/announcements'
+    | '/owner/calendar'
     | '/owner/dashboard'
     | '/owner/payments'
     | '/owner/settings'
@@ -445,6 +457,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OwnerDashboardRouteImport
       parentRoute: typeof OwnerRoute
     }
+    '/owner/calendar': {
+      id: '/owner/calendar'
+      path: '/calendar'
+      fullPath: '/owner/calendar'
+      preLoaderRoute: typeof OwnerCalendarRouteImport
+      parentRoute: typeof OwnerRoute
+    }
     '/owner/announcements': {
       id: '/owner/announcements'
       path: '/announcements'
@@ -520,6 +539,7 @@ declare module '@tanstack/react-router' {
 
 interface OwnerRouteChildren {
   OwnerAnnouncementsRoute: typeof OwnerAnnouncementsRoute
+  OwnerCalendarRoute: typeof OwnerCalendarRoute
   OwnerDashboardRoute: typeof OwnerDashboardRoute
   OwnerPaymentsRoute: typeof OwnerPaymentsRoute
   OwnerSettingsRoute: typeof OwnerSettingsRoute
@@ -531,6 +551,7 @@ interface OwnerRouteChildren {
 
 const OwnerRouteChildren: OwnerRouteChildren = {
   OwnerAnnouncementsRoute: OwnerAnnouncementsRoute,
+  OwnerCalendarRoute: OwnerCalendarRoute,
   OwnerDashboardRoute: OwnerDashboardRoute,
   OwnerPaymentsRoute: OwnerPaymentsRoute,
   OwnerSettingsRoute: OwnerSettingsRoute,
