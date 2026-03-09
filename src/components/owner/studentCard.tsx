@@ -1,3 +1,4 @@
+import z from 'zod'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -12,19 +13,21 @@ import {
 
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import useDeleteStudent from '@/services/api/deleteStudent'
+import ProfilePicGenerator from './profilePicGenerator'
+import type { StudentModel } from '@/services/api/owner/types/modelTypes'
+import { useDeleteStudent } from '@/services/api/owner/student/hooks'
 
-export type StudentCardType = {
-  id: string
-  imgSrc: string
-  gender?: string
-  name: string
-  email: string
-  grade: string
-  parentPhoneNumber: string
-  parentName: string
-  status: string
-}
+export const StudentProfileSchema = z.object({
+  id: z.string(),
+  imgSrc: z.string().optional(),
+  gender: z.string().optional(),
+  name: z.string(),
+  email: z.string(),
+  grade: z.string(),
+  parentPhoneNumber: z.string(),
+  parentName: z.string(),
+  status: z.string(),
+})
 
 export default function StudentCard({
   id,
@@ -36,7 +39,7 @@ export default function StudentCard({
   parentPhoneNumber,
   parentName,
   status,
-}: StudentCardType) {
+}: StudentModel) {
   const { mutate: deleteStudent } = useDeleteStudent()
   return (
     <tr className="group hover:bg-primary/5 dark:hover:bg-slate-700/30 cursor-pointer">
@@ -48,16 +51,7 @@ export default function StudentCard({
       </td>
       <td className="p-4">
         <div className="flex items-center gap-3">
-          {!imgSrc ? (
-            <p>{gender}</p>
-          ) : (
-            <img
-              alt="Male student profile"
-              className="h-10 w-10 rounded-full ring-2 ring-transparent group-hover:ring-primary/50 object-cover border border-slate-200 dark:border-slate-700"
-              data-alt="Young male student smiling"
-              src={imgSrc}
-            />
-          )}
+          <ProfilePicGenerator name={name} imgSrc={imgSrc} />
           <div className="flex flex-col">
             <span className="font-semibold text-slate-900 dark:text-white group-hover:text-primary">
               {name}

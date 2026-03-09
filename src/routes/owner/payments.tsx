@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import DataTable from '@/components/owner/dataTable/dataTable'
 
 export const Route = createFileRoute('/owner/payments')({
   component: RouteComponent,
@@ -8,5 +9,5 @@ export const Route = createFileRoute('/owner/payments')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/owner/payements"!</div>
+  return <DataTable />
 }

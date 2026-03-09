@@ -5,7 +5,7 @@ type propsType = {
 
 export default function ProfilePicGenerator({ name, imgSrc }: propsType) {
   function getInitials(fullName: string) {
-    const parts = fullName.trim().split(' ')
+    const parts = fullName.trim().split(' ').filter(Boolean)
     const first = parts[0][0].toUpperCase()
     const second = parts[1][0].toUpperCase()
     return first + second
@@ -42,12 +42,11 @@ export default function ProfilePicGenerator({ name, imgSrc }: propsType) {
         <img
           alt=""
           className="h-10 w-10 rounded-full object-cover border border-slate-600 ring-2 ring-transparent group-hover:ring-primary/50"
-          data-alt="Portrait of Sarah Jenkins"
           src={imgSrc}
         />
       ) : (
         <div
-          style={{ backgroundColor: bgColor, width: '40px', height: '40px' }}
+          style={{ backgroundColor: bgColor, width: 40, height: 40 }}
           className="rounded-full text-white font-bold text-lg flex items-center justify-center"
         >
           {initials}

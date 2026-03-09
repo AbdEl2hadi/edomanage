@@ -10,7 +10,7 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
-    "start:json-server": "json-server -w src/dataBase/db.json --port 4000"
+    "start:json-server": "json-server -w src/dataBase/db.json5 --port 4000"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -39,6 +39,7 @@
     "@tanstack/react-router-devtools": "^1.132.0",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/router-plugin": "^1.132.0",
+    "@tanstack/zod-adapter": "^1.166.2",
     "@tiptap/core": "^3.18.0",
     "@tiptap/extension-heading": "^3.18.0",
     "@tiptap/extension-highlight": "^3.18.0",

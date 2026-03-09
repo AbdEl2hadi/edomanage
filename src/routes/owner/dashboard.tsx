@@ -57,7 +57,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex h-full w-full overflow-y-auto">
+    <div className="flex-1 mb-10 h-full w-full overflow-y-auto">
       <main className="flex-1 flex flex-col h-full  bg-background-light dark:bg-background-dark relative">
         <div className="flex-1 min-h-full p-8 scroll-smooth scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
           <div className="max-w-7xl mx-auto flex flex-col gap-8">

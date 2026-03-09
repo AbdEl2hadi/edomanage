@@ -1,5 +1,5 @@
 import { Activity, useState } from 'react'
-import { useNavigate } from '@tanstack/react-router'
+import {useNavigate,useParams } from '@tanstack/react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -57,6 +57,12 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
       )
     }*/
   }
+
+  const searchParams = new URLSearchParams();
+  searchParams.append("search","Khatir Ayoub")
+
+  const searchs = useParams({})
+  searchs.
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
