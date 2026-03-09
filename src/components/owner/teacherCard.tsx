@@ -99,7 +99,7 @@ export default function TeacherCard({
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-10 w-10 shrink-0 flex items-center relative">
-            <ProfilePicGenerator name={name} imgSrc={imgSrc} />
+            <ProfilePicGenerator name={name} imgSrc={imgSrc} />n
           </div>
           <div className="ml-4">
             <div className="text-sm font-medium dark:text-white group-hover:text-primary text-black transition-colors">

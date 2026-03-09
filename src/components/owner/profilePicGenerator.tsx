@@ -46,7 +46,11 @@ export default function ProfilePicGenerator({ name, imgSrc }: propsType) {
         />
       ) : (
         <div
-          style={{ backgroundColor: bgColor, width: 40, height: 40 }}
+          style={
+            imgSrc
+              ? { backgroundColor: bgColor, width: 40, height: 40 }
+              : undefined
+          }
           className="rounded-full text-white font-bold text-lg flex items-center justify-center"
         >
           {initials}
