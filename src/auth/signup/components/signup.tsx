@@ -15,7 +15,7 @@ export function RightPanel() {
     resolver: zodResolver(signupSchema),
   })
 
-  const onSubmit = async (data: SignupFormValues) => {
+  const onSubmit = async (_data: SignupFormValues) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     navigate({
       to: '/owner/dashboard',

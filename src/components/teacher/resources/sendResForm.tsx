@@ -22,7 +22,7 @@ export default function SendResForm({ folders }: { folders: Array<Collection> })
   })
 
   /* Submit function */
-  const onSubmit: SubmitHandler<ResourceType> = async (data) => {
+  const onSubmit: SubmitHandler<ResourceType> = async (_data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     reset()

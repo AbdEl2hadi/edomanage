@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+@import './styles/calendar.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './styles/_variables.scss';
@@ -7,6 +9,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @variant dark (&:where(.dark, .dark *));
+
+@utility calendar-grid {
+  @apply grid grid-cols-7;
+}
 
 @theme {
   --color-primary: #135bec;
@@ -109,19 +115,28 @@
 }
 
 @keyframes fade-out-theme {
-  from { opacity: 1 }
-  to { opacity: 0 }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes fade-in-theme {
-  from { opacity: 0 }
-  to { opacity: 1 }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* main */
 
 body {
   font-family: 'Lexend', sans-serif;
+  line-height: 1.5;
   @apply m-0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
