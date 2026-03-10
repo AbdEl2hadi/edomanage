@@ -2,9 +2,9 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import type { TeacherProfileType } from '@/components/owner/teacherCard'
+import type { TeacherModel } from '@/services/api/owner/types/modelTypes'
 import { TeacherProfileSchema } from '@/components/owner/teacherCard'
-import useAddTeacher from '@/services/api/addTeacher'
+import { useAddTeacher } from '@/services/api/owner/teacher/hooks'
 
 export const Route = createFileRoute('/owner/teachers/add')({
   component: RouteComponent,
@@ -14,7 +14,7 @@ export const Route = createFileRoute('/owner/teachers/add')({
 })
 
 function RouteComponent() {
-  const form = useForm<TeacherProfileType>({
+  const form = useForm<TeacherModel>({
     resolver: zodResolver(TeacherProfileSchema),
     defaultValues: {
       subjects: [],
@@ -56,7 +56,7 @@ function RouteComponent() {
     )
   }
 
-  function onSubmit(data: TeacherProfileType | undefined, errors: any) {
+  function onSubmit(data: TeacherModel | undefined, errors: any) {
     if (errors) {
       console.log('Errors : ', errors)
     } else if (data) {

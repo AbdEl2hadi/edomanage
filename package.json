@@ -10,7 +10,7 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
-    "start:json-server": "json-server -w src/dataBase/db.json --port 4000"
+    "start:json-server": "json-server -w src/dataBase/db.json5 --port 4000"
   },
   "dependencies": {
     "@calendarjs/ce": "^1.0.6",

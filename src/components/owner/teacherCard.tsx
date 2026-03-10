@@ -15,12 +15,15 @@ import {
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import ProfilePicGenerator from './profilePicGenerator'
-import useDeleteTeacher from '@/services/api/deleteTeacher'
-import useEditTeacher from '@/services/api/editTeacher'
+import type { TeacherModel } from '@/services/api/owner/types/modelTypes'
+import {
+  useDeleteTeacher,
+  useEditTeacher,
+} from '@/services/api/owner/teacher/hooks'
 
 export const TeacherProfileSchema = z.object({
   id: z.string().min(4, 'the minimum size of the id is 4 characters'),
-  imgSrc: z.string().url().optional(),
+  imgSrc: z.string().optional(),
   name: z
     .string()
     .min(4, 'the minimum size of the name is 4 characters')
@@ -41,8 +44,6 @@ export const TeacherProfileSchema = z.object({
   role: z.enum(['admin', 'teacher', 'student']).optional(),
 })
 
-export type TeacherProfileType = z.infer<typeof TeacherProfileSchema>
-
 export default function TeacherCard({
   id,
   imgSrc,
@@ -54,12 +55,12 @@ export default function TeacherCard({
   number,
   status,
   password,
-}: TeacherProfileType) {
+}: TeacherModel) {
   const { mutate: deleteTeacher } = useDeleteTeacher()
 
   const { mutate: editTeacher } = useEditTeacher()
 
-  function onSubmit(data: TeacherProfileType | undefined, errors: any) {
+  function onSubmit(data: TeacherModel | undefined, errors: any) {
     if (errors) {
       console.log('Errors : ', errors)
     } else if (data) {
@@ -68,14 +69,16 @@ export default function TeacherCard({
     }
   }
   function removeSubjects(value: string) {
+    const currentSubjects = form.getValues('subjects')
+
     form.setValue(
       'subjects',
-      subjects.filter((s) => s !== value),
+      currentSubjects.filter((s) => s !== value),
       { shouldValidate: true },
     )
   }
 
-  const form = useForm<TeacherProfileType>({
+  const form = useForm<TeacherModel>({
     defaultValues: {
       id: id,
       imgSrc: imgSrc,
@@ -96,7 +99,7 @@ export default function TeacherCard({
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="h-10 w-10 shrink-0 flex items-center relative">
-            <ProfilePicGenerator name={name} imgSrc={imgSrc} />
+            <ProfilePicGenerator name={name} imgSrc={imgSrc} />n
           </div>
           <div className="ml-4">
             <div className="text-sm font-medium dark:text-white group-hover:text-primary text-black transition-colors">
@@ -271,138 +274,4 @@ export default function TeacherCard({
       </td>
     </tr>
   )
-}
-
-{
-  /*
-<div
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-    >
-      <div
-        class="bg-white dark:bg-slate-900 w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transform transition-all"
-      >
-        <div
-          class="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800"
-        >
-          <div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-              Edit profile
-            </h2>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Make changes to your profile here. Click save when you're done.
-            </p>
-          </div>
-          <button
-            class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
-          >
-            <span class="material-icons-outlined">close</span>
-          </button>
-        </div>
-        <form action="#" class="p-6 space-y-5">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="space-y-1.5">
-              <label
-                class="text-sm font-semibold text-slate-700 dark:text-slate-300"
-                for="name"
-                >Name</label
-              >
-              <input
-                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary focus:border-primary rounded-lg text-sm text-slate-900 dark:text-white transition-all outline-none"
-                id="name"
-                type="text"
-                value="Emily Davis"
-              />
-            </div>
-            <div class="space-y-1.5">
-              <label
-                class="text-sm font-semibold text-slate-700 dark:text-slate-300"
-                for="subjects"
-                >Subjects</label
-              >
-              <input
-                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary focus:border-primary rounded-lg text-sm text-slate-900 dark:text-white transition-all outline-none"
-                id="subjects"
-                type="text"
-                value="English"
-              />
-            </div>
-          </div>
-          <div class="pt-2 border-t border-slate-100 dark:border-slate-800">
-            <p
-              class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4"
-            >
-              Contacts
-            </p>
-            <div class="space-y-4">
-              <div class="space-y-1.5">
-                <label
-                  class="text-sm font-semibold text-slate-700 dark:text-slate-300"
-                  for="email"
-                  >Email</label
-                >
-                <input
-                  class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary focus:border-primary rounded-lg text-sm text-slate-900 dark:text-white transition-all outline-none"
-                  id="email"
-                  type="email"
-                  value="emily.davis@example.com"
-                />
-              </div>
-              <div class="space-y-1.5">
-                <label
-                  class="text-sm font-semibold text-slate-700 dark:text-slate-300"
-                  for="phone"
-                  >Phone number</label
-                >
-                <input
-                  class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary focus:border-primary rounded-lg text-sm text-slate-900 dark:text-white transition-all outline-none"
-                  id="phone"
-                  type="text"
-                  value="+213555004"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="space-y-1.5">
-            <label
-              class="text-sm font-semibold text-slate-700 dark:text-slate-300"
-              for="status"
-              >Status</label
-            >
-            <div class="relative">
-              <select
-                class="w-full appearance-none px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-primary focus:border-primary rounded-lg text-sm text-slate-900 dark:text-white transition-all outline-none"
-                id="status"
-              >
-                <option selected="" value="active">Active</option>
-                <option value="pending">Pending</option>
-                <option value="inactive">Inactive</option>
-                <option value="onleave">On Leave</option>
-              </select>
-              <div
-                class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-slate-400"
-              >
-                <span class="material-icons-outlined text-lg">expand_more</span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 mt-2"
-          >
-            <button
-              class="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300"
-              type="button"
-            >
-              Cancel
-            </button>
-            <button
-              class="px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-primary/30 transition-all shadow-lg shadow-primary/20"
-              type="submit"
-            >
-              Save changes
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    */
 }

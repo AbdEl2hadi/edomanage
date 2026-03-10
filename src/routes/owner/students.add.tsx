@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { StudentCardType } from '@/components/owner/studentCard'
+import type { StudentModel } from '@/services/api/owner/types/modelTypes'
 
 export const Route = createFileRoute('/owner/students/add')({
   component: RouteComponent,
@@ -9,7 +9,7 @@ export const Route = createFileRoute('/owner/students/add')({
   }),
 })
 
-export type StudentProfile = StudentCardType & {
+export type StudentProfile = StudentModel & {
   dateOfBirth: Date
   address: string
   joiningDate: Date
