@@ -38,23 +38,23 @@
 }
 
 .owner-big-calendar .rbc-day-bg + .rbc-day-bg {
-  border-left: none !important;
+  border-left: 1px solid var(--border) !important;
 }
 
 .owner-big-calendar .rbc-time-content > * + * > * {
-  border-left: none !important;
+  border-left: 1px solid var(--border) !important;
 }
 
 .owner-big-calendar .rbc-day-col + .rbc-day-col {
-  border-left: none !important;
+  border-left: 1px solid var(--border) !important;
 }
 
 .owner-big-calendar .rbc-time-content .rbc-day-col {
-  border-left: none !important;
+  border-left: 1px solid var(--border) !important;
 }
 
 .owner-big-calendar .rbc-time-view .rbc-allday-cell + .rbc-allday-cell {
-  border-left: none !important;
+  border-left: 1px solid var(--border) !important;
 }
 
 /* ── rbc-time-header: the sticky header row in week/day views ── */
@@ -144,12 +144,61 @@
 /* ── Day background ── */
 .owner-big-calendar .rbc-day-bg {
   background: transparent;
-  transition: background 0.15s;
+  transition: background 0.15s, box-shadow 0.15s;
   cursor: pointer;
+  position: relative;
 }
 
 .owner-big-calendar .rbc-day-bg:hover {
-  background: color-mix(in oklab, var(--primary) 4%, transparent);
+  background: color-mix(in oklab, var(--primary) 7%, transparent);
+  box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--primary) 30%, transparent);
+}
+
+/* Pass pointer events through the content layer to the background day card */
+.owner-big-calendar .rbc-row-content {
+  pointer-events: none;
+}
+
+/* Restore pointer events on all interactive elements inside */
+.owner-big-calendar .rbc-row-content .rbc-date-cell,
+.owner-big-calendar .rbc-row-content .rbc-date-cell *,
+.owner-big-calendar .rbc-row-content .rbc-event,
+.owner-big-calendar .rbc-row-content .rbc-show-more,
+.owner-big-calendar .rbc-row-content .rbc-selected,
+.owner-big-calendar .rbc-row-content button {
+  pointer-events: auto;
+}
+
+/* ── Centered "+" hover hint on the full day card ── */
+.owner-big-calendar .rbc-day-bg::after {
+  content: '+';
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+  transform: scale(0.7);
+}
+
+.owner-big-calendar .rbc-day-bg:hover::after {
+  opacity: 0.9;
+  transform: scale(1);
+}
+
+/* ── date-cell cursor ── */
+.owner-big-calendar .rbc-date-cell {
+  position: relative;
+  cursor: pointer;
 }
 
 /* ── Off-range days ── */
@@ -174,6 +223,7 @@
 .owner-big-calendar .rbc-date-cell {
   padding: 6px 8px 2px;
   text-align: right;
+  cursor: pointer;
 }
 
 .owner-big-calendar .rbc-button-link {
@@ -183,14 +233,16 @@
   border-radius: 9999px;
   padding: 2px 6px;
   transition:
-    background 0.12s,
-    color 0.12s;
+    background 0.15s,
+    color 0.15s,
+    transform 0.1s;
   cursor: pointer;
 }
 
 .owner-big-calendar .rbc-button-link:hover {
-  background: color-mix(in oklab, var(--primary) 12%, transparent);
+  background: color-mix(in oklab, var(--primary) 15%, transparent);
   color: var(--primary);
+  transform: scale(1.15);
 }
 
 /* ── Current date circle ── */

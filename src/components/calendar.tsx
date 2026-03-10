@@ -156,7 +156,7 @@ export function GlobalCalendar({
           )}
         </div>
 
-        {/* Legend */}
+        {/* Color Legend */}
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-800">
           <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
             Color Legend
@@ -177,10 +177,10 @@ export function GlobalCalendar({
         </div>
       </aside>
 
-      {/* Main Calendar */}
+      {/* Calendar */}
       <section className="flex-1 flex flex-col gap-4 min-w-0">
         {/* Toolbar */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl px-5 py-3 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl px-5 py-1.5 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
               {title}
@@ -235,17 +235,16 @@ export function GlobalCalendar({
           </div>
         </div>
 
-        {/* Calendar */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-auto p-4 flex-1">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-4 flex-1 flex flex-col min-h-0">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-220px)] min-h-115 gap-3 text-slate-400">
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 text-slate-400">
               <span className="material-symbols-outlined animate-spin text-[40px]">
                 progress_activity
               </span>
               <p className="text-sm font-medium">Loading events…</p>
             </div>
           ) : isError ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-220px)] min-h-115 gap-3 text-red-400">
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 text-red-400">
               <span className="material-symbols-outlined text-[40px]">
                 error
               </span>
@@ -255,7 +254,7 @@ export function GlobalCalendar({
               </p>
             </div>
           ) : events.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-220px)] min-h-115 gap-3 text-slate-400">
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 text-slate-400">
               <span className="material-symbols-outlined text-[48px]">
                 calendar_month
               </span>
@@ -267,7 +266,7 @@ export function GlobalCalendar({
               </p>
             </div>
           ) : (
-            <div className="owner-big-calendar h-[calc(100vh-220px)] min-h-115">
+            <div className="owner-big-calendar flex-1 h-full min-h-0">
               <Calendar
                 date={selectedDate}
                 events={events}

@@ -27,24 +27,24 @@ export default function Login({ role, redirectTo }: logInSearch) {
     )
 
   return (
-    <div className="flex w-full flex-col justify-center px-4 py-12 sm:px-6 lg:w-[45%] lg:px-20 xl:px-24 bg-white dark:bg-background-dark z-10 shadow-xl lg:shadow-none">
+    <div className="flex w-full self-stretch flex-col justify-center overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6 lg:w-[45%] lg:px-16 xl:px-20 bg-white dark:bg-background-dark z-10 shadow-xl lg:shadow-none">
       <div className="mx-auto w-full max-w-sm lg:w-96">
         <div className="mb-8">
           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary ring-1 ring-inset ring-primary/20">
             {role.charAt(0).toUpperCase() + role.slice(1)} Portal
           </span>
         </div>
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-[#111318] dark:text-white sm:text-4xl leading-tight">
+        <div className="mb-5">
+          <h1 className="text-2xl font-bold tracking-tight text-[#111318] dark:text-white sm:text-3xl leading-tight">
             {heading}
           </h1>
-          <p className="mt-3 text-base text-[#616f89] dark:text-gray-400">
+          <p className="mt-2 text-sm text-[#616f89] dark:text-gray-400">
             Welcome back. Please enter your details.
           </p>
         </div>
-        <div className="mb-8 border-b border-[#dbdfe6] dark:border-gray-700"></div>
+        <div className="mb-5 border-b border-[#dbdfe6] dark:border-gray-700"></div>
         <Loginform redirectTo={redirectTo} />
-        <div className="mt-8">
+        <div className="mt-5">
           <div className="relative">
             <div
               aria-hidden="true"
@@ -78,7 +78,7 @@ export default function Login({ role, redirectTo }: logInSearch) {
             </a>
           </div>
         </div>
-        <div className="mt-10 text-center">
+        <div className="mt-6 text-center">
           {/* if he is owner  */}
           {role === 'owner' && (
             <p className="mb-6 text-sm text-[#637588] dark:text-[#9da6b9]">
