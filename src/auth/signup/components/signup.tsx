@@ -23,7 +23,7 @@ export function RightPanel() {
     })
   }
   return (
-    <div className="flex w-full flex-1 flex-col justify-center bg-background-light dark:bg-background-dark px-1 py-3 lg:px-15 xl:px-20">
+    <div className="flex w-full flex-1 self-stretch flex-col justify-center bg-white dark:bg-background-dark overflow-y-auto overflow-x-hidden px-1 py-3 lg:px-15 xl:px-20">
       <div className="mx-auto w-full max-w-130">
         {/* Mobile Logo (Visible only on small screens) */}
         <div className="lg:hidden mb-8 pl-3 flex items-center gap-3">
