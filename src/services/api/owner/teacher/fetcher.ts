@@ -4,12 +4,13 @@ import type { TeacherModel} from "../types/modelTypes";
 interface TeacherFetcher {
     addTeacher: (Teacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
     getTeachers: () => Promise<PaginatedApiResponse<TeacherModel>>
-    getTeacher: (id: string) => Promise<ApiResponse<TeacherModel>> // still not implemented
+    // getTeacher: (id: string) => Promise<ApiResponse<TeacherModel>>  still not implemented
     editTeacher: (modifiedTeacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
     deleteTeacher: (id: string) => Promise<ApiResponse<void>>
 }
 
 class JSONTeacherFetcher implements TeacherFetcher {
+
     async addTeacher(teacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
         const response = await fetch("http://localhost:4000/teachers", {
             method: "POST",
