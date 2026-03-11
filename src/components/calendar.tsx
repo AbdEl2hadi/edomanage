@@ -12,7 +12,7 @@ import {
 import { useMemo, useState } from 'react'
 import type { EventPropGetter, View } from 'react-big-calendar'
 import type { EventForm } from '@/routes/owner/calendar'
-import useGetEvents from '@/services/api/student/getEvent'
+import useGetEvents from '@/services/api/getEvents'
 import {
   Dialog,
   DialogContent,

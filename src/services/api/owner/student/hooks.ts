@@ -22,7 +22,7 @@ export function useAddStudent(student: StudentModel) {
 // }
 
 
-export function useGetStudents({ pageIndex: page, search, pageSize: size }: Filters<StudentModel>) {
+export function useGetStudents({ pageIndex: page, search, pageSize: size }: Partial<Filters<StudentModel>>) {
     return useQuery({
         queryKey: ['students', page, search, size],
         queryFn: () => studentFetcher.getStudents({ pageIndex: page, search, pageSize: size }),
