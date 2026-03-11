@@ -1,4 +1,6 @@
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, MoreHorizontal, Trash2Icon } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import type { ColumnDef } from '@tanstack/react-table'
 import type {
   StudentModel,
@@ -6,7 +8,20 @@ import type {
 } from '@/services/api/owner/types/modelTypes'
 import ProfilePicGenerator from '@/components/owner/profilePicGenerator'
 import { Button } from '@/components/ui/button'
+
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 import {
   DropdownMenu,
@@ -16,8 +31,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { SelectSeparator } from '@/components/ui/select'
+import {
+  useDeleteStudent,
+  useEditStudent,
+} from '@/services/api/owner/student/hooks'
 
+// definition for the student columns in the student table
 export const StudentColumns: Array<ColumnDef<StudentModel>> = [
   {
     id: 'select',
@@ -88,7 +107,7 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
         </Button>
       )
     },
-    size: 28, // increase from 25 to 35
+    size: 28,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
         {row.original.email}
@@ -150,13 +169,15 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
     size: 10,
     cell: ({ row }) => {
       const student = row.original
+      const { mutate: editStudent } = useEditStudent()
+      const { mutate: deleteStudent } = useDeleteStudent()
       return (
         <div className="flex justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-slate-100 dark:hover:bg-slate-700"
+                className="h-8 w-8 p-0 hover:bg-slate-100 dark:hover:bg-slate-700 ring-2 ring-slate-300 dark:ring-slate-600 focus:ring-2 focus:ring-primary/20 focus:border-primary"
               >
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />
@@ -166,17 +187,68 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
               align="end"
               className="w-44 bg-white dark:bg-slate-800"
             >
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel className=" text-dark dark:text-white">
+                Actions
+              </DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(student.id)}
+                className="cursor-pointer  text-dark dark:text-white"
+                onClick={() => {
+                  navigator.clipboard.writeText(student.id)
+                  toast.success('Student ID has been copied')
+                }}
               >
                 Copy Student ID
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className = "cursor-pointer">View Profile</DropdownMenuItem>
-              <SelectSeparator/>
-              <DropdownMenuItem >Edit Student</DropdownMenuItem>
-              <DropdownMenuItem >Delete Student</DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-gray-300" />
+
+              <DropdownMenuItem className="cursor-pointer text-dark dark:text-white">
+                <Link to="/owner/$studentId" params={{ studentId: student.id }}>
+                  View Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-gray-300" />
+              <DropdownMenuItem className="cursor-pointer  text-dark dark:text-white">
+                Edit Student
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-gray-300" />
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="text-dark dark:text-white"
+                      size="sm"
+                    >
+                      Delete Student
+                    </Button>
+                  </AlertDialogTrigger>
+
+                  <AlertDialogContent size="sm">
+                    <AlertDialogHeader>
+                      <AlertDialogMedia className="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400">
+                        <Trash2Icon className="h-6 w-6" />
+                      </AlertDialogMedia>
+                      <AlertDialogTitle>Delete Student?</AlertDialogTitle>
+                      <AlertDialogDescription className="text-slate-700 dark:text-slate-300">
+                        This will permanently delete this student record. This
+                        action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter className="space-x-2">
+                      <AlertDialogCancel variant="outline">
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500"
+                        onClick={() => deleteStudent(student.id)}
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -185,6 +257,7 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
   },
 ]
 
+// definition for the teacher columns in the teacher table
 export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
   {
     accessorKey: 'imgSrc',
@@ -323,9 +396,16 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
-
-              <DropdownMenuItem>View Profile</DropdownMenuItem>
-              <DropdownMenuItem>View Subjects</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                View Profile
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-red-600" />
+              <DropdownMenuItem className="cursor-pointer">
+                Edit Teacher
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Delete Teacher
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

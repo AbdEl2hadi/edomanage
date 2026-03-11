@@ -4,7 +4,7 @@ import type { ApiResponse, Filters, PaginatedApiResponse } from "../types/apiTyp
 interface StudentFetcher {
     addStudent: (student: StudentModel) => Promise<ApiResponse<StudentModel>>
     getStudents: (args: Partial<Filters<StudentModel>>) => Promise<PaginatedApiResponse<StudentModel>>
-    // getStudent: (args: PaginationSchema) => Promise<ApiResponse<StudentModel>>
+    getStudent: (id: string) => Promise<ApiResponse<StudentModel>>
     editStudent: (modifiedStudent: StudentModel) => Promise<ApiResponse<StudentModel>>
     deleteStudent: (id: string) => Promise<ApiResponse<void>>
 }
@@ -48,29 +48,21 @@ class JSONStudentFetcher implements StudentFetcher {
         }
     }
 
-    // async getStudent(args: PaginationSchema): Promise<ApiResponse<StudentModel>> {
-    //     try {
-    //         const url = new URL("http://localhost:4000/students")
-    //         url.searchParams.append("?name:contains", args.search.toString())
+    async getStudent(id: string): Promise<ApiResponse<StudentModel>> {
+        try {
+            const url = new URL(`http://localhost:4000/students/${id}`)
 
-    //         const response = await fetch(url.toString())
-    //         const data: {
-    //             "prev": null | number,
-    //             "next": null | number,
-    //             "pages": number,
-    //             "items": number,
-    //             "data": Array<StudentModel>
-    //         } = await response.json();
-    //         return {
-    //             success: true,
-    //             message: "",
-    //             data: data.data,
-
-    //         } as any
-    //     } catch (error) {
-    //         throw new Error("error fetching students data");
-    //     }
-    // }
+            const response = await fetch(url.toString())
+            const data: StudentModel = await response.json()
+            return {
+                success: true,
+                message: "",
+                data: data,
+            }
+        } catch (error) {
+            throw new Error("error fetching students data");
+        }
+    }
 
     async editStudent(modifiedStudent: StudentModel): Promise<ApiResponse<StudentModel>> {
         const response = await fetch("http://localhost:4000/students", {

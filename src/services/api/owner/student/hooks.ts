@@ -17,12 +17,20 @@ export function useAddStudent(student: StudentModel) {
         }
     });
 }
-// export function useGetStudent(args: PaginationSchema) {
+export function useGetStudent(id: string) {
+  return useQuery<StudentModel | null>({
+    queryKey: ['student', id],
+    queryFn: async() => {
+      const response = await studentFetcher.getStudent(id);
+      return response.success ? response.data : null;
+    },
+    // select: (response) => {
+    // },
+    // keepPreviousData: true,
+  });
+}
 
-// }
-
-
-export function useGetStudents({ pageIndex: page, search, pageSize: size }: Filters<StudentModel>) {
+export function useGetStudents({ pageIndex: page, search, pageSize: size }: Partial<Filters<StudentModel>>) {
     return useQuery({
         queryKey: ['students', page, search, size],
         queryFn: () => studentFetcher.getStudents({ pageIndex: page, search, pageSize: size }),

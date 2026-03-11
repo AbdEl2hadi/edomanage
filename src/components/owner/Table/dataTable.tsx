@@ -1,7 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
-
-import { flexRender } from '@tanstack/react-table'
-import type { Table as Tab } from '@tanstack/react-table'
+import * as React from 'react'
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
+import { StudentColumns, TeacherColumns } from './columnsData'
+import type {
+  ColumnFiltersState,
+  SortingState,
+  Table as Tab,
+} from '@tanstack/react-table'
 
 import {
   Table,
@@ -30,13 +41,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
-export const Route = createFileRoute('/owner/payments')({
-  component: RouteComponent,
-  head: () => ({
-    meta: [{ title: 'Owner | Payments - EduManage' }],
-  }),
-})
+import { useGetStudents } from '@/services/api/owner/student/hooks'
+import { useGetTeachers } from '@/services/api/owner/teacher/hooks'
 
 export type filter = {
   label: string
@@ -47,6 +53,8 @@ interface DataTableProps<TData, TValue> {
   table: Tab<TData>
   filters?: Array<Array<filter>>
 }
+
+// Basic component used by the StudentTable and TeacherTable components
 
 export function DataTable<TData, TValue>({
   table,
@@ -183,11 +191,33 @@ export function DataTable<TData, TValue>({
           <Pagination>
             <PaginationContent>
               <PaginationItem>
+                <span>
+                  Page {table.getState().pagination.pageIndex + 1} of
+                  {table.getPageCount()}
+                </span>
+              </PaginationItem>
+              <PaginationItem>
                 <PaginationPrevious
                   onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
                 />
               </PaginationItem>
+              <PaginationItem>
+                <input
+                  id="page-input"
+                  value={table.getState().pagination.pageIndex + 1}
+                  type="number"
+                  onChange={(e) => {
+                    let page = Number(e.target.value)
+                    const pageCount = table.getPageCount()
+                    if (page < 1) page = 1
+                    if (page > pageCount) page = pageCount
+                    table.setPageIndex(page - 1)
+                  }}
+                  className={`w-16 p-1 border rounded-md text-center focus:ring-2 focus:ring-primary/20 focus:border-primary`}
+                />
+              </PaginationItem>
+
               {/* {firstShownPage > 0 && (
                 <PaginationItem>
                   <PaginationEllipsis />
@@ -224,7 +254,68 @@ export function DataTable<TData, TValue>({
   )
 }
 
-function RouteComponent() {
-  return 'hello world'
-  // return <DataTable columns={columns} data={payments} />
+// uses DataTable component
+// when the data changes or refetch only this component will re-render not the whole page
+
+export function StudentTable({ filters }: { filters: Array<Array<filter>> }) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  )
+  const [sorting, setSorting] = React.useState<SortingState>([])
+
+  const { data: studentsData } = useGetStudents({})
+
+  // const data = React.useMemo(() => {
+  //   return studentsData?.data ?? []
+  // }, [studentsData?.data])
+
+  const table = useReactTable({
+    data: studentsData?.data ?? [],
+    columns: StudentColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+  })
+
+  return <DataTable table={table} filters={filters}></DataTable>
+}
+
+// uses DataTable component
+// when the data changes or refetch only this component will re-render not the whole page
+
+export function TeacherTable({ filters }: { filters: Array<Array<filter>> }) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  )
+  const [sorting, setSorting] = React.useState<SortingState>([])
+
+  const { data: teachersData } = useGetTeachers()
+
+  const data = React.useMemo(() => {
+    return teachersData?.data ?? []
+  }, [teachersData?.data])
+
+  const table = useReactTable({
+    data: data,
+    columns: TeacherColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+  })
+
+  return <DataTable table={table} filters={filters}></DataTable>
 }

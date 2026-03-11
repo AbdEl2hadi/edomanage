@@ -8,6 +8,9 @@ export interface StudentModel {
     status: string;
     imgSrc?: string;
     gender?: string;
+    address?: string;
+    dateOfBirth?: Date;
+    enrollmentDate?: Date;
 }
 
 export interface TeacherModel {

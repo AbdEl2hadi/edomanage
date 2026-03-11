@@ -1,14 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import type { StudentModel } from '@/services/api/owner/types/modelTypes'
+import { useGetStudent } from '@/services/api/owner/student/hooks'
 
-export const Route = createFileRoute('/owner/students/add')({
+export type StudentProfile = StudentModel & {}
+
+export const Route = createFileRoute('/owner/$studentId')({
   component: RouteComponent,
-  head: () => ({
-    meta: [{ title: 'Owner | Add Student - EduManage' }],
-  }),
 })
 
 function RouteComponent() {
+  const { studentId } = Route.useParams()
+  const { data: studentData } = useGetStudent(studentId)
+
   const [showPassword, setShowPassword] = useState(false)
   const [allowAccess, setAllowAccess] = useState(true)
 
@@ -26,11 +30,10 @@ function RouteComponent() {
           <div className="flex flex-col gap-6 pb-12">
             <div className="flex flex-col gap-1">
               <h1 className="text-[#111318] dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
-                Add New Student
+                Edit Student Profile
               </h1>
               <p className="text-[#616f89] dark:text-gray-400 text-base">
-                Enter the details below to create a new student account and
-                assign access
+                Edit the informations below and press submit to accept changes
               </p>
             </div>
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-gray-800 overflow-hidden">
@@ -38,14 +41,11 @@ function RouteComponent() {
                 <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
                   <div className="relative group cursor-pointer">
                     <div className="size-32 rounded-full bg-[#f0f2f4] dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm transition-all group-hover:border-primary/20">
-                      <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
-                        person_add
-                      </span>
                       <img
                         alt="Teacher profile preview"
                         className="hidden w-full h-full object-cover"
                         id="avatar-preview"
-                        src=""
+                        src={studentData?.imgSrc || ''}
                       />
                     </div>
                     <div className="absolute flex justify-center bottom-0 right-0 bg-primary text-white rounded-full p-2 shadow-md border-2 border-white dark:bg-surface-dark">
@@ -65,7 +65,7 @@ function RouteComponent() {
                     <div className="flex gap-3 mt-2 justify-center sm:justify-start">
                       <button
                         type="button"
-                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white hover:text-red-400 text-sm font-medium rounded-lg transition-colors"
+                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white hover:text-red-400 text-sm font-medium rounded-lg transition-colors cursor-pointer"
                       >
                         Remove
                       </button>
@@ -88,6 +88,7 @@ function RouteComponent() {
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="e.g. Sarah Connor"
                         type="text"
+                        value={studentData?.name}
                       />
                     </div>
 
@@ -99,6 +100,13 @@ function RouteComponent() {
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                           type="date"
+                          value={
+                            studentData?.dateOfBirth
+                              ? new Date(studentData.dateOfBirth)
+                                  .toISOString()
+                                  .split('T')[0]
+                              : ''
+                          }
                         />
                       </div>
                     </div>
@@ -107,7 +115,10 @@ function RouteComponent() {
                         Gender
                       </label>
                       <div className="relative">
-                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
+                        <select
+                          className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all"
+                          value={studentData?.gender || ''}
+                        >
                           <option disabled selected value="">
                             Select Gender
                           </option>
@@ -139,6 +150,7 @@ function RouteComponent() {
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="sarah.connor@school.edu"
                         type="email"
+                        value={studentData?.email}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -149,6 +161,7 @@ function RouteComponent() {
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="+1 (555) 000-0000"
                         type="tel"
+                        value={studentData?.parentPhoneNumber}
                       />
                     </div>
                     <div className="flex flex-col gap-1.5 md:col-span-2">
@@ -159,6 +172,7 @@ function RouteComponent() {
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
                         placeholder="123 Education Lane, Springfield"
                         type="text"
+                        value={studentData?.address}
                       />
                     </div>
                   </div>
@@ -179,7 +193,7 @@ function RouteComponent() {
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800/50 border-none px-4 text-[#616f89] dark:text-gray-400 cursor-not-allowed"
                         readOnly
                         type="text"
-                        value="STD-2024-001"
+                        value={studentData?.id}
                       />
                       <p className="text-xs text-[#616f89] dark:text-gray-500">
                         Auto-generated student ID
@@ -192,6 +206,13 @@ function RouteComponent() {
                       <input
                         className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                         type="date"
+                        value={
+                          studentData?.enrollmentDate
+                            ? new Date(studentData.enrollmentDate)
+                                .toISOString()
+                                .split('T')[0]
+                            : ''
+                        }
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
@@ -200,7 +221,7 @@ function RouteComponent() {
                       </label>
                       <div className="relative">
                         <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
-                          <option disabled selected value="">
+                          <option disabled value={studentData?.grade || ''}>
                             Select Grade
                           </option>
                           <option value="science">Grade 1</option>
@@ -210,6 +231,8 @@ function RouteComponent() {
                           <option value="history">Grade 5</option>
                           <option value="geography">Grade 6</option>
                           <option value="chemistry">Grade 7</option>
+                          <option value="chemistry">Grade 8</option>
+                          <option value="chemistry">Grade 9</option>
                         </select>
                         <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
                           <span className="material-symbols-outlined">
@@ -255,7 +278,8 @@ function RouteComponent() {
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                           type={showPassword ? 'text' : 'password'}
-                          value="Teacher@2024"
+                          placeholder="Enter temporary password"
+                          value="TempPass123!"
                         />
                         <button
                           type="button"
@@ -288,7 +312,7 @@ function RouteComponent() {
                     <span className="material-symbols-outlined text-[18px]">
                       check
                     </span>
-                    Create Student Account
+                    Edit Student Account
                   </button>
                 </div>
               </form>
