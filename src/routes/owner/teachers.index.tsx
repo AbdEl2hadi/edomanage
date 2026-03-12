@@ -56,10 +56,11 @@ const UICardList: Array<UICardType> = [
 ]
 
 function RouteComponent() {
-  // additional idea is to put an input for where to put the number of the page he wants.               jump to page input
-  // another idea is that he can put in an input the number of students he wants in a single page.      students/teachers  per page selector
-
   return (
-    <IndexPageComponent role="teacher" filters={[subjects, status]} UICards={UICardList} />
+    <IndexPageComponent
+      role="teacher"
+      filters={[subjects, status]}
+      UICards={UICardList}
+    />
   )
 }

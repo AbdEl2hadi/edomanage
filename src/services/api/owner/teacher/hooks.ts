@@ -2,14 +2,14 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import { teacherFetcher } from "./fetcher";
 import type { TeacherModel } from "../types/modelTypes";
 
-export function useAddTeacher(teacher: TeacherModel) {
+export function useAddTeacher() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: () => teacherFetcher.addTeacher(teacher),
+        mutationFn: teacherFetcher.addTeacher,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["teachers"] });
         },
-        onMutate: () => {
+        onMutate: (teacher: TeacherModel) => {
             queryClient.cancelQueries({ queryKey: ["teachers"] });
             const oldTeachersList = queryClient.getQueryData<Array<TeacherModel>>(["teachers"]);
             const newTeachersList = oldTeachersList ? [...oldTeachersList, teacher] : [teacher]

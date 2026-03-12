@@ -65,7 +65,7 @@ class JSONStudentFetcher implements StudentFetcher {
     }
 
     async editStudent(modifiedStudent: StudentModel): Promise<ApiResponse<StudentModel>> {
-        const response = await fetch("http://localhost:4000/students", {
+        const response = await fetch(`http://localhost:4000/students/${modifiedStudent.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(modifiedStudent)

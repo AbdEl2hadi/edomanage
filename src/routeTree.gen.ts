@@ -26,6 +26,7 @@ import { Route as OwnerPaymentsRouteImport } from './routes/owner/payments'
 import { Route as OwnerDashboardRouteImport } from './routes/owner/dashboard'
 import { Route as OwnerCalendarRouteImport } from './routes/owner/calendar'
 import { Route as OwnerAnnouncementsRouteImport } from './routes/owner/announcements'
+import { Route as OwnerTeachersIdRouteImport } from './routes/owner/$teachersId'
 import { Route as OwnerStudentIdRouteImport } from './routes/owner/$studentId'
 import { Route as TeacherNotificationsIndexRouteImport } from './routes/teacher/notifications/index'
 import { Route as TeacherClassesIndexRouteImport } from './routes/teacher/classes/index'
@@ -122,6 +123,11 @@ const OwnerAnnouncementsRoute = OwnerAnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => OwnerRoute,
 } as any)
+const OwnerTeachersIdRoute = OwnerTeachersIdRouteImport.update({
+  id: '/$teachersId',
+  path: '/$teachersId',
+  getParentRoute: () => OwnerRoute,
+} as any)
 const OwnerStudentIdRoute = OwnerStudentIdRouteImport.update({
   id: '/$studentId',
   path: '/$studentId',
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/owner/$studentId': typeof OwnerStudentIdRoute
+  '/owner/$teachersId': typeof OwnerTeachersIdRoute
   '/owner/announcements': typeof OwnerAnnouncementsRoute
   '/owner/calendar': typeof OwnerCalendarRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/owner/$studentId': typeof OwnerStudentIdRoute
+  '/owner/$teachersId': typeof OwnerTeachersIdRoute
   '/owner/announcements': typeof OwnerAnnouncementsRoute
   '/owner/calendar': typeof OwnerCalendarRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
@@ -242,6 +250,7 @@ export interface FileRoutesById {
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/owner/$studentId': typeof OwnerStudentIdRoute
+  '/owner/$teachersId': typeof OwnerTeachersIdRoute
   '/owner/announcements': typeof OwnerAnnouncementsRoute
   '/owner/calendar': typeof OwnerCalendarRoute
   '/owner/dashboard': typeof OwnerDashboardRoute
@@ -273,6 +282,7 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/owner/$studentId'
+    | '/owner/$teachersId'
     | '/owner/announcements'
     | '/owner/calendar'
     | '/owner/dashboard'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/owner/$studentId'
+    | '/owner/$teachersId'
     | '/owner/announcements'
     | '/owner/calendar'
     | '/owner/dashboard'
@@ -331,6 +342,7 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/owner/$studentId'
+    | '/owner/$teachersId'
     | '/owner/announcements'
     | '/owner/calendar'
     | '/owner/dashboard'
@@ -483,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OwnerAnnouncementsRouteImport
       parentRoute: typeof OwnerRoute
     }
+    '/owner/$teachersId': {
+      id: '/owner/$teachersId'
+      path: '/$teachersId'
+      fullPath: '/owner/$teachersId'
+      preLoaderRoute: typeof OwnerTeachersIdRouteImport
+      parentRoute: typeof OwnerRoute
+    }
     '/owner/$studentId': {
       id: '/owner/$studentId'
       path: '/$studentId'
@@ -558,6 +577,7 @@ declare module '@tanstack/react-router' {
 
 interface OwnerRouteChildren {
   OwnerStudentIdRoute: typeof OwnerStudentIdRoute
+  OwnerTeachersIdRoute: typeof OwnerTeachersIdRoute
   OwnerAnnouncementsRoute: typeof OwnerAnnouncementsRoute
   OwnerCalendarRoute: typeof OwnerCalendarRoute
   OwnerDashboardRoute: typeof OwnerDashboardRoute
@@ -571,6 +591,7 @@ interface OwnerRouteChildren {
 
 const OwnerRouteChildren: OwnerRouteChildren = {
   OwnerStudentIdRoute: OwnerStudentIdRoute,
+  OwnerTeachersIdRoute: OwnerTeachersIdRoute,
   OwnerAnnouncementsRoute: OwnerAnnouncementsRoute,
   OwnerCalendarRoute: OwnerCalendarRoute,
   OwnerDashboardRoute: OwnerDashboardRoute,

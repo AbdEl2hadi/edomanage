@@ -1,13 +1,50 @@
-import { ArrowUpDown, MoreHorizontal, Trash2Icon } from 'lucide-react'
+import {
+  ArrowUpDown,
+  Copy,
+  Edit2,
+  Eye,
+  MoreHorizontal,
+  Trash2,
+  Trash2Icon,
+} from 'lucide-react'
+
 import { Link } from '@tanstack/react-router'
 import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as React from 'react'
+
+import DatePickerField from '../DatePickerField'
 import type { ColumnDef } from '@tanstack/react-table'
 import type {
   StudentModel,
   TeacherModel,
 } from '@/services/api/owner/types/modelTypes'
+import { StudentSchema } from '@/services/api/owner/types/modelTypes'
 import ProfilePicGenerator from '@/components/owner/profilePicGenerator'
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Field, FieldGroup } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -169,8 +206,28 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
     size: 10,
     cell: ({ row }) => {
       const student = row.original
+      const [date, setDate] = React.useState<Date>()
       const { mutate: editStudent } = useEditStudent()
+      const onSubmit = (data: StudentModel) => {
+        editStudent(data)
+      }
       const { mutate: deleteStudent } = useDeleteStudent()
+      const studentForm = useForm({
+        defaultValues: {
+          name: student.name,
+          email: student.email,
+          grade: student.grade,
+          parentName: student.parentName,
+          parentPhoneNumber: student.parentPhoneNumber,
+          status: student.status,
+          gender: student.gender,
+          address: student.address,
+          dateOfBirth: student.dateOfBirth,
+          enrollmentDate: student.enrollmentDate,
+          imgSrc: student.imgSrc,
+        },
+        resolver: zodResolver(StudentSchema),
+      })
       return (
         <div className="flex justify-end">
           <DropdownMenu>
@@ -183,44 +240,313 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent
               align="end"
               className="w-44 bg-white dark:bg-slate-800"
             >
-              <DropdownMenuLabel className=" text-dark dark:text-white">
+              <DropdownMenuLabel className="text-dark dark:text-white">
                 Actions
               </DropdownMenuLabel>
-              <DropdownMenuItem
-                className="cursor-pointer  text-dark dark:text-white"
-                onClick={() => {
-                  navigator.clipboard.writeText(student.id)
-                  toast.success('Student ID has been copied')
-                }}
-              >
-                Copy Student ID
+              <DropdownMenuSeparator className="bg-black" />
+
+              <DropdownMenuItem asChild>
+                <div
+                  className="flex items-center justify-center gap-2 cursor-pointer text-dark dark:text-white hover:bg-gray-200 py-1.5 rounded-sm"
+                  onClick={() => {
+                    navigator.clipboard.writeText(student.id)
+                    toast.success('Student ID has been copied')
+                  }}
+                >
+                  <Copy size="18" />
+                  <p>Copy Student ID</p>
+                </div>
               </DropdownMenuItem>
+
               <DropdownMenuSeparator className="bg-gray-300" />
 
-              <DropdownMenuItem className="cursor-pointer text-dark dark:text-white">
-                <Link to="/owner/$studentId" params={{ studentId: student.id }}>
-                  View Profile
+              <DropdownMenuItem asChild>
+                <Link
+                  to="/owner/$studentId"
+                  params={{ studentId: student.id }}
+                  className="flex items-center justify-center gap-2 cursor-pointer ttext-dark dark:text-white hover:bg-gray-200 py-1.5 rounded-sm"
+                >
+                  <Eye size="18" />
+                  <p>View Profile</p>
                 </Link>
               </DropdownMenuItem>
+
               <DropdownMenuSeparator className="bg-gray-300" />
-              <DropdownMenuItem className="cursor-pointer  text-dark dark:text-white">
-                Edit Student
+
+              <DropdownMenuItem asChild>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="flex items-center gap-2 justify-center cursor-pointer text-center text-dark dark:text-white hover:bg-gray-200 py-1.5 rounded-sm">
+                      <Edit2 size="18" />
+                      <p className=" text-sm">Edit Student</p>
+                    </div>
+                  </DialogTrigger>
+
+                  <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Edit Student</DialogTitle>
+                      <DialogDescription>
+                        Update the student information and click save.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <form onSubmit={studentForm.handleSubmit(onSubmit)}>
+                      <FieldGroup className="grid grid-cols-2 gap-4">
+                        <Field>
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" {...studentForm.register('name')} />
+                        </Field>
+
+                        <Field>
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            {...studentForm.register('email')}
+                          />
+                        </Field>
+
+                        <Field>
+                          <Label htmlFor="grade">Grade</Label>
+                          <Input
+                            id="grade"
+                            {...studentForm.register('grade')}
+                          />
+                        </Field>
+                        <Field>
+                          <Label htmlFor="status">Status</Label>
+                          <Select {...studentForm.register('status')}>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder={student.status} />
+                            </SelectTrigger>
+                            <SelectContent className="bg-background-light">
+                              <SelectItem
+                                value="Active"
+                                className="hover:bg-gray-200"
+                              >
+                                Active
+                              </SelectItem>
+                              <SelectSeparator className="bg-gray-200" />
+                              <SelectItem
+                                value="Inactive"
+                                className="hover:bg-gray-200"
+                              >
+                                Inactive
+                              </SelectItem>
+                              <SelectSeparator className="bg-gray-200" />
+                              <SelectItem
+                                value="Pending"
+                                className="hover:bg-gray-200"
+                              >
+                                Pending
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <Label htmlFor="parentName">Parent Name</Label>
+                          <Input
+                            id="parentName"
+                            {...studentForm.register('parentName')}
+                          />
+                        </Field>
+
+                        <Field>
+                          <Label htmlFor="parentPhoneNumber">
+                            Parent Phone
+                          </Label>
+                          <Input
+                            id="parentPhoneNumber"
+                            {...studentForm.register('parentPhoneNumber')}
+                          />
+                        </Field>
+                        <Field>
+                          <Label htmlFor="gender">Gender</Label>
+
+                          <Select {...studentForm.register('gender')}>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder={student.gender} />
+                            </SelectTrigger>
+
+                            <SelectContent className="bg-background-light">
+                              <SelectItem
+                                value="male"
+                                className="hover:bg-gray-200"
+                              >
+                                Male
+                              </SelectItem>
+                              <SelectSeparator className="bg-gray-200" />
+                              <SelectItem
+                                value="female"
+                                className="hover:bg-gray-200"
+                              >
+                                Female
+                              </SelectItem>
+                              <SelectSeparator className="bg-gray-200" />
+                              <SelectItem
+                                value="other"
+                                className="hover:bg-gray-200"
+                              >
+                                Other
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </Field>
+                        <Field>
+                          <Label htmlFor="address">Address</Label>
+                          <Input
+                            id="address"
+                            {...studentForm.register('address')}
+                          />
+                        </Field>
+
+                        {/* <div className="flex flex-col gap-2">
+                          <Label>Birth Date</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                data-empty={!date}
+                                className="w-53 justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+                              >
+                                {date ? (
+                                  format(date, 'PPP')
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <ChevronDownIcon data-icon="inline-end" />
+                              </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent
+                              className="w-auto p-0 bg-background-light"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                defaultMonth={date}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div> */}
+                        <DatePickerField
+                          name="dateOfBirth"
+                          label="Birth Date"
+                          form={studentForm}
+                        />
+
+                        <DatePickerField
+                          name="enrollmentDate"
+                          label="Enrollment Date"
+                          form={studentForm}
+                        />
+                        {/* 
+                        <Field>
+                          <div className="flex flex-col gap-2">
+                            <Label htmlFor="enrollmentDate">
+                              Enrollment Date
+                            </Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  data-empty={
+                                    !studentForm.getValues('enrollmentDate')
+                                  }
+                                  className="w-53 justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+                                >
+                                  {studentForm.getValues('enrollmentDate') ? (
+                                    format(
+                                      new Date(
+                                        studentForm.getValues('enrollmentDate'),
+                                      ),
+                                      'PPP',
+                                    )
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <ChevronDownIcon data-icon="inline-end" />
+                                </Button>
+                              </PopoverTrigger>
+
+                              <PopoverContent
+                                className="w-auto p-0 bg-background-light"
+                                align="start"
+                              >
+                                <Calendar
+                                  mode="single"
+                                  selected={
+                                    studentForm.getValues('enrollmentDate')
+                                      ? new Date(
+                                          studentForm.getValues(
+                                            'enrollmentDate',
+                                          ),
+                                        )
+                                      : undefined
+                                  }
+                                  onSelect={(date) => {
+                                    if (date)
+                                      studentForm.setValue(
+                                        'enrollmentDate',
+                                        date.toISOString(),
+                                      )
+                                  }}
+                                  defaultMonth={
+                                    studentForm.getValues('enrollmentDate')
+                                      ? new Date(
+                                          studentForm.getValues(
+                                            'enrollmentDate',
+                                          ),
+                                        )
+                                      : undefined
+                                  }
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                        </Field>
+ */}
+                        <Field className="col-span-2">
+                          <Label htmlFor="imgSrc">Profile Image URL</Label>
+                          <Input
+                            id="imgSrc"
+                            {...studentForm.register('imgSrc')}
+                          />
+                          {studentForm.formState.errors.imgSrc && (
+                            <p className="text-red-500">
+                              {studentForm.formState.errors.imgSrc.message}
+                            </p>
+                          )}
+                        </Field>
+                      </FieldGroup>
+
+                      <DialogFooter className="mt-4">
+                        <DialogClose asChild>
+                          <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+                        <Button type="submit">Save Changes</Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               </DropdownMenuItem>
+
               <DropdownMenuSeparator className="bg-gray-300" />
-              <DropdownMenuItem asChild className="cursor-pointer">
+
+              <DropdownMenuItem asChild>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button
-                      variant="destructive"
-                      className="text-dark dark:text-white"
-                      size="sm"
-                    >
-                      Delete Student
-                    </Button>
+                    <div className="flex items-center gap-2 justify-center cursor-pointer text-center text-red-600 dark:text-red-400 hover:bg-gray-200 py-1.5 rounded-sm">
+                      <Trash2 size="18" />
+                      <p className="text-sm">Delete Student</p>
+                    </div>
                   </AlertDialogTrigger>
 
                   <AlertDialogContent size="sm">
@@ -236,11 +562,14 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
                     </AlertDialogHeader>
 
                     <AlertDialogFooter className="space-x-2">
-                      <AlertDialogCancel variant="outline">
+                      <AlertDialogCancel
+                        variant="outline"
+                        className="cursor-pointer"
+                      >
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
-                        className="bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500"
+                        className="cursor-pointer bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500"
                         onClick={() => deleteStudent(student.id)}
                       >
                         Delete

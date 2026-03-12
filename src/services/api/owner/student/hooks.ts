@@ -18,16 +18,16 @@ export function useAddStudent(student: StudentModel) {
     });
 }
 export function useGetStudent(id: string) {
-  return useQuery<StudentModel | null>({
-    queryKey: ['student', id],
-    queryFn: async() => {
-      const response = await studentFetcher.getStudent(id);
-      return response.success ? response.data : null;
-    },
-    // select: (response) => {
-    // },
-    // keepPreviousData: true,
-  });
+    return useQuery<StudentModel | null>({
+        queryKey: ['student', id],
+        queryFn: async () => {
+            const response = await studentFetcher.getStudent(id);
+            return response.success ? response.data : null;
+        },
+        // select: (response) => {
+        // },
+        // keepPreviousData: true,
+    });
 }
 
 export function useGetStudents({ pageIndex: page, search, pageSize: size }: Partial<Filters<StudentModel>>) {
@@ -55,7 +55,7 @@ export function useEditStudent() {
         onMutate: (modifiedStudent) => {
             queryClient.cancelQueries({ queryKey: ["students"] });
             const oldStudentList = queryClient.getQueryData<Array<StudentModel>>(["students"]);
-            const newStudentList = oldStudentList?.map((student) => student.id === modifiedStudent.id ? modifiedStudent : student)
+            const newStudentList = oldStudentList?.map((student) => student.id === modifiedStudent.id ?{...student, ...modifiedStudent} : student)
             queryClient.setQueryData(['students'], newStudentList)
         },
         onSuccess: () => {
