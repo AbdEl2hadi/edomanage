@@ -1,6 +1,9 @@
-import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import type { PaginationData, Resource, ResourceFilter } from './types'
+import type { PaginationData, ResourceFilter } from '../types/apiType'
+import type { Resource } from '../types/modelType'
+
+type ResourceApiModel = Resource & {
+  collectionId?: string | number
+}
 
 const parseDateAdded = (dateValue: string): number => {
   const timestamp = Date.parse(dateValue)
@@ -26,14 +29,11 @@ const parseSizeToBytes = (sizeValue: string): number => {
   return normalizedAmount * multiplier
 }
 
-const getResources = async (
+export const filterResources = (
+  resources: Array<ResourceApiModel>,
   collectionId: string | undefined,
   filterAndPagination: ResourceFilter,
-): Promise<PaginationData<Resource>> => {
-  await new Promise((resolve) => setTimeout(resolve, 200))
-  const API_URL = 'http://localhost:4000/resources'
-  const response = await axios.get<Array<any>>(API_URL)
-  const resources = response.data
+): PaginationData<Resource> => {
   const {
     pageIndex = 1,
     pageSize = 5,
@@ -94,24 +94,4 @@ const getResources = async (
       .map(({ collectionId: _collectionId, ...resource }) => resource),
     rowCount: sorted.length,
   }
-}
-
-/* api */
-export const getResourcesQueryOptions = (
-  collectionId: string | undefined,
-  filterAndPagination: ResourceFilter,
-) =>
-  queryOptions({
-    queryKey: ['resources', collectionId, filterAndPagination],
-    queryFn: () => getResources(collectionId, filterAndPagination),
-  })
-
-export default function useGetResources(
-  collectionId: string | undefined,
-  filterAndPagination: ResourceFilter,
-) {
-  return useQuery({
-    ...getResourcesQueryOptions(collectionId, filterAndPagination),
-    placeholderData: keepPreviousData,
-  })
 }

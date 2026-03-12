@@ -2,18 +2,19 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { resourceSchema } from './res.schema'
 
-
-
 import type { ResourceType } from './res.schema'
 import type { SubmitHandler } from 'react-hook-form'
-import type { Collection } from '@/services/api/teacher/getCollection'
+import type { Collection } from '@/services/api/teacher/types/modelType'
 
-export default function SendResForm({ folders }: { folders: Array<Collection> }) {
+export default function SendResForm({
+  folders,
+}: {
+  folders: Array<Collection>
+}) {
   /* form validation  */
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<ResourceType>({
@@ -36,9 +37,6 @@ export default function SendResForm({ folders }: { folders: Array<Collection> })
     ),
   }
 
-  const selectedFile = watch('file') as FileList | undefined
-  const selectedFileName = selectedFile?.item(0)?.name ?? ''
-
   return (
     <div className="px-6 mb-8">
       <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm">
@@ -52,46 +50,7 @@ export default function SendResForm({ folders }: { folders: Array<Collection> })
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 lg:grid-cols-12 gap-8"
         >
-          <div className="lg:col-span-4 flex flex-col">
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Upload File
-            </label>
-            <div className="flex-1 flex flex-col justify-center items-center border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-primary dark:hover:border-primary transition-all cursor-pointer group relative min-h-56">
-              <input
-                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
-                type="file"
-                {...register('file')}
-              />
-              {errors.file && (
-                <p className="text-red-500 text-xs mt-1 absolute top-2 left-2 z-20">
-                  {errors.file.message}
-                </p>
-              )}
-              <div className="p-4 pb-2.5 bg-white dark:bg-slate-700 rounded-full shadow-sm mb-3 group-hover:scale-110 group-hover:text-primary transition-all text-slate-400">
-                <span className="material-symbols-outlined text-3xl">
-                  {selectedFileName ? 'done' : 'cloud_upload'}
-                </span>
-              </div>
-              {selectedFileName ? (
-                <p className="text-sm font-medium text-slate-700 dark:text-slate-300 max-w-[90%] text-center wrap-break-words">
-                  {selectedFileName}
-                </p>
-              ) : (
-                <>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Drag &amp; Drop file here
-                  </p>
-                  <p className="text-xs text-slate-500 mt-1">
-                    or click to browse
-                  </p>
-                </>
-              )}
-              <div className="mt-4 text-[10px] text-slate-400 uppercase tracking-wide">
-                Supported: PDF, DOCX, MP4 , Images (max 20MB)
-              </div>
-            </div>
-          </div>
-          <div className="lg:col-span-8 flex flex-col gap-5">
+          <div className="lg:col-span-12 flex flex-col gap-5">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 Resource Title
@@ -185,9 +144,9 @@ export default function SendResForm({ folders }: { folders: Array<Collection> })
                 className="cursor-pointer bg-primary hover:bg-blue-700 text-white text-sm font-semibold py-2.5 px-6 rounded-lg shadow-md shadow-blue-500/20 transition-all flex items-center gap-2 disabled:bg-primary/50 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined text-[20px]">
-                  cloud_upload
+                  send
                 </span>
-                Upload Resource
+                Save Resource
               </button>
             </div>
           </div>

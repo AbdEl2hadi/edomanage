@@ -1,13 +1,10 @@
 import { createElement, useState } from 'react'
 import { FaRegCircleUser } from 'react-icons/fa6'
-import { createFileRoute , useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { GiWhiteBook } from 'react-icons/gi'
 import { MdOutlineGrade, MdPriorityHigh } from 'react-icons/md'
 import { FaUserTie } from 'react-icons/fa'
-import type { Notification } from '@/services/api/teacher/types'
-
-
-
+import type { Notification } from '@/services/api/teacher/types/modelType'
 
 export const Route = createFileRoute('/teacher/notifications/')({
   component: Notifications,
@@ -17,90 +14,85 @@ export const Route = createFileRoute('/teacher/notifications/')({
 })
 /* color of type */
 export const getColors = (type: string) => {
-    switch (type) {
-      case 'Urgent':
-        return {
-          bg: 'bg-red-50',
-          text: 'text-red-500',
-          darkBg: 'dark:bg-red-500/10',
-          ring: 'ring-red-500/20',
-          border: 'border-red-500',
-        }
-      case 'Book':
-        return {
-          bg: 'bg-purple-50',
-          text: 'text-purple-500',
-          darkBg: 'dark:bg-purple-500/10',
-          ring: 'ring-purple-500/20',
-          border: 'border-purple-500',
-        }
-      case 'Teacher':
-        return {
-          bg: 'bg-blue-50',
-          text: 'text-blue-500',
-          darkBg: 'dark:bg-blue-500/10',
-          ring: 'ring-blue-500/20',
-          border: 'border-blue-500',
-        }
-      case 'Grade':
-        return {
-          bg: 'bg-green-50',
-          text: 'text-green-500',
-          darkBg: 'dark:bg-green-500/10',
-          ring: 'ring-green-500/20',
-          border: 'border-green-500',
-        }
-      case 'User':
-        return {
-          bg: 'bg-orange-50',
-          text: 'text-orange-500',
-          darkBg: 'dark:bg-orange-500/10',
-          ring: 'ring-orange-500/20',
-          border: 'border-orange-500',
-        }
-      default:
-        return {
-          bg: 'bg-gray-50',
-          text: 'text-gray-500',
-          darkBg: 'dark:bg-gray-500/10',
-          ring: 'ring-gray-500/20',
-          border: 'border-gray-500',
-        }
-    }
+  switch (type) {
+    case 'Urgent':
+      return {
+        bg: 'bg-red-50',
+        text: 'text-red-500',
+        darkBg: 'dark:bg-red-500/10',
+        ring: 'ring-red-500/20',
+        border: 'border-red-500',
+      }
+    case 'Book':
+      return {
+        bg: 'bg-purple-50',
+        text: 'text-purple-500',
+        darkBg: 'dark:bg-purple-500/10',
+        ring: 'ring-purple-500/20',
+        border: 'border-purple-500',
+      }
+    case 'Teacher':
+      return {
+        bg: 'bg-blue-50',
+        text: 'text-blue-500',
+        darkBg: 'dark:bg-blue-500/10',
+        ring: 'ring-blue-500/20',
+        border: 'border-blue-500',
+      }
+    case 'Grade':
+      return {
+        bg: 'bg-green-50',
+        text: 'text-green-500',
+        darkBg: 'dark:bg-green-500/10',
+        ring: 'ring-green-500/20',
+        border: 'border-green-500',
+      }
+    case 'User':
+      return {
+        bg: 'bg-orange-50',
+        text: 'text-orange-500',
+        darkBg: 'dark:bg-orange-500/10',
+        ring: 'ring-orange-500/20',
+        border: 'border-orange-500',
+      }
+    default:
+      return {
+        bg: 'bg-gray-50',
+        text: 'text-gray-500',
+        darkBg: 'dark:bg-gray-500/10',
+        ring: 'ring-gray-500/20',
+        border: 'border-gray-500',
+      }
   }
+}
 
-  /* Icon */
-  const getIcon = (type: string) => {
-    switch (type) {
-      case 'Urgent':
-        return MdPriorityHigh
-      case 'Book':
-        return GiWhiteBook
-      case 'Teacher':
-        return FaUserTie
-      case 'Grade':
-        return MdOutlineGrade
-      case 'User':
-        return FaRegCircleUser
-      default:
-        return 'notification_important'
-    }
-  } 
+/* Icon */
+const getIcon = (type: string) => {
+  switch (type) {
+    case 'Urgent':
+      return MdPriorityHigh
+    case 'Book':
+      return GiWhiteBook
+    case 'Teacher':
+      return FaUserTie
+    case 'Grade':
+      return MdOutlineGrade
+    case 'User':
+      return FaRegCircleUser
+    default:
+      return 'notification_important'
+  }
+}
 
 /* Filter*/
-const tabFilters: Array<TypeTabFilter> = [
-  'All',
-  'Urgent',
-  'Administration',
-]
-type TypeTabFilter = 'All' |  'Urgent' | 'Administration'
+const tabFilters: Array<TypeTabFilter> = ['All', 'Urgent', 'Administration']
+type TypeTabFilter = 'All' | 'Urgent' | 'Administration'
 
 export function Notifications() {
   /* Navigation */
   const navigate = useNavigate()
 
   /* State */
-
 
   const [tab, setTab] = useState<TypeTabFilter>('All')
   const resources: Array<Notification> = [
@@ -148,10 +140,6 @@ export function Notifications() {
     },
   ]
 
-  
-
-
-
   return (
     <main className="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark relative">
       <div className="max-w-250 mx-auto w-full p-6 md:p-10 flex flex-col gap-8">
@@ -167,7 +155,10 @@ export function Notifications() {
             </p>
           </div>
 
-          <button onClick={() => navigate( { to: '/teacher/notifications/add' })} className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary  hover:bg-blue-700 dark:hover:bg-blue-500 text-white text-sm font-bold active:scale-95 cursor-pointer">
+          <button
+            onClick={() => navigate({ to: '/teacher/notifications/add' })}
+            className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary  hover:bg-blue-700 dark:hover:bg-blue-500 text-white text-sm font-bold active:scale-95 cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             <span>Add Notification</span>
           </button>

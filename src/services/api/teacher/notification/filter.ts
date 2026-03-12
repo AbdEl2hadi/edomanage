@@ -1,21 +1,14 @@
-import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import type { NotificationFilter, PaginationData } from '../types/apiType'
+import type { Notification } from '../types/modelType'
 
-import type { Notification, NotificationFilter, PaginationData } from './types'
-
-const API_URL = 'http://localhost:4000/teacherNotifications'
-
-const getTeacherNotifications = async (
+export const filterNotifications = (
+  notifications: Array<Notification>,
   filterAndPagination: NotificationFilter,
-): Promise<PaginationData<Notification>> => {
-  await new Promise((resolve) => setTimeout(resolve, 200))
-  const response = await axios.get<Array<Notification>>(API_URL)
-  const notifications = response.data
-
+): PaginationData<Notification> => {
   const { pageIndex = 1, pageSize = 5, ...filters } = filterAndPagination
 
   const normalizedFilters = Object.entries(filters).reduce<
-    Partial<Record<keyof Notification, string>>
+    Partial<Record< keyof Notification, string>>
   >((acc, [key, value]) => {
     if (!value) {
       return acc
@@ -52,21 +45,4 @@ const getTeacherNotifications = async (
     data: sorted.slice(start, end),
     rowCount: sorted.length,
   }
-}
-
-export const getTeacherNotificationsQueryOptions = (
-  filterAndPagination: NotificationFilter,
-) =>
-  queryOptions({
-    queryKey: ['teacher-notifications', filterAndPagination],
-    queryFn: () => getTeacherNotifications(filterAndPagination),
-  })
-
-export default function useGetTeacherNotifications(
-  filterAndPagination: NotificationFilter,
-) {
-  return useQuery({
-    ...getTeacherNotificationsQueryOptions(filterAndPagination),
-    placeholderData: keepPreviousData,
-  })
 }

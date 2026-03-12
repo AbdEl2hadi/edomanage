@@ -3,17 +3,17 @@ import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import z from 'zod'
 import { columns } from '../../../components/teacher/resources/columns.tsx'
 
-import type { Resource, ResourceFilter } from '@/services/api/teacher/types.ts'
+import type { ResourceFilter } from '@/services/api/teacher/types/apiType'
+import type { Resource } from '@/services/api/teacher/types/modelType'
 
 import { ResourcesTable } from '@/components/teacher/resources/resources-table.tsx'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource.ts'
 import useGetResources, {
-  getResourcesQueryOptions,
-} from '@/services/api/teacher/getResources.ts'
-import { queryClient } from '@/lib/queryClient'
-import useGetCollection, {
   getCollectionQueryOptions,
-} from '@/services/api/teacher/getCollection.ts'
+  getResourcesQueryOptions,
+  useGetCollection,
+} from '@/services/api/teacher/collection/hooks'
+import { queryClient } from '@/lib/queryClient'
 import Loading from '@/components/loading.tsx'
 
 const SortOptions = z.enum(['newest', 'oldest', 'name', 'size'])

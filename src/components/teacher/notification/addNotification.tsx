@@ -21,65 +21,12 @@ import { columns } from './columns'
 import type { PubNotificationType } from './pubnotification.schema'
 
 import type { SubmitHandler } from 'react-hook-form'
-import type {
-  Notification,
-  NotificationAttachment,
-  NotificationFilter,
-} from '@/services/api/teacher/types'
+import type { NotificationFilter } from '@/services/api/teacher/types/apiType'
+import type { Notification } from '@/services/api/teacher/types/modelType'
 import Loading from '@/components/loading'
-import useGetTeacherNotifications from '@/services/api/teacher/getTeacherNotifications'
-import useAddTeacherNotification from '@/services/api/teacher/addTeacherNotification'
-
-const inferAttachmentKind = (file: File): NotificationAttachment['kind'] => {
-  if (file.type.startsWith('image/')) {
-    return 'image'
-  }
-
-  if (file.type.startsWith('video/')) {
-    return 'video'
-  }
-
-  return 'document'
-}
-
-const fileToDataUrl = async (file: File): Promise<string> => {
-  return await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
-
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        resolve(reader.result)
-        return
-      }
-
-      reject(new Error('Failed to read file'))
-    }
-
-    reader.onerror = () => {
-      reject(new Error('Failed to read file'))
-    }
-
-    reader.readAsDataURL(file)
-  })
-}
-
-const mapFilesToAttachments = async (
-  files: Array<File>,
-): Promise<Array<NotificationAttachment>> => {
-  return await Promise.all(
-    files.map(async (file) => {
-      const href = await fileToDataUrl(file)
-      const extension = file.name.split('.').pop()?.toUpperCase() ?? 'FILE'
-
-      return {
-        href,
-        label: file.name,
-        extension,
-        kind: inferAttachmentKind(file),
-      }
-    }),
-  )
-}
+import useGetTeacherNotifications, {
+  useAddTeacherNotification,
+} from '@/services/api/teacher/notification/hooks'
 
 export default function AddNotification({
   role,
@@ -206,7 +153,6 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     defaultValues: {
-      attachments: [],
       sendTo: role === 'teacher' ? ['Students'] : [],
       type: 'Teacher',
     },
@@ -216,19 +162,15 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
 
   /* Submit function */
   const onSubmit: SubmitHandler<PubNotificationType> = async (data) => {
-    const attachments = await mapFilesToAttachments(data.attachments ?? [])
-
     await addTeacherNotificationMutation.mutateAsync({
       role,
       subject: data.subject.trim(),
       content: data.content.trim(),
-      attachments,
       sendTo: role === 'admin' ? data.sendTo : undefined,
       type: data.type,
     })
 
     reset({
-      attachments: [],
       subject: '',
       content: '',
       sendTo: [],
@@ -244,11 +186,7 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
   } = useGetSendToList()
 
   const watchedSendTo = watch('sendTo')
-  const watchedAttachments = watch('attachments')
   const selectedSendTo = Array.isArray(watchedSendTo) ? watchedSendTo : []
-  const selectedAttachments = Array.isArray(watchedAttachments)
-    ? watchedAttachments
-    : []
 
   return (
     <>
@@ -418,88 +356,6 @@ function Form({ role }: { role: 'teacher' | 'admin' }) {
               {errors.type.message}
             </span>
           )}
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-              Attach Files
-            </label>
-            <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-3 py-3 dark:border-slate-700 dark:bg-slate-800/40">
-              <div className="flex flex-wrap items-center gap-2">
-                <label className="inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-700 hover:border-primary hover:text-primary dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200">
-                  <span className="material-symbols-outlined text-[18px]">
-                    upload_file
-                  </span>
-                  <span>Add files</span>
-                  <input
-                    type="file"
-                    className="hidden"
-                    multiple
-                    accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.svg,.bmp,.avif,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.odt,.ods,.odp"
-                    onChange={(event) => {
-                      const pickedFiles = Array.from(event.target.files ?? [])
-                      if (pickedFiles.length === 0) {
-                        return
-                      }
-
-                      const nextFiles = [
-                        ...selectedAttachments,
-                        ...pickedFiles,
-                      ].slice(0, 3)
-                      setValue('attachments', nextFiles, {
-                        shouldValidate: true,
-                      })
-
-                      event.currentTarget.value = ''
-                    }}
-                  />
-                </label>
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  Max 3 files • 5MB each • PDF, images, Word, Excel, PowerPoint,
-                  CSV, TXT, ODF
-                </span>
-              </div>
-
-              {selectedAttachments.length > 0 && (
-                <div className="mt-3 flex flex-col gap-2">
-                  {selectedAttachments.map((file, index) => (
-                    <div
-                      key={`${file.name}-${index}`}
-                      className="flex items-center justify-between rounded-md border border-slate-200 bg-white px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-900"
-                    >
-                      <div className="min-w-0">
-                        <p className="truncate font-medium text-slate-800 dark:text-slate-200">
-                          {file.name}
-                        </p>
-                        <p className="text-slate-500 dark:text-slate-400">
-                          {(file.size / (1024 * 1024)).toFixed(2)} MB
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        className="rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-red-500 dark:hover:bg-slate-800"
-                        onClick={() => {
-                          const nextFiles = selectedAttachments.filter(
-                            (_, attachmentIndex) => attachmentIndex !== index,
-                          )
-                          setValue('attachments', nextFiles, {
-                            shouldValidate: true,
-                          })
-                        }}
-                      >
-                        <span className="material-symbols-outlined text-[16px]">
-                          close
-                        </span>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            {errors.attachments && (
-              <span className="text-xs text-red-500 mt-1">
-                {errors.attachments.message}
-              </span>
-            )}
-          </div>
           <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
             Content
           </label>

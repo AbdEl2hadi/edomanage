@@ -30,7 +30,7 @@ export default function IconButton({
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-      // Read the file as a data URL
+      
       const reader = new FileReader()
       reader.onload = () => {
         type === 'avatar'
@@ -45,7 +45,7 @@ export default function IconButton({
     <ButtonBase
       component="label"
       role={undefined}
-      tabIndex={-1} // prevent label from tab focus
+      tabIndex={-1} 
       aria-label={type === 'avatar' ? 'Avatar image' : 'School logo image'}
       sx={{
         borderRadius: type === 'avatar' ? '50%' : 12,

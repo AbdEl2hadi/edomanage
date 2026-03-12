@@ -7,10 +7,8 @@ import type {
   PaginationState,
 } from '@tanstack/react-table'
 /* filter types*/
-import type {
-  ResourceFilter,
-  ResourceSortOption,
-} from '../../../services/api/teacher/types'
+import type { ResourceFilter } from '../../../services/api/teacher/types/apiType'
+import type { ResourceSortOption } from '../../../services/api/teacher/types/modelType'
 
 import { useDebounce } from '@/hooks/use-debounce'
 import { DataTable } from '@/components/table/data-table'
@@ -35,6 +33,7 @@ export function ResourcesTable<T extends Record<string, string | number>>({
   filters,
   onFilterChange,
 }: Props<T>) {
+
   /* handling table */
   const tablePagination = {
     pageIndex: Math.max(pagination.pageIndex - 1, 0),
@@ -107,6 +106,12 @@ export function ResourcesTable<T extends Record<string, string | number>>({
 
   useEffect(() => {
     const nextFileName = debouncedSearch.trim()
+
+    
+    if (nextFileName !== localSearch.trim()) {
+      return
+    }
+
     if ((filters.fileName ?? '') === nextFileName) {
       return
     }
