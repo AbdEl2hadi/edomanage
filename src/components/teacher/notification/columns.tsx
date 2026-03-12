@@ -1,8 +1,8 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
-import type { Notification } from '@/services/api/teacher/types'
+import type { Notification } from '@/services/api/teacher/types/modelType'
 import { getColors } from '@/routes/teacher/notifications'
-import deleteOwnNotification from '@/services/api/teacher/deleteOwnNotification'
+import {  notificationFetcher} from '@/services/api/teacher/notification/fetcher'
 
 export const columns: Array<ColumnDef<Notification>> = [
   {
@@ -81,7 +81,7 @@ export const columns: Array<ColumnDef<Notification>> = [
             type="button"
             onClick={async (event) => {
               event.stopPropagation()
-              await deleteOwnNotification(id)
+              await notificationFetcher.deleteOwnNotification(id)
             }}
           >
             <span className="material-symbols-outlined text-[20px]">

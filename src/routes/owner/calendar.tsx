@@ -241,7 +241,7 @@ function fromEvent(ev: OwnerEvent): EventForm {
 
 function RouteComponent() {
   const { data: { data: teachersData } = { data: [] } } = useGetTeachers()
-  const { data: { data: studentsData } = { data: [] } } = useGetStudents({}) 
+  const { data: { data: studentsData } = { data: [] } } = useGetStudents({})
   const { mutateAsync: addEventAsync, isPending: isAdding } = useAddEvent()
   const { mutateAsync: editEventAsync, isPending: isEditing } = useEditEvent()
   const { mutateAsync: deleteEventAsync } = useDeleteEvent()
@@ -253,7 +253,7 @@ function RouteComponent() {
     data: eventsData,
     isLoading: isEventsLoading,
     isError: isEventsError,
-  } = useGetEvents()
+  } = useGetEvents(undefined, undefined, true)
 
   const events = useMemo<Array<OwnerEvent>>(
     () =>
@@ -267,7 +267,7 @@ function RouteComponent() {
 
   const teachers: Array<{ id: string; name: string }> = useMemo(
     () =>
-      (teachersData).map((t: { id: string; name: string }) => ({
+      teachersData.map((t: { id: string; name: string }) => ({
         id: t.id,
         name: t.name,
       })),
@@ -275,7 +275,7 @@ function RouteComponent() {
   )
 
   const classOptions: Array<string> = useMemo(() => {
-    const grades: Array<string> = (studentsData).map(
+    const grades: Array<string> = studentsData.map(
       (s: { grade: string }) => s.grade,
     )
     return Array.from(new Set(grades)).sort()
@@ -598,7 +598,7 @@ function RouteComponent() {
               </p>
             </div>
           ) : (
-            <div className="owner-big-calendar flex-1 h-full min-h-0">
+            <div className="owner-big-calendar owner-calendar-view flex-1 h-full min-h-0">
               <Calendar
                 date={selectedDate}
                 events={displayEvents}

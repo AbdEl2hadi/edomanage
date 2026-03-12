@@ -5,9 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { cn } from '../../../lib/utils'
 import type { SubmitHandler } from 'react-hook-form'
-import useGetAllCollections, {
+import {
+  useGetAllCollections,
   getAllCollectionsQueryOptions,
-} from '@/services/api/teacher/getAllCollections'
+  useAddOrEditCollection,
+  useDeleteCollection,
+} from '@/services/api/teacher/collection/hooks'
 import { queryClient } from '@/lib/queryClient'
 import Loading from '@/components/loading'
 
@@ -33,9 +36,6 @@ import {
 } from '@/components/ui/alert-dialog'
 import { AnimatedAlert } from '@/components/ui/alert'
 
-import addOrEditCollection from '@/services/api/teacher/addOrEditCollection'
-import deleteCollection from '@/services/api/teacher/deleteCollection'
-
 export const Route = createFileRoute('/teacher/classes/allCollections')({
   component: RouteComponent,
   loader: () => {
@@ -57,6 +57,7 @@ function RouteComponent() {
     isFetching: isFoldersFetching,
     refetch: refetchFolders,
   } = useGetAllCollections(true)
+  const deleteCollectionMutation = useDeleteCollection()
 
   const [selectedDeleteId, setSelectedDeleteId] = useState<string | null>(null)
   const [isAlertOpen, setIsAlertOpen] = useState(false)
@@ -222,7 +223,7 @@ function RouteComponent() {
                 onClick={async () => {
                   if (!selectedDeleteId) return
                   try {
-                    await deleteCollection(selectedDeleteId)
+                    await deleteCollectionMutation.mutateAsync(selectedDeleteId)
                     refetchFolders()
                     setToast({
                       show: true,
@@ -274,6 +275,7 @@ export function AddOrEditCollectionDialog({
   refetchFolders: () => void
   className?: string
 }) {
+  const addOrEditCollectionMutation = useAddOrEditCollection()
   /* handle form collection*/
   const {
     register,
@@ -287,8 +289,15 @@ export function AddOrEditCollectionDialog({
   const onSubmit: SubmitHandler<NameFormType> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     role === 'add'
-      ? await addOrEditCollection(data.name, 'add')
-      : await addOrEditCollection(data.name, 'edit', id)
+      ? await addOrEditCollectionMutation.mutateAsync({
+          name: data.name,
+          role: 'add',
+        })
+      : await addOrEditCollectionMutation.mutateAsync({
+          name: data.name,
+          role: 'edit',
+          id,
+        })
     reset()
     setDialogOpen(false)
     refetchFolders()

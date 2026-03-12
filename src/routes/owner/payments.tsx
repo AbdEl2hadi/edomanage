@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
                   {filters &&
                     filters[0]?.map((item) => (
                       <>
-                        <SelectItem key={item.value} value={item.value}>
+                        <SelectItem key={item.value} value={item.value || ""}>
                           {item.label}
                         </SelectItem>
                         <SelectSeparator />
@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
                   <SelectLabel>Subjects</SelectLabel>
                   {filters &&
                     filters[1].map((item) => (
-                      <SelectItem key={item.value} value={item.value}>
+                      <SelectItem key={item.value} value={item.value || ""}>
                         {item.label}
                       </SelectItem>
                     ))}

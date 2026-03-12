@@ -5,7 +5,7 @@ import AddNotification from '@/components/teacher/notification/addNotification'
 import { sendToListQueryOptions } from '@/components/teacher/notification/getSendToList'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource'
 import { queryClient } from '@/lib/queryClient'
-import { getTeacherNotificationsQueryOptions } from '@/services/api/teacher/getTeacherNotifications'
+import { getTeacherNotificationsQueryOptions } from '@/services/api/teacher/notification/hooks'
 
 export const NotificationSearchSchema = z.object({
   pageIndex: z.number().catch(1).default(1),

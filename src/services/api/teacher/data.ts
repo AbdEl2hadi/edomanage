@@ -1,4 +1,4 @@
-import type { Resource } from '@/services/api/teacher/types'
+import type { Resource } from '@/services/api/teacher/types/modelType'
 
 type ResourceWithCollection = Resource & { collectionId: string }
 
