@@ -265,10 +265,6 @@ export function StudentTable({ filters }: { filters: Array<Array<filter>> }) {
 
   const { data: studentsData } = useGetStudents({})
 
-  // const data = React.useMemo(() => {
-  //   return studentsData?.data ?? []
-  // }, [studentsData?.data])
-
   const table = useReactTable({
     data: studentsData?.data ?? [],
     columns: StudentColumns,

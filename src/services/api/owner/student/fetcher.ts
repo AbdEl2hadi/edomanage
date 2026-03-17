@@ -1,4 +1,4 @@
-import type { StudentModel } from "../types/modelTypes"
+import type { StudentModel } from "../student/Schemas"
 import type { ApiResponse, Filters, PaginatedApiResponse } from "../types/apiTypes"
 
 interface StudentFetcher {

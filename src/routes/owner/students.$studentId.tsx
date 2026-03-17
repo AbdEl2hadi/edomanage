@@ -5,12 +5,9 @@ import {
   useNavigate,
 } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { StudentModel } from '@/services/api/owner/types/modelTypes'
 import { useGetStudent } from '@/services/api/owner/student/hooks'
 
-export type StudentProfile = StudentModel & {}
-
-export const Route = createFileRoute('/owner/$studentId')({
+export const Route = createFileRoute('/owner/students/$studentId')({
   component: RouteComponent,
 })
 

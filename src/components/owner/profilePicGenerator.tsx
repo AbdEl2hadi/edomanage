@@ -5,12 +5,15 @@ type propsType = {
 
 export default function ProfilePicGenerator({ name, imgSrc }: propsType) {
   function getInitials(fullName: string) {
+    if (!fullName) return ''
+
     const parts = fullName.trim().split(' ').filter(Boolean)
-    const first = parts[0][0].toUpperCase()
-    const second = parts[1][0].toUpperCase()
+
+    const first = parts[0]?.[0]?.toUpperCase() || ''
+    const second = parts[1]?.[0]?.toUpperCase() || ''
+
     return first + second
   }
-
   function stringToColor(str: string) {
     let hash = 0
 
@@ -46,11 +49,7 @@ export default function ProfilePicGenerator({ name, imgSrc }: propsType) {
         />
       ) : (
         <div
-          style={
-            imgSrc
-              ? { backgroundColor: bgColor, width: 40, height: 40 }
-              : undefined
-          }
+          style={{ backgroundColor: bgColor, width: 40, height: 40 }}
           className="rounded-full text-white font-bold text-lg flex items-center justify-center"
         >
           {initials}

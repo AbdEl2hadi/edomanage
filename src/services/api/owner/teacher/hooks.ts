@@ -1,6 +1,9 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { teacherFetcher } from "./fetcher";
-import type { TeacherModel } from "../types/modelTypes";
+import { EditTeacherSchema } from "./schemas";
+import type { EditTeacherModel, TeacherModel } from "./schemas";
 
 export function useAddTeacher() {
     const queryClient = useQueryClient();
@@ -33,34 +36,60 @@ export function useGetTeachers() {
     })
 }
 
-export function useEditTeacher() {
+export function useEditTeacher(EditedTeacher: TeacherModel) {
+    const onSubmit = (data: TeacherModel) => {
+        console.log(data)
+        editTeacher(data)
+    }
+
+    const teacherForm = useForm<EditTeacherModel>({
+        defaultValues: {
+            ...EditedTeacher
+        },
+        resolver: zodResolver(EditTeacherSchema),
+    })
+
+
     const queryClient = useQueryClient();
-    return useMutation({
+
+    const { mutate: editTeacher } = useMutation({
         mutationFn: teacherFetcher.editTeacher,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["teachers"] })
         },
-        onMutate: (modifiedTeacher) => {
+        onMutate: () => {
             queryClient.cancelQueries({ queryKey: ["teachers"] });
             const oldTeacherList = queryClient.getQueryData<Array<TeacherModel>>(["teachers"]);
-            const newTeacherList = oldTeacherList?.map((teacher) => { teacher.id === modifiedTeacher.id ? modifiedTeacher : teacher })
+            const newTeacherList = oldTeacherList?.map((t) => { t.id === EditedTeacher.id ? EditedTeacher : t })
             queryClient.setQueryData(['teachers'], newTeacherList)
         }
     });
+    return { teacherForm, onSubmit }
 }
 
-export function useDeleteTeacher() {
+export function useDeleteTeacher(id: string) {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: string) => teacherFetcher.deleteTeacher(id),
+        mutationFn: () => teacherFetcher.deleteTeacher(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['teachers'] })
         },
-        onMutate: (id: string) => {
+        onMutate: () => {
             queryClient.cancelQueries({ queryKey: ['teachers'] });
             const oldTeachersList = queryClient.getQueryData<Array<TeacherModel>>(['teachers']);
             const newTeachersList = oldTeachersList?.filter((old: TeacherModel) => old.id !== id);
             queryClient.setQueryData<Array<TeacherModel>>(['teachers'], newTeachersList);
         }
     })
-} 
+}
+
+export function useGetTeacher(id: string) {
+    return useQuery({
+        queryKey: ['teacher', id],
+        queryFn: async () => {
+            const response = await teacherFetcher.getTeacher(id)
+            return response.success ? response.data : null
+        },
+        placeholderData: keepPreviousData
+    })
+}

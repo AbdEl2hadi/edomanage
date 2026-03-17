@@ -1,5 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import type { AddStudentModel } from '@/services/api/owner/student/Schemas'
+import DatePickerField from '@/components/owner/DatePickerField'
+import InputWrapper from '@/components/owner/InputWrapper'
+import SelectWrapper from '@/components/owner/SelectWrapper'
+import { useAddStudent } from '@/services/api/owner/student/hooks'
+import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
 
 export const Route = createFileRoute('/owner/students/add')({
   component: RouteComponent,
@@ -19,6 +25,8 @@ function RouteComponent() {
     setAllowAccess(!allowAccess)
   }
 
+  const { studentForm, onSubmit } = useAddStudent()
+
   return (
     <div className="flex h-full w-full">
       <main className="flex-1 flex flex-col h-full min-w-0 bg-background-light dark:bg-background-dark overflow-hidden relative">
@@ -34,45 +42,13 @@ function RouteComponent() {
               </p>
             </div>
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-gray-800 overflow-hidden">
-              <form className="flex flex-col">
-                <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
-                  <div className="relative group cursor-pointer">
-                    <div className="size-32 rounded-full bg-[#f0f2f4] dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm transition-all group-hover:border-primary/20">
-                      <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
-                        person_add
-                      </span>
-                      <img
-                        alt="Teacher profile preview"
-                        className="hidden w-full h-full object-cover"
-                        id="avatar-preview"
-                        src=""
-                      />
-                    </div>
-                    <div className="absolute flex justify-center bottom-0 right-0 bg-primary text-white rounded-full p-2 shadow-md border-2 border-white dark:bg-surface-dark">
-                      <span className="material-symbols-outlined text-[18px]">
-                        edit
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2 text-center sm:text-left">
-                    <h3 className="text-[#111318] dark:text-white text-lg font-bold">
-                      Profile Photo
-                    </h3>
-                    <p className="text-[#616f89] dark:text-gray-400 text-sm max-w-md">
-                      Upload a clear photo of the student. Accepted formats:
-                      JPG, PNG. Max size: 5MB.
-                    </p>
-                    <div className="flex gap-3 mt-2 justify-center sm:justify-start">
-                      <button
-                        type="button"
-                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white hover:text-red-400 text-sm font-medium rounded-lg transition-colors"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
+              <form
+                className="flex flex-col"
+                onSubmit={studentForm.handleSubmit(onSubmit)}
+              >
+                <ProfilePicWrapper<AddStudentModel> form={studentForm} />
+
+                <div className="p-8 border-b border-t border-[#f0f2f4] dark:border-gray-800">
                   <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">
                       badge
@@ -80,47 +56,24 @@ function RouteComponent() {
                     Personal Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Full name
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="e.g. Sarah Connor"
-                        type="text"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Date of Birth
-                      </label>
-                      <div className="relative">
-                        <input
-                          className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
-                          type="date"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Gender
-                      </label>
-                      <div className="relative">
-                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
-                          <option disabled selected value="">
-                            Select Gender
-                          </option>
-                          <option value="female">Female</option>
-                          <option value="male">Male</option>
-                        </select>
-                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
-                          <span className="material-symbols-outlined">
-                            expand_more
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <InputWrapper
+                      form={studentForm}
+                      name="name"
+                      label="name"
+                      placeholder="Student's Name"
+                    />
+                    <DatePickerField
+                      form={studentForm}
+                      name="dateOfBirth"
+                      label="Birth Date"
+                    />
+                    <SelectWrapper
+                      form={studentForm}
+                      label="Gender"
+                      name="gender"
+                      placeholder="pick your gender"
+                      values={['female', 'male']}
+                    />
                   </div>
                 </div>
                 <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
@@ -131,36 +84,25 @@ function RouteComponent() {
                     Contact Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="sarah.connor@school.edu"
-                        type="email"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Parent / Guardian Phone Number
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="+1 (555) 000-0000"
-                        type="tel"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1.5 md:col-span-2">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Residential Address
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="123 Education Lane, Springfield"
-                        type="text"
-                      />
-                    </div>
+                    <InputWrapper
+                      form={studentForm}
+                      name="email"
+                      label="email"
+                      placeholder="Student's Email"
+                      type="email"
+                    />
+                    <InputWrapper
+                      form={studentForm}
+                      name="parentPhoneNumber"
+                      label="Parent Phone Number"
+                      placeholder="Parent Phone Number"
+                    />
+                    <InputWrapper
+                      form={studentForm}
+                      name="address"
+                      label="Address"
+                      placeholder="Student's Address"
+                    />
                   </div>
                 </div>
                 <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
@@ -171,53 +113,26 @@ function RouteComponent() {
                     Academic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Student ID
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800/50 border-none px-4 text-[#616f89] dark:text-gray-400 cursor-not-allowed"
-                        readOnly
-                        type="text"
-                        value="STD-2024-001"
-                      />
-                      <p className="text-xs text-[#616f89] dark:text-gray-500">
-                        Auto-generated student ID
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Enrollment Date
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
-                        type="date"
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
-                        Class / Grade
-                      </label>
-                      <div className="relative">
-                        <select className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all">
-                          <option disabled selected value="">
-                            Select Grade
-                          </option>
-                          <option value="science">Grade 1</option>
-                          <option value="math">Grade 2</option>
-                          <option value="literature">Grade 3</option>
-                          <option value="arts">Grade 4</option>
-                          <option value="history">Grade 5</option>
-                          <option value="geography">Grade 6</option>
-                          <option value="chemistry">Grade 7</option>
-                        </select>
-                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-[#616f89] dark:text-gray-400">
-                          <span className="material-symbols-outlined">
-                            expand_more
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <DatePickerField
+                      name="enrollmentDate"
+                      label="Enrollment Date"
+                      form={studentForm}
+                    />
+                    <SelectWrapper
+                      form={studentForm}
+                      label="Class / Grade"
+                      name="grade"
+                      placeholder="pick your grade"
+                      values={[
+                        'Grade 1',
+                        'Grade 2',
+                        'Grade 3',
+                        'Grade 4',
+                        'Grade 5',
+                        'Grade 6',
+                        'Grade 7',
+                      ]}
+                    />
                   </div>
                 </div>
                 <div className="p-8">
@@ -255,7 +170,7 @@ function RouteComponent() {
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                           type={showPassword ? 'text' : 'password'}
-                          value="Teacher@2024"
+                          
                         />
                         <button
                           type="button"
@@ -275,14 +190,16 @@ function RouteComponent() {
                   </div>
                 </div>
                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
+                  <Link to="/owner/students">
+                    <button
+                      type="button"
+                      className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                  </Link>
                   <button
-                    type="button"
-                    className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
+                    type="submit"
                     className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[18px]">
