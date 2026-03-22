@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { AddStudentModel } from '@/services/api/owner/student/Schemas'
+import type { AddStudentModel } from '@/services/api/owner/student/schemas'
 import DatePickerField from '@/components/owner/DatePickerField'
 import InputWrapper from '@/components/owner/InputWrapper'
 import SelectWrapper from '@/components/owner/SelectWrapper'
@@ -65,7 +65,7 @@ function RouteComponent() {
                     <DatePickerField
                       form={studentForm}
                       name="dateOfBirth"
-                      label="Birth Date"
+                      label="Birth Date "
                     />
                     <SelectWrapper
                       form={studentForm}
@@ -96,6 +96,12 @@ function RouteComponent() {
                       name="parentPhoneNumber"
                       label="Parent Phone Number"
                       placeholder="Parent Phone Number"
+                    />
+                    <InputWrapper
+                      form={studentForm}
+                      name="parentName"
+                      label="Parent Name"
+                      placeholder="Parent Name"
                     />
                     <InputWrapper
                       form={studentForm}
@@ -170,7 +176,6 @@ function RouteComponent() {
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                           type={showPassword ? 'text' : 'password'}
-                          
                         />
                         <button
                           type="button"

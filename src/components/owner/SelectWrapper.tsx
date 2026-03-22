@@ -29,7 +29,9 @@ export default function SelectWrapper<T extends FieldValues>({
 
   return (
     <div className="flex flex-col gap-2">
-      <Label>{label}</Label>
+      <Label className="text-sm font-semibold tracking-tight text-foreground/90">
+        {label}
+      </Label>
 
       <Select
         value={value as string}
@@ -40,22 +42,25 @@ export default function SelectWrapper<T extends FieldValues>({
           })
         }
       >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={value || placeholder} />
+        <SelectTrigger className="w-full h-10 px-3 text-left bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:ring-2 focus:ring-blue-400 transition-all">
+          <SelectValue placeholder={value ? value : placeholder} />
         </SelectTrigger>
 
-        <SelectContent className="bg-background-light">
-          {values.map((Value, i) => (
-            <div key={Value}>
+        <SelectContent
+          className="bg-white border border-gray-200 rounded-lg shadow-lg p-1"
+          sideOffset={6}
+        >
+          {values.map((item, i) => (
+            <div key={item}>
               <SelectItem
-                value={Value}
-                className="hover:bg-gray-200 cursor-pointer"
+                value={item}
+                className="px-3 py-1 rounded-md hover:bg-gray-100 cursor-pointer transition-colors"
               >
-                {Value}
+                {item}
               </SelectItem>
 
               {values.length !== i + 1 && (
-                <SelectSeparator className="bg-gray-200" />
+                <SelectSeparator className="bg-gray-200 my-1" />
               )}
             </div>
           ))}

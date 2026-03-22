@@ -23,4 +23,6 @@ export const EditTeacherSchema = TeacherSchema.omit({ id: true, role: true, pass
 export type EditTeacherModel = z.infer<typeof EditTeacherSchema>
 
 
-
+// add student type and schema
+export const AddTeacherSchema = TeacherSchema.omit({ id: true, role: true, password: true })
+export type AddTeacherModel = z.infer<typeof AddTeacherSchema>

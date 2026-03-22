@@ -5,6 +5,8 @@ import { teacherFetcher } from "./fetcher";
 import { EditTeacherSchema } from "./schemas";
 import type { EditTeacherModel, TeacherModel } from "./schemas";
 
+
+
 export function useAddTeacher() {
     const queryClient = useQueryClient();
     return useMutation({
@@ -37,9 +39,15 @@ export function useGetTeachers() {
 }
 
 export function useEditTeacher(EditedTeacher: TeacherModel) {
-    const onSubmit = (data: TeacherModel) => {
-        console.log(data)
-        editTeacher(data)
+    const onSubmit = (data: EditTeacherModel) => {
+        const newData = {
+            ...data,
+            id: EditedTeacher.id,
+            role: EditedTeacher.role,
+            password: EditedTeacher.password
+        }
+        console.log(newData)
+        editTeacher(newData)
     }
 
     const teacherForm = useForm<EditTeacherModel>({
@@ -67,6 +75,8 @@ export function useEditTeacher(EditedTeacher: TeacherModel) {
     return { teacherForm, onSubmit }
 }
 
+
+
 export function useDeleteTeacher(id: string) {
     const queryClient = useQueryClient();
     return useMutation({
@@ -83,13 +93,17 @@ export function useDeleteTeacher(id: string) {
     })
 }
 
+
+export const getTeacherQueryOptions = (teacherId: string) => ({
+    queryKey: ['teacher', teacherId],
+    queryFn: async () => {
+        const response = await teacherFetcher.getTeacher(teacherId)
+        return response.success ? response.data : null
+    },
+    placeholderData: keepPreviousData
+})
+
+
 export function useGetTeacher(id: string) {
-    return useQuery({
-        queryKey: ['teacher', id],
-        queryFn: async () => {
-            const response = await teacherFetcher.getTeacher(id)
-            return response.success ? response.data : null
-        },
-        placeholderData: keepPreviousData
-    })
+    return useQuery(getTeacherQueryOptions(id))
 }

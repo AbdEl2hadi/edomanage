@@ -1,4 +1,4 @@
-import type { StudentModel } from "../student/Schemas"
+import type { StudentModel } from "./schemas"
 import type { ApiResponse, Filters, PaginatedApiResponse } from "../types/apiTypes"
 
 interface StudentFetcher {
@@ -11,6 +11,8 @@ interface StudentFetcher {
 
 class JSONStudentFetcher implements StudentFetcher {
 
+
+
     async addStudent(student: StudentModel): Promise<ApiResponse<StudentModel>> {
         const response = await fetch("http://localhost:4000/students", {
             method: "POST",
@@ -19,6 +21,8 @@ class JSONStudentFetcher implements StudentFetcher {
         })
         return response.json();
     }
+
+
 
 
     async getStudents({ pageIndex, search, pageSize }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<StudentModel>> {
@@ -48,6 +52,11 @@ class JSONStudentFetcher implements StudentFetcher {
         }
     }
 
+
+
+
+
+
     async getStudent(id: string): Promise<ApiResponse<StudentModel>> {
         try {
             const url = new URL(`http://localhost:4000/students/${id}`)
@@ -64,6 +73,8 @@ class JSONStudentFetcher implements StudentFetcher {
         }
     }
 
+
+
     async editStudent(modifiedStudent: StudentModel): Promise<ApiResponse<StudentModel>> {
         const response = await fetch(`http://localhost:4000/students/${modifiedStudent.id}`, {
             method: "PUT",
@@ -72,6 +83,11 @@ class JSONStudentFetcher implements StudentFetcher {
         });
         return response.json();
     }
+
+
+
+
+
 
     async deleteStudent(id: string): Promise<ApiResponse<void>> {
         const response = await fetch(`http://localhost:4000/students/${id}`, {

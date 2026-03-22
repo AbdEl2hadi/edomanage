@@ -4,7 +4,7 @@ import ViewProfileMenuItem from '../DropDownMenuComp/ViewProfileMenuItem'
 import CopyIdMenuItem from '../DropDownMenuComp/CopyIdMenuItem'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { TeacherModel } from '@/services/api/owner/teacher/schemas'
-import type { StudentModel } from '@/services/api/owner/student/Schemas'
+import type { StudentModel } from '@/services/api/owner/student/schemas'
 import ProfilePicGenerator from '@/components/owner/profilePicGenerator'
 import { Button } from '@/components/ui/button'
 
