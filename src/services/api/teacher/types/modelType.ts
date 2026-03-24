@@ -1,21 +1,3 @@
-
-export type PaginationData<T> = {
-  data: Array<T>
-  rowCount: number
-}
-
-export type PaginationParams = {
-  pageIndex: number
-  pageSize: number
-}
-
-export type Filter<T> = Partial<T & PaginationParams>
-
-
-
-
-/* Recources Filter*/ 
-
 export type Resource = {
   id: number
   fileName: string
@@ -26,12 +8,6 @@ export type Resource = {
 
 export type ResourceSortOption = 'newest' | 'oldest' | 'name' | 'size'
 
-export type ResourceFilter = Filter<Resource> & {
-  sortBy?: ResourceSortOption
-}
-
-/* Notifications filter*/
-
 export type NotificationAttachment = {
   href: string
   label: string
@@ -39,19 +15,34 @@ export type NotificationAttachment = {
   kind: 'image' | 'video' | 'document'
 }
 
-export type Notification= {
+export type Notification = {
   id: string
   type: 'Urgent' | 'Teacher' | 'Administrative' | 'User' | 'Grade' | 'Book'
   title: string
-  content?: string 
+  content?: string
   subject: string
-  sendTo?: Array<"Students" | "Teachers" >
+  sendTo?: Array<'Students' | 'Teachers'>
   attachments?: Array<NotificationAttachment>
   time: string
 }
 
-export type NotificationFilter = Filter<Notification> 
+export type Collection = {
+  id: string
+  name: string
+  filesCount: number
+  createdAt: string
+  updatedAt: string
+  sizeMB: number
+}
 
+export type ResourceApiModel = Resource & {
+  collectionId?: string | number
+}
 
-
-
+export type Not = Array<{
+  id: number
+  type: string
+  title: string
+  message: string
+  time: string
+}>

@@ -2,9 +2,13 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import type { TeacherProfileType } from '@/components/owner/teacherCard'
-import { TeacherProfileSchema } from '@/components/owner/teacherCard'
-import useAddTeacher from '@/services/api/addTeacher'
+import type { TeacherModel } from '@/services/api/owner/teacher/schemas'
+import { TeacherSchema } from '@/services/api/owner/teacher/schemas'
+import { useAddTeacher } from '@/services/api/owner/teacher/hooks'
+import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
+import InputWrapper from '@/components/owner/InputWrapper'
+import SelectWrapper from '@/components/owner/SelectWrapper'
+import DatePickerField from '@/components/owner/DatePickerField'
 
 export const Route = createFileRoute('/owner/teachers/add')({
   component: RouteComponent,
@@ -14,11 +18,11 @@ export const Route = createFileRoute('/owner/teachers/add')({
 })
 
 function RouteComponent() {
-  const form = useForm<TeacherProfileType>({
-    resolver: zodResolver(TeacherProfileSchema),
+  const form = useForm<TeacherModel>({
+    resolver: zodResolver(TeacherSchema),
     defaultValues: {
-      subjects: [],
-      id: 'T000',
+      subjects: ['math', 'science'],
+      status: 'New',
     },
   })
 
@@ -33,40 +37,40 @@ function RouteComponent() {
   }
 
   const { mutate: addTeacher } = useAddTeacher()
-  const subjects = form.watch('subjects')
+  // const subjects = form.watch('subjects')
 
-  function addSubjects(subject: string) {
-    if (!subject) {
-      return
-    }
-    if (subjects.includes(subject)) {
-      return
-    }
-    form.setValue('subjects', [...subjects, subject], {
-      shouldValidate: true,
-      shouldDirty: true,
-    })
-  }
+  // function addSubjects(subject: string) {
+  //   if (!subject) {
+  //     return
+  //   }
+  //   if (subjects.includes(subject)) {
+  //     return
+  //   }
+  //   form.setValue('subjects', [...subjects, subject], {
+  //     shouldValidate: true,
+  //     shouldDirty: true,
+  //   })
+  // }
 
-  function removeSubjects(value: string) {
-    form.setValue(
-      'subjects',
-      subjects.filter((s) => s !== value),
-      { shouldValidate: true },
-    )
-  }
+  // function removeSubjects(value: string) {
+  //   form.setValue(
+  //     'subjects',
+  //     subjects.filter((s) => s !== value),
+  //     { shouldValidate: true },
+  //   )
+  // }
 
-  function onSubmit(data: TeacherProfileType | undefined, errors: any) {
-    if (errors) {
-      console.log('Errors : ', errors)
-    } else if (data) {
-      console.log('Data : ', data)
-      addTeacher(data)
-    }
-  }
+  // function onSubmit(data: TeacherModel | undefined, errors: any) {
+  //   if (errors) {
+  //     console.log('Errors : ', errors)
+  //   } else if (data) {
+  //     console.log('Data : ', data)
+  //     addTeacher(data)
+  //   }
+  // }
 
   return (
-    <div className="flex h-full w-full">
+    <div className="flex h-full w-full pb-12">
       <main className="flex-1 flex flex-col h-full min-w-0 bg-background-light dark:bg-background-dark overflow-hidden relative">
         <div className="flex-1 overflow-x-hidden p-8">
           <div className="flex flex-col gap-6 pb-12">
@@ -82,52 +86,14 @@ function RouteComponent() {
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
               <form
                 className="flex flex-col"
-                onSubmit={form.handleSubmit(
-                  (data) => onSubmit(data, undefined),
-                  (errors) => onSubmit(undefined, errors),
-                )}
+                onSubmit={form.handleSubmit((data) => {
+                  console.log('Data : ', data)
+                  addTeacher(data)
+                })}
               >
-                <div className="p-8 border-b border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row gap-8 items-center sm:items-start">
-                  <div className="relative group cursor-pointer">
-                    <div className="size-32 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm transition-all group-hover:border-primary/20">
-                      <span className="material-symbols-outlined text-4xl text-gray-400">
-                        person_add
-                      </span>
-                      <img
-                        alt="Teacher profile preview"
-                        className="hidden w-full h-full object-cover"
-                        id="avatar-preview"
-                        src=""
-                      />
-                    </div>
-                    <div className="absolute flex justify-center bottom-0 right-0 bg-primary text-white rounded-full p-2 shadow-md border-2 border-white dark:bg-surface-dark">
-                      <span className="material-symbols-outlined text-[18px]">
-                        edit
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2 text-center sm:text-left">
-                    <h3
-                      className="text-neutral-900 dark:text-white text-lg font-bold"
-                      {...form.register('imgSrc')}
-                    >
-                      Profile Photo
-                    </h3>
-                    <p className="text-slate-500 dark:text-gray-400 text-sm max-w-md">
-                      Upload a clear photo of the teacher. Accepted formats:
-                      JPG, PNG. Max size: 5MB.
-                    </p>
-                    <div className="flex gap-3 mt-2 justify-center sm:justify-start">
-                      <button
-                        type="button"
-                        className="px-4 py-2 bg-[#f0f2f4] dark:bg-gray-800 hover:bg-[#e2e8f0] dark:hover:bg-gray-700 text-[#111318] dark:text-white hover:text-red-400 border border-slate-300 hover:border-red-400 text-sm font-medium rounded-lg transition-colors"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-8 border-b border-gray-100 dark:border-gray-800">
+                <ProfilePicWrapper<TeacherModel> form={form} />
+
+                <div className="p-8 border-b border-t border-gray-100 dark:border-gray-800">
                   <h3 className="text-neutral-900 dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">
                       badge
@@ -135,56 +101,26 @@ function RouteComponent() {
                     Personal Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Full name
-                      </label>
+                    <InputWrapper
+                      form={form}
+                      name="name"
+                      label="Name"
+                      placeholder="enter the teacher name"
+                    />
 
-                      <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="e.g. Sarah Connor"
-                        type="text"
-                        {...form.register('name')}
-                      />
-                      <p className="text-red-500 transition-all">
-                        {form.formState.errors.name?.message}
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Date of Birth
-                      </label>
-                      <div className="relative">
-                        <input
-                          className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
-                          type="date"
-                          {...form.register('dateOfBirth')}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Gender
-                      </label>
-                      <div className="relative">
-                        <select
-                          className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all"
-                          {...form.register('gender')}
-                        >
-                          <option disabled value="">
-                            Select Gender
-                          </option>
-                          <option value="female">Female</option>
-                          <option value="male">Male</option>
-                        </select>
-                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-gray-400">
-                          <span className="material-symbols-outlined">
-                            expand_more
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                    <DatePickerField
+                      form={form}
+                      name="dateOfBirth"
+                      label="Date of Birth"
+                      placeholder="enter the teacher date of birth"
+                    />
+                    <SelectWrapper
+                      form={form}
+                      label="Gender"
+                      name="gender"
+                      placeholder="select the teacher gender"
+                      values={['female', 'male']}
+                    />
                   </div>
                 </div>
                 <div className="p-8 border-b border-gray-100 dark:border-gray-800">
@@ -195,39 +131,26 @@ function RouteComponent() {
                     Contact Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="sarah.connor@school.edu"
-                        type="email"
-                        {...form.register('email')}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Phone Number
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="+1 (555) 000-0000"
-                        type="tel"
-                        {...form.register('number')}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1.5 md:col-span-2">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Residential Address
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary/50 transition-all"
-                        placeholder="123 Education Lane, Springfield"
-                        type="text"
-                        {...form.register('address')}
-                      />
-                    </div>
+                    <InputWrapper
+                      form={form}
+                      name="email"
+                      label="Email"
+                      placeholder="enter the teacher email"
+                    />
+
+                    <InputWrapper
+                      form={form}
+                      name="number"
+                      label="Phone Number"
+                      placeholder="enter the teacher phone number"
+                    />
+
+                    <InputWrapper
+                      form={form}
+                      name="address"
+                      label="Address"
+                      placeholder="enter the teacher address"
+                    />
                   </div>
                 </div>
                 <div className="p-8 border-b border-gray-100 dark:border-gray-800">
@@ -238,55 +161,31 @@ function RouteComponent() {
                     Academic Role
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Employee ID
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800/50 border-none px-4 text-slate-500 dark:text-gray-400"
-                        type="text"
-                      />
-                      {/* here either the admin writes the ID or the system auto generates it*/}
+                    <InputWrapper
+                      form={form}
+                      name="id"
+                      label="ID"
+                      placeholder="Auto-generated system ID"
+                    />
 
-                      <p className="text-xs text-slate-500 dark:text-gray-500">
-                        Auto-generated system ID
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Joining Date
-                      </label>
-                      <input
-                        className="w-full h-11 rounded-lg bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
-                        type="date"
-                        {...form.register('joiningDate')}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
-                        Department
-                      </label>
-                      <div className="relative">
-                        <select
-                          className="w-full h-11 rounded-lg self-center bg-gray-100 dark:bg-gray-800 border-none px-4 text-neutral-900 dark:text-white focus:ring-2 focus:ring-primary/50 appearance-none transition-all"
-                          {...form.register('departement')}
-                        >
-                          <option disabled value="">
-                            Select Department
-                          </option>
-                          <option value="science">Science</option>
-                          <option value="math">Mathematics</option>
-                          <option value="literature">Literature</option>
-                          <option value="arts">Arts &amp; Humanities</option>
-                        </select>
-                        <div className="absolute right-3 top-6 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-gray-400">
-                          <span className="material-symbols-outlined">
-                            expand_more
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5 md:col-span-2">
+                    <DatePickerField
+                      form={form}
+                      name="joiningDate"
+                      label="Joining Date"
+                      placeholder="enter the teacher joining date"
+                    />
+
+                    <SelectWrapper
+                      form={form}
+                      label="Department"
+                      name="departement"
+                      placeholder="select the teacher department"
+                      values={['science', 'math', 'literature', 'arts']}
+                    />
+
+                    {/* this needs a special component since it's doing so much problems here */}
+
+                    {/* <div className="flex flex-col gap-1.5 md:col-span-2">
                       <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
                         Subjects Specialization
                       </label>
@@ -323,7 +222,7 @@ function RouteComponent() {
                           }}
                         />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="p-8">
@@ -387,7 +286,6 @@ function RouteComponent() {
                     <button
                       type="button"
                       className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-slate-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
-                      onClick={() => {}}
                     >
                       previous
                     </button>

@@ -33,7 +33,8 @@ export default function AnnouncementCard(props: AnnouncementCardType) {
               className={`${props.isPinned ? 'text-primary bg-primary/20' : 'invisible'} inline-flex items-center gap-1 rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-semibold text-primary`}
             >
               <span className=" material-symbols-outlined text-[14px]">
-                {props.isPinned && 'push_pin'}
+                {'push_pin'}
+                {/* props.isPinned &&  */}
               </span>
               {props.isPinned}
             </span>

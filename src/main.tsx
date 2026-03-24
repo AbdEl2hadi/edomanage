@@ -16,6 +16,7 @@ import reportWebVitals from './reportWebVitals.ts'
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  context: { queryClient },
   defaultErrorComponent: NotFound,
   defaultNotFoundComponent: NotFound,
   defaultPendingComponent: () => (
@@ -44,7 +45,7 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme" >
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>

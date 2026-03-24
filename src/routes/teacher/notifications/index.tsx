@@ -4,7 +4,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { GiWhiteBook } from 'react-icons/gi'
 import { MdOutlineGrade, MdPriorityHigh } from 'react-icons/md'
 import { FaUserTie } from 'react-icons/fa'
-import type { Notification } from '@/services/api/teacher/types'
+import type { Notification } from '@/services/api/teacher/types/modelType'
 
 export const Route = createFileRoute('/teacher/notifications/')({
   component: Notifications,

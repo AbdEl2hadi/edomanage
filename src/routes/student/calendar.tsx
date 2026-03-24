@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { queryClient } from '@/lib/queryClient'
-import { useGetEventsOptions } from '@/services/api/student/getEvent'
+import { useGetEventsOptions } from '@/services/api/getEvents'
 
 import { GlobalCalendar } from '@/components/calendar'
 

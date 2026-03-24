@@ -11,13 +11,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import useGetTeacher from '@/services/api/getTeachers'
-import useGetStudent from '@/services/api/getStudents'
+import { useGetTeachers } from '@/services/api/owner/teacher/hooks'
+import { useGetStudents } from '@/services/api/owner/student/hooks'
 import useAddEvent from '@/services/api/owner/addEvent'
 import useEditEvent from '@/services/api/owner/editEvent'
 import useDeleteEvent from '@/services/api/owner/deleteEvent'
-import useGetEvents from '@/services/api/student/getEvent'
-import Loading from '@/components/loading'
+import useGetEvents from '@/services/api/getEvents'
 
 //  Searchable combobox
 function SearchableSelect({
@@ -241,8 +240,8 @@ function fromEvent(ev: OwnerEvent): EventForm {
 }
 
 function RouteComponent() {
-  const { data: teachersData } = useGetTeacher()
-  const { data: studentsData } = useGetStudent()
+  const { data: { data: teachersData } = { data: [] } } = useGetTeachers()
+  const { data: { data: studentsData } = { data: [] } } = useGetStudents({})
   const { mutateAsync: addEventAsync, isPending: isAdding } = useAddEvent()
   const { mutateAsync: editEventAsync, isPending: isEditing } = useEditEvent()
   const { mutateAsync: deleteEventAsync } = useDeleteEvent()
@@ -254,11 +253,11 @@ function RouteComponent() {
     data: eventsData,
     isLoading: isEventsLoading,
     isError: isEventsError,
-  } = useGetEvents()
+  } = useGetEvents(undefined, undefined, true)
 
   const events = useMemo<Array<OwnerEvent>>(
     () =>
-      (eventsData ?? []).map((ev) => ({
+      (eventsData ?? []).map((ev: any) => ({
         ...ev,
         start: new Date(ev.start),
         end: new Date(ev.end),
@@ -268,7 +267,7 @@ function RouteComponent() {
 
   const teachers: Array<{ id: string; name: string }> = useMemo(
     () =>
-      (teachersData ?? []).map((t: { id: string; name: string }) => ({
+      teachersData.map((t: { id: string; name: string }) => ({
         id: t.id,
         name: t.name,
       })),
@@ -276,7 +275,7 @@ function RouteComponent() {
   )
 
   const classOptions: Array<string> = useMemo(() => {
-    const grades: Array<string> = (studentsData ?? []).map(
+    const grades: Array<string> = studentsData.map(
       (s: { grade: string }) => s.grade,
     )
     return Array.from(new Set(grades)).sort()
@@ -566,15 +565,16 @@ function RouteComponent() {
         </div>
 
         {/* Calendar */}
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-auto p-4 flex-1">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-4 flex-1 flex flex-col min-h-0">
           {isEventsLoading ? (
-            <Loading
-              className="h-[calc(100vh-220px)] min-h-115"
-              text="Loading calendar…"
-              description="Please wait while we fetch your events."
-            />
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 text-slate-400">
+              <span className="material-symbols-outlined animate-spin text-[40px]">
+                progress_activity
+              </span>
+              <p className="text-sm font-medium">Loading events…</p>
+            </div>
           ) : isEventsError ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-220px)] min-h-115 gap-3 text-center">
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 text-center">
               <span className="material-symbols-outlined text-red-400 text-5xl">
                 event_busy
               </span>
@@ -586,7 +586,7 @@ function RouteComponent() {
               </p>
             </div>
           ) : displayEvents.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-220px)] min-h-115 gap-3 text-center">
+            <div className="flex flex-col items-center justify-center flex-1 gap-3 text-center">
               <span className="material-symbols-outlined text-slate-300 dark:text-slate-600 text-6xl">
                 calendar_month
               </span>
@@ -598,7 +598,7 @@ function RouteComponent() {
               </p>
             </div>
           ) : (
-            <div className="owner-big-calendar h-[calc(100vh-220px)] min-h-115">
+            <div className="owner-big-calendar owner-calendar-view flex-1 h-full min-h-0">
               <Calendar
                 date={selectedDate}
                 events={displayEvents}

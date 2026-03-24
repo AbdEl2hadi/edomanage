@@ -8,11 +8,11 @@ import type {
   PaginationState,
 } from '@tanstack/react-table'
 /* filter types*/
+import type { NotificationFilter } from '../../../services/api/teacher/types/apiType'
 import type {
   Notification,
   NotificationAttachment,
-  NotificationFilter,
-} from '../../../services/api/teacher/types'
+} from '../../../services/api/teacher/types/modelType'
 
 import { useDebounce } from '@/hooks/use-debounce'
 import { DataTable } from '@/components/table/data-table'

@@ -66,8 +66,8 @@ export default function SideBar({ info }: { info?: any }) {
       )}
       <aside
         aria-expanded={isOpen}
-        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-slate-200/80 dark:border-slate-800 shrink-0 w-72 p-4 transform-gpu transition duration-300 ease-in-out will-change-transform ${
-          !isOpen ? 'lg:w-20 lg:p-3' : ''
+        className={`fixed lg:static inset-y-0 left-0 z-40 flex flex-col justify-between bg-surface-light dark:bg-surface-dark border-r border-slate-200/80 dark:border-slate-800 shrink-0 w-60 p-4 transform-gpu transition duration-300 ease-in-out will-change-transform ${
+          !isOpen ? 'lg:w-[72px] lg:p-3' : ''
         }`}
         style={{
           transform:
@@ -144,8 +144,8 @@ export default function SideBar({ info }: { info?: any }) {
         </div>
         {/* User Profile */}
         <div
-          className={`flex items-center gap-3 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 ${
-            isOpen ? 'p-3' : 'p-2 justify-center'
+          className={`flex items-center gap-2.5 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 ${
+            isOpen ? 'p-2.5' : 'p-2 justify-center'
           }`}
         >
           <Link
@@ -157,7 +157,7 @@ export default function SideBar({ info }: { info?: any }) {
             }}
             to={`/${localPath}/settings` as any}
           >
-            <Avatar alt="profile picture" src={avatarSrc} />
+            <Avatar alt="profile picture" src={avatarSrc} sx={{ width: 36, height: 36 }} />
           </Link>
           {isOpen && (
             <>

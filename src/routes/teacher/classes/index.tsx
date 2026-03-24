@@ -1,18 +1,17 @@
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { ResourceSearchSchema } from './$folderId'
 import { AddOrEditCollectionDialog } from './allCollections'
-import type { Resource } from '@/services/api/teacher/types'
+import type { Resource } from '@/services/api/teacher/types/modelType'
 import SendResForm from '@/components/teacher/resources/sendResForm'
 import { ResourcesTable } from '@/components/teacher/resources/resources-table'
 import { columns } from '@/components/teacher/resources/columns'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource.ts'
 import { queryClient } from '@/lib/queryClient'
 import useGetResources, {
-  getResourcesQueryOptions,
-} from '@/services/api/teacher/getResources'
-import useAllGetCollection, {
   getAllCollectionsQueryOptions,
-} from '@/services/api/teacher/getAllCollections'
+  getResourcesQueryOptions,
+  useGetAllCollections,
+} from '@/services/api/teacher/collection/hooks'
 
 export const Route = createFileRoute('/teacher/classes/')({
   component: RouteComponent,
@@ -29,19 +28,23 @@ export const Route = createFileRoute('/teacher/classes/')({
 
 function RouteComponent() {
   const router = useRouter()
+  /* get state from search params*/
   const { filters, setFilters } = useFilterResource(Route.id)
 
+  /* when reload data */ 
   const refreshPage = () => {
     console.log('Refreshing page...')
     router.invalidate()
   }
-
+  /* create pagination state */
   const paginationState = {
     pageIndex: filters.pageIndex ?? 1,
     pageSize: filters.pageSize ?? 5,
   }
+  /* create */
 
   const { data: resourcesData } = useGetResources(undefined, filters)
+
   const data: Array<Resource> = resourcesData?.data ?? []
   const rowCount = resourcesData?.rowCount ?? 0
 
@@ -53,7 +56,7 @@ function RouteComponent() {
     isError: isFoldersError,
     isFetching: isFoldersFetching,
     refetch: refetchFolders,
-  } = useAllGetCollection(false)
+  } = useGetAllCollections(false)
   const hasFolders = (folders?.length ?? 0) > 0
 
   return (

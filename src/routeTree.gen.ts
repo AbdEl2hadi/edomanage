@@ -34,7 +34,9 @@ import { Route as TeacherNotificationsAddRouteImport } from './routes/teacher/no
 import { Route as TeacherClassesAllCollectionsRouteImport } from './routes/teacher/classes/allCollections'
 import { Route as TeacherClassesFolderIdRouteImport } from './routes/teacher/classes/$folderId'
 import { Route as OwnerTeachersAddRouteImport } from './routes/owner/teachers.add'
+import { Route as OwnerTeachersTeacherIdRouteImport } from './routes/owner/teachers.$teacherId'
 import { Route as OwnerStudentsAddRouteImport } from './routes/owner/students.add'
+import { Route as OwnerStudentsStudentIdRouteImport } from './routes/owner/students.$studentId'
 
 const TeacherRoute = TeacherRouteImport.update({
   id: '/teacher',
@@ -163,9 +165,19 @@ const OwnerTeachersAddRoute = OwnerTeachersAddRouteImport.update({
   path: '/teachers/add',
   getParentRoute: () => OwnerRoute,
 } as any)
+const OwnerTeachersTeacherIdRoute = OwnerTeachersTeacherIdRouteImport.update({
+  id: '/teachers/$teacherId',
+  path: '/teachers/$teacherId',
+  getParentRoute: () => OwnerRoute,
+} as any)
 const OwnerStudentsAddRoute = OwnerStudentsAddRouteImport.update({
   id: '/students/add',
   path: '/students/add',
+  getParentRoute: () => OwnerRoute,
+} as any)
+const OwnerStudentsStudentIdRoute = OwnerStudentsStudentIdRouteImport.update({
+  id: '/students/$studentId',
+  path: '/students/$studentId',
   getParentRoute: () => OwnerRoute,
 } as any)
 
@@ -187,7 +199,9 @@ export interface FileRoutesByFullPath {
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
+  '/owner/students/$studentId': typeof OwnerStudentsStudentIdRoute
   '/owner/students/add': typeof OwnerStudentsAddRoute
+  '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
   '/owner/teachers/add': typeof OwnerTeachersAddRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
@@ -215,7 +229,9 @@ export interface FileRoutesByTo {
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
+  '/owner/students/$studentId': typeof OwnerStudentsStudentIdRoute
   '/owner/students/add': typeof OwnerStudentsAddRoute
+  '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
   '/owner/teachers/add': typeof OwnerTeachersAddRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
@@ -244,7 +260,9 @@ export interface FileRoutesById {
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
+  '/owner/students/$studentId': typeof OwnerStudentsStudentIdRoute
   '/owner/students/add': typeof OwnerStudentsAddRoute
+  '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
   '/owner/teachers/add': typeof OwnerTeachersAddRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
@@ -274,7 +292,9 @@ export interface FileRouteTypes {
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
+    | '/owner/students/$studentId'
     | '/owner/students/add'
+    | '/owner/teachers/$teacherId'
     | '/owner/teachers/add'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
@@ -302,7 +322,9 @@ export interface FileRouteTypes {
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
+    | '/owner/students/$studentId'
     | '/owner/students/add'
+    | '/owner/teachers/$teacherId'
     | '/owner/teachers/add'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
@@ -330,7 +352,9 @@ export interface FileRouteTypes {
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
+    | '/owner/students/$studentId'
     | '/owner/students/add'
+    | '/owner/teachers/$teacherId'
     | '/owner/teachers/add'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
@@ -527,11 +551,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OwnerTeachersAddRouteImport
       parentRoute: typeof OwnerRoute
     }
+    '/owner/teachers/$teacherId': {
+      id: '/owner/teachers/$teacherId'
+      path: '/teachers/$teacherId'
+      fullPath: '/owner/teachers/$teacherId'
+      preLoaderRoute: typeof OwnerTeachersTeacherIdRouteImport
+      parentRoute: typeof OwnerRoute
+    }
     '/owner/students/add': {
       id: '/owner/students/add'
       path: '/students/add'
       fullPath: '/owner/students/add'
       preLoaderRoute: typeof OwnerStudentsAddRouteImport
+      parentRoute: typeof OwnerRoute
+    }
+    '/owner/students/$studentId': {
+      id: '/owner/students/$studentId'
+      path: '/students/$studentId'
+      fullPath: '/owner/students/$studentId'
+      preLoaderRoute: typeof OwnerStudentsStudentIdRouteImport
       parentRoute: typeof OwnerRoute
     }
   }
@@ -543,7 +581,9 @@ interface OwnerRouteChildren {
   OwnerDashboardRoute: typeof OwnerDashboardRoute
   OwnerPaymentsRoute: typeof OwnerPaymentsRoute
   OwnerSettingsRoute: typeof OwnerSettingsRoute
+  OwnerStudentsStudentIdRoute: typeof OwnerStudentsStudentIdRoute
   OwnerStudentsAddRoute: typeof OwnerStudentsAddRoute
+  OwnerTeachersTeacherIdRoute: typeof OwnerTeachersTeacherIdRoute
   OwnerTeachersAddRoute: typeof OwnerTeachersAddRoute
   OwnerStudentsIndexRoute: typeof OwnerStudentsIndexRoute
   OwnerTeachersIndexRoute: typeof OwnerTeachersIndexRoute
@@ -555,7 +595,9 @@ const OwnerRouteChildren: OwnerRouteChildren = {
   OwnerDashboardRoute: OwnerDashboardRoute,
   OwnerPaymentsRoute: OwnerPaymentsRoute,
   OwnerSettingsRoute: OwnerSettingsRoute,
+  OwnerStudentsStudentIdRoute: OwnerStudentsStudentIdRoute,
   OwnerStudentsAddRoute: OwnerStudentsAddRoute,
+  OwnerTeachersTeacherIdRoute: OwnerTeachersTeacherIdRoute,
   OwnerTeachersAddRoute: OwnerTeachersAddRoute,
   OwnerStudentsIndexRoute: OwnerStudentsIndexRoute,
   OwnerTeachersIndexRoute: OwnerTeachersIndexRoute,

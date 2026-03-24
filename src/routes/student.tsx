@@ -4,6 +4,7 @@ import {
   useLocation,
   // useMatchRoute,
 } from '@tanstack/react-router'
+import { Activity } from 'react'
 import SideBar from '@/components/side_bar'
 import TopNav from '@/components/top_nav'
 
@@ -37,7 +38,7 @@ function Student() {
         {/* <TopNav /> */}
         <TopNav />
         {/* switchTopNav={switchTopNav} */}
-        <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 py-4">
+        <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 pt-3 mb-[-6px]">
           <span className="capitalize text-slate-450 dark:text-slate-400">
             {path[1]}
           </span>
@@ -45,6 +46,14 @@ function Student() {
           <span className="text-slate-900 dark:text-white capitalize">
             {path[2]}
           </span>
+          <Activity mode={path[3] ? 'visible' : 'hidden'}>
+            <span className="mx-2 text-slate-400 dark:text-slate-600">
+              &gt;
+            </span>
+            <span className="text-slate-900 dark:text-white capitalize">
+              {path[3]}
+            </span>
+          </Activity>
         </nav>
         <Outlet />
       </main>
