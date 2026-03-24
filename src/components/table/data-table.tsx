@@ -47,7 +47,7 @@ export function DataTable<T extends Record<string, unknown>>({
     <>
       <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
         <Table className="w-full table-fixed border-collapse text-left text-sm text-slate-500 dark:text-slate-400">
-          <TableHeader className="bg-slate-50 dark:bg-slate-900/50 text-xs uppercase text-slate-500 dark:text-slate-400">
+          <TableHeader className="bg-slate-50  text-xs uppercase text-slate-500  dark:bg-gray-800 dark:text-slate-200 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -79,7 +79,7 @@ export function DataTable<T extends Record<string, unknown>>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={`hover:bg-slate-50 dark:hover:bg-slate-800/50 ${
+                  className={`dark:border-gray-700 dark:bg-surface-dark hover:bg-slate-50 dark:hover:bg-slate-800/50 ${
                     hasRowClick ? 'cursor-pointer' : ''
                   }`}
                   onClick={() => {
@@ -121,7 +121,7 @@ export function DataTable<T extends Record<string, unknown>>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
+      <div className="flex items-center justify-between border-t border-slate-200  bg-white  px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white ">
         <div className="hidden sm:flex flex-1 items-center justify-between">
           <div></div>
           <Pagination>
