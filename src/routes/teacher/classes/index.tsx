@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { ResourceSearchSchema } from './$folderId'
-import { AddOrEditCollectionDialog } from './allCollections'
 import type { Resource } from '@/services/api/teacher/types/modelType'
+import { AddOrEditCollectionDialog } from '@/components/teacher/collection/CollectionDialogs'
 import SendResForm from '@/components/teacher/resources/sendResForm'
 import { ResourcesTable } from '@/components/teacher/resources/resources-table'
 import { columns } from '@/components/teacher/resources/columns'
@@ -20,8 +20,10 @@ export const Route = createFileRoute('/teacher/classes/')({
   }),
   loaderDeps: ({ search }) => search,
   loader: ({ deps }) => {
-    queryClient.ensureQueryData(getAllCollectionsQueryOptions(false))
-    queryClient.ensureQueryData(getResourcesQueryOptions(undefined, deps))
+    return Promise.all([
+      queryClient.ensureQueryData(getAllCollectionsQueryOptions(false)),
+      queryClient.ensureQueryData(getResourcesQueryOptions(undefined, deps)),
+    ])
   },
   validateSearch: ResourceSearchSchema,
 })
@@ -31,7 +33,7 @@ function RouteComponent() {
   /* get state from search params*/
   const { filters, setFilters } = useFilterResource(Route.id)
 
-  /* when reload data */ 
+  /* when reload data */
   const refreshPage = () => {
     console.log('Refreshing page...')
     router.invalidate()
@@ -208,7 +210,6 @@ function RouteComponent() {
             ))}
             <AddOrEditCollectionDialog
               role="add"
-              refetchFolders={refetchFolders}
               className="group cursor-pointer rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-transparent p-4 flex flex-col items-center justify-center text-center hover:border-primary hover:bg-primary/5 transition-all min-h-32"
             />
           </div>

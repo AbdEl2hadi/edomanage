@@ -44,8 +44,6 @@ export function useAddTeacherNotification() {
   })
 }
 
-
-
 export function useDeleteOwnNotification() {
   const queryClient = useQueryClient()
 

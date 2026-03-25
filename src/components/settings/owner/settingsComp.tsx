@@ -195,50 +195,62 @@ export default function SettingsComp() {
             <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
               <div>
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-                  Features &amp; Permissions
+                  Access &amp; Feature Controls
                 </h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                  Control what teachers and students can access.
+                  Enable the parts of the platform that already exist in your
+                  school portal.
                 </p>
               </div>
               <span className="material-symbols-outlined text-slate-300 dark:text-slate-600 text-3xl">
                 toggle_on
               </span>
             </div>
-            <div className="divide-y divide-slate-100 dark:divide-slate-700">
-              {/* Toggle Item */}
+            <div className="divide-y divide-slate-100 dark:divide-slate-700">  
               <div className="p-4 md:px-6 md:py-5 flex items-center justify-between gap-4">
                 <div>
                   <p className="font-medium text-slate-900 dark:text-white">
-                    Enable Teacher Chat
+                    Teacher Notifications
                   </p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Allow teachers to direct message students within the
-                    platform.
+                    Allow teachers to publish classroom and administrative
+                    notifications.
                   </p>
                 </div>
                 <Switch defaultChecked className="shrink-0" />
               </div>
-              {/* Toggle Item */}
               <div className="p-4 md:px-6 md:py-5 flex items-center justify-between gap-4">
                 <div>
                   <p className="font-medium text-slate-900 dark:text-white">
-                    Parent Portal Access
+                    School Announcements
                   </p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Allow parents to view grades and attendance records.
+                    Show school-wide announcements to the people included in
+                    each post audience.
                   </p>
                 </div>
                 <Switch defaultChecked className="shrink-0" />
               </div>
-              {/* Toggle Item */}
               <div className="p-4 md:px-6 md:py-5 flex items-center justify-between gap-4">
                 <div>
                   <p className="font-medium text-slate-900 dark:text-white">
-                    Public Registration
+                    Shared Calendar Access
                   </p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Allow new students to register via the public website.
+                    Make school events visible across owner, teacher, and
+                    student calendar views.
+                  </p>
+                </div>
+                <Switch defaultChecked className="shrink-0" />
+              </div>
+              <div className="p-4 md:px-6 md:py-5 flex items-center justify-between gap-4">
+                <div>
+                  <p className="font-medium text-slate-900 dark:text-white">
+                    Payments Module
+                  </p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Keep the billing and payment management area available in
+                    the owner dashboard.
                   </p>
                 </div>
                 <Switch className="shrink-0" />

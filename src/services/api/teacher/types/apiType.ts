@@ -1,7 +1,6 @@
 import type {
   Collection,
   Notification,
-  NotificationAttachment,
   Resource,
   ResourceApiModel,
   ResourceSortOption,
@@ -74,7 +73,8 @@ export type AddTeacherNotificationPayload = {
   role: 'teacher' | 'admin'
   subject: string
   content: string
-  attachments?: Array<NotificationAttachment>
+  attachments?: FileList | Array<File>
+  onUploadProgress?: (progress: number) => void
   sendTo?: Array<string>
   type: 'Teacher' | 'Urgent' | 'Administrative' | 'User' | 'Grade' | 'Book'
 }
