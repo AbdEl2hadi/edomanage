@@ -6,10 +6,10 @@ import { useForm } from 'react-hook-form'
 import { cn } from '../../../lib/utils'
 import type { SubmitHandler } from 'react-hook-form'
 import {
-  useGetAllCollections,
   getAllCollectionsQueryOptions,
   useAddOrEditCollection,
   useDeleteCollection,
+  useGetAllCollections,
 } from '@/services/api/teacher/collection/hooks'
 import { queryClient } from '@/lib/queryClient'
 import Loading from '@/components/loading'

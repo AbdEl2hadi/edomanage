@@ -2,7 +2,12 @@ import { MdOutlineGrade, MdPriorityHigh } from 'react-icons/md'
 import { GiWhiteBook } from 'react-icons/gi'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import { FaUserTie } from 'react-icons/fa'
-import { useNotifications } from '../../services/api/student/notification'
+import { useNotifications } from '../../services/api/student/notification/notification'
+import type {
+  NotificationListProps,
+  ResourceCard,
+  TypeTabFilter,
+} from '@/services/api/student/types/apiType'
 
 const getIcon = (iconType: string) => {
   switch (iconType) {
@@ -70,15 +75,44 @@ const getColors = (type: string) => {
       }
   }
 }
-type ResourceCard = {
-  id: string
-  type: string
-  title: string
-  subject: string
-  time: string
+
+const filterNotifications = (
+  data: Array<ResourceCard>,
+  tab: TypeTabFilter = 'All',
+  searchText = '',
+) => {
+  const lowerSearch = searchText.trim().toLowerCase()
+
+  return data.filter((notification) => {
+    const matchesTab =
+      tab === 'All' ||
+      (tab === 'Unread' && notification.read === false) ||
+      (tab === 'Urgent' && notification.type === 'Urgent') ||
+      (tab === 'Teachers' && notification.type === 'Teacher') ||
+      (tab === 'Administration' &&
+        ['Administration', 'Admin'].includes(notification.type))
+
+    if (!matchesTab) return false
+
+    if (!lowerSearch) return true
+
+    const haystack =
+      `${notification.title} ${notification.subject} ${notification.type}`.toLowerCase()
+    return haystack.includes(lowerSearch)
+  })
 }
-export default function NotificationList() {
-  const { data, isLoading, error } = useNotifications()
+
+export default function NotificationList({
+  tab = 'All',
+  searchText = '',
+  data: propData,
+  isLoading: propIsLoading,
+  error: propError,
+}: NotificationListProps) {
+  const hookResult = useNotifications()
+  const data = propData ?? hookResult.data
+  const isLoading = propIsLoading ?? hookResult.isLoading
+  const error = propError ?? hookResult.error
 
   if (isLoading) {
     return (
@@ -106,9 +140,21 @@ export default function NotificationList() {
     )
   }
 
+  const filteredData = filterNotifications(data, tab, searchText)
+
+  if (filteredData.length === 0) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <p className="text-[#4b5563] dark:text-[#9da6b9]">
+          No notifications match your filters.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-3">
-      {data.map((notification: ResourceCard) => {
+      {filteredData.map((notification: ResourceCard) => {
         const colors = getColors(notification.type)
         const Icon = getIcon(notification.type)
 
@@ -118,8 +164,9 @@ export default function NotificationList() {
             className={`group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl hover:bg-gray-100 bg-white dark:bg-[#1A202C] dark:hover:bg-[#202736] border-l-4 ${colors.border} cursor-pointer`}
           >
             <div className="shrink-0">
-              <div className="absolute right-4 top-4 size-2 rounded-full bg-primary" />
-
+              {!notification.read && (
+                <div className="absolute right-4 top-4 size-2 rounded-full bg-primary" />
+              )}
               <div
                 className={`flex size-12 items-center justify-center rounded-full ${colors.bg} ${colors.text} ${colors.darkBg}`}
               >

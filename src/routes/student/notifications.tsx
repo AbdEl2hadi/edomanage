@@ -1,5 +1,10 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { useQueryClient } from '@tanstack/react-query'
+import type {
+  NotificationsProps,
+  TypeTabFilter,
+} from '@/services/api/student/types/apiType'
 
 import NotificationList from '@/components/student/notificationList'
 
@@ -16,10 +21,39 @@ const tabFilters: Array<TypeTabFilter> = [
   'Teachers',
   'Administration',
 ]
-type TypeTabFilter = 'All' | 'Unread' | 'Urgent' | 'Teachers' | 'Administration'
 
-export function Notifications() {
-  const [tab, setTab] = useState<TypeTabFilter>('All')
+export function Notifications({ initialTab = 'All' }: NotificationsProps) {
+  const [tab, setTab] = useState<TypeTabFilter>(initialTab)
+  const [searchText, setSearchText] = useState('')
+  const queryClient = useQueryClient()
+
+  const markAllAsRead = async () => {
+    try {
+      // Fetch current notifications
+      const res = await fetch('http://localhost:4000/notifications')
+      if (!res.ok) throw new Error('Failed to fetch notifications')
+      const notifications = await res.json()
+
+      // Update each unread notification
+      const updatePromises = notifications
+        .filter((n: any) => !n.read)
+        .map((n: any) =>
+          fetch(`http://localhost:4000/notifications/${n.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ read: true }),
+          }),
+        )
+
+      await Promise.all(updatePromises)
+
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['notifications'] })
+    } catch (error) {
+      console.error('Failed to mark all as read:', error)
+    }
+  }
+
   return (
     <main className="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark relative">
       <div className="max-w-250 mx-auto w-full p-6 md:p-10 flex flex-col gap-8">
@@ -35,7 +69,10 @@ export function Notifications() {
             </p>
           </div>
 
-          <button className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary dark:bg-[#282e39] hover:bg-blue-700 dark:hover:bg-[#323b49] text-white text-sm font-bold active:scale-95">
+          <button
+            onClick={markAllAsRead}
+            className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary dark:bg-[#282e39] hover:bg-blue-700 dark:hover:bg-[#323b49] text-white text-sm font-bold active:scale-95"
+          >
             <span className="material-symbols-outlined text-[18px]">
               done_all
             </span>
@@ -54,6 +91,8 @@ export function Notifications() {
             </span>
             <input
               type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               placeholder="Search notification history..."
               className="bg-gray-200 dark:bg-[#282e39] border border-gray-300 h-12 w-full rounded-xl dark:border-gray-700 focus:border-primary focus:bg-gray-300 dark:focus:bg-surface-dark focus:ring-0 pl-12 pr-4 text-[#0d121b] dark:text-white placeholder-[#6b7280] text-base"
             />
@@ -86,7 +125,7 @@ export function Notifications() {
         </div>
 
         {/* Notifications List */}
-        <NotificationList />
+        <NotificationList tab={tab} searchText={searchText} />
 
         {/* Footer */}
         <div className="flex justify-center py-8">

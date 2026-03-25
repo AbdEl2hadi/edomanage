@@ -1,15 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import type { Resource } from '@/services/api/teacher/types'
+import type { Resource } from '@/services/api/teacher/types/modelType'
 import { ResourceSearchSchema } from '@/routes/teacher/classes/$folderId'
 import { ResourcesTable } from '@/components/teacher/resources/resources-table'
 import { columns } from '@/components/teacher/resources/columns'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource.ts'
 import { queryClient } from '@/lib/queryClient'
 import useGetResources, {
+  getAllCollectionsQueryOptions,
   getResourcesQueryOptions,
-} from '@/services/api/teacher/getResources'
-import { getAllCollectionsQueryOptions } from '@/services/api/teacher/getAllCollections'
+} from '@/services/api/teacher/collection/hooks.ts'
 
 export const Route = createFileRoute('/student/courses')({
   component: Courses,
@@ -38,7 +38,7 @@ export function Courses() {
     // <div className="overflow-auto min-h-screen bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-white flex flex-col p-6 md:p-10">
     <main className="flex-1 overflow-y-auto bg-background-light p-4 dark:bg-background-dark md:p-8">
       {/* Breadcrumbs */}
-      <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+      {/* <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
         <a className="hover:text-primary" href="#">
           Home
         </a>
@@ -54,7 +54,7 @@ export function Courses() {
         <span className="font-medium text-[#0d121b] dark:text-white">
           Resources
         </span>
-      </nav>
+      </nav> */}
       {/* Page Header */}
       <div className="mb-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
