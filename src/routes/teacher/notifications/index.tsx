@@ -1,10 +1,8 @@
-import { createElement, useState } from 'react'
-import { FaRegCircleUser } from 'react-icons/fa6'
+import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { GiWhiteBook } from 'react-icons/gi'
-import { MdOutlineGrade, MdPriorityHigh } from 'react-icons/md'
-import { FaUserTie } from 'react-icons/fa'
-import type { Notification } from '@/services/api/teacher/types/modelType'
+import type { TypeTabFilter } from '@/services/api/teacher/types/apiType'
+import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'
+import NotificationList from '@/components/student/notificationList'
 
 export const Route = createFileRoute('/teacher/notifications/')({
   component: Notifications,
@@ -12,133 +10,36 @@ export const Route = createFileRoute('/teacher/notifications/')({
     meta: [{ title: 'Teacher | Notifications - EduManage' }],
   }),
 })
-/* color of type */
-export const getColors = (type: string) => {
-  switch (type) {
-    case 'Urgent':
-      return {
-        bg: 'bg-red-50',
-        text: 'text-red-500',
-        darkBg: 'dark:bg-red-500/10',
-        ring: 'ring-red-500/20',
-        border: 'border-red-500',
-      }
-    case 'Book':
-      return {
-        bg: 'bg-purple-50',
-        text: 'text-purple-500',
-        darkBg: 'dark:bg-purple-500/10',
-        ring: 'ring-purple-500/20',
-        border: 'border-purple-500',
-      }
-    case 'Teacher':
-      return {
-        bg: 'bg-blue-50',
-        text: 'text-blue-500',
-        darkBg: 'dark:bg-blue-500/10',
-        ring: 'ring-blue-500/20',
-        border: 'border-blue-500',
-      }
-    case 'Grade':
-      return {
-        bg: 'bg-green-50',
-        text: 'text-green-500',
-        darkBg: 'dark:bg-green-500/10',
-        ring: 'ring-green-500/20',
-        border: 'border-green-500',
-      }
-    case 'User':
-      return {
-        bg: 'bg-orange-50',
-        text: 'text-orange-500',
-        darkBg: 'dark:bg-orange-500/10',
-        ring: 'ring-orange-500/20',
-        border: 'border-orange-500',
-      }
-    default:
-      return {
-        bg: 'bg-gray-50',
-        text: 'text-gray-500',
-        darkBg: 'dark:bg-gray-500/10',
-        ring: 'ring-gray-500/20',
-        border: 'border-gray-500',
-      }
-  }
-}
-
-/* Icon */
-const getIcon = (type: string) => {
-  switch (type) {
-    case 'Urgent':
-      return MdPriorityHigh
-    case 'Book':
-      return GiWhiteBook
-    case 'Teacher':
-      return FaUserTie
-    case 'Grade':
-      return MdOutlineGrade
-    case 'User':
-      return FaRegCircleUser
-    default:
-      return 'notification_important'
-  }
-}
-
-/* Filter*/
 const tabFilters: Array<TypeTabFilter> = ['All', 'Urgent', 'Administration']
-type TypeTabFilter = 'All' | 'Urgent' | 'Administration'
 
 export function Notifications() {
   /* Navigation */
   const navigate = useNavigate()
 
   /* State */
-
   const [tab, setTab] = useState<TypeTabFilter>('All')
-  const resources: Array<Notification> = [
-    {
-      id: 'physics-final-exam-rescheduled',
-      type: 'Urgent',
-      title: 'Physics Final Exam Rescheduled',
-      subject: 'Mathematics • Mr. Anderson',
-      time: 'Administrative Office • 10 mins ago',
-    },
-    {
-      id: 'wwii-documentary',
-      type: 'Book',
-      title: 'WWII Documentary',
-      subject: 'History • Mrs. Roberts',
-      time: 'Administrative Office • 10 mins ago',
-    },
-    {
-      id: 'lab-report-template',
-      type: 'User',
-      title: 'Lab Report Template',
-      subject: 'Science • Dr. Stevens',
-      time: 'Administrative Office • 10 mins ago',
-    },
-    {
-      id: 'cell-structure-diagram-grade',
-      type: 'Grade',
-      title: 'Cell Structure Diagram',
-      subject: 'Science • Dr. Stevens',
-      time: '3d ago',
-    },
-    {
-      id: 'cell-structure-diagram-user',
-      type: 'User',
-      title: 'Cell Structure Diagram',
-      subject: 'Science • Dr. Stevens',
-      time: '3d ago',
-    },
-    {
-      id: 'cell-structure-diagram-teacher',
-      type: 'Teacher',
-      title: 'Cell Structure Diagram',
-      subject: 'Science • Dr. Stevens',
-      time: 'week ago',
-    },
-  ]
+  const [searchText, setSearchText] = useState('')
+
+  // Fetch teacher notifications
+  const {
+    data: teacherNotifications,
+    isLoading,
+    error,
+  } = useGetTeacherNotifications({
+    pageIndex: 1,
+    pageSize: 50,
+  })
+
+  // Map teacher notifications to ResourceCard format
+  const mappedData =
+    teacherNotifications?.data.map((n) => ({
+      id: n.id,
+      type: n.type,
+      title: n.title,
+      subject: n.content || n.subject || '',
+      time: n.time,
+      read: false,
+    })) || []
 
   return (
     <main className="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark relative">
@@ -182,6 +83,8 @@ export function Notifications() {
             </span>
             <input
               type="text"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               placeholder="Search notification history..."
               className="bg-gray-200 dark:bg-[#282e39] border border-gray-300 h-12 w-full rounded-xl dark:border-gray-700 focus:border-primary focus:bg-gray-300 dark:focus:bg-surface-dark focus:ring-0 pl-12 pr-4 text-[#0d121b] dark:text-white placeholder-[#6b7280] text-base"
             />
@@ -214,52 +117,13 @@ export function Notifications() {
         </div>
 
         {/* Notifications List */}
-        <div className="flex flex-col gap-3">
-          {resources.map(({ id, type, title, subject, time }) => {
-            const colors = getColors(type)
-            return (
-              <div
-                key={id}
-                className={`group relative flex flex-col md:flex-row gap-4 p-5 rounded-xl hover:bg-gray-100 bg-white shadow-sm dark:bg-[#1A202C] dark:hover:bg-[#202736] border-l-4 ${colors.border} cursor-pointer shadow-sm`}
-              >
-                <div className="shrink-0">
-                  <div className="absolute right-4 top-4 size-2 rounded-full bg-primary" />
-
-                  <div
-                    className={`flex size-12 items-center justify-center rounded-full ${colors.bg} ${colors.text} ${colors.darkBg}`}
-                  >
-                    {createElement(getIcon(type), { className: 'text-[24px]' })}
-                  </div>
-                </div>
-
-                <div className="flex flex-1 flex-col justify-center gap-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-[#0d121b] dark:text-white text-lg font-semibold leading-snug">
-                      {title}
-                    </h3>
-                    <span
-                      className={`inline-flex items-center rounded-md ${colors.bg} ${colors.darkBg} px-2 py-0.5 text-xs font-medium ${colors.text} ring-1 ring-inset ${colors.ring}`}
-                    >
-                      {type}
-                    </span>
-                  </div>
-                  <p className="text-[#4c669a] dark:text-[#9da6b9] text-sm line-clamp-2">
-                    {subject}
-                  </p>
-                  <p className="text-[#6b7280] text-xs mt-2 font-medium">
-                    {time}
-                  </p>
-                </div>
-
-                <div className="hidden md:flex shrink-0 items-center self-center">
-                  <span className="material-symbols-outlined text-gray-400 hover:text-black dark:text-[#4b5563] dark:group-hover:text-white">
-                    chevron_right
-                  </span>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <NotificationList
+          data={mappedData}
+          isLoading={isLoading}
+          error={error}
+          tab={tab}
+          searchText={searchText}
+        />
 
         {/* Footer */}
         <div className="flex justify-center py-8">

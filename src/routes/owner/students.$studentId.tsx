@@ -1,22 +1,44 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { AddStudentModel } from '@/services/api/owner/student/schemas'
-import DatePickerField from '@/components/owner/DatePickerField'
-import InputWrapper from '@/components/owner/InputWrapper'
-import SelectWrapper from '@/components/owner/SelectWrapper'
-import { useAddStudent } from '@/services/api/owner/student/hooks'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import type { EditStudentModel } from '@/services/api/owner/student/schemas'
+import {
+  getStudentQueryOptions,
+  useEditStudent,
+} from '@/services/api/owner/student/hooks'
 import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
+import InputWrapper from '@/components/owner/InputWrapper'
+import DatePickerField from '@/components/owner/DatePickerField'
+import SelectWrapper from '@/components/owner/SelectWrapper'
 
-export const Route = createFileRoute('/owner/students/add')({
+export const Route = createFileRoute('/owner/students/$studentId')({
   component: RouteComponent,
-  head: () => ({
-    meta: [{ title: 'Owner | Add Student - EduManage' }],
-  }),
+  loader: async ({ params: { studentId }, context }) => {
+    const student = await context.queryClient.ensureQueryData(
+      getStudentQueryOptions(studentId),
+    )
+    if (!student) {
+      throw notFound()
+    }
+  },
 })
 
 function RouteComponent() {
+  const { studentId } = Route.useParams()
+
   const [showPassword, setShowPassword] = useState(false)
   const [allowAccess, setAllowAccess] = useState(true)
+
+  const { data: studentData } = useSuspenseQuery(
+    getStudentQueryOptions(studentId),
+  )
+
+  // will never be executed because error is already thrown in loader
+  if (!studentData) {
+    throw notFound()
+  }
+
+  const { studentForm, onSubmit } = useEditStudent(studentData)
 
   function togglePassword() {
     setShowPassword(!showPassword)
@@ -25,8 +47,6 @@ function RouteComponent() {
     setAllowAccess(!allowAccess)
   }
 
-  const { studentForm, onSubmit } = useAddStudent()
-
   return (
     <div className="flex h-full w-full">
       <main className="flex-1 flex flex-col h-full min-w-0 bg-background-light dark:bg-background-dark overflow-hidden relative">
@@ -34,11 +54,10 @@ function RouteComponent() {
           <div className="flex flex-col gap-6 pb-12">
             <div className="flex flex-col gap-1">
               <h1 className="text-[#111318] dark:text-white text-3xl md:text-4xl font-bold tracking-tight">
-                Add New Student
+                Edit Student Profile
               </h1>
               <p className="text-[#616f89] dark:text-gray-400 text-base">
-                Enter the details below to create a new student account and
-                assign access
+                Edit the informations below and press submit to accept changes
               </p>
             </div>
             <div className="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-[#f0f2f4] dark:border-gray-800 overflow-hidden">
@@ -46,9 +65,8 @@ function RouteComponent() {
                 className="flex flex-col"
                 onSubmit={studentForm.handleSubmit(onSubmit)}
               >
-                <ProfilePicWrapper<AddStudentModel> form={studentForm} />
-
-                <div className="p-8 border-b border-t border-[#f0f2f4] dark:border-gray-800">
+                <ProfilePicWrapper<EditStudentModel> form={studentForm} />
+                <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
                   <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">
                       badge
@@ -86,10 +104,9 @@ function RouteComponent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputWrapper
                       form={studentForm}
-                      name="email"
-                      label="email"
-                      placeholder="Student's Email"
-                      type="email"
+                      name="parentName"
+                      label="Parent Name"
+                      placeholder="Parent Name"
                     />
                     <InputWrapper
                       form={studentForm}
@@ -99,9 +116,10 @@ function RouteComponent() {
                     />
                     <InputWrapper
                       form={studentForm}
-                      name="parentName"
-                      label="Parent Name"
-                      placeholder="Parent Name"
+                      name="email"
+                      label="email"
+                      placeholder="Student's Email"
+                      type="email"
                     />
                     <InputWrapper
                       form={studentForm}
@@ -161,7 +179,7 @@ function RouteComponent() {
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
                           checked={allowAccess}
-                          onClick={toggleAllowAccess}
+                          onChange={toggleAllowAccess}
                           className="sr-only peer"
                           type="checkbox"
                         />
@@ -176,6 +194,7 @@ function RouteComponent() {
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                           type={showPassword ? 'text' : 'password'}
+                          placeholder="Enter temporary password"
                         />
                         <button
                           type="button"
@@ -210,7 +229,7 @@ function RouteComponent() {
                     <span className="material-symbols-outlined text-[18px]">
                       check
                     </span>
-                    Create Student Account
+                    Edit Student Account
                   </button>
                 </div>
               </form>

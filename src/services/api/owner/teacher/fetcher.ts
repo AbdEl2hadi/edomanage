@@ -1,10 +1,10 @@
 import type { ApiResponse, PaginatedApiResponse } from "../types/apiTypes";
-import type { TeacherModel} from "../types/modelTypes";
+import type { TeacherModel } from "./schemas";
 
 interface TeacherFetcher {
     addTeacher: (Teacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
     getTeachers: () => Promise<PaginatedApiResponse<TeacherModel>>
-    // getTeacher: (id: string) => Promise<ApiResponse<TeacherModel>>  still not implemented
+    getTeacher: (id: string) => Promise<ApiResponse<TeacherModel>>
     editTeacher: (modifiedTeacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
     deleteTeacher: (id: string) => Promise<ApiResponse<void>>
 }
@@ -57,11 +57,11 @@ class JSONTeacherFetcher implements TeacherFetcher {
         // }
     }
 
-    async editTeacher(modifiedTeacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
-        const response = await fetch(`http://localhost:4000/teachers/${modifiedTeacher.id}`, {
+    async editTeacher(EditedTeacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
+        const response = await fetch(`http://localhost:4000/teachers/${EditedTeacher.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(modifiedTeacher),
+            body: JSON.stringify(EditedTeacher),
         });
         return response.json();
     }
@@ -78,7 +78,6 @@ class JSONTeacherFetcher implements TeacherFetcher {
         const response = await fetch(`http://localhost:4000/teachers/${id}`);
         return response.json();
     }
-
 }
 
 export const teacherFetcher = new JSONTeacherFetcher();

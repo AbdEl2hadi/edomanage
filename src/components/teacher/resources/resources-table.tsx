@@ -1,5 +1,5 @@
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
-
+import { MdSearch } from 'react-icons/md'
 import { useEffect, useState } from 'react'
 import type {
   ColumnDef,
@@ -124,16 +124,12 @@ export function ResourcesTable<T extends Record<string, string | number>>({
 
   return (
     <>
-      <div className="mb-4 flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <span className="material-symbols-outlined text-slate-400">
-              search
-            </span>
-          </div>
+      <div className="mb-8 flex flex-col gap-4 rounded-xl bg-white p-4 shadow-sm dark:bg-surface-dark md:flex-row md:items-center md:justify-between">
+        <div className="relative h-10 w-full ">
+          <MdSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]" />
           <input
-            className="block w-full rounded-lg border-none bg-white dark:bg-slate-800 py-2.5 pl-10 pr-3 text-sm text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-700 placeholder:text-slate-400 focus:ring-2 focus:ring-primary"
-            placeholder="Search files in collection..."
+            className="h-full w-full rounded-lg border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm text-[#0d121b] focus:border-primary focus:ring-0 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+            placeholder="Search files..."
             type="text"
             value={localSearch}
             onChange={(event) => {
@@ -156,8 +152,7 @@ export function ResourcesTable<T extends Record<string, string | number>>({
         </div>
         <div className="flex gap-3">
           <select
-            className="block w-full sm:w-40 rounded-lg border-none bg-white dark:bg-slate-800 py-2.5 pl-3 pr-10 text-sm text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-primary cursor-pointer"
-            value={filters.type ?? ''}
+            className="h-10 rounded-lg border-none bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-gray-600 focus:ring-0 dark:bg-gray-800 dark:text-gray-300 cursor-pointer"
             onChange={(event) => {
               const nextType = event.target.value
               onFilterChange({
@@ -172,9 +167,12 @@ export function ResourcesTable<T extends Record<string, string | number>>({
             <option value="xlsx">XLSX</option>
             <option value="png">PNG</option>
             <option value="zip">ZIP</option>
+            <option value="pptx">PPTX</option>
+            <option value="mp4">MP4</option>
           </select>
+          <div className="h-8 w-px bg-gray-200 dark:bg-gray-700 hidden sm:block"></div>
           <select
-            className="block w-full sm:w-40 rounded-lg border-none bg-white dark:bg-slate-800 py-2.5 pl-3 pr-10 text-sm text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-700 focus:ring-2 focus:ring-primary cursor-pointer"
+            className="h-10 rounded-lg border-none bg-gray-50 px-4 py-0 pr-8 text-sm font-medium text-gray-600 focus:ring-0 dark:bg-gray-800 dark:text-gray-300 cursor-pointer"
             value={filters.sortBy ?? 'newest'}
             onChange={(event) => {
               const nextSortBy = event.target.value as ResourceSortOption

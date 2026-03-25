@@ -11,7 +11,7 @@ export type Not = Array<{
   time: string
 }>
 
-const getNotification = async (): Promise<Not> => {
+export const getNotification = async (): Promise<Not> => {
   await new Promise((resolve) => setTimeout(resolve, 2000))
   const data: Not = await axios
     .get<Not>('http://localhost:4000/notifications')

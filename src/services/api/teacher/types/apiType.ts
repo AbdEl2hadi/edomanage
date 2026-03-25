@@ -41,6 +41,7 @@ export type PaginationParams = {
 }
 
 export type Filter<T> = Partial<T & PaginationParams>
+export type TypeTabFilter = 'All' | 'Urgent' | 'Administration'
 
 export type ResourceFilter = Filter<Resource> & {
   sortBy?: ResourceSortOption
