@@ -36,6 +36,16 @@ class JsonNotificationFetcher implements NotificationFetcher {
     return filterNotifications(response.data, filterAndPagination)
   }
 
+  async getTeacherNotification(notificationId: string): Promise<Notification> {
+    if (!notificationId) {
+      throw new Error('Notification id is required')
+    }
+    const response = await axios.get<Notification>(
+      `${API_URL}/${notificationId}`,
+    )
+    return response.data
+  }
+
   async addTeacherNotification({
     role,
     subject,
@@ -76,8 +86,6 @@ class JsonNotificationFetcher implements NotificationFetcher {
       throw error
     }
   }
-
-	
 }
 
 export const notificationFetcher: NotificationFetcher =

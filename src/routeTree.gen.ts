@@ -18,7 +18,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeacherSettingsRouteImport } from './routes/teacher/settings'
 import { Route as TeacherCalendarRouteImport } from './routes/teacher/calendar'
 import { Route as StudentSettingsRouteImport } from './routes/student/settings'
-import { Route as StudentNotificationsRouteImport } from './routes/student/notifications'
 import { Route as StudentCoursesRouteImport } from './routes/student/courses'
 import { Route as StudentCalendarRouteImport } from './routes/student/calendar'
 import { Route as OwnerSettingsRouteImport } from './routes/owner/settings'
@@ -28,11 +27,14 @@ import { Route as OwnerCalendarRouteImport } from './routes/owner/calendar'
 import { Route as OwnerAnnouncementsRouteImport } from './routes/owner/announcements'
 import { Route as TeacherNotificationsIndexRouteImport } from './routes/teacher/notifications/index'
 import { Route as TeacherClassesIndexRouteImport } from './routes/teacher/classes/index'
+import { Route as StudentNotificationIndexRouteImport } from './routes/student/notification/index'
 import { Route as OwnerTeachersIndexRouteImport } from './routes/owner/teachers.index'
 import { Route as OwnerStudentsIndexRouteImport } from './routes/owner/students.index'
 import { Route as TeacherNotificationsAddRouteImport } from './routes/teacher/notifications/add'
+import { Route as TeacherNotificationsNotificationIdRouteImport } from './routes/teacher/notifications/$notificationId'
 import { Route as TeacherClassesAllCollectionsRouteImport } from './routes/teacher/classes/allCollections'
 import { Route as TeacherClassesFolderIdRouteImport } from './routes/teacher/classes/$folderId'
+import { Route as StudentNotificationNotificationIdRouteImport } from './routes/student/notification/$notificationId'
 import { Route as OwnerTeachersAddRouteImport } from './routes/owner/teachers.add'
 import { Route as OwnerTeachersTeacherIdRouteImport } from './routes/owner/teachers.$teacherId'
 import { Route as OwnerStudentsAddRouteImport } from './routes/owner/students.add'
@@ -83,11 +85,6 @@ const StudentSettingsRoute = StudentSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => StudentRoute,
 } as any)
-const StudentNotificationsRoute = StudentNotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => StudentRoute,
-} as any)
 const StudentCoursesRoute = StudentCoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
@@ -134,6 +131,12 @@ const TeacherClassesIndexRoute = TeacherClassesIndexRouteImport.update({
   path: '/classes/',
   getParentRoute: () => TeacherRoute,
 } as any)
+const StudentNotificationIndexRoute =
+  StudentNotificationIndexRouteImport.update({
+    id: '/notification/',
+    path: '/notification/',
+    getParentRoute: () => StudentRoute,
+  } as any)
 const OwnerTeachersIndexRoute = OwnerTeachersIndexRouteImport.update({
   id: '/teachers/',
   path: '/teachers/',
@@ -149,6 +152,12 @@ const TeacherNotificationsAddRoute = TeacherNotificationsAddRouteImport.update({
   path: '/notifications/add',
   getParentRoute: () => TeacherRoute,
 } as any)
+const TeacherNotificationsNotificationIdRoute =
+  TeacherNotificationsNotificationIdRouteImport.update({
+    id: '/notifications/$notificationId',
+    path: '/notifications/$notificationId',
+    getParentRoute: () => TeacherRoute,
+  } as any)
 const TeacherClassesAllCollectionsRoute =
   TeacherClassesAllCollectionsRouteImport.update({
     id: '/classes/allCollections',
@@ -160,6 +169,12 @@ const TeacherClassesFolderIdRoute = TeacherClassesFolderIdRouteImport.update({
   path: '/classes/$folderId',
   getParentRoute: () => TeacherRoute,
 } as any)
+const StudentNotificationNotificationIdRoute =
+  StudentNotificationNotificationIdRouteImport.update({
+    id: '/notification/$notificationId',
+    path: '/notification/$notificationId',
+    getParentRoute: () => StudentRoute,
+  } as any)
 const OwnerTeachersAddRoute = OwnerTeachersAddRouteImport.update({
   id: '/teachers/add',
   path: '/teachers/add',
@@ -195,7 +210,6 @@ export interface FileRoutesByFullPath {
   '/owner/settings': typeof OwnerSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
-  '/student/notifications': typeof StudentNotificationsRoute
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
@@ -203,11 +217,14 @@ export interface FileRoutesByFullPath {
   '/owner/students/add': typeof OwnerStudentsAddRoute
   '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
   '/owner/teachers/add': typeof OwnerTeachersAddRoute
+  '/student/notification/$notificationId': typeof StudentNotificationNotificationIdRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
+  '/teacher/notifications/$notificationId': typeof TeacherNotificationsNotificationIdRoute
   '/teacher/notifications/add': typeof TeacherNotificationsAddRoute
   '/owner/students': typeof OwnerStudentsIndexRoute
   '/owner/teachers': typeof OwnerTeachersIndexRoute
+  '/student/notification': typeof StudentNotificationIndexRoute
   '/teacher/classes': typeof TeacherClassesIndexRoute
   '/teacher/notifications': typeof TeacherNotificationsIndexRoute
 }
@@ -225,7 +242,6 @@ export interface FileRoutesByTo {
   '/owner/settings': typeof OwnerSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
-  '/student/notifications': typeof StudentNotificationsRoute
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
@@ -233,11 +249,14 @@ export interface FileRoutesByTo {
   '/owner/students/add': typeof OwnerStudentsAddRoute
   '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
   '/owner/teachers/add': typeof OwnerTeachersAddRoute
+  '/student/notification/$notificationId': typeof StudentNotificationNotificationIdRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
+  '/teacher/notifications/$notificationId': typeof TeacherNotificationsNotificationIdRoute
   '/teacher/notifications/add': typeof TeacherNotificationsAddRoute
   '/owner/students': typeof OwnerStudentsIndexRoute
   '/owner/teachers': typeof OwnerTeachersIndexRoute
+  '/student/notification': typeof StudentNotificationIndexRoute
   '/teacher/classes': typeof TeacherClassesIndexRoute
   '/teacher/notifications': typeof TeacherNotificationsIndexRoute
 }
@@ -256,7 +275,6 @@ export interface FileRoutesById {
   '/owner/settings': typeof OwnerSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
-  '/student/notifications': typeof StudentNotificationsRoute
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
@@ -264,11 +282,14 @@ export interface FileRoutesById {
   '/owner/students/add': typeof OwnerStudentsAddRoute
   '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
   '/owner/teachers/add': typeof OwnerTeachersAddRoute
+  '/student/notification/$notificationId': typeof StudentNotificationNotificationIdRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
+  '/teacher/notifications/$notificationId': typeof TeacherNotificationsNotificationIdRoute
   '/teacher/notifications/add': typeof TeacherNotificationsAddRoute
   '/owner/students/': typeof OwnerStudentsIndexRoute
   '/owner/teachers/': typeof OwnerTeachersIndexRoute
+  '/student/notification/': typeof StudentNotificationIndexRoute
   '/teacher/classes/': typeof TeacherClassesIndexRoute
   '/teacher/notifications/': typeof TeacherNotificationsIndexRoute
 }
@@ -288,7 +309,6 @@ export interface FileRouteTypes {
     | '/owner/settings'
     | '/student/calendar'
     | '/student/courses'
-    | '/student/notifications'
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
@@ -296,11 +316,14 @@ export interface FileRouteTypes {
     | '/owner/students/add'
     | '/owner/teachers/$teacherId'
     | '/owner/teachers/add'
+    | '/student/notification/$notificationId'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
+    | '/teacher/notifications/$notificationId'
     | '/teacher/notifications/add'
     | '/owner/students'
     | '/owner/teachers'
+    | '/student/notification'
     | '/teacher/classes'
     | '/teacher/notifications'
   fileRoutesByTo: FileRoutesByTo
@@ -318,7 +341,6 @@ export interface FileRouteTypes {
     | '/owner/settings'
     | '/student/calendar'
     | '/student/courses'
-    | '/student/notifications'
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
@@ -326,11 +348,14 @@ export interface FileRouteTypes {
     | '/owner/students/add'
     | '/owner/teachers/$teacherId'
     | '/owner/teachers/add'
+    | '/student/notification/$notificationId'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
+    | '/teacher/notifications/$notificationId'
     | '/teacher/notifications/add'
     | '/owner/students'
     | '/owner/teachers'
+    | '/student/notification'
     | '/teacher/classes'
     | '/teacher/notifications'
   id:
@@ -348,7 +373,6 @@ export interface FileRouteTypes {
     | '/owner/settings'
     | '/student/calendar'
     | '/student/courses'
-    | '/student/notifications'
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
@@ -356,11 +380,14 @@ export interface FileRouteTypes {
     | '/owner/students/add'
     | '/owner/teachers/$teacherId'
     | '/owner/teachers/add'
+    | '/student/notification/$notificationId'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
+    | '/teacher/notifications/$notificationId'
     | '/teacher/notifications/add'
     | '/owner/students/'
     | '/owner/teachers/'
+    | '/student/notification/'
     | '/teacher/classes/'
     | '/teacher/notifications/'
   fileRoutesById: FileRoutesById
@@ -439,13 +466,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentSettingsRouteImport
       parentRoute: typeof StudentRoute
     }
-    '/student/notifications': {
-      id: '/student/notifications'
-      path: '/notifications'
-      fullPath: '/student/notifications'
-      preLoaderRoute: typeof StudentNotificationsRouteImport
-      parentRoute: typeof StudentRoute
-    }
     '/student/courses': {
       id: '/student/courses'
       path: '/courses'
@@ -509,6 +529,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherClassesIndexRouteImport
       parentRoute: typeof TeacherRoute
     }
+    '/student/notification/': {
+      id: '/student/notification/'
+      path: '/notification'
+      fullPath: '/student/notification'
+      preLoaderRoute: typeof StudentNotificationIndexRouteImport
+      parentRoute: typeof StudentRoute
+    }
     '/owner/teachers/': {
       id: '/owner/teachers/'
       path: '/teachers'
@@ -530,6 +557,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherNotificationsAddRouteImport
       parentRoute: typeof TeacherRoute
     }
+    '/teacher/notifications/$notificationId': {
+      id: '/teacher/notifications/$notificationId'
+      path: '/notifications/$notificationId'
+      fullPath: '/teacher/notifications/$notificationId'
+      preLoaderRoute: typeof TeacherNotificationsNotificationIdRouteImport
+      parentRoute: typeof TeacherRoute
+    }
     '/teacher/classes/allCollections': {
       id: '/teacher/classes/allCollections'
       path: '/classes/allCollections'
@@ -543,6 +577,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/teacher/classes/$folderId'
       preLoaderRoute: typeof TeacherClassesFolderIdRouteImport
       parentRoute: typeof TeacherRoute
+    }
+    '/student/notification/$notificationId': {
+      id: '/student/notification/$notificationId'
+      path: '/notification/$notificationId'
+      fullPath: '/student/notification/$notificationId'
+      preLoaderRoute: typeof StudentNotificationNotificationIdRouteImport
+      parentRoute: typeof StudentRoute
     }
     '/owner/teachers/add': {
       id: '/owner/teachers/add'
@@ -608,15 +649,18 @@ const OwnerRouteWithChildren = OwnerRoute._addFileChildren(OwnerRouteChildren)
 interface StudentRouteChildren {
   StudentCalendarRoute: typeof StudentCalendarRoute
   StudentCoursesRoute: typeof StudentCoursesRoute
-  StudentNotificationsRoute: typeof StudentNotificationsRoute
   StudentSettingsRoute: typeof StudentSettingsRoute
+  StudentNotificationNotificationIdRoute: typeof StudentNotificationNotificationIdRoute
+  StudentNotificationIndexRoute: typeof StudentNotificationIndexRoute
 }
 
 const StudentRouteChildren: StudentRouteChildren = {
   StudentCalendarRoute: StudentCalendarRoute,
   StudentCoursesRoute: StudentCoursesRoute,
-  StudentNotificationsRoute: StudentNotificationsRoute,
   StudentSettingsRoute: StudentSettingsRoute,
+  StudentNotificationNotificationIdRoute:
+    StudentNotificationNotificationIdRoute,
+  StudentNotificationIndexRoute: StudentNotificationIndexRoute,
 }
 
 const StudentRouteWithChildren =
@@ -627,6 +671,7 @@ interface TeacherRouteChildren {
   TeacherSettingsRoute: typeof TeacherSettingsRoute
   TeacherClassesFolderIdRoute: typeof TeacherClassesFolderIdRoute
   TeacherClassesAllCollectionsRoute: typeof TeacherClassesAllCollectionsRoute
+  TeacherNotificationsNotificationIdRoute: typeof TeacherNotificationsNotificationIdRoute
   TeacherNotificationsAddRoute: typeof TeacherNotificationsAddRoute
   TeacherClassesIndexRoute: typeof TeacherClassesIndexRoute
   TeacherNotificationsIndexRoute: typeof TeacherNotificationsIndexRoute
@@ -637,6 +682,8 @@ const TeacherRouteChildren: TeacherRouteChildren = {
   TeacherSettingsRoute: TeacherSettingsRoute,
   TeacherClassesFolderIdRoute: TeacherClassesFolderIdRoute,
   TeacherClassesAllCollectionsRoute: TeacherClassesAllCollectionsRoute,
+  TeacherNotificationsNotificationIdRoute:
+    TeacherNotificationsNotificationIdRoute,
   TeacherNotificationsAddRoute: TeacherNotificationsAddRoute,
   TeacherClassesIndexRoute: TeacherClassesIndexRoute,
   TeacherNotificationsIndexRoute: TeacherNotificationsIndexRoute,

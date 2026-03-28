@@ -22,7 +22,7 @@ export default function SideBar({ info }: { info?: any }) {
   const list = useMemo(
     () =>
       baseList.map((item: any) => {
-        const key = item.name.toLowerCase()
+        const key = (item.key ?? item.name).toLowerCase()
         return { ...item, key, active: choosenItem === key }
       }),
     [baseList, choosenItem],

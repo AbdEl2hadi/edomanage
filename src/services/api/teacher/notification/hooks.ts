@@ -21,12 +21,25 @@ export const getTeacherNotificationsQueryOptions = (
       notificationFetcher.getTeacherNotifications(filterAndPagination),
   })
 
+export const getTeacherNotificationQueryOptions = (notificationId: string) =>
+  queryOptions({
+    queryKey: ['teacher-notification', notificationId],
+    queryFn: () => notificationFetcher.getTeacherNotification(notificationId),
+  })
+
 export default function useGetTeacherNotifications(
   filterAndPagination: NotificationFilter,
 ) {
   return useQuery({
     ...getTeacherNotificationsQueryOptions(filterAndPagination),
     placeholderData: keepPreviousData,
+  })
+}
+
+export function useTeacherNotification(notificationId: string) {
+  return useQuery({
+    ...getTeacherNotificationQueryOptions(notificationId),
+    enabled: !!notificationId,
   })
 }
 

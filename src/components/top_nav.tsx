@@ -1,12 +1,9 @@
-
 import useSideBarStore from '../services/store/sidebar_show_store'
 
-import NotificationList from './notificationList'
+import PopUpNotification from './popUpNotification'
 import { ModeToggle } from '@/features/theme/mode-toggle'
 
 export default function TopNav() {
-  
-
   const toggleSideBar = useSideBarStore((state) => state.toggle)
   return (
     <header className="h-16 flex items-center justify-between border-b border-slate-200/80 dark:border-slate-800 bg-surface-light dark:bg-surface-dark px-6 shrink-0">
@@ -32,9 +29,9 @@ export default function TopNav() {
         />
       </div>
       <div className="flex items-center gap-4 ml-auto ">
-          <ModeToggle />
+        <ModeToggle />
         <div className="relative group pt-1.5">
-          <NotificationList />
+          <PopUpNotification />
         </div>
       </div>
     </header>
