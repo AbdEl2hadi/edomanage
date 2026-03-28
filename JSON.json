@@ -1,0 +1,22 @@
+[
+  {
+    "id": 12,
+    "title": "Math",
+    "description": null,
+    "duration": 15,
+    "createdBy": "test@mail.io",
+    "visibleToStudents": true,
+    "visibleToProfessors": true,
+    "rrule": "DTSTART;TZID=US/Pacific:20241022T093000\nRRULE:FREQ=WEEKLY;BYDAY=FR;UNTIL=20241223T215959;INTERVAL=1"
+  },
+  {
+    "id": 23,
+    "title": "Weekly Standup",
+    "description": "Weekly team standup meeting",
+    "duration": 10,
+    "createdBy": "test@mail.io",
+    "visibleToStudents": null,
+    "visibleToProfessors": null,
+    "rrule": "DTSTART;TZID=US/Pacific:20241022T103000\nRRULE:FREQ=WEEKLY;BYDAY=FR;UNTIL=20241223T215959;INTERVAL=1"
+  }
+]
