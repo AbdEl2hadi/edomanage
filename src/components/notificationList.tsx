@@ -3,7 +3,6 @@ import { GiWhiteBook } from 'react-icons/gi'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import { FaUserTie } from 'react-icons/fa'
 import { useNavigate } from '@tanstack/react-router'
-import { useNotifications } from '.././services/api/student/notification/notification'
 
 import Loading from './loading'
 import type {
@@ -11,6 +10,7 @@ import type {
   ResourceCard,
   TypeTabFilter,
 } from '@/services/api/student/types/apiType'
+import { useNotifications } from '@/services/api/student/notification/notification'
 import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'
 
 const getIcon = (iconType: string) => {
