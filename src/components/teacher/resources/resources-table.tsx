@@ -33,7 +33,6 @@ export function ResourcesTable<T extends Record<string, string | number>>({
   filters,
   onFilterChange,
 }: Props<T>) {
-
   /* handling table */
   const tablePagination = {
     pageIndex: Math.max(pagination.pageIndex - 1, 0),
@@ -107,7 +106,6 @@ export function ResourcesTable<T extends Record<string, string | number>>({
   useEffect(() => {
     const nextFileName = debouncedSearch.trim()
 
-    
     if (nextFileName !== localSearch.trim()) {
       return
     }

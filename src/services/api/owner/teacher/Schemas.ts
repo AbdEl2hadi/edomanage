@@ -13,7 +13,7 @@ export const TeacherSchema = z.object({
     dateOfBirth: z.string(),
     joiningDate: z.string(),
     imgSrc: z.string().url("Invalid image URL").optional(),
-    status: z.enum(["Active", "Inactive", "Pending", "New"]).optional(),
+    status: z.string().optional(),
     role: z.enum(["admin", "teacher", "student"]).optional(),
 })
 

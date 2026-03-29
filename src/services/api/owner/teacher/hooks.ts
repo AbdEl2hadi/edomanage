@@ -23,20 +23,9 @@ export function useAddTeacher() {
     });
 }
 
-export function useGetTeachers() {
-    return useQuery({
-        queryKey: ['teachers'], queryFn: teacherFetcher.getTeachers, select: (response) => {
-            return {
-                data: response.success ? response.data : [],
-                pagination: {
-                    totalPages: response.success ? response.pagination.totalPages : 1,
-                    totalElements: response.success ? response.pagination.totalElements : 0,
-                }
-            }
-        },
-        placeholderData: keepPreviousData
-    })
-}
+// export function useGetTeachers() {
+//     return useQuery()
+// }
 
 export function useEditTeacher(EditedTeacher: TeacherModel) {
     const onSubmit = (data: EditTeacherModel) => {

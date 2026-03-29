@@ -31,7 +31,7 @@ function RouteComponent() {
   /* get state from search params*/
   const { filters, setFilters } = useFilterResource(Route.id)
 
-  /* when reload data */ 
+  /* when reload data */
   const refreshPage = () => {
     console.log('Refreshing page...')
     router.invalidate()

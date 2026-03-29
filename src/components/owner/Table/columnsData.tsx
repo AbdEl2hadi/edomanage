@@ -1,4 +1,10 @@
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import {
+  ArrowUpDown,
+  MoreHorizontal,
+  MoveDownIcon,
+  MoveUpIcon,
+} from 'lucide-react'
+import { getRouteApi } from '@tanstack/react-router'
 import DeleteMenuItem from '../DropDownMenuComp/DeleteMenuItem'
 import ViewProfileMenuItem from '../DropDownMenuComp/ViewProfileMenuItem'
 import CopyIdMenuItem from '../DropDownMenuComp/CopyIdMenuItem'
@@ -58,16 +64,8 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
   },
   {
     accessorKey: 'name',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
+    header: () => {
+      return <StudentSortButton property="name" />
     },
     size: 20,
     cell: ({ row }) => (
@@ -78,16 +76,8 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
   },
   {
     accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
+    header: () => {
+      return <StudentSortButton property="email" />
     },
     size: 28,
     cell: ({ row }) => (
@@ -206,19 +196,10 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
       )
     },
   },
-
   {
     accessorKey: 'name',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
+    header: () => {
+      return <TeacherSortButton property="name" />
     },
     size: 20,
     cell: ({ row }) => (
@@ -230,15 +211,9 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
 
   {
     accessorKey: 'email',
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        Email
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
+    header: () => {
+      return <TeacherSortButton property="email" />
+    },
     size: 28,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
@@ -246,7 +221,6 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
       </div>
     ),
   },
-
   {
     accessorKey: 'gender',
     header: 'Gender',
@@ -268,7 +242,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
     size: 20,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate">
-        {row.original.subjects.join(', ')}
+        {row.original.subjects}
       </div>
     ),
   },
@@ -341,3 +315,115 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
     },
   },
 ]
+
+function StudentSortButton({ property }: { property: 'name' | 'email' }) {
+  const Route = getRouteApi('/owner/students/')
+  const navigate = Route.useNavigate()
+  const { sortBy, sortOrder } = Route.useSearch({
+    select: (s) => ({ sortBy: s.sortBy, sortOrder: s.sortOrder }),
+  })
+
+  if (sortBy !== property) {
+    return (
+      <Button
+        className="capitalize"
+        variant="ghost"
+        onClick={() =>
+          navigate({
+            replace: true,
+            to: '/owner/students',
+            search: (s) => ({
+              ...s,
+              sortBy: property,
+              sortOrder: 'asc',
+            }),
+          })
+        }
+      >
+        {property}
+        <ArrowUpDown className="ml-2 h-4 w-4 rotate-180" />
+      </Button>
+    )
+  }
+
+  return (
+    <Button
+      className="capitalize"
+      variant="default"
+      onClick={() =>
+        navigate({
+          // replace: true,
+          to: '/owner/students',
+          search: (s) => ({
+            ...s,
+            sortBy: property,
+            sortOrder: s.sortOrder === 'asc' ? 'desc' : 'asc',
+          }),
+        })
+      }
+    >
+      {property}
+      {sortOrder === 'asc' ? (
+        <MoveUpIcon className="ml-2 h-4 w-4" />
+      ) : (
+        <MoveDownIcon className="ml-2 h-4 w-4" />
+      )}
+    </Button>
+  )
+}
+
+function TeacherSortButton({ property }: { property: 'name' | 'email' }) {
+  const Route = getRouteApi('/owner/teachers/')
+  const navigate = Route.useNavigate()
+  const { sortBy, sortOrder } = Route.useSearch({
+    select: (s) => ({ sortBy: s.sortBy, sortOrder: s.sortOrder }),
+  })
+
+  if (sortBy !== property) {
+    return (
+      <Button
+        className="capitalize"
+        variant="ghost"
+        onClick={() =>
+          navigate({
+            replace: true,
+            to: '/owner/teachers',
+            search: (s) => ({
+              ...s,
+              sortBy: property,
+              sortOrder: 'asc',
+            }),
+          })
+        }
+      >
+        {property}
+        <ArrowUpDown className="ml-2 h-4 w-4 rotate-180" />
+      </Button>
+    )
+  }
+
+  return (
+    <Button
+      className="capitalize"
+      variant="default"
+      onClick={() =>
+        navigate({
+          // replace: true,
+          to: '/owner/teachers',
+          search: (s) => ({
+            ...s,
+            sortBy: property,
+            sortOrder: s.sortOrder === 'asc' ? 'desc' : 'asc',
+          }),
+        })
+      }
+    >
+      {property}
+      {sortOrder === 'asc' ? (
+        <MoveUpIcon className="ml-2 h-4 w-4" />
+      ) : (
+        <MoveDownIcon className="ml-2 h-4 w-4" />
+      )}
+    </Button>
+  )
+}

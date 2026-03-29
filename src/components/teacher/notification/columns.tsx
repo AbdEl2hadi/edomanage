@@ -2,7 +2,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 
 import type { Notification } from '@/services/api/teacher/types/modelType'
 import { getColors } from '@/routes/teacher/notifications'
-import {  notificationFetcher} from '@/services/api/teacher/notification/fetcher'
+import { notificationFetcher } from '@/services/api/teacher/notification/fetcher'
 
 export const columns: Array<ColumnDef<Notification>> = [
   {

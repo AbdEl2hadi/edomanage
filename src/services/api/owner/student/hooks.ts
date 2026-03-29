@@ -43,7 +43,6 @@ export function useAddStudent() {
     console.log(newData)
     addStudent(newData)
   }
-
   return { studentForm, onSubmit }
 }
 
