@@ -1,7 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import type { EditStudentModel } from '@/services/api/owner/student/schemas'
+import type { EditStudentModel } from '@/services/api/owner/student/Schemas'
 import {
   getStudentQueryOptions,
   useEditStudent,

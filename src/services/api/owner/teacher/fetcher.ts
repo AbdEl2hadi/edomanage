@@ -1,3 +1,4 @@
+import type { StudentModel } from "../student/Schemas";
 import type { TeacherModel } from "../teacher/Schemas";
 import type { ApiResponse, Filters, PaginatedApiResponse } from "../types/apiTypes";
 
@@ -20,7 +21,7 @@ class JSONTeacherFetcher implements TeacherFetcher {
     return response.json()
   }
 
-  async getTeachers({ page, search, size, status, email, sortBy, sortOrder }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<TeacherModel>> {
+  async getTeachers({ page, search,size, status, email, sortBy, sortOrder }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<TeacherModel>> {
     try {
       const url = new URL("http://localhost:8080/students")
       search && url.searchParams.append("search", search.toString())

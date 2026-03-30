@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import type { AddStudentModel } from '@/services/api/owner/student/schemas'
+import type { AddStudentModel } from '@/services/api/owner/student/Schemas'
 import DatePickerField from '@/components/owner/DatePickerField'
 import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
 import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'

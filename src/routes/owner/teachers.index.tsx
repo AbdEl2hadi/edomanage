@@ -4,7 +4,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
 import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import type { Filters } from '@/services/api/owner/types/apiTypes'
-import type { TeacherModel } from '@/services/api/owner/teacher/schemas'
+import type { TeacherModel } from '@/services/api/owner/teacher/Schemas'
 import type { UICardType } from '@/components/owner/UICard'
 import { TeacherColumns } from '@/components/owner/Table/columnsData'
 
