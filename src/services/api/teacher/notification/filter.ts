@@ -8,7 +8,7 @@ export const filterNotifications = (
   const { pageIndex = 1, pageSize = 5, ...filters } = filterAndPagination
 
   const normalizedFilters = Object.entries(filters).reduce<
-    Partial<Record< keyof Notification, string>>
+    Partial<Record<keyof Notification, string>>
   >((acc, [key, value]) => {
     if (!value) {
       return acc

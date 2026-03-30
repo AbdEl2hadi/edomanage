@@ -167,5 +167,4 @@ class JsonNotificationFetcher implements NotificationFetcher {
   }
 }
 
-export const notificationFetcher: NotificationFetcher =
-  new JsonNotificationFetcher()
+export const notificationFetcher: NotificationFetcher = new JsonNotificationFetcher()

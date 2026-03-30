@@ -5,9 +5,9 @@ import { useState } from 'react'
 import type { TeacherModel } from '@/services/api/owner/teacher/schemas'
 import { TeacherSchema } from '@/services/api/owner/teacher/schemas'
 import { useAddTeacher } from '@/services/api/owner/teacher/hooks'
-import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
-import InputWrapper from '@/components/owner/InputWrapper'
-import SelectWrapper from '@/components/owner/SelectWrapper'
+import ProfilePicWrapper from '@/components/owner/Wrappers/ProfilePicWrapper'
+import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
+import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 import DatePickerField from '@/components/owner/DatePickerField'
 
 export const Route = createFileRoute('/owner/teachers/add')({

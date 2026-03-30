@@ -1,13 +1,12 @@
-import type { ApiResponse, PaginatedApiResponse } from '../types/apiTypes'
-import type { TeacherModel } from './Schemas'
+import type { TeacherModel } from "../teacher/Schemas";
+import type { ApiResponse, Filters, PaginatedApiResponse } from "../types/apiTypes";
+
 
 interface TeacherFetcher {
   addTeacher: (Teacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
-  getTeachers: () => Promise<PaginatedApiResponse<TeacherModel>>
+  getTeachers: (args: Partial<Filters<TeacherModel>>) => Promise<PaginatedApiResponse<TeacherModel>>
   getTeacher: (id: string) => Promise<ApiResponse<TeacherModel>>
-  editTeacher: (
-    modifiedTeacher: TeacherModel,
-  ) => Promise<ApiResponse<TeacherModel>>
+  editTeacher: (modifiedTeacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
   deleteTeacher: (id: string) => Promise<ApiResponse<void>>
 }
 
@@ -21,52 +20,42 @@ class JSONTeacherFetcher implements TeacherFetcher {
     return response.json()
   }
 
-  async getTeachers(): Promise<PaginatedApiResponse<TeacherModel>> {
+  async getTeachers({ page, search, size, status, email, sortBy, sortOrder }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<TeacherModel>> {
     try {
-      const response = await fetch('http://localhost:4000/teachers')
-      const data: Array<TeacherModel> = await response.json()
+      const url = new URL("http://localhost:8080/students")
+      search && url.searchParams.append("search", search.toString())
+      page && url.searchParams.append("page", page.toString())
+      size && url.searchParams.append("limit", size.toString())
+      status && url.searchParams.append("status", status.toString())
+      email && url.searchParams.append("email", email.toString())
+      sortBy && url.searchParams.append("sortBy", sortBy.toString())
+      sortOrder && url.searchParams.append("sortOrder", sortOrder.toString())
 
-      return {
-        success: true,
-        message: 'Teachers fetched successfully',
-        data: data, // initialize to empty array if undefined
-        pagination: {
-          totalPages: 1, // JSON Server doesn’t paginate, default 1
-          totalElements: data.length || 0, // initialize to 0 if undefined
-        },
-      }
+      const response = await fetch(url.toString())
+
+      const responseData = await response.json()
+
+      return responseData
     } catch (error) {
       return {
         success: false,
-        message: 'Error fetching teachers',
+        message: "error fetching students data"
       }
     }
-    // try {
-    //     const response = await fetch("http://localhost:4000/teachers");
-    //     const data: Array<TeacherModel> = await response.json()
-    //     return {
-    //         success: true,
-    //         message: "Teachers fetched",
-    //         data: data,
-    //         pagination: {
-    //             totalPages: 1,
-    //             totalElements: data.length
-    //         }
-    //     }
-    // } catch (error) {
-    //     throw new Error("error fetching teachers data");
-    // }
+  }
+  async getTeacher(id: string): Promise<ApiResponse<TeacherModel>> {
+    return fetch(`http://localhost:4000/teachers/${id}`).then((response) =>
+      response.json(),
+    )
   }
 
-  async editTeacher(
-    EditedTeacher: TeacherModel,
-  ): Promise<ApiResponse<TeacherModel>> {
+  async editTeacher(modifiedTeacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
     const response = await fetch(
-      `http://localhost:4000/teachers/${EditedTeacher.id}`,
+      `http://localhost:4000/teachers/${modifiedTeacher.id}`,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(EditedTeacher),
+        body: JSON.stringify(modifiedTeacher),
       },
     )
     return response.json()
@@ -75,15 +64,11 @@ class JSONTeacherFetcher implements TeacherFetcher {
   async deleteTeacher(id: string): Promise<ApiResponse<void>> {
     const response = await fetch(`http://localhost:4000/teachers/${id}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
     })
     return response.json()
   }
 
-  async getTeacher(id: string): Promise<ApiResponse<TeacherModel>> {
-    const response = await fetch(`http://localhost:4000/teachers/${id}`)
-    return response.json()
-  }
 }
+
 
 export const teacherFetcher = new JSONTeacherFetcher()

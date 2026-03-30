@@ -277,10 +277,10 @@ import {
   getTeacherQueryOptions,
   useEditTeacher,
 } from '@/services/api/owner/teacher/hooks'
-import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
-import InputWrapper from '@/components/owner/InputWrapper'
+import ProfilePicWrapper from '@/components/owner/Wrappers/ProfilePicWrapper'
+import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
 import DatePickerField from '@/components/owner/DatePickerField'
-import SelectWrapper from '@/components/owner/SelectWrapper'
+import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 
 export const Route = createFileRoute('/owner/teachers/$teacherId')({
   component: RouteComponent,
@@ -394,14 +394,6 @@ function RouteComponent() {
                     </span>
                     Academic Information
                   </h3>
-                  {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <InputWrapper
-                      form={teacherForm}
-                      name="id"
-                      label="Employee ID"
-                      readOnly
-                    />
-                  </div> */}
                 </div>
 
                 <div className="p-8">
