@@ -5,7 +5,7 @@ import {
   // useMatchRoute,
 } from '@tanstack/react-router'
 import { Activity } from 'react'
-import SideBar from '@/components/side_bar'
+import { SideBar } from '@/components/sideBar/SideBar'
 import TopNav from '@/components/top_nav'
 
 export const Route = createFileRoute('/student')({

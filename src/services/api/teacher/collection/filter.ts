@@ -32,14 +32,14 @@ const parseSizeToBytes = (sizeValue: string): number => {
 export const filterResources = (
   resources: Array<ResourceApiModel>,
   collectionId: string | undefined,
-  filterAndPagination: ResourceFilter,
+  searchParams: ResourceFilter,
 ): PaginationData<Resource> => {
   const {
     pageIndex = 1,
     pageSize = 5,
     sortBy = 'newest',
     ...filters
-  } = filterAndPagination
+  } = searchParams
 
   const normalizedFilters = Object.entries(filters).reduce<
     Partial<Record<keyof Resource, string>>

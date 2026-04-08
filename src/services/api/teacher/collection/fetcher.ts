@@ -30,13 +30,13 @@ class JsonCollectionFetcher implements CollectionFetcher {
 
   async getResources(
     collectionId: string | undefined,
-    filterAndPagination: ResourceFilter,
+    searchParams: ResourceFilter,
   ): Promise<PaginationData<Resource>> {
     await new Promise((resolve) => setTimeout(resolve, 200))
     const response = await axios.get<Array<ResourceApiModel>>(
       `${API_URL}/resources`,
     )
-    return filterResources(response.data, collectionId, filterAndPagination)
+    return filterResources(response.data, collectionId, searchParams)
   }
 
   async addOrEditCollection(

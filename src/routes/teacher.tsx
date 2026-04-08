@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router'
 import { Activity } from 'react'
-import SideBar from '@/components/side_bar'
+import { SideBar } from '@/components/sideBar/SideBar'
 import TopNav from '@/components/top_nav'
 import { Toaster } from '@/components/ui/sonner'
 

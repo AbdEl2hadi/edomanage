@@ -13,7 +13,6 @@ import useGetResources, {
   getResourcesQueryOptions,
   useGetCollection,
 } from '@/services/api/teacher/collection/hooks'
-import { queryClient } from '@/lib/queryClient'
 import Loading from '@/components/loading.tsx'
 
 const SortOptions = z.enum(['newest', 'oldest', 'name', 'size'])
@@ -31,17 +30,16 @@ export const ResourceSearchSchema: z.ZodType<ResourceFilter> = z.object({
 export const Route = createFileRoute('/teacher/classes/$folderId')({
   component: RouteComponent,
   loaderDeps: ({ search }) => search,
-  loader: ({ params, deps }) => {
-    queryClient.ensureQueryData(getCollectionQueryOptions(params.folderId))
-    queryClient.ensureQueryData(getResourcesQueryOptions(params.folderId, deps))
+  loader: ({ params , deps  ,context}) => {
+    context.queryClient.ensureQueryData(getCollectionQueryOptions(params.folderId))
+    context.queryClient.ensureQueryData(getResourcesQueryOptions(params.folderId, deps))
   },
   validateSearch: ResourceSearchSchema,
 })
 
 function RouteComponent() {
   const router = useRouter()
-  const { folderId } = Route.useParams()
-  const collectionId = folderId
+  const { folderId : collectionId } = Route.useParams()
 
   const { filters, setFilters } = useFilterResource(Route.id)
 
@@ -50,8 +48,10 @@ function RouteComponent() {
     pageSize: filters.pageSize ?? 5,
   }
   /* useQuery to get data */
+  
   const { data: collectionData, isFetching } = useGetCollection(collectionId)
   const { data: resourcesData } = useGetResources(collectionId, filters)
+
   /* fix time */
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)

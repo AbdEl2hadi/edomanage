@@ -1,8 +1,54 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
 import type { Notification } from '@/services/api/teacher/types/modelType'
-import { getColors } from '@/routes/teacher/notifications'
-import {  notificationFetcher} from '@/services/api/teacher/notification/fetcher'
+import { notificationFetcher } from '@/services/api/teacher/notification/fetcher'
+
+const getColors = (type: string) => {
+  switch (type) {
+    case 'Urgent':
+      return {
+        bg: 'bg-red-50',
+        text: 'text-red-500',
+        darkBg: 'dark:bg-red-500/10',
+        ring: 'ring-red-500/20',
+      }
+    case 'Book':
+      return {
+        bg: 'bg-purple-50',
+        text: 'text-purple-500',
+        darkBg: 'dark:bg-purple-500/10',
+        ring: 'ring-purple-500/20',
+      }
+    case 'Teacher':
+      return {
+        bg: 'bg-blue-50',
+        text: 'text-blue-500',
+        darkBg: 'dark:bg-blue-500/10',
+        ring: 'ring-blue-500/20',
+      }
+    case 'Grade':
+      return {
+        bg: 'bg-green-50',
+        text: 'text-green-500',
+        darkBg: 'dark:bg-green-500/10',
+        ring: 'ring-green-500/20',
+      }
+    case 'User':
+      return {
+        bg: 'bg-orange-50',
+        text: 'text-orange-500',
+        darkBg: 'dark:bg-orange-500/10',
+        ring: 'ring-orange-500/20',
+      }
+    default:
+      return {
+        bg: 'bg-gray-50',
+        text: 'text-gray-500',
+        darkBg: 'dark:bg-gray-500/10',
+        ring: 'ring-gray-500/20',
+      }
+  }
+}
 
 export const columns: Array<ColumnDef<Notification>> = [
   {
