@@ -23,8 +23,21 @@ export type PaginatedApiResponse<T> = PaginatedSuccessResponse<T> | ErrorRespons
 
 // search filters and pagination params
 
-export type PaginationParams = { pageIndex: number; pageSize: number };
-export type SortParams = { sortBy: `${string}.${"asc" | "desc"}` }
+export type PaginationParams = { page: number; size: number };
+export type SortParams<T extends string = string> = { sortBy: T, sortOrder: "asc" | "desc" | null }
 export type Filters<T> = Partial<T & PaginationParams & SortParams> & {
     search?: string
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

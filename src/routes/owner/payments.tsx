@@ -1,230 +1,149 @@
-import { createFileRoute } from '@tanstack/react-router'
+// import { createFileRoute } from '@tanstack/react-router'
+// import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
+// import { keepPreviousData, useQuery } from '@tanstack/react-query'
+// import z from 'zod'
+// import { fallback, zodValidator } from '@tanstack/zod-adapter'
+// import type { StudentModel } from '@/services/api/owner/student/schemas'
+// import type { Filters } from '@/services/api/owner/types/apiTypes'
+// import { StudentColumns } from '@/components/owner/Table/columnsData'
+// import { studentFetcher } from '@/services/api/owner/student/fetcher'
 
-import { flexRender } from '@tanstack/react-table'
-import type { Table as Tab } from '@tanstack/react-table'
+// import DataTable, {
+//   CustomDataTableSkeleton,
+// } from '@/components/owner/Table/dataTable'
+// import { CustomPagination } from '@/components/owner/PaginationComp'
+// import { SearchInput } from '@/components/owner/SearchInput'
+// import { SelectPageSize } from '@/components/owner/SelectPageSize'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+// type QueryOptionsType = Filters<StudentModel>
+// export type StudentSortOption = 'age' | 'name' | 'email'
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination'
-import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+// export type StudentFilter = Filters<StudentModel> & {
+//   sortBy?: StudentSortOption
+// }
 
-export const Route = createFileRoute('/owner/payments')({
-  component: RouteComponent,
-  head: () => ({
-    meta: [{ title: 'Owner | Payments - EduManage' }],
-  }),
-})
+// export const StudentSearchSchema = z.object({
+//   search: fallback(z.string(), '').default(''),
+//   email: fallback(z.string().email(), '').default(''),
+//   status: fallback(z.string(), '').default(''),
+//   grade: fallback(z.string(), '').default(''),
+//   sortBy: fallback(z.enum(['age', 'name', 'email']), 'name').default('name'),
+//   sortOrder: fallback(z.enum(['asc', 'desc']).nullable(), 'asc').default('asc'),
+//   page: fallback(z.number(), 1).default(1),
+//   size: fallback(z.number(), 10).default(10),
+// })
 
-export type filter = {
-  label: string
-  value: string | null
-}
+// // export async function sleep() {
+// //   return await new Promise((resolve) => setTimeout(resolve, 3000))
+// // }
 
-interface DataTableProps<TData, TValue> {
-  table: Tab<TData>
-  filters?: Array<Array<filter>>
-}
+// const getStudentsQueryOptions = ({
+//   page,
+//   search,
+//   size,
+//   status,
+//   sortOrder,
+//   sortBy,
+// }: QueryOptionsType) => ({
+//   queryKey: ['students', page, search, size, sortOrder, sortBy, status],
+//   queryFn: async () => {
+//     const response = await studentFetcher.getStudents({
+//       page,
+//       search,
+//       size,
+//       status,
+//       sortOrder,
+//       sortBy,
+//     })
+//     console.log({ response })
+//     if (response.success)
+//       return {
+//         data: response.data,
+//         pagination: response.pagination,
+//       }
+//     else throw new Error(response.message)
+//   },
+//   placeholderData: keepPreviousData,
+// })
 
-export function DataTable<TData, TValue>({
-  table,
-  filters,
-}: DataTableProps<TData, TValue>) {
-  return (
-    <>
-      <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
-        <div className="flex items-center py-4 px-4 justify-between">
-          <div>
-            <Input
-              placeholder="Filter emails..."
-              value={table.getColumn('email')?.getFilterValue() as string}
-              onChange={(event) =>
-                table.getColumn('email')?.setFilterValue(event.target.value)
-              }
-              className="min-w-sm px-4 py-2 rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-gray-800 text-sm dark:text-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-slate-400"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <Select>
-              <SelectTrigger className="w-full max-w-48">
-                <SelectValue placeholder={filters && filters[0][0].label} />
-              </SelectTrigger>
-              <SelectContent className="w-full max-w-48">
-                <SelectGroup className="p-2 bg-background-light">
-                  <SelectLabel>Fruits</SelectLabel>
-                  {filters &&
-                    filters[0]?.map((item) => (
-                      <>
-                        <SelectItem key={item.value} value={item.value || ""}>
-                          {item.label}
-                        </SelectItem>
-                        <SelectSeparator />
-                      </>
-                    ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="w-full max-w-48">
-                <SelectValue placeholder={filters && filters[1][0].label} />
-              </SelectTrigger>
-              <SelectContent className="w-full max-w-48">
-                <SelectGroup className="p-2 bg-background-light">
-                  <SelectLabel>Subjects</SelectLabel>
-                  {filters &&
-                    filters[1].map((item) => (
-                      <SelectItem key={item.value} value={item.value || ""}>
-                        {item.label}
-                      </SelectItem>
-                    ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <Table className="w-full table-fixed border-collapse text-left text-sm text-slate-500 dark:text-slate-400">
-          <TableHeader className="bg-slate-50 dark:bg-slate-900/50 text-xs uppercase text-slate-500 dark:text-slate-400">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      className="px-3 py-3 font-semibold overflow-hidden"
-                      style={
-                        header.column.columnDef.size
-                          ? { width: `${header.column.columnDef.size}%` }
-                          : undefined
-                      }
-                      scope="col"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className={`hover:bg-slate-50 dark:hover:bg-slate-800/50`}
-                  // onClick={() => {
-                  //   tableMeta?.onRowClick?.(row.original)
-                  // }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="px-3 py-3 overflow-hidden"
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className="h-24 text-center space-y-2"
-                >
-                  <p>No results.</p>
-                  {/* {hasActiveFilters && (
-                    <button
-                      className="text-sm font-medium text-primary hover:underline cursor-pointer"
-                      onClick={clearFilters}
-                      type="button"
-                    >
-                      Clear filters
-                    </button>
-                  )} */}
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
-        <div className="hidden sm:flex flex-1 items-center justify-between">
-          <div></div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                />
-              </PaginationItem>
-              {/* {firstShownPage > 0 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-              {shownPages.map((pageNumber) => (
-                <PaginationItem key={pageNumber}>
-                  <PaginationLink
-                    isActive={
-                      table.getState().pagination.pageIndex === pageNumber
-                    }
-                    onClick={() => table.setPageIndex(pageNumber)}
-                  >
-                    {pageNumber + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))} */}
-              {/* {shownPages[shownPages.length - 1] < pageCount - 1 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )} */}
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      </div>
-    </>
-  )
-}
+// export const Route = createFileRoute('/owner/payments')({
+//   component: RouteComponent,
+//   loaderDeps: ({ search }) => search,
+//   loader: ({ context, deps }) => {
+//     context.queryClient.ensureQueryData(getStudentsQueryOptions(deps))
+//   },
+//   validateSearch: zodValidator(StudentSearchSchema),
+// })
 
-function RouteComponent() {
-  return 'hello world'
-  // return <DataTable columns={columns} data={payments} />
-}
+// function RouteComponent() {
+//   const navigate = Route.useNavigate()
+//   const { size, page, search, sortBy, sortOrder } = Route.useSearch()
+//   const { data: studentsData, status: fetchStatus } = useQuery({
+//     ...getStudentsQueryOptions({
+//       page,
+//       size,
+//       search,
+//       sortBy,
+//       sortOrder,
+//     }),
+//     placeholderData: keepPreviousData,
+//   })
+
+//   return (
+//     <div className="flex-1 overflow-y-scroll w-full overflow-x-auto flex flex-col gap-4 px-6 p-6">
+//       <div className="flex justify-between items-center">
+//         <h1 className="text-xl md:text-2xl font-black leading-tight tracking-[-0.033em]">
+//           Payments
+//         </h1>
+//       </div>
+
+//       {fetchStatus === 'pending' ? (
+//         <CustomDataTableSkeleton rows={size} cols={6} />
+//       ) : fetchStatus === 'error' ? (
+//         <p>Error</p>
+//       ) : (
+//         <>
+//           <div className="flex items-center justify-between">
+//             <SearchInput
+//               value={search}
+//               onSearch={(value) =>
+//                 navigate({ search: (s) => ({ ...s, search: value }) })
+//               }
+//             />
+//             <div className="flex items-center gap-4">
+//               <SelectPageSize
+//                 value={size}
+//                 onChange={(value) =>
+//                   navigate({ search: (s) => ({ ...s, size: value }) })
+//                 }
+//               />
+//             </div>
+//           </div>
+//           <PayementsTable data={studentsData.data} />
+//           <div className="flex items-center justify-between">
+//             <p className="w-fit">
+//               Showing {size} of {studentsData.pagination.totalElements}
+//             </p>
+//             <CustomPagination
+//               currentPage={page}
+//               totalPages={studentsData.pagination.totalPages}
+//               onPageChange={(p) =>
+//                 navigate({ search: (s) => ({ ...s, page: p }) })
+//               }
+//             />
+//           </div>
+//         </>
+//       )}
+//     </div>
+//   )
+// }
+
+// function PayementsTable({ data }: { data: Array<StudentModel> }) {
+//   const table = useReactTable({
+//     data,
+//     columns: StudentColumns,
+//     getCoreRowModel: getCoreRowModel(),
+//   })
+
+//   return <DataTable table={table} />
+// }

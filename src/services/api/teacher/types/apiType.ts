@@ -84,6 +84,7 @@ export interface NotificationFetcher {
   getTeacherNotifications: (
     filterAndPagination: NotificationFilter,
   ) => Promise<PaginationData<Notification>>
+  getTeacherNotification: (notificationId: string) => Promise<Notification>
   addTeacherNotification: (
     payload: AddTeacherNotificationPayload,
   ) => Promise<Notification>

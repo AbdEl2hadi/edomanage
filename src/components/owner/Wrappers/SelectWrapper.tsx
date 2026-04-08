@@ -1,4 +1,4 @@
-import { Label } from '../ui/label'
+import { Label } from '../../ui/label'
 import {
   Select,
   SelectContent,
@@ -6,7 +6,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from '../ui/select'
+} from '../../ui/select'
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 type Props<T extends FieldValues> = {

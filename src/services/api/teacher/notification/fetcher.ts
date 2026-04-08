@@ -59,7 +59,17 @@ class JsonNotificationFetcher implements NotificationFetcher {
     const response = await axios.get<Array<Notification>>(API_URL)
     return filterNotifications(response.data, filterAndPagination)
   }
-  // TODO  : handle sending file with uploading progress
+
+  async getTeacherNotification(notificationId: string): Promise<Notification> {
+    if (!notificationId) {
+      throw new Error('Notification id is required')
+    }
+    const response = await axios.get<Notification>(
+      `${API_URL}/${notificationId}`,
+    )
+    return response.data
+  }
+
   async addTeacherNotification({
     role,
     subject,
@@ -79,7 +89,9 @@ class JsonNotificationFetcher implements NotificationFetcher {
       sendTo: audience,
       time: new Date().toLocaleString(),
     }
-    {/* give progress updates */}
+    {
+      /* give progress updates */
+    }
     const reportProgress = (loaded: number, total?: number) => {
       if (!onUploadProgress) {
         return
@@ -129,7 +141,6 @@ class JsonNotificationFetcher implements NotificationFetcher {
         throw error
       }
 
-      
       const response = await axios.post<Notification | { data: Notification }>(
         API_URL,
         payload,
@@ -156,5 +167,4 @@ class JsonNotificationFetcher implements NotificationFetcher {
   }
 }
 
-export const notificationFetcher: NotificationFetcher =
-  new JsonNotificationFetcher()
+export const notificationFetcher: NotificationFetcher = new JsonNotificationFetcher()

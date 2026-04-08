@@ -11,6 +11,7 @@ const getColors = (type: string) => {
         text: 'text-red-500',
         darkBg: 'dark:bg-red-500/10',
         ring: 'ring-red-500/20',
+        border: 'border-red-500',
       }
     case 'Book':
       return {
@@ -18,6 +19,7 @@ const getColors = (type: string) => {
         text: 'text-purple-500',
         darkBg: 'dark:bg-purple-500/10',
         ring: 'ring-purple-500/20',
+        border: 'border-purple-500',
       }
     case 'Teacher':
       return {
@@ -25,6 +27,7 @@ const getColors = (type: string) => {
         text: 'text-blue-500',
         darkBg: 'dark:bg-blue-500/10',
         ring: 'ring-blue-500/20',
+        border: 'border-blue-500',
       }
     case 'Grade':
       return {
@@ -32,6 +35,7 @@ const getColors = (type: string) => {
         text: 'text-green-500',
         darkBg: 'dark:bg-green-500/10',
         ring: 'ring-green-500/20',
+        border: 'border-green-500',
       }
     case 'User':
       return {
@@ -39,6 +43,7 @@ const getColors = (type: string) => {
         text: 'text-orange-500',
         darkBg: 'dark:bg-orange-500/10',
         ring: 'ring-orange-500/20',
+        border: 'border-orange-500',
       }
     default:
       return {
@@ -46,10 +51,10 @@ const getColors = (type: string) => {
         text: 'text-gray-500',
         darkBg: 'dark:bg-gray-500/10',
         ring: 'ring-gray-500/20',
+        border: 'border-gray-500',
       }
   }
 }
-
 export const columns: Array<ColumnDef<Notification>> = [
   {
     accessorKey: 'title',

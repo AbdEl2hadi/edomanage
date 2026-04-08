@@ -6,9 +6,9 @@ import type {
   TypeTabFilter,
 } from '@/services/api/student/types/apiType'
 
-import NotificationList from '@/components/student/notificationList'
+import NotificationList from '@/components/notificationList'
 
-export const Route = createFileRoute('/student/notifications')({
+export const Route = createFileRoute('/student/notification/')({
   component: Notifications,
   head: () => ({
     meta: [{ title: 'Student | Notifications - EduManage' }],
@@ -125,7 +125,7 @@ export function Notifications({ initialTab = 'All' }: NotificationsProps) {
         </div>
 
         {/* Notifications List */}
-        <NotificationList tab={tab} searchText={searchText} />
+        <NotificationList tab={tab} searchText={searchText} role="student" />
 
         {/* Footer */}
         <div className="flex justify-center py-8">

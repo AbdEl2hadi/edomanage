@@ -6,10 +6,10 @@ import {
   getStudentQueryOptions,
   useEditStudent,
 } from '@/services/api/owner/student/hooks'
-import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
-import InputWrapper from '@/components/owner/InputWrapper'
+import ProfilePicWrapper from '@/components/owner/Wrappers/ProfilePicWrapper'
+import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
 import DatePickerField from '@/components/owner/DatePickerField'
-import SelectWrapper from '@/components/owner/SelectWrapper'
+import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 
 export const Route = createFileRoute('/owner/students/$studentId')({
   component: RouteComponent,

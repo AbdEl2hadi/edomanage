@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import type { TypeTabFilter } from '@/services/api/teacher/types/apiType'
-import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'
-import NotificationList from '@/components/student/notificationList'
+import NotificationList from '@/components/notificationList'
+import { queryClient } from '@/lib/queryClient'
 
 export const Route = createFileRoute('/teacher/notifications/')({
   component: Notifications,
@@ -20,26 +20,32 @@ export function Notifications() {
   const [tab, setTab] = useState<TypeTabFilter>('All')
   const [searchText, setSearchText] = useState('')
 
-  // Fetch teacher notifications
-  const {
-    data: teacherNotifications,
-    isLoading,
-    error,
-  } = useGetTeacherNotifications({
-    pageIndex: 1,
-    pageSize: 50,
-  })
+  const markAllAsRead = async () => {
+    try {
+      // Fetch current notifications
+      const res = await fetch('http://localhost:4000/teacherNotifications')
+      if (!res.ok) throw new Error('Failed to fetch notifications')
+      const notifications = await res.json()
 
-  // Map teacher notifications to ResourceCard format
-  const mappedData =
-    teacherNotifications?.data.map((n) => ({
-      id: n.id,
-      type: n.type,
-      title: n.title,
-      subject: n.content || n.subject || '',
-      time: n.time,
-      read: false,
-    })) || []
+      // Update each unread notification
+      const updatePromises = notifications
+        .filter((n: any) => !n.read)
+        .map((n: any) =>
+          fetch(`http://localhost:4000/teacherNotifications/${n.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ read: true }),
+          }),
+        )
+
+      await Promise.all(updatePromises)
+
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['teacher-notifications'] })
+    } catch (error) {
+      console.error('Failed to mark all as read:', error)
+    }
+  }
 
   return (
     <main className="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark relative">
@@ -64,7 +70,10 @@ export function Notifications() {
             <span>Add Notification</span>
           </button>
 
-          <button className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5  border border-gray-300 dark:border-gray-700  bg-white dark:bg-[#282e39] hover:bg-slate-200 dark:hover:bg-[#323b49] text-black text-sm font-bold active:scale-95 cursor-pointer">
+          <button
+            onClick={markAllAsRead}
+            className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5  border border-gray-300 dark:border-gray-700  bg-white dark:bg-[#282e39] hover:bg-slate-200 dark:hover:bg-[#323b49] text-black text-sm font-bold active:scale-95 cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[18px]">
               done_all
             </span>
@@ -117,13 +126,7 @@ export function Notifications() {
         </div>
 
         {/* Notifications List */}
-        <NotificationList
-          data={mappedData}
-          isLoading={isLoading}
-          error={error}
-          tab={tab}
-          searchText={searchText}
-        />
+        <NotificationList tab={tab} role="teacher" searchText={searchText} />
 
         {/* Footer */}
         <div className="flex justify-center py-8">

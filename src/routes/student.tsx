@@ -27,7 +27,7 @@ function Student() {
     list: [
       { name: 'Calendar', icon: 'calendar_month' },
       { name: 'Courses', icon: 'menu_book' },
-      { name: 'Notifications', icon: 'notifications' },
+      { name: 'Notifications', key: 'notification', icon: 'notifications' },
       { name: 'Settings', icon: 'settings' },
     ],
   }

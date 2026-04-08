@@ -2,10 +2,10 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { AddStudentModel } from '@/services/api/owner/student/schemas'
 import DatePickerField from '@/components/owner/DatePickerField'
-import InputWrapper from '@/components/owner/InputWrapper'
-import SelectWrapper from '@/components/owner/SelectWrapper'
+import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
+import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 import { useAddStudent } from '@/services/api/owner/student/hooks'
-import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
+import ProfilePicWrapper from '@/components/owner/Wrappers/ProfilePicWrapper'
 
 export const Route = createFileRoute('/owner/students/add')({
   component: RouteComponent,

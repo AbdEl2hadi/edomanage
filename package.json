@@ -10,7 +10,7 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
-    "start:json-server": "json-server -w src/dataBase/db.json --port 4000"
+    "json": "json-server -w src/dataBase/db.json --port 4000"
   },
   "dependencies": {
     "@calendarjs/ce": "^1.0.6",
@@ -40,6 +40,7 @@
     "@tanstack/react-router-devtools": "^1.132.0",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/router-plugin": "^1.132.0",
+    "@tanstack/zod-adapter": "^1.166.9",
     "@types/dompurify": "^3.0.5",
     "axios": "^1.13.2",
     "chart.js": "^4.5.1",

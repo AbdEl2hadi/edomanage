@@ -42,7 +42,7 @@ export const getResourcesQueryOptions = (
       collectionFetcher.getResources(collectionId, searchParams),
   })
 
-	
+
 export default function useGetResources(
   collectionId: string | undefined,
   filterAndPagination: ResourceFilter,
