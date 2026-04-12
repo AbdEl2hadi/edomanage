@@ -6,9 +6,9 @@ import {
 } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { AddStudentSchema, EditStudentSchema } from '../student/Schemas';
 import { studentFetcher } from './fetcher'
-import { AddStudentSchema, EditStudentSchema } from './Schemas'
-import type { AddStudentModel, EditStudentModel, StudentModel } from './Schemas'
+import type { AddStudentModel, EditStudentModel, StudentModel } from '../student/Schemas';
 import type { Filters } from '../types/apiTypes'
 
 // add student
@@ -66,7 +66,8 @@ export function useGetStudents({
 }: Partial<Filters<StudentModel>>) {
   return useQuery({
     queryKey: ['students', page, search, size],
-    queryFn: () => studentFetcher.getStudents({ page, search, size }),
+    queryFn: () =>
+      studentFetcher.getStudents({ page, search, size }),
     select: (response) => {
       return {
         data: response.success ? response.data : [],

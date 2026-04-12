@@ -3,6 +3,7 @@ import { Skeleton } from 'boneyard-js/react'
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
+import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import type { StudentModel } from '@/services/api/owner/student/Schemas'
 import type { Filters } from '@/services/api/owner/types/apiTypes'
 import type { UICardType } from '@/components/owner/UICard'
@@ -130,8 +131,8 @@ function OwnerStudentsPending() {
 
 function OwnerStudentsContent() {
   const navigate = Route.useNavigate()
-  const searchParams = StudentSearchSchema.parse(Route.useSearch())
-  const { size, page, search, sortBy, sortOrder, status, grade } = searchParams
+  const { size, page, search, sortBy, sortOrder, status, grade } =
+    Route.useSearch()
   const { data: studentsData, status: fetchStatus } = useQuery({
     ...getStudentsQueryOptions({
       page,
