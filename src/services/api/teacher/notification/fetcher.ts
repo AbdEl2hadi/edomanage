@@ -55,12 +55,13 @@ class JsonNotificationFetcher implements NotificationFetcher {
   async getTeacherNotifications(
     filterAndPagination: NotificationFilter,
   ): Promise<PaginationData<Notification>> {
-    await new Promise((resolve) => setTimeout(resolve, 200))
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     const response = await axios.get<Array<Notification>>(API_URL)
     return filterNotifications(response.data, filterAndPagination)
   }
 
   async getTeacherNotification(notificationId: string): Promise<Notification> {
+    await new Promise((resolve)=> setTimeout(resolve , 2000))
     if (!notificationId) {
       throw new Error('Notification id is required')
     }

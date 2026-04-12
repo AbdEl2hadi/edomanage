@@ -3,6 +3,7 @@ import { GiWhiteBook } from 'react-icons/gi'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import { FaUserTie } from 'react-icons/fa'
 import { useNavigate } from '@tanstack/react-router'
+import { Skeleton as BoneyardSkeleton } from 'boneyard-js/react'
 
 import Loading from './loading'
 import type {
@@ -25,8 +26,11 @@ const getIcon = (iconType: string) => {
       return <MdOutlineGrade className="text-[24px]" />
     case 'Teacher':
       return <FaUserTie className="text-[24px]" />
+    default:
+      return <MdPriorityHigh className="text-[24px]" />
   }
 }
+
 const getColors = (type: string) => {
   switch (type) {
     case 'Urgent':
@@ -109,13 +113,12 @@ const filterNotifications = (
 export default function NotificationList({
   tab = 'All',
   searchText = '',
-  role,
+  role = 'student',
   data: propData,
   isLoading: propIsLoading,
   error: propError,
-  detailTo = role === 'teacher'
-    ? '/teacher/notifications'
-    : '/student/notification',
+  detailTo =
+    role === 'teacher' ? '/teacher/notifications' : '/student/notification',
 }: NotificationListProps) {
   const studentNotificationsQuery = useNotifications()
   const teacherNotificationsQuery = useGetTeacherNotifications({
@@ -135,13 +138,45 @@ export default function NotificationList({
 
   if (isLoading) {
     return (
-      <div className="h-full w-full flex items-center justify-center">
-        <Loading
-          className="h-[80%] w-[80%] p-10"
-          text="searching..."
-          description="Please wait while we fetch the notifications for you."
-        />
-      </div>
+      <BoneyardSkeleton
+        name={
+          role === 'teacher'
+            ? 'teacher-notification-list'
+            : 'student-notification-list'
+        }
+        loading
+        animate="shimmer"
+        fallback={
+          <div className="h-full w-full flex items-center justify-center">
+            <Loading
+              className="h-[80%] w-[80%] p-10"
+              text="searching..."
+              description="Please wait while we fetch the notifications for you."
+            />
+          </div>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col md:flex-row gap-4 p-5 rounded-xl bg-white dark:bg-[#1A202C] border-l-4 border-gray-200 dark:border-slate-700"
+            >
+              <div className="shrink-0">
+                <div className="flex size-12 rounded-full bg-gray-200 dark:bg-slate-700" />
+              </div>
+
+              <div className="flex flex-1 flex-col justify-center gap-3">
+                <div className="h-5 w-2/5 rounded bg-gray-200 dark:bg-slate-700" />
+                <div className="h-4 w-4/5 rounded bg-gray-100 dark:bg-slate-800" />
+                <div className="h-3 w-24 rounded bg-gray-100 dark:bg-slate-800" />
+              </div>
+
+              <div className="hidden md:flex size-5 rounded self-center bg-gray-100 dark:bg-slate-800" />
+            </div>
+          ))}
+        </div>
+      </BoneyardSkeleton>
     )
   }
 

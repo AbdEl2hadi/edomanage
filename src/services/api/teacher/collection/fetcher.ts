@@ -21,6 +21,7 @@ class JsonCollectionFetcher implements CollectionFetcher {
   }
 
   async getAllCollections(all: boolean): Promise<Array<Collection>> {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     const response = await axios.get<Array<Collection>>(
       `${API_URL}/collections`,
     )

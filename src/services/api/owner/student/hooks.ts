@@ -60,14 +60,13 @@ export function useGetStudent(id: string) {
 
 // get student list
 export function useGetStudents({
-  pageIndex: page,
+  page,
   search,
-  pageSize: size,
+  size,
 }: Partial<Filters<StudentModel>>) {
   return useQuery({
     queryKey: ['students', page, search, size],
-    queryFn: () =>
-      studentFetcher.getStudents({ pageIndex: page, search, pageSize: size }),
+    queryFn: () => studentFetcher.getStudents({ page, search, size }),
     select: (response) => {
       return {
         data: response.success ? response.data : [],

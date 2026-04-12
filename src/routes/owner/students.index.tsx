@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
-import { fallback, zodValidator } from '@tanstack/zod-adapter'
-import type { StudentModel } from '@/services/api/owner/student/schemas'
+import type { StudentModel } from '@/services/api/owner/student/Schemas'
 import type { Filters } from '@/services/api/owner/types/apiTypes'
 import type { UICardType } from '@/components/owner/UICard'
 import { StudentColumns } from '@/components/owner/Table/columnsData'
@@ -11,7 +11,7 @@ import { studentFetcher } from '@/services/api/owner/student/fetcher'
 
 import DataTable, {
   CustomDataTableSkeleton,
-} from '@/components/owner/Table/DataTable'
+} from '@/components/owner/Table/dataTable'
 import { CustomPagination } from '@/components/owner/PaginationComp'
 import { SearchInput } from '@/components/owner/SearchInput'
 import { SelectPageSize } from '@/components/owner/SelectPageSize'
@@ -24,12 +24,6 @@ const grades = [
   { label: 'Grade 10', value: 'grade_10' },
   { label: 'Grade 11', value: 'grade_11' },
   { label: 'Grade 12', value: 'grade_12' },
-]
-const status = [
-  { label: 'All Status', value: '' },
-  { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
-  { label: 'Pending', value: 'Pending' },
 ]
 
 const UICardList: Array<UICardType> = [
@@ -66,15 +60,16 @@ type QueryOptionsType = Filters<StudentModel>
 export type StudentSortOption = 'name' | 'email'
 
 export const StudentSearchSchema = z.object({
-  search: fallback(z.string(), '').default(''),
-  email: fallback(z.string().email(), '').default(''),
-  status: fallback(z.string(), '').default(''),
-  grade: fallback(z.string(), '').default(''),
-  sortBy: fallback(z.enum(['name', 'email']), 'name').default('name'),
-  sortOrder: fallback(z.enum(['asc', 'desc']).nullable(), 'asc').default('asc'),
-  page: fallback(z.number(), 1).default(1),
-  size: fallback(z.number(), 10).default(10),
+  search: z.string().catch('').default(''),
+  email: z.string().email().catch('').default(''),
+  status: z.string().catch('').default(''),
+  grade: z.string().catch('').default(''),
+  sortBy: z.enum(['name', 'email']).catch('name').default('name'),
+  sortOrder: z.enum(['asc', 'desc']).nullable().catch('asc').default('asc'),
+  page: z.coerce.number().int().positive().catch(1).default(1),
+  size: z.coerce.number().int().positive().catch(10).default(10),
 })
+type StudentSearchParams = z.infer<typeof StudentSearchSchema>
 
 const getStudentsQueryOptions = ({
   page,
@@ -108,16 +103,35 @@ const getStudentsQueryOptions = ({
 
 export const Route = createFileRoute('/owner/students/')({
   component: RouteComponent,
+  pendingComponent: OwnerStudentsPending,
   loaderDeps: ({ search }) => search,
-  loader: ({ context, deps }) => {
-    context.queryClient.ensureQueryData(getStudentsQueryOptions(deps))
+  loader: async ({ context, deps }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    return context.queryClient.ensureQueryData(getStudentsQueryOptions(deps))
   },
-  validateSearch: zodValidator(StudentSearchSchema),
+  validateSearch: (search) => StudentSearchSchema.parse(search),
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="owner-students-page" loading={false}>
+      <OwnerStudentsContent />
+    </Skeleton>
+  )
+}
+
+function OwnerStudentsPending() {
+  return (
+    <Skeleton name="owner-students-page" loading>
+      <OwnerStudentsContent />
+    </Skeleton>
+  )
+}
+
+function OwnerStudentsContent() {
   const navigate = Route.useNavigate()
-  const { size, page, search, sortBy, sortOrder, status, grade } = Route.useSearch()
+  const searchParams = StudentSearchSchema.parse(Route.useSearch())
+  const { size, page, search, sortBy, sortOrder, status, grade } = searchParams
   const { data: studentsData, status: fetchStatus } = useQuery({
     ...getStudentsQueryOptions({
       page,
@@ -144,21 +158,36 @@ function RouteComponent() {
               <SearchInput
                 value={search}
                 onSearch={(value) =>
-                  navigate({ search: (s) => ({ ...s, search: value }) })
+                  navigate({
+                    search: (s: StudentSearchParams) => ({
+                      ...s,
+                      search: value,
+                    }),
+                  })
                 }
               />
               <div className="flex items-center gap-4">
                 <SelectPageSize
                   value={size}
                   onChange={(value) =>
-                    navigate({ search: (s) => ({ ...s, size: value }) })
+                    navigate({
+                      search: (s: StudentSearchParams) => ({
+                        ...s,
+                        size: value,
+                      }),
+                    })
                   }
                 />
                 <SelectFilter
                   options={grades}
                   value={grade}
                   onChange={(value) =>
-                    navigate({ search: (s) => ({ ...s, grade: value }) })
+                    navigate({
+                      search: (s: StudentSearchParams) => ({
+                        ...s,
+                        grade: value,
+                      }),
+                    })
                   }
                 />
               </div>
@@ -172,7 +201,9 @@ function RouteComponent() {
                 currentPage={page}
                 totalPages={studentsData.pagination.totalPages}
                 onPageChange={(p) =>
-                  navigate({ search: (s) => ({ ...s, page: p }) })
+                  navigate({
+                    search: (s: StudentSearchParams) => ({ ...s, page: p }),
+                  })
                 }
               />
             </div>

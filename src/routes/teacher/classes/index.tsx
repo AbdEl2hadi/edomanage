@@ -1,4 +1,5 @@
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { ResourceSearchSchema } from './$folderId'
 import type { Resource } from '@/services/api/teacher/types/modelType'
 import { AddOrEditCollectionDialog } from '@/components/teacher/collection/CollectionDialogs'
@@ -15,11 +16,15 @@ import useGetResources, {
 
 export const Route = createFileRoute('/teacher/classes/')({
   component: RouteComponent,
+  pendingComponent: TeacherClassesPending,
+  pendingMs: 0,
+  pendingMinMs: 220,
   head: () => ({
     meta: [{ title: 'Teacher | Classes - EduManage' }],
   }),
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) => {
+  loader: async ({ deps }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     return Promise.all([
       queryClient.ensureQueryData(getAllCollectionsQueryOptions(false)),
       queryClient.ensureQueryData(getResourcesQueryOptions(undefined, deps)),
@@ -28,7 +33,23 @@ export const Route = createFileRoute('/teacher/classes/')({
   validateSearch: ResourceSearchSchema,
 })
 
+function TeacherClassesPending() {
+  return (
+    <Skeleton name="teacher-classes-page" loading>
+      <TeacherClassesContent />
+    </Skeleton>
+  )
+}
+
 function RouteComponent() {
+  return (
+    <Skeleton name="teacher-classes-page" loading={false}>
+      <TeacherClassesContent />
+    </Skeleton>
+  )
+}
+
+function TeacherClassesContent() {
   const router = useRouter()
   /* get state from search params*/
   const { filters, setFilters } = useFilterResource(Route.id)
@@ -45,7 +66,8 @@ function RouteComponent() {
   }
   /* create */
 
-  const { data: resourcesData } = useGetResources(undefined, filters)
+  const { data: resourcesData, isLoading: isResourcesLoading } =
+    useGetResources(undefined, filters)
 
   const data: Array<Resource> = resourcesData?.data ?? []
   const rowCount = resourcesData?.rowCount ?? 0
@@ -60,6 +82,7 @@ function RouteComponent() {
     refetch: refetchFolders,
   } = useGetAllCollections(false)
   const hasFolders = (folders?.length ?? 0) > 0
+  const isResourcesInitialLoading = isResourcesLoading && !resourcesData
 
   return (
     <main className="flex-1 flex flex-col min-w-0 overflow-y-auto h-[calc(100vh-64px)]">
@@ -76,13 +99,7 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-      {isFoldersLoading ? (
-        <div className="px-6 mb-8">
-          <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 text-sm text-slate-500 dark:text-slate-400">
-            Loading folders before showing upload form...
-          </div>
-        </div>
-      ) : isFoldersError || !hasFolders ? (
+      {isFoldersError || (!isFoldersLoading && !hasFolders) ? (
         <div className="px-6 mb-8">
           <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -113,7 +130,14 @@ function RouteComponent() {
           </div>
         </div>
       ) : (
-        <SendResForm folders={folders ?? []} />
+        <div className="px-6 mb-8">
+          <Skeleton
+            name="teacher-classes-send-resource"
+            loading={isFoldersLoading}
+          >
+            <SendResForm folders={folders ?? []} />
+          </Skeleton>
+        </div>
       )}
 
       <div className="px-6 mb-8">
@@ -153,11 +177,7 @@ function RouteComponent() {
               </button>
             </div>
           </div>
-        ) : isFoldersLoading ? (
-          <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 text-sm text-slate-500 dark:text-slate-400">
-            Loading collections...
-          </div>
-        ) : !hasFolders ? (
+        ) : !isFoldersLoading && !hasFolders ? (
           <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h4 className="font-semibold text-slate-900 dark:text-white">
@@ -184,35 +204,40 @@ function RouteComponent() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {folders?.map((folder) => (
-              <div key={folder.id} className="relative">
-                <Link
-                  to={`/teacher/classes/$folderId`}
-                  params={{ folderId: folder.id.toString() }}
-                  search={undefined}
-                >
-                  <div className="group cursor-pointer rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 py-9 transition-all hover:border-primary/50 hover:shadow-md">
-                    <div className="flex items-start justify-between mb-3">
-                      <span className="material-symbols-outlined text-4xl text-primary/80 group-hover:text-primary transition-colors filled">
-                        folder
-                      </span>
+          <Skeleton
+            name="teacher-classes-collections-grid"
+            loading={isFoldersLoading}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {folders?.map((folder) => (
+                <div key={folder.id} className="relative">
+                  <Link
+                    to={`/teacher/classes/$folderId`}
+                    params={{ folderId: folder.id.toString() }}
+                    search={undefined}
+                  >
+                    <div className="group cursor-pointer rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 py-9 transition-all hover:border-primary/50 hover:shadow-md">
+                      <div className="flex items-start justify-between mb-3">
+                        <span className="material-symbols-outlined text-4xl text-primary/80 group-hover:text-primary transition-colors filled">
+                          folder
+                        </span>
+                      </div>
+                      <h4 className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                        {folder.name}
+                      </h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        {folder.filesCount} files • {folder.sizeMB}MB
+                      </p>
                     </div>
-                    <h4 className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                      {folder.name}
-                    </h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                      {folder.filesCount} files • {folder.sizeMB}MB
-                    </p>
-                  </div>
-                </Link>
-              </div>
-            ))}
-            <AddOrEditCollectionDialog
-              role="add"
-              className="group cursor-pointer rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-transparent p-4 flex flex-col items-center justify-center text-center hover:border-primary hover:bg-primary/5 transition-all min-h-32"
-            />
-          </div>
+                  </Link>
+                </div>
+              ))}
+              <AddOrEditCollectionDialog
+                role="add"
+                className="group cursor-pointer rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-transparent p-4 flex flex-col items-center justify-center text-center hover:border-primary hover:bg-primary/5 transition-all min-h-32"
+              />
+            </div>
+          </Skeleton>
         )}
       </div>
       <div className="sticky top-0 z-10 bg-background-light dark:bg-background-dark/95 backdrop-blur px-6 py-2 pb-6">
@@ -221,23 +246,25 @@ function RouteComponent() {
         </h3>
       </div>
       <div className="px-6 pb-12 py-5">
-        <ResourcesTable
-          data={data}
-          columns={columns}
-          pagination={paginationState}
-          paginationOptions={{
-            onPaginationChange: (pagination) => {
-              setFilters(
-                typeof pagination === 'function'
-                  ? pagination(paginationState)
-                  : pagination,
-              )
-            },
-            rowCount,
-          }}
-          filters={filters}
-          onFilterChange={setFilters}
-        />
+        <Skeleton name="resources-table" loading={isResourcesInitialLoading}>
+          <ResourcesTable
+            data={data}
+            columns={columns}
+            pagination={paginationState}
+            paginationOptions={{
+              onPaginationChange: (pagination) => {
+                setFilters(
+                  typeof pagination === 'function'
+                    ? pagination(paginationState)
+                    : pagination,
+                )
+              },
+              rowCount,
+            }}
+            filters={filters}
+            onFilterChange={setFilters}
+          />
+        </Skeleton>
       </div>
     </main>
   )

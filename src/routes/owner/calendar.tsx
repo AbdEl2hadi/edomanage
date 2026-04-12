@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { format, getDay, parse, startOfWeek } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import { useCallback, useMemo, useState } from 'react'
@@ -31,12 +32,30 @@ const localizer = dateFnsLocalizer({
 
 export const Route = createFileRoute('/owner/calendar')({
   component: RouteComponent,
+  pendingComponent: () => (
+    <Skeleton name="owner-calendar-page" loading>
+      <OwnerCalendarContent />
+    </Skeleton>
+  ),
+  pendingMs: 0,
+  pendingMinMs: 220,
   head: () => ({
     meta: [{ title: 'Owner | School Calendar - EduManage' }],
   }),
+  loader: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+  },
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="owner-calendar-page" loading={false}>
+      <OwnerCalendarContent />
+    </Skeleton>
+  )
+}
+
+function OwnerCalendarContent() {
   const {
     classOptions,
     displayEvents,

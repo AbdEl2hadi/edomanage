@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import SettingsComp from '@/components/settings/owner/settingsComp'
 
 export const Route = createFileRoute('/owner/settings')({
@@ -9,5 +10,9 @@ export const Route = createFileRoute('/owner/settings')({
 })
 
 function RouteComponent() {
-  return <SettingsComp />
+  return (
+    <Skeleton name="owner-settings-page" loading={false}>
+      <SettingsComp />
+    </Skeleton>
+  )
 }

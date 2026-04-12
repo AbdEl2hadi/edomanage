@@ -1,7 +1,8 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import type { EditStudentModel } from '@/services/api/owner/student/schemas'
+import { Skeleton } from 'boneyard-js/react'
+import type { EditStudentModel } from '@/services/api/owner/student/Schemas'
 import {
   getStudentQueryOptions,
   useEditStudent,
@@ -13,7 +14,15 @@ import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 
 export const Route = createFileRoute('/owner/students/$studentId')({
   component: RouteComponent,
+  pendingComponent: () => (
+    <Skeleton name="owner-student-detail-page" loading>
+      <div className="flex h-full w-full" />
+    </Skeleton>
+  ),
+  pendingMs: 0,
+  pendingMinMs: 220,
   loader: async ({ params: { studentId }, context }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     const student = await context.queryClient.ensureQueryData(
       getStudentQueryOptions(studentId),
     )
@@ -24,6 +33,14 @@ export const Route = createFileRoute('/owner/students/$studentId')({
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="owner-student-detail-page" loading={false}>
+      <OwnerStudentDetailContent />
+    </Skeleton>
+  )
+}
+
+function OwnerStudentDetailContent() {
   const { studentId } = Route.useParams()
 
   const [showPassword, setShowPassword] = useState(false)

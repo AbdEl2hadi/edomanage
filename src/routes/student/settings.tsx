@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import SettingsComp from '@/components/settings/rest/settingsComp'
 
 export const Route = createFileRoute('/student/settings')({
@@ -9,5 +10,9 @@ export const Route = createFileRoute('/student/settings')({
 })
 
 function RouteComponent() {
-  return <SettingsComp user="student" />
+  return (
+    <Skeleton name="student-settings-page" loading={false}>
+      <SettingsComp user="student" />
+    </Skeleton>
+  )
 }

@@ -6,27 +6,21 @@ import { QueryClientProvider } from '@tanstack/react-query'
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { NotFound } from './components/NotFound'
-import { ErrorComponent}from './components/error'
-import Loading from './components/loading.tsx'
+import { ErrorComponent } from './components/error'
 import { queryClient } from './lib/queryClient'
 import { ThemeProvider } from './features/theme/theme-provider'
-
+import './bones/registry.ts'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  
+
   context: { queryClient },
   defaultErrorComponent: ErrorComponent,
   defaultNotFoundComponent: NotFound,
-  defaultPendingComponent: () => (
-    <div className="min-h-screen w-full ">
-      <Loading className="min-h-screen" />
-    </div>
-  ),
-  defaultPendingMs: 50,
+  defaultPendingMs: 0,
   defaultPendingMinMs: 50,
   defaultPreload: 'intent',
   scrollRestoration: true,
@@ -43,7 +37,7 @@ declare module '@tanstack/react-router' {
 
 // Render the app
 const rootElement = document.getElementById('app')
-if (rootElement && !rootElement.innerHTML) {
+if (rootElement) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>

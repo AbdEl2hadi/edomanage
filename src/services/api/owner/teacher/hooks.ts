@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { teacherFetcher } from './fetcher'
 import { EditTeacherSchema } from './Schemas'
 import type { EditTeacherModel, TeacherModel } from './Schemas'
+import type { Filters } from '../types/apiTypes'
 
 export function useAddTeacher() {
   const queryClient = useQueryClient()
@@ -30,9 +31,28 @@ export function useAddTeacher() {
   })
 }
 
-// export function useGetTeachers() {
-//     return useQuery()
-// }
+export function useGetTeachers({
+  page,
+  search,
+  size,
+}: Partial<Filters<TeacherModel>> = {}) {
+  return useQuery({
+    queryKey: ['teachers', page, search, size],
+    queryFn: () => teacherFetcher.getTeachers({ page, search, size }),
+    select: (response) => {
+      return {
+        data: response.success ? response.data : [],
+        pagination: {
+          totalPages: response.success ? response.pagination.totalPages : 1,
+          totalElements: response.success
+            ? response.pagination.totalElements
+            : 0,
+        },
+      }
+    },
+    placeholderData: keepPreviousData,
+  })
+}
 
 export function useEditTeacher(EditedTeacher: TeacherModel) {
   const onSubmit = (data: EditTeacherModel) => {

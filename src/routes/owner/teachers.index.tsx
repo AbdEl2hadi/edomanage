@@ -1,37 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
-import { fallback, zodValidator } from '@tanstack/zod-adapter'
 import type { Filters } from '@/services/api/owner/types/apiTypes'
-import type { TeacherModel } from '@/services/api/owner/teacher/schemas'
+import type { TeacherModel } from '@/services/api/owner/teacher/Schemas'
 import type { UICardType } from '@/components/owner/UICard'
 import { TeacherColumns } from '@/components/owner/Table/columnsData'
 
 import DataTable, {
   CustomDataTableSkeleton,
-} from '@/components/owner/Table/DataTable'
+} from '@/components/owner/Table/dataTable'
 import { CustomPagination } from '@/components/owner/PaginationComp'
 import { SearchInput } from '@/components/owner/SearchInput'
 import { SelectPageSize } from '@/components/owner/SelectPageSize'
 import { teacherFetcher } from '@/services/api/owner/teacher/fetcher'
 import IndexPageComponent from '@/components/owner/IndexPageComponent'
-
-const subjects = [
-  { label: 'All Subjects', value: '' },
-  { label: 'Math', value: 'math' },
-  { label: 'Science', value: 'science' },
-  { label: 'English', value: 'english' },
-  { label: 'History', value: 'history' },
-  { label: 'Physical Education', value: 'physical_education' },
-]
-
-const status = [
-  { label: 'All Status', value: '' },
-  { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
-  { label: 'Pending', value: 'pending' },
-]
 
 const UICardList: Array<UICardType> = [
   {
@@ -67,14 +51,15 @@ type QueryOptionsType = Filters<TeacherModel>
 export type TeacherSortOption = 'name' | 'email'
 
 export const TeacherSearchSchema = z.object({
-  search: fallback(z.string(), '').default(''),
-  email: fallback(z.string().email(), '').default(''),
-  status: fallback(z.string(), '').default(''),
-  sortBy: fallback(z.enum(['name', 'email']), 'name').default('name'),
-  sortOrder: fallback(z.enum(['asc', 'desc']).nullable(), 'asc').default('asc'),
-  page: fallback(z.number(), 1).default(1),
-  size: fallback(z.number(), 10).default(10),
+  search: z.string().catch('').default(''),
+  email: z.string().email().catch('').default(''),
+  status: z.string().catch('').default(''),
+  sortBy: z.enum(['name', 'email']).catch('name').default('name'),
+  sortOrder: z.enum(['asc', 'desc']).nullable().catch('asc').default('asc'),
+  page: z.coerce.number().int().positive().catch(1).default(1),
+  size: z.coerce.number().int().positive().catch(10).default(10),
 })
+type TeacherSearchParams = z.infer<typeof TeacherSearchSchema>
 
 const getTeachersQueryOptions = ({
   page,
@@ -131,22 +116,42 @@ const getStudentsQueryOptions = ({
 
 export const Route = createFileRoute('/owner/teachers/')({
   component: RouteComponent,
+  pendingComponent: OwnerTeachersPending,
   loaderDeps: ({ search }) => search,
-  loader: ({ context, deps }) => {
-    context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
+  loader: async ({ context, deps }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    return context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
   },
-  validateSearch: zodValidator(TeacherSearchSchema),
+  validateSearch: (search) => TeacherSearchSchema.parse(search),
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="owner-teachers-page" loading={false}>
+      <OwnerTeachersContent />
+    </Skeleton>
+  )
+}
+
+function OwnerTeachersPending() {
+  return (
+    <Skeleton name="owner-teachers-page" loading>
+      <OwnerTeachersContent />
+    </Skeleton>
+  )
+}
+
+function OwnerTeachersContent() {
   const navigate = Route.useNavigate()
-  const { size, page, search, sortBy, sortOrder } = Route.useSearch()
+  const searchParams = TeacherSearchSchema.parse(Route.useSearch())
+  const { size, page, search, sortBy, sortOrder, status } = searchParams
   const { data: studentsData, status: fetchStatus } = useQuery({
     ...getStudentsQueryOptions({
       page,
       size,
       search,
       sortBy,
+      status,
       sortOrder,
     }),
     placeholderData: keepPreviousData,
@@ -165,14 +170,24 @@ function RouteComponent() {
               <SearchInput
                 value={search}
                 onSearch={(value) =>
-                  navigate({ search: (s) => ({ ...s, search: value }) })
+                  navigate({
+                    search: (s: TeacherSearchParams) => ({
+                      ...s,
+                      search: value,
+                    }),
+                  })
                 }
               />
               <div className="flex items-center gap-4">
                 <SelectPageSize
                   value={size}
                   onChange={(value) =>
-                    navigate({ search: (s) => ({ ...s, size: value }) })
+                    navigate({
+                      search: (s: TeacherSearchParams) => ({
+                        ...s,
+                        size: value,
+                      }),
+                    })
                   }
                 />
               </div>
@@ -186,7 +201,9 @@ function RouteComponent() {
                 currentPage={page}
                 totalPages={studentsData.pagination.totalPages}
                 onPageChange={(p) =>
-                  navigate({ search: (s) => ({ ...s, page: p }) })
+                  navigate({
+                    search: (s: TeacherSearchParams) => ({ ...s, page: p }),
+                  })
                 }
               />
             </div>

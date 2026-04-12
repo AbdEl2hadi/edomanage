@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import z from 'zod'
 
 import AddNotification from '@/components/teacher/notification/addNotification'
@@ -20,19 +21,38 @@ export const NotificationSearchSchema = z.object({
 
 export const Route = createFileRoute('/teacher/notifications/add')({
   component: RouteComponent,
+  pendingComponent: AddTeacherNotificationPending,
   validateSearch: NotificationSearchSchema,
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) =>
-    Promise.all([
+  loader: async ({ deps }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    return Promise.all([
       queryClient.ensureQueryData(sendToListQueryOptions),
       queryClient.ensureQueryData(getTeacherNotificationsQueryOptions(deps)),
-    ]),
+    ])
+  },
   head: () => ({
     meta: [{ title: 'Teacher | Add Notification - EduManage' }],
   }),
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="teacher-add-notification-page" loading={false}>
+      <TeacherNotificationContent />
+    </Skeleton>
+  )
+}
+
+function AddTeacherNotificationPending() {
+  return (
+    <Skeleton name="teacher-add-notification-page" loading>
+      <TeacherNotificationContent />
+    </Skeleton>
+  )
+}
+
+function TeacherNotificationContent() {
   const { filters, setFilters } = useFilterResource(Route.id)
 
   return (

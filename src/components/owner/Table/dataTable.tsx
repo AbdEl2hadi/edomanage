@@ -1,5 +1,6 @@
 import { flexRender } from '@tanstack/react-table'
 import type { Table as Tab } from '@tanstack/react-table'
+import { Skeleton as BoneyardSkeleton } from 'boneyard-js/react'
 import {
   Table,
   TableBody,
@@ -71,11 +72,8 @@ type SkeletonTableProps = {
   cols: number
 }
 
-export function CustomDataTableSkeleton({
-  rows,
-  cols,
-}: SkeletonTableProps) {
-  return (
+export function CustomDataTableSkeleton({ rows, cols }: SkeletonTableProps) {
+  const renderTablePreview = () => (
     <div className="overflow-hidden rounded-md border">
       <table className="w-full table-auto border-collapse">
         <thead className="bg-gray-100 dark:bg-slate-800">
@@ -104,5 +102,16 @@ export function CustomDataTableSkeleton({
         </tbody>
       </table>
     </div>
+  )
+
+  return (
+    <BoneyardSkeleton
+      name="owner-data-table"
+      loading
+      animate="shimmer"
+      fallback={renderTablePreview()}
+    >
+      {renderTablePreview()}
+    </BoneyardSkeleton>
   )
 }

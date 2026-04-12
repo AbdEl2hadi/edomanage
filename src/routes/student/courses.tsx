@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 
 import type { Resource } from '@/services/api/teacher/types/modelType'
 import { ResourceSearchSchema } from '@/routes/teacher/classes/$folderId'
@@ -13,26 +14,48 @@ import useGetResources, {
 
 export const Route = createFileRoute('/student/courses')({
   component: Courses,
+  pendingComponent: CoursesPending,
   head: () => ({
     meta: [{ title: 'Student | Courses - EduManage' }],
   }),
   loaderDeps: ({ search }) => search,
-  loader: ({ deps }) => {
-    queryClient.ensureQueryData(getAllCollectionsQueryOptions(false))
-    queryClient.ensureQueryData(getResourcesQueryOptions(undefined, deps))
+  loader: async ({ deps }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    return Promise.all([
+      queryClient.ensureQueryData(getAllCollectionsQueryOptions(false)),
+      queryClient.ensureQueryData(getResourcesQueryOptions(undefined, deps)),
+    ])
   },
   validateSearch: ResourceSearchSchema,
 })
 
+function CoursesPending() {
+  return (
+    <Skeleton name="student-courses-page" loading>
+      <CoursesContent />
+    </Skeleton>
+  )
+}
+
 export function Courses() {
+  return (
+    <Skeleton name="student-courses-page" loading={false}>
+      <CoursesContent />
+    </Skeleton>
+  )
+}
+
+function CoursesContent() {
   const { filters, setFilters } = useFilterResource(Route.id)
   const paginationState = {
     pageIndex: filters.pageIndex ?? 1,
     pageSize: filters.pageSize ?? 5,
   }
-  const { data: resourcesData } = useGetResources(undefined, filters)
+  const { data: resourcesData, isLoading: isResourcesLoading } =
+    useGetResources(undefined, filters)
   const data: Array<Resource> = resourcesData?.data ?? []
   const rowCount = resourcesData?.rowCount ?? 0
+  const isResourcesInitialLoading = isResourcesLoading && !resourcesData
 
   return (
     // <div className="overflow-auto min-h-screen bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-white flex flex-col p-6 md:p-10">
@@ -69,23 +92,25 @@ export function Courses() {
       </div>
 
       <div className="px-6 pb-12 py-5">
-        <ResourcesTable
-          data={data}
-          columns={columns}
-          pagination={paginationState}
-          paginationOptions={{
-            onPaginationChange: (pagination) => {
-              setFilters(
-                typeof pagination === 'function'
-                  ? pagination(paginationState)
-                  : pagination,
-              )
-            },
-            rowCount,
-          }}
-          filters={filters}
-          onFilterChange={setFilters}
-        />
+        <Skeleton name="resources-table" loading={isResourcesInitialLoading}>
+          <ResourcesTable
+            data={data}
+            columns={columns}
+            pagination={paginationState}
+            paginationOptions={{
+              onPaginationChange: (pagination) => {
+                setFilters(
+                  typeof pagination === 'function'
+                    ? pagination(paginationState)
+                    : pagination,
+                )
+              },
+              rowCount,
+            }}
+            filters={filters}
+            onFilterChange={setFilters}
+          />
+        </Skeleton>
       </div>
     </main>
     // </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import type { TypeTabFilter } from '@/services/api/teacher/types/apiType'
 import NotificationList from '@/components/notificationList'
 import { queryClient } from '@/lib/queryClient'
@@ -13,14 +14,24 @@ export const Route = createFileRoute('/teacher/notifications/')({
 const tabFilters: Array<TypeTabFilter> = ['All', 'Urgent', 'Administration']
 
 export function Notifications() {
+  return (
+    <Skeleton name="teacher-notifications-page" loading={false}>
+      <TeacherNotificationsContent />
+    </Skeleton>
+  )
+}
+
+function TeacherNotificationsContent() {
   /* Navigation */
   const navigate = useNavigate()
 
   /* State */
   const [tab, setTab] = useState<TypeTabFilter>('All')
   const [searchText, setSearchText] = useState('')
+  const [isMarkingAllRead, setIsMarkingAllRead] = useState(false)
 
   const markAllAsRead = async () => {
+    setIsMarkingAllRead(true)
     try {
       // Fetch current notifications
       const res = await fetch('http://localhost:4000/teacherNotifications')
@@ -44,6 +55,8 @@ export function Notifications() {
       queryClient.invalidateQueries({ queryKey: ['teacher-notifications'] })
     } catch (error) {
       console.error('Failed to mark all as read:', error)
+    } finally {
+      setIsMarkingAllRead(false)
     }
   }
 
@@ -72,6 +85,7 @@ export function Notifications() {
 
           <button
             onClick={markAllAsRead}
+            disabled={isMarkingAllRead}
             className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5  border border-gray-300 dark:border-gray-700  bg-white dark:bg-[#282e39] hover:bg-slate-200 dark:hover:bg-[#323b49] text-black text-sm font-bold active:scale-95 cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">
@@ -126,7 +140,12 @@ export function Notifications() {
         </div>
 
         {/* Notifications List */}
-        <NotificationList tab={tab} role="teacher" searchText={searchText} />
+        <NotificationList
+          tab={tab}
+          role="teacher"
+          searchText={searchText}
+          isLoading={isMarkingAllRead}
+        />
 
         {/* Footer */}
         <div className="flex justify-center py-8">
