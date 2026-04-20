@@ -261,6 +261,7 @@ function PopUpNotification() {
                   <div
                     role="button"
                     tabIndex={0}
+                    aria-label={`${noti.title} - ${noti.subject}`}
                     onClick={() => {
                       const path = isTeacherPage
                         ? `/teacher/notifications/${noti.id}`

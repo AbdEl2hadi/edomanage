@@ -8,11 +8,11 @@ import Loginform from '../loginform'
 import type { logInSearch } from '@/routes/log-in'
 
 export default function Login({ role, redirectTo }: logInSearch) {
-  const roles = ['owner', 'teacher', 'student'] as const
+  const roles = ['admin', 'teacher', 'student'] as const
   const otherRoles = roles.filter((r) => r !== role)
 
   const heading =
-    role === 'owner' ? (
+    role === 'admin' ? (
       <>
         Manage your <br /> Teachers & Students
       </>
@@ -43,7 +43,7 @@ export default function Login({ role, redirectTo }: logInSearch) {
           </p>
         </div>
         <div className="mb-5 border-b border-[#dbdfe6] dark:border-gray-700"></div>
-        <Loginform redirectTo={redirectTo} />
+        <Loginform redirectTo={redirectTo} role={role} />
         <div className="mt-5">
           <div className="relative">
             <div
@@ -61,7 +61,9 @@ export default function Login({ role, redirectTo }: logInSearch) {
               </span>
             </div>
           </div>
+        { role === "admin" &&
           <div className="mt-6 grid grid-cols-2 gap-4">
+            
             <a
               className="flex w-full items-center justify-center gap-3 rounded-lg bg-white dark:bg-[#1a2234] px-3 py-3 text-sm font-semibold text-[#111318] dark:text-white shadow-sm ring-1 ring-inset ring-[#dbdfe6] dark:ring-gray-700 hover:bg-background-light dark:hover:bg-gray-800"
               href="#"
@@ -76,11 +78,13 @@ export default function Login({ role, redirectTo }: logInSearch) {
               <FaMeta className="h-5 w-5" />
               <span>Meta</span>
             </a>
+          
           </div>
+        }
         </div>
         <div className="mt-6 text-center">
-          {/* if he is owner  */}
-          {role === 'owner' && (
+          {/* if he is admin  */}
+          {role === 'admin' && (
             <p className="mb-6 text-sm text-[#637588] dark:text-[#9da6b9]">
               Don’t have an account?{' '}
               <Link

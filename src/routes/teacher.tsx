@@ -1,12 +1,30 @@
-import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router'
+import {
+  Outlet,
+  createFileRoute,
+  redirect,
+  useLocation,
+} from '@tanstack/react-router'
 import { Skeleton } from 'boneyard-js/react'
 import { Activity } from 'react'
 import { SideBar } from '@/components/sideBar/SideBar'
 import TopNav from '@/components/top_nav'
 import { Toaster } from '@/components/ui/sonner'
+import { useAuthStore } from '@/services/store/auth_store'
 
 export const Route = createFileRoute('/teacher')({
   component: Teacher,
+  beforeLoad: ({ location }) => {
+    const token = useAuthStore.getState().token
+
+    if (!token) {
+      const redirectTo = `${location.pathname}${location.search}${location.hash}`
+
+      throw redirect({
+        to: '/log-in',
+        search: { role: 'teacher', redirectTo },
+      })
+    }
+  },
   head: () => ({
     meta: [{ title: 'Teacher - EduManage' }],
   }),

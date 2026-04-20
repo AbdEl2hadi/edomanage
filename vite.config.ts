@@ -22,6 +22,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/auth': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+      },
+      '/api': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+      },
+    },
+  },
   // optimizeDeps: {
   //   include: ['@popperjs/core'],
   // },

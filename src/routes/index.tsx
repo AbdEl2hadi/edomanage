@@ -356,7 +356,7 @@ function App() {
             <div className="w-full bg-background-light dark:bg-surface-dark/20 pb-20">
               <div className="px-5 md:px-10 lg:px-40 flex justify-center">
                 <div className="max-w-300 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Owner Card */}
+                  {/* Admin Card */}
                   <div
                     className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
                     style={{ transition: 'translate 0.2s ease-out' }}
@@ -368,7 +368,7 @@ function App() {
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
-                        School Owners
+                        School Admins
                       </h2>
                       <p className="text-slate-600 dark:text-slate-400 text-sm mt-2">
                         Simplify administration, track finances, and oversee
@@ -378,12 +378,12 @@ function App() {
                     <Link
                       to="/log-in"
                       search={{
-                        role: 'owner',
-                        redirectTo: '/owner/dashboard',
+                        role: 'admin',
+                        redirectTo: '/admin/dashboard',
                       }}
                       className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
                     >
-                      Login as Owner
+                      Login as Admin
                     </Link>
                   </div>
 

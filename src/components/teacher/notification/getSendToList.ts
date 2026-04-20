@@ -1,5 +1,4 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
-// import axios from 'axios'
 
 const sendToList = [
   { label: 'Teachers', value: 'teachers' },

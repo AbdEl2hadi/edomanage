@@ -34,3 +34,8 @@ export interface UserProfileProps {
   onProfileClick: () => void
   onLogout: () => void
 }
+
+export type LogoutResponse = {
+  message: string ,
+  redirectURL: string
+}

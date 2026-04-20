@@ -1,22 +1,22 @@
-import { Activity, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { loginSchema } from './login.schema'
-// import { postLogin } from './postlogin'
+import { useLogin } from './postlogin'
 
 import type { SubmitHandler } from 'react-hook-form'
 
 import type { LoginFields } from './login.schema'
 
-export default function Loginform({ redirectTo }: { redirectTo: string }) {
+export default function Loginform({ redirectTo , role  }: { redirectTo: string , role : "admin" | "teacher" | "student" }) {
   const navigate = useNavigate()
+  const loginMutation = useLogin()
   /* visible password */
   const [showPassword, setShowPassword] = useState(false)
   /* login not found account */
-  const [notFound] = useState<string | null>(null)
-
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   /* validation */
   const {
     register,
@@ -29,33 +29,30 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
   })
 
   /* Submit function */
-  const onSubmit: SubmitHandler<LoginFields> = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    navigate({
-      to: redirectTo,
-      replace: true,
+  const onSubmit: SubmitHandler<LoginFields> = async (data) => {
+    setErrorMessage(null)
+
+    const callbackURL =
+      redirectTo.startsWith('http://') || redirectTo.startsWith('https://')
+        ? redirectTo
+        : new URL(redirectTo, window.location.origin).toString()
+
+    const result = await loginMutation.mutateAsync({
+      email: data.email,
+      password: data.password,
+      rememberMe: true,
+      role,
+      callbackURL,
     })
-    /* try {
-      const response = await postLogin({
-        ...data,
-        role: redirectTo.split('/')[1],
-      })
-    
-      console.log(response)
-      if (response.length > 0) {
-        navigate({
-          to: redirectTo,
-          replace: true,
-        })
-        setNotFound(null)
-      } else {
-        setNotFound('Account not found. Please check your email and password.')
-      }
-    } catch (error) {
-      setNotFound(
-        error instanceof Error ? error.message : 'An unknown error occurred',
+
+    if (!result.ok) {
+      setErrorMessage(
+        result.message ?? 'Login failed. Please check your credentials.',
       )
-    }*/
+      return
+    }
+
+    navigate({ to: redirectTo, replace: true })
   }
 
   return (
@@ -153,16 +150,18 @@ export default function Loginform({ redirectTo }: { redirectTo: string }) {
               'transform 0.2s ease-in-out, background-color 0.2s ease-in-out',
           }}
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || loginMutation.isPending}
         >
           Log In
           <span className="material-symbols-outlined ml-2 text-[18px]">
             arrow_forward
           </span>
         </button>
-        <Activity mode={notFound ? 'visible' : 'hidden'}>
-          <p className="mt-4 text-sm text-red-600 text-center">{notFound}</p>
-        </Activity>
+        {errorMessage && (
+          <p className="mt-4 text-sm text-red-600 text-center">
+            {errorMessage}
+          </p>
+        )}
       </div>
     </form>
   )

@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-
 import type { UseQueryResult } from '@tanstack/react-query'
+import { api } from '@/lib/api'
 
 export type Not = Array<{
   id: number
@@ -13,7 +12,7 @@ export type Not = Array<{
 
 export const getNotification = async (): Promise<Not> => {
   await new Promise((resolve) => setTimeout(resolve, 2000))
-  const data: Not = await axios
+  const data: Not = await api
     .get<Not>('http://localhost:4000/notifications')
     .then((res) => {
       return res.data

@@ -3,10 +3,12 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import useSideBarListStore from '../../services/store/sidebar_list_store'
 import useSideBarStore from '../../services/store/sidebar_show_store'
 import useAvatarStore from '../../services/store/avatar_store'
+import { useAuthStore } from '../../services/store/auth_store'
 import { useMediaQuery } from '../../hooks/use-media-query'
 import { SideBarContent } from './SideBarContent'
-import type { SideBarProps, SidebarItem } from './types'
+import type { LogoutResponse, SideBarProps, SidebarItem } from './types'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
+import { api } from '@/lib/api'
 
 export function SideBar({ info }: SideBarProps) {
   /* media query hook for responsive behavior */
@@ -38,9 +40,21 @@ export function SideBar({ info }: SideBarProps) {
     [info?.layout, setChoosen, navigate],
   )
 
-  const handleLogout = useCallback(() => {
-    // TODO: Implement logout logic
-  }, [])
+  const handleLogout = useCallback(async () => {
+    try {
+      await api.post<LogoutResponse>('/auth/logout')
+    } catch {
+      console.warn('Logout failed, but proceeding to clear local state and redirect.')
+    }
+
+    useAuthStore.getState().logout()
+    useAvatarStore.getState().setAvatarSrc(undefined)
+
+    navigate({
+      to: '/',
+      replace: true,
+    })
+  }, [navigate])
 
   /* sideBar variable */
   const isOpen = useSideBarStore((state) => state.isOpen)

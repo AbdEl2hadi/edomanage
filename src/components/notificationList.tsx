@@ -117,8 +117,9 @@ export default function NotificationList({
   data: propData,
   isLoading: propIsLoading,
   error: propError,
-  detailTo =
-    role === 'teacher' ? '/teacher/notifications' : '/student/notification',
+  detailTo = role === 'teacher'
+    ? '/teacher/notifications'
+    : '/student/notification',
 }: NotificationListProps) {
   const studentNotificationsQuery = useNotifications()
   const teacherNotificationsQuery = useGetTeacherNotifications({
@@ -226,6 +227,7 @@ export default function NotificationList({
             key={notification.id}
             role="button"
             tabIndex={0}
+            aria-label={`${notification.title} - ${notification.subject}`}
             onClick={() =>
               navigate({
                 to: `${detailBaseTo}/${notification.id}`,

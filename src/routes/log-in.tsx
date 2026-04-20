@@ -6,7 +6,7 @@ import Login from '../auth/login/components/login'
 
 const logInSearchSchema = z.object({
   role: z
-    .enum(['owner', 'teacher', 'student'])
+    .enum(['admin', 'teacher', 'student'])
     .catch('student')
     .default('student'),
   redirectTo: z.string().catch('/student').default('/student'),

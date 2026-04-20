@@ -11,6 +11,7 @@ export function SearchBar() {
         className="bg-transparent border-none outline-none text-sm flex-1 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-0"
         placeholder="Search for anything..."
         type="text"
+        aria-label="Search for anything"
       />
     </div>
   )
