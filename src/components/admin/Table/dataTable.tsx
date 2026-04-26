@@ -52,10 +52,10 @@ export default function DataTable<TData>({ table }: DataTableProps<TData>) {
               </TableRow>
             ))
           ) : (
-            <TableRow>
+            <TableRow className="hover:bg-transparent">
               <TableCell
                 colSpan={table.getAllColumns().length}
-                className="h-24 text-center"
+                className="h-24 text-center bg-white dark:bg-slate-950 text-gray-500 dark:text-gray-400"
               >
                 No results.
               </TableCell>

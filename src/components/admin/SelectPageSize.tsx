@@ -27,10 +27,9 @@ export function SelectPageSize({
         <SelectValue placeholder="Select a size" />
       </SelectTrigger>
       <SelectContent className="bg-background-light dark:bg-background-dark dark:text-white">
-        {options.map((sizeOption) => (
-          <>
+        {options.map((sizeOption, index) => (
+          <div key={`size-${sizeOption}-${index}`}>
             <SelectItem
-              key={sizeOption}
               value={`${sizeOption}`}
               className="bg-background-light dark:bg-background-dark"
             >
@@ -39,7 +38,7 @@ export function SelectPageSize({
             {sizeOption !== options[options.length - 1] && (
               <SelectSeparator className=" dark:bg-white bg-black" />
             )}
-          </>
+          </div>
         ))}
       </SelectContent>
     </Select>

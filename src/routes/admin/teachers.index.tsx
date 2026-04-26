@@ -4,6 +4,7 @@ import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
 import { zodValidator } from '@tanstack/zod-adapter'
+import { toast } from 'sonner'
 import type { Filters } from '@/services/api/admin/types/apiTypes'
 import type { TeacherModel } from '@/services/api/admin/teacher/Schemas'
 import type { UICardType } from '@/components/admin/UICard'
@@ -17,6 +18,8 @@ import { SearchInput } from '@/components/admin/SearchInput'
 import { SelectPageSize } from '@/components/admin/SelectPageSize'
 import { teacherFetcher } from '@/services/api/admin/teacher/fetcher'
 import IndexPageComponent from '@/components/admin/IndexPageComponent'
+import { AddMultipleDialog } from '@/components/admin/addMultiple/addMultipleDialog'
+import { useAuthStore } from '@/services/store/auth_store'
 
 const UICardList: Array<UICardType> = [
   {
@@ -144,9 +147,14 @@ function AdminTeachersPending() {
 
 function AdminTeachersContent() {
   const navigate = Route.useNavigate()
+  const user = useAuthStore((state) => state.user)
   const searchParams = TeacherSearchSchema.parse(Route.useSearch())
   const { size, page, search, sortBy, sortOrder, status } = searchParams
-  const { data: studentsData, status: fetchStatus } = useQuery({
+  const {
+    data: studentsData,
+    status: fetchStatus,
+    refetch,
+  } = useQuery({
     ...getStudentsQueryOptions({
       page,
       size,
@@ -190,6 +198,17 @@ function AdminTeachersContent() {
                       }),
                     })
                   }
+                />
+                <AddMultipleDialog
+                  type="Teachers"
+                  schoolId={user!.info!.id}
+                  onSuccess={(message?: string) => {
+                    toast.success(message || 'Teachers added successfully!')
+                    refetch()
+                  }}
+                  onError={(error) => {
+                    toast.error(error.message || 'Failed to add teachers')
+                  }}
                 />
               </div>
             </div>

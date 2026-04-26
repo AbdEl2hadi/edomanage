@@ -22,21 +22,24 @@ export default function SelectFilter({ value, onChange, options }: props) {
         <SelectValue placeholder="Select a size" />
       </SelectTrigger>
       <SelectContent className="bg-background-light dark:bg-background-dark dark:text-white">
-        {options?.map((filterOption) => (
-          <SelectItem
-            key={
-              typeof filterOption === 'string'
-                ? filterOption
-                : Object.keys(filterOption)[0]
-            }
-            value={`${filterOption}`}
-            className="bg-background-light dark:bg-background-dark"
-          >
-            {filterOption && typeof filterOption === 'object'
-              ? Object.values(filterOption)[0]
-              : filterOption}
-          </SelectItem>
-        ))}
+        {options?.map((filterOption, index) => {
+          const key =
+            typeof filterOption === 'string'
+              ? `${filterOption}-${index}`
+              : `${Object.values(filterOption)[0]}-${index}`
+
+          return (
+            <SelectItem
+              key={key}
+              value={`${filterOption}`}
+              className="bg-background-light dark:bg-background-dark"
+            >
+              {filterOption && typeof filterOption === 'object'
+                ? Object.values(filterOption)[0]
+                : filterOption}
+            </SelectItem>
+          )
+        })}
       </SelectContent>
     </Select>
   )
