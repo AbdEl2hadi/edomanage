@@ -11,7 +11,7 @@ import {
 } from 'date-fns'
 import { useMemo, useState } from 'react'
 import type { EventPropGetter, View } from 'react-big-calendar'
-import type { EventForm } from '@/routes/admin/calendar'
+import type { EventForm } from '@/components/admin/calendar/model'
 import useGetEvents from '@/services/api/getEvents'
 import {
   Dialog,
@@ -105,9 +105,9 @@ export function GlobalCalendar({
   })
 
   return (
-    <main className="flex-1 flex flex-col md:flex-row p-6 gap-6 min-h-0">
+    <main className="flex-1 flex flex-col lg:flex-row p-4 md:p-6 gap-4 md:gap-6 min-h-0">
       {/* Sidebar */}
-      <aside className="w-full md:w-72 flex flex-col gap-5 shrink-0">
+      <aside className="hidden 2xl:flex w-64 flex-col gap-5 shrink-0">
         {/* Upcoming Events */}
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-800 flex-1 overflow-auto">
           <div className="flex items-center justify-between mb-4">
@@ -178,7 +178,7 @@ export function GlobalCalendar({
       </aside>
 
       {/* Calendar */}
-      <section className="flex-1 flex flex-col gap-4 min-w-0">
+      <section className="flex-1 flex flex-col gap-4 min-w-0 min-h-[65vh]">
         {/* Toolbar */}
         <div className="bg-white dark:bg-slate-900 rounded-2xl px-5 py-1.5 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -235,7 +235,7 @@ export function GlobalCalendar({
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-4 flex-1 flex flex-col min-h-0">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-4 flex-1 flex flex-col min-h-[58vh]">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center flex-1 gap-3 text-slate-400">
               <span className="material-symbols-outlined animate-spin text-[40px]">
@@ -266,7 +266,7 @@ export function GlobalCalendar({
               </p>
             </div>
           ) : (
-            <div className="owner-big-calendar flex-1 h-full min-h-0">
+            <div className="admin-big-calendar flex-1 h-full min-h-[52vh]">
               <Calendar
                 date={selectedDate}
                 events={events}

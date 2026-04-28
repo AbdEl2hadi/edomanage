@@ -1,23 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { format, getDay, parse, startOfWeek } from 'date-fns'
 import { enUS } from 'date-fns/locale'
 import { useCallback, useMemo, useState } from 'react'
 import { Calendar, Views, dateFnsLocalizer } from 'react-big-calendar'
 import type { EventPropGetter, SlotInfo, View } from 'react-big-calendar'
-import type { EventForm, OwnerEvent } from '@/components/owner/calendar/model'
-import { CalendarToolbar } from '@/components/owner/calendar/CalendarToolbar'
-import { EventDetailDialog } from '@/components/owner/calendar/EventDetailDialog'
-import { EventFormDialog } from '@/components/owner/calendar/EventFormDialog'
+import type { EventForm, AdminEvent } from '@/components/admin/calendar/model'
+import { CalendarToolbar } from '@/components/admin/calendar/CalendarToolbar'
+import { EventDetailDialog } from '@/components/admin/calendar/EventDetailDialog'
+import { EventFormDialog } from '@/components/admin/calendar/EventFormDialog'
 import {
   EVENT_COLORS,
   emptyForm,
   fromEvent,
-} from '@/components/owner/calendar/model'
-import { UpcomingEventsPanel } from '@/components/owner/calendar/UpcomingEventsPanel'
-import { useOwnerCalendarData } from '@/components/owner/calendar/useOwnerCalendarData'
-import useAddEvent from '@/services/api/owner/addEvent'
-import useDeleteEvent from '@/services/api/owner/deleteEvent'
-import useEditEvent from '@/services/api/owner/editEvent'
+} from '@/components/admin/calendar/model'
+import { UpcomingEventsPanel } from '@/components/admin/calendar/UpcomingEventsPanel'
+import { useAdminCalendarData } from '@/components/admin/calendar/useAdminCalendarData'
+import useAddEvent from '@/services/api/admin/addEvent'
+import useDeleteEvent from '@/services/api/admin/deleteEvent'
+import useEditEvent from '@/services/api/admin/editEvent'
 
 const locales = { 'en-US': enUS }
 
@@ -31,12 +32,30 @@ const localizer = dateFnsLocalizer({
 
 export const Route = createFileRoute('/admin/calendar')({
   component: RouteComponent,
+  pendingComponent: () => (
+    <Skeleton name="admin-calendar-page" loading>
+      <AdminCalendarContent />
+    </Skeleton>
+  ),
+  pendingMs: 0,
+  pendingMinMs: 220,
   head: () => ({
-    meta: [{ title: 'Owner | School Calendar - EduManage' }],
+    meta: [{ title: 'Admin | School Calendar - EduManage' }],
   }),
+  loader: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+  },
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="admin-calendar-page" loading={false}>
+      <AdminCalendarContent />
+    </Skeleton>
+  )
+}
+
+function AdminCalendarContent() {
   const {
     classOptions,
     displayEvents,
@@ -45,7 +64,7 @@ function RouteComponent() {
     isEventsLoading,
     teacherNames,
     upcomingEvents,
-  } = useOwnerCalendarData()
+  } = useAdminCalendarData()
 
   const { mutateAsync: addEventAsync, isPending: isAdding } = useAddEvent()
   const { mutateAsync: editEventAsync, isPending: isEditing } = useEditEvent()
@@ -64,7 +83,7 @@ function RouteComponent() {
     startAt: number
   } | null>(null)
 
-  const eventPropGetter = useCallback<EventPropGetter<OwnerEvent>>((event) => {
+  const eventPropGetter = useCallback<EventPropGetter<AdminEvent>>((event) => {
     return {
       style: {
         backgroundColor: event.color,
@@ -96,7 +115,7 @@ function RouteComponent() {
     setDialogOpen(true)
   }, [])
 
-  const handleSelectEvent = useCallback((event: OwnerEvent) => {
+  const handleSelectEvent = useCallback((event: AdminEvent) => {
     setDetailSelection({ id: event.id, startAt: event.start.getTime() })
     setDetailOpen(true)
   }, [])
@@ -252,7 +271,7 @@ function RouteComponent() {
               </p>
             </div>
           ) : (
-            <div className="owner-big-calendar owner-calendar-view flex-1 h-full min-h-0">
+            <div className="admin-big-calendar admin-calendar-view flex-1 h-full min-h-0">
               <Calendar
                 date={selectedDate}
                 events={displayEvents}

@@ -6,11 +6,26 @@ import { memo, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // import { useQueryClient } from '@tanstack/react-query'
 
-import Loading from './loading'
+import { Skeleton } from './ui/skeleton'
 import type { ResourceCard } from '@/services/api/student/types/apiType'
 import useSideBarListStore from '@/services/store/sidebar_list_store'
 import useGetNotPanel from '@/services/api/getNotification'
 import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'
+
+function NotificationSkeleton() {
+  return (
+    <div className="flex gap-3 px-4 py-3 border-b border-slate-100 dark:border-slate-800/50 bg-white dark:bg-[#151b2b]">
+      <Skeleton className="size-8 rounded-full shrink-0 mt-1 bg-slate-200 dark:bg-slate-700 animate-none" />
+      <div className="flex flex-col gap-2 w-full">
+        <div className="flex items-start justify-between gap-2">
+          <Skeleton className="h-4 w-3/5 bg-slate-200 dark:bg-slate-700 animate-none" />
+          <Skeleton className="h-2 w-2 rounded-full mt-1.5 shrink-0 bg-slate-300 dark:bg-slate-600 animate-none" />
+        </div>
+        <Skeleton className="h-3 w-1/3 bg-slate-200 dark:bg-slate-700 animate-none" />
+      </div>
+    </div>
+  )
+}
 
 const getIcon = (iconType: string) => {
   switch (iconType) {
@@ -216,12 +231,10 @@ function PopUpNotification() {
         </div>
         <div className="max-h-95 overflow-y-auto custom-scrollbar">
           {isLoading ? (
-            <div className="h-full w-full flex items-center justify-center">
-              <Loading
-                className="h-[80%] w-[80%] p-10"
-                text="searching..."
-                description="Please wait while we fetch the notifications for you."
-              />
+            <div className="py-1 bg-white dark:bg-[#151b2b] animate-pulse">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <NotificationSkeleton key={index} />
+              ))}
             </div>
           ) : notifications.length == 0 ? (
             <div className="flex flex-col items-center justify-center h-32 text-center px-4">
@@ -248,6 +261,7 @@ function PopUpNotification() {
                   <div
                     role="button"
                     tabIndex={0}
+                    aria-label={`${noti.title} - ${noti.subject}`}
                     onClick={() => {
                       const path = isTeacherPage
                         ? `/teacher/notifications/${noti.id}`

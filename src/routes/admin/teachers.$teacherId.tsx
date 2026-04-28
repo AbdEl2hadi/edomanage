@@ -6,14 +6,14 @@
 // } from '@tanstack/react-router'
 
 // import { useState } from 'react'
-// import type { AddStudentModel } from '@/services/api/owner/student/schemas'
+// import type { AddStudentModel } from '@/services/api/admin/student/schemas'
 // import {
 //   useEditTeacher,
 //   useGetTeacher,
-// } from '@/services/api/owner/teacher/hooks'
-// import ProfilePicWrapper from '@/components/owner/ProfilePicWrapper'
+// } from '@/services/api/admin/teacher/hooks'
+// import ProfilePicWrapper from '@/components/admin/ProfilePicWrapper'
 
-// export const Route = createFileRoute('/owner/teachers/$teacherId')({
+// export const Route = createFileRoute('/admin/teachers/$teacherId')({
 //   component: RouteComponent,
 // })
 
@@ -242,7 +242,7 @@
 //                 </div>
 
 //                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
-//                   <Link to="/owner/teachers">
+//                   <Link to="/admin/teachers">
 //                     <button
 //                       type="button"
 //                       className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"
@@ -272,18 +272,26 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import type { AddTeacherModel } from '@/services/api/owner/teacher/schemas'
+import { Skeleton } from 'boneyard-js/react'
+import type { AddTeacherModel } from '@/services/api/admin/teacher/Schemas'
 import {
   getTeacherQueryOptions,
   useEditTeacher,
-} from '@/services/api/owner/teacher/hooks'
-import ProfilePicWrapper from '@/components/owner/Wrappers/ProfilePicWrapper'
-import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
-import DatePickerField from '@/components/owner/DatePickerField'
-import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
+} from '@/services/api/admin/teacher/hooks'
+import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
+import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
+import DatePickerField from '@/components/admin/DatePickerField'
+import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
 
 export const Route = createFileRoute('/admin/teachers/$teacherId')({
   component: RouteComponent,
+  pendingComponent: () => (
+    <Skeleton name="admin-teacher-detail-page" loading>
+      <div className="flex h-full w-full" />
+    </Skeleton>
+  ),
+  pendingMs: 0,
+  pendingMinMs: 220,
   loader: async ({ params: { teacherId }, context }) => {
     const teacher = await context.queryClient.ensureQueryData(
       getTeacherQueryOptions(teacherId),
@@ -293,9 +301,16 @@ export const Route = createFileRoute('/admin/teachers/$teacherId')({
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="admin-teacher-detail-page" loading={false}>
+      <AdminTeacherDetailContent />
+    </Skeleton>
+  )
+}
+
+function AdminTeacherDetailContent() {
   const { teacherId } = Route.useParams()
 
-  const [showPassword, setShowPassword] = useState(false)
   const [allowAccess, setAllowAccess] = useState(true)
 
   const { data: teacherData } = useSuspenseQuery(
@@ -306,9 +321,6 @@ function RouteComponent() {
 
   const { teacherForm, onSubmit } = useEditTeacher(teacherData)
 
-  function togglePassword() {
-    setShowPassword(!showPassword)
-  }
   function toggleAllowAccess() {
     setAllowAccess(!allowAccess)
   }
@@ -435,7 +447,7 @@ function RouteComponent() {
                 </div>
 
                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
-                  <Link to="/owner/teachers">
+                  <Link to="/admin/teachers">
                     <button
                       type="button"
                       className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"

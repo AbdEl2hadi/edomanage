@@ -11,10 +11,115 @@
     />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
+    <style>
+      html,
+      body,
+      #app {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: #f8fafc;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #0f172a;
+        }
+      }
+
+      .boot-skeleton {
+        min-height: 100%;
+        padding: 24px;
+      }
+
+      .boot-skeleton__stack {
+        display: grid;
+        gap: 16px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .boot-skeleton__line,
+      .boot-skeleton__card {
+        border-radius: 12px;
+        background: linear-gradient(
+          90deg,
+          #e2e8f0 25%,
+          #f1f5f9 37%,
+          #e2e8f0 63%
+        );
+        background-size: 400% 100%;
+        animation: boot-shimmer 1.2s ease-in-out infinite;
+      }
+
+      .boot-skeleton__line {
+        height: 18px;
+      }
+
+      .boot-skeleton__line--lg {
+        width: 320px;
+        height: 40px;
+      }
+
+      .boot-skeleton__line--md {
+        width: 540px;
+      }
+
+      .boot-skeleton__card {
+        height: 136px;
+      }
+
+      .boot-skeleton__cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+      }
+
+      .boot-skeleton__table {
+        height: 420px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .boot-skeleton__line,
+        .boot-skeleton__card {
+          background: linear-gradient(
+            90deg,
+            #1e293b 25%,
+            #334155 37%,
+            #1e293b 63%
+          );
+          background-size: 400% 100%;
+        }
+      }
+
+      @keyframes boot-shimmer {
+        0% {
+          background-position: 100% 0;
+        }
+        100% {
+          background-position: -100% 0;
+        }
+      }
+    </style>
     <title></title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="boot-skeleton" aria-hidden="true">
+        <div class="boot-skeleton__stack">
+          <div class="boot-skeleton__line boot-skeleton__line--lg"></div>
+          <div class="boot-skeleton__line boot-skeleton__line--md"></div>
+          <div class="boot-skeleton__cards">
+            <div class="boot-skeleton__card"></div>
+            <div class="boot-skeleton__card"></div>
+            <div class="boot-skeleton__card"></div>
+          </div>
+          <div class="boot-skeleton__card boot-skeleton__table"></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

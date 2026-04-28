@@ -7,26 +7,20 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { routeTree } from './routeTree.gen'
 import { NotFound } from './components/NotFound'
 import { ErrorComponent } from './components/error'
-import Loading from './components/loading.tsx'
+import { syncAuthSession } from './lib/api'
 import { queryClient } from './lib/queryClient'
 import { ThemeProvider } from './features/theme/theme-provider'
-
+import './bones/registry.ts'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  basepath: '/',
   context: { queryClient },
   defaultErrorComponent: ErrorComponent,
   defaultNotFoundComponent: NotFound,
-  defaultPendingComponent: () => (
-    <div className="min-h-screen w-full ">
-      <Loading className="min-h-screen" />
-    </div>
-  ),
-  defaultPendingMs: 50,
+  defaultPendingMs: 0,
   defaultPendingMinMs: 50,
   defaultPreload: 'intent',
   scrollRestoration: true,
@@ -41,9 +35,14 @@ declare module '@tanstack/react-router' {
   }
 }
 
-// Render the app
-const rootElement = document.getElementById('app')
-if (rootElement && !rootElement.innerHTML) {
+async function bootstrap() {
+  await syncAuthSession()
+
+  const rootElement = document.getElementById('app')
+  if (!rootElement) {
+    return
+  }
+
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
@@ -55,6 +54,8 @@ if (rootElement && !rootElement.innerHTML) {
     </StrictMode>,
   )
 }
+
+void bootstrap()
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

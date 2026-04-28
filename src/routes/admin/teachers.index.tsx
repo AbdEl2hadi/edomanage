@@ -1,37 +1,25 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
-import { fallback, zodValidator } from '@tanstack/zod-adapter'
-import type { TeacherModel } from '@/services/api/owner/teacher/Schemas'
-import type { UICardType } from '@/components/owner/UICard'
-import type { Filters } from '@/services/api/teacher/types/apiTypes'
-import { TeacherColumns } from '@/components/owner/Table/columnsData'
+import { zodValidator } from '@tanstack/zod-adapter'
+import { toast } from 'sonner'
+import type { Filters } from '@/services/api/admin/types/apiTypes'
+import type { TeacherModel } from '@/services/api/admin/teacher/Schemas'
+import type { UICardType } from '@/components/admin/UICard'
+import { TeacherColumns } from '@/components/admin/Table/columnsData'
 
 import DataTable, {
   CustomDataTableSkeleton,
-} from '@/components/owner/Table/DataTable'
-import { CustomPagination } from '@/components/owner/PaginationComp'
-import { SearchInput } from '@/components/owner/SearchInput'
-import { SelectPageSize } from '@/components/owner/SelectPageSize'
-import { teacherFetcher } from '@/services/api/owner/teacher/fetcher'
-import IndexPageComponent from '@/components/owner/IndexPageComponent'
-
-const subjects = [
-  { label: 'All Subjects', value: '' },
-  { label: 'Math', value: 'math' },
-  { label: 'Science', value: 'science' },
-  { label: 'English', value: 'english' },
-  { label: 'History', value: 'history' },
-  { label: 'Physical Education', value: 'physical_education' },
-]
-
-const status = [
-  { label: 'All Status', value: '' },
-  { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
-  { label: 'Pending', value: 'pending' },
-]
+} from '@/components/admin/Table/dataTable'
+import { CustomPagination } from '@/components/admin/PaginationComp'
+import { SearchInput } from '@/components/admin/SearchInput'
+import { SelectPageSize } from '@/components/admin/SelectPageSize'
+import { teacherFetcher } from '@/services/api/admin/teacher/fetcher'
+import IndexPageComponent from '@/components/admin/IndexPageComponent'
+import { AddMultipleDialog } from '@/components/admin/addMultiple/addMultipleDialog'
+import { useAuthStore } from '@/services/store/auth_store'
 
 const UICardList: Array<UICardType> = [
   {
@@ -67,14 +55,15 @@ type QueryOptionsType = Filters<TeacherModel>
 export type TeacherSortOption = 'name' | 'email'
 
 export const TeacherSearchSchema = z.object({
-  search: fallback(z.string(), '').default(''),
-  email: fallback(z.string().email(), '').default(''),
-  status: fallback(z.string(), '').default(''),
-  sortBy: fallback(z.enum(['name', 'email']), 'name').default('name'),
-  sortOrder: fallback(z.enum(['asc', 'desc']).nullable(), 'asc').default('asc'),
-  page: fallback(z.number(), 1).default(1),
-  size: fallback(z.number(), 10).default(10),
+  search: z.string().catch('').default(''),
+  email: z.string().email().catch('').default(''),
+  status: z.string().catch('').default(''),
+  sortBy: z.enum(['name', 'email']).catch('name').default('name'),
+  sortOrder: z.enum(['asc', 'desc']).nullable().catch('asc').default('asc'),
+  page: z.coerce.number().int().positive().catch(1).default(1),
+  size: z.coerce.number().int().positive().catch(10).default(10),
 })
+type TeacherSearchParams = z.infer<typeof TeacherSearchSchema>
 
 const getTeachersQueryOptions = ({
   page,
@@ -90,7 +79,7 @@ const getTeachersQueryOptions = ({
       page,
       search,
       size,
-      status,
+      // status,
       sortOrder,
       sortBy,
     })
@@ -115,7 +104,7 @@ const getStudentsQueryOptions = ({
       page,
       search,
       size,
-      status,
+      // status,
       sortOrder,
       sortBy,
     })
@@ -124,29 +113,54 @@ const getStudentsQueryOptions = ({
         data: response.data,
         pagination: response.pagination,
       }
-    else throw new Error(response.message)
+    else throw new Error(response.errorType)
   },
   placeholderData: keepPreviousData,
 })
 
 export const Route = createFileRoute('/admin/teachers/')({
   component: RouteComponent,
+  pendingComponent: AdminTeachersPending,
   loaderDeps: ({ search }) => search,
-  loader: ({ context, deps }) => {
-    context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
+  loader: async ({ context, deps }) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    return context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
   },
   validateSearch: zodValidator(TeacherSearchSchema),
 })
 
 function RouteComponent() {
+  return (
+    <Skeleton name="admin-teachers-page" loading={false}>
+      <AdminTeachersContent />
+    </Skeleton>
+  )
+}
+
+function AdminTeachersPending() {
+  return (
+    <Skeleton name="admin-teachers-page" loading>
+      <AdminTeachersContent />
+    </Skeleton>
+  )
+}
+
+function AdminTeachersContent() {
   const navigate = Route.useNavigate()
-  const { size, page, search, sortBy, sortOrder } = Route.useSearch()
-  const { data: studentsData, status: fetchStatus } = useQuery({
+  const user = useAuthStore((state) => state.user)
+  const searchParams = TeacherSearchSchema.parse(Route.useSearch())
+  const { size, page, search, sortBy, sortOrder, status } = searchParams
+  const {
+    data: studentsData,
+    status: fetchStatus,
+    refetch,
+  } = useQuery({
     ...getStudentsQueryOptions({
       page,
       size,
       search,
       sortBy,
+      status,
       sortOrder,
     }),
     placeholderData: keepPreviousData,
@@ -165,15 +179,36 @@ function RouteComponent() {
               <SearchInput
                 value={search}
                 onSearch={(value) =>
-                  navigate({ search: (s) => ({ ...s, search: value }) })
+                  navigate({
+                    search: (s: TeacherSearchParams) => ({
+                      ...s,
+                      search: value,
+                    }),
+                  })
                 }
               />
               <div className="flex items-center gap-4">
                 <SelectPageSize
                   value={size}
                   onChange={(value) =>
-                    navigate({ search: (s) => ({ ...s, size: value }) })
+                    navigate({
+                      search: (s: TeacherSearchParams) => ({
+                        ...s,
+                        size: value,
+                      }),
+                    })
                   }
+                />
+                <AddMultipleDialog
+                  type="Teachers"
+                  schoolId={user!.info!.id}
+                  onSuccess={(message?: string) => {
+                    toast.success(message || 'Teachers added successfully!')
+                    refetch()
+                  }}
+                  onError={(error) => {
+                    toast.error(error.message || 'Failed to add teachers')
+                  }}
                 />
               </div>
             </div>
@@ -186,7 +221,9 @@ function RouteComponent() {
                 currentPage={page}
                 totalPages={studentsData.pagination.totalPages}
                 onPageChange={(p) =>
-                  navigate({ search: (s) => ({ ...s, page: p }) })
+                  navigate({
+                    search: (s: TeacherSearchParams) => ({ ...s, page: p }),
+                  })
                 }
               />
             </div>

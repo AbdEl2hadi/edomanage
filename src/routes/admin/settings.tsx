@@ -1,13 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
-import SettingsComp from '@/components/settings/owner/settingsComp'
+import { Skeleton } from 'boneyard-js/react'
+import SettingsComp from '@/components/settings/admin/settingsComp'
 
 export const Route = createFileRoute('/admin/settings')({
   component: RouteComponent,
   head: () => ({
-    meta: [{ title: 'Owner | Settings - EduManage' }],
+    meta: [{ title: 'Admin | Settings - EduManage' }],
   }),
 })
 
 function RouteComponent() {
-  return <SettingsComp />
+  return (
+    <Skeleton name="admin-settings-page" loading={false}>
+      <SettingsComp />
+    </Skeleton>
+  )
 }

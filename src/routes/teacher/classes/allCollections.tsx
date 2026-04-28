@@ -1,4 +1,5 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { Skeleton } from 'boneyard-js/react'
 import { CollectionCard } from '@/components/teacher/collection/CollectionCard'
 import {
   AddOrEditCollectionDialog,
@@ -7,20 +8,38 @@ import {
 import { getAllCollectionsQueryOptions } from '@/services/api/teacher/collection/hooks'
 import { useCollectionsPage } from '@/hooks/teacher/use-collections-page'
 import { queryClient } from '@/lib/queryClient'
-import Loading from '@/components/loading'
 
 export const Route = createFileRoute('/teacher/classes/allCollections')({
   component: RouteComponent,
-  loader: () => {
+  pendingComponent: AllCollectionsPending,
+  loader: async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     return queryClient.ensureQueryData(getAllCollectionsQueryOptions(true))
   },
 })
 
+function AllCollectionsPending() {
+  return (
+    <Skeleton name="teacher-collections-page" loading>
+      <AllCollectionsContent />
+    </Skeleton>
+  )
+}
+
 function RouteComponent() {
+  return (
+    <Skeleton name="teacher-collections-page" loading={false}>
+      <AllCollectionsContent />
+    </Skeleton>
+  )
+}
+
+function AllCollectionsContent() {
   console.log('Rendering All Collections Page')
   const router = useRouter()
   const {
     folders,
+    isFoldersLoading,
     isFoldersError,
     isFoldersFetching,
     refetchFolders,
@@ -55,9 +74,7 @@ function RouteComponent() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* Create New Card  */}
           <AddOrEditCollectionDialog role={'add'} />
-          {isFoldersFetching ? (
-            <Loading />
-          ) : isFoldersError || !folders ? (
+          {isFoldersError || (!isFoldersLoading && !folders) ? (
             <div className="flex-1 flex items-center justify-center">
               <p className="text-sm text-slate-500">
                 Failed to load collections.
@@ -65,6 +82,7 @@ function RouteComponent() {
               <button
                 className="ml-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
                 onClick={() => refetchFolders()}
+                disabled={isFoldersFetching}
               >
                 Retry
               </button>
@@ -76,14 +94,19 @@ function RouteComponent() {
               </button>
             </div>
           ) : (
-            folders.map((folder) => (
-              <CollectionCard
-                key={folder.id}
-                folder={folder}
-                onDelete={openDeleteDialog}
-                onEdit={openEditDialog}
-              />
-            ))
+            <Skeleton
+              name="teacher-collections-grid"
+              loading={isFoldersLoading}
+            >
+              {folders?.map((folder) => (
+                <CollectionCard
+                  key={folder.id}
+                  folder={folder}
+                  onDelete={openDeleteDialog}
+                  onEdit={openEditDialog}
+                />
+              ))}
+            </Skeleton>
           )}
         </div>
         <AddOrEditCollectionDialog

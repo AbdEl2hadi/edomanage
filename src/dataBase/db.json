@@ -513,9 +513,9 @@
       "status": "New"
     }
   ],
-  "owners": [
+  "admins": [
     {
-      "ownerId": "O5001",
+      "adminId": "O5001",
       "name": "Aced Benyahia",
       "email": "aced@gmail.com",
       "password": "aced2024",

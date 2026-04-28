@@ -3,17 +3,17 @@
 // import { keepPreviousData, useQuery } from '@tanstack/react-query'
 // import z from 'zod'
 // import { fallback, zodValidator } from '@tanstack/zod-adapter'
-// import type { StudentModel } from '@/services/api/owner/student/schemas'
-// import type { Filters } from '@/services/api/owner/types/apiTypes'
-// import { StudentColumns } from '@/components/owner/Table/columnsData'
-// import { studentFetcher } from '@/services/api/owner/student/fetcher'
+// import type { StudentModel } from '@/services/api/admin/student/schemas'
+// import type { Filters } from '@/services/api/admin/types/apiTypes'
+// import { StudentColumns } from '@/components/admin/Table/columnsData'
+// import { studentFetcher } from '@/services/api/admin/student/fetcher'
 
 // import DataTable, {
 //   CustomDataTableSkeleton,
-// } from '@/components/owner/Table/dataTable'
-// import { CustomPagination } from '@/components/owner/PaginationComp'
-// import { SearchInput } from '@/components/owner/SearchInput'
-// import { SelectPageSize } from '@/components/owner/SelectPageSize'
+// } from '@/components/admin/Table/dataTable'
+// import { CustomPagination } from '@/components/admin/PaginationComp'
+// import { SearchInput } from '@/components/admin/SearchInput'
+// import { SelectPageSize } from '@/components/admin/SelectPageSize'
 
 // type QueryOptionsType = Filters<StudentModel>
 // export type StudentSortOption = 'age' | 'name' | 'email'
@@ -66,7 +66,7 @@
 //   placeholderData: keepPreviousData,
 // })
 
-// export const Route = createFileRoute('/owner/payments')({
+// export const Route = createFileRoute('/admin/payments')({
 //   component: RouteComponent,
 //   loaderDeps: ({ search }) => search,
 //   loader: ({ context, deps }) => {

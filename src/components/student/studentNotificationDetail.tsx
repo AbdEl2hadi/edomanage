@@ -5,6 +5,7 @@ import { FaUserTie } from 'react-icons/fa'
 import { useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useQueryClient } from '@tanstack/react-query'
+import { Skeleton as BoneyardSkeleton } from 'boneyard-js/react'
 import Loading from '../loading'
 import { useNotificationById } from '@/services/api/student/notification/notification'
 
@@ -105,13 +106,42 @@ export default function StudentNotificationDetail({
 
   if (isLoading) {
     return (
-      <div className="h-full w-full flex items-center justify-center">
-        <Loading
-          className="h-[80%] w-[80%] p-10"
-          text="searching..."
-          description="Please wait while we fetch the notifications for you."
-        />
-      </div>
+      <BoneyardSkeleton
+        name="student-notification-detail"
+        loading
+        animate="shimmer"
+        fallback={
+          <div className="h-full w-full flex items-center justify-center">
+            <Loading
+              className="h-[80%] w-[80%] p-10"
+              text="searching..."
+              description="Please wait while we fetch the notifications for you."
+            />
+          </div>
+        }
+      >
+        <main className="pt-5 pb-16 px-4 md:pl-5 md:pr-5 min-h-screen overflow-y-auto">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-6 h-5 w-44 rounded bg-slate-200 dark:bg-slate-700" />
+            <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-8 shadow-xl">
+              <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="size-14 rounded-full bg-slate-200 dark:bg-slate-700" />
+                <div className="min-w-0 flex-1 space-y-3">
+                  <div className="h-7 w-3/5 rounded bg-slate-200 dark:bg-slate-700" />
+                  <div className="h-4 w-2/5 rounded bg-slate-300 dark:bg-slate-800" />
+                </div>
+                <div className="h-6 w-24 rounded-full bg-slate-200 dark:bg-slate-700" />
+              </div>
+
+              <div className="space-y-4">
+                <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
+                <div className="h-4 w-full rounded bg-slate-200 dark:bg-slate-700" />
+                <div className="h-4 w-4/5 rounded bg-slate-200 dark:bg-slate-700" />
+              </div>
+            </div>
+          </div>
+        </main>
+      </BoneyardSkeleton>
     )
   }
 

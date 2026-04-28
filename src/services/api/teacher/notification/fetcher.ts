@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { filterNotifications } from './filter'
 import type {
   AddTeacherNotificationPayload,
@@ -8,6 +6,7 @@ import type {
   PaginatedSuccessResponse,
 } from '../types/apiTypes'
 import type { Notification } from '../types/modelType'
+import { api, isAxiosError } from '@/lib/api'
 
 const API_URL = 'http://localhost:4000/teacherNotifications'
 
@@ -23,7 +22,7 @@ const unwrapNotificationResponse = (
 }
 
 const isMultipartParsingError = (error: unknown): boolean => {
-  if (!axios.isAxiosError(error)) {
+  if (!isAxiosError(error)) {
     return false
   }
 
@@ -54,19 +53,18 @@ const buildAudience = (
 class JsonNotificationFetcher implements NotificationFetcher {
   async getTeacherNotifications(
     filterAndPagination: NotificationFilter,
-  ): Promise<PaginatedSuccessResponse<Notification>> {
-    await new Promise((resolve) => setTimeout(resolve, 200))
-    const response = await axios.get<Array<Notification>>(API_URL)
+  ): Promise<PaginationData<Notification>> {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const response = await api.get<Array<Notification>>(API_URL)
     return filterNotifications(response.data, filterAndPagination)
   }
 
   async getTeacherNotification(notificationId: string): Promise<Notification> {
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     if (!notificationId) {
       throw new Error('Notification id is required')
     }
-    const response = await axios.get<Notification>(
-      `${API_URL}/${notificationId}`,
-    )
+    const response = await api.get<Notification>(`${API_URL}/${notificationId}`)
     return response.data
   }
 
@@ -123,7 +121,7 @@ class JsonNotificationFetcher implements NotificationFetcher {
     })
 
     try {
-      const response = await axios.post<Notification | { data: Notification }>(
+      const response = await api.post<Notification | { data: Notification }>(
         API_URL,
         formData,
         {
@@ -141,7 +139,7 @@ class JsonNotificationFetcher implements NotificationFetcher {
         throw error
       }
 
-      const response = await axios.post<Notification | { data: Notification }>(
+      const response = await api.post<Notification | { data: Notification }>(
         API_URL,
         payload,
       )
@@ -156,9 +154,9 @@ class JsonNotificationFetcher implements NotificationFetcher {
     }
 
     try {
-      await axios.delete(`${API_URL}/${notificationId}`)
+      await api.delete(`${API_URL}/${notificationId}`)
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 404) {
+      if (isAxiosError(error) && error.response?.status === 404) {
         return
       }
 
@@ -167,4 +165,5 @@ class JsonNotificationFetcher implements NotificationFetcher {
   }
 }
 
-export const notificationFetcher: NotificationFetcher = new JsonNotificationFetcher()
+export const notificationFetcher: NotificationFetcher =
+  new JsonNotificationFetcher()

@@ -1,14 +1,14 @@
-import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import type { EventForm } from '../../routes/admin/calendar'
+import type { EventForm } from '@/components/admin/calendar/model'
+import { api } from '@/lib/api'
 
-function getEvents(className?: string, teacherId?: string, isOwner = false) {
+function getEvents(className?: string, teacherId?: string, isAdmin = false) {
   const now = new Date()
   const in30Days = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
 
   let params: Record<string, unknown> = {}
 
-  if (!isOwner) {
+  if (!isAdmin) {
     params = {
       ...params,
       startDate: now.toISOString().split('T')[0],
@@ -16,13 +16,13 @@ function getEvents(className?: string, teacherId?: string, isOwner = false) {
     }
   }
 
-  if (className && !isOwner) {
+  if (className && !isAdmin) {
     params = { ...params, className }
-  } else if (teacherId && !isOwner) {
+  } else if (teacherId && !isAdmin) {
     params = { ...params, teacherId }
   }
 
-  return axios
+  return api
     .get<Array<EventForm>>('http://localhost:4000/events', { params })
     .then((res) => res.data)
 }
@@ -30,20 +30,20 @@ function getEvents(className?: string, teacherId?: string, isOwner = false) {
 export const useGetEventsOptions = (
   className?: string,
   teacherId?: string,
-  isOwner = false,
+  isAdmin = false,
 ) => ({
   queryKey: [
     'events',
-    isOwner ? 'owner-all' : (className ?? teacherId ?? 'all'),
+    isAdmin ? 'admin-all' : (className ?? teacherId ?? 'all'),
   ],
-  queryFn: () => getEvents(className, teacherId, isOwner),
+  queryFn: () => getEvents(className, teacherId, isAdmin),
   enabled: true,
 })
 
 export default function useGetEvents(
   className?: string,
   teacherId?: string,
-  isOwner = false,
+  isAdmin = false,
 ) {
-  return useQuery(useGetEventsOptions(className, teacherId, isOwner))
+  return useQuery(useGetEventsOptions(className, teacherId, isAdmin))
 }

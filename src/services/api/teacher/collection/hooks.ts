@@ -34,12 +34,12 @@ export function useGetAllCollections(all: boolean) {
 
 export const getResourcesQueryOptions = (
   collectionId: string | undefined,
-  filterAndPagination: ResourceFilter,
+  searchParams: ResourceFilter,
 ) =>
   queryOptions({
-    queryKey: ['resources', collectionId, filterAndPagination],
+    queryKey: ['resources', collectionId, searchParams],
     queryFn: () =>
-      collectionFetcher.getResources(collectionId, filterAndPagination),
+      collectionFetcher.getResources(collectionId, searchParams),
   })
 
 

@@ -7,6 +7,7 @@ export const signupSchema = z
     email: z.string().email('Invalid email address'),
     password: z.string().min(8, 'Password must be at least 8 characters'),
     confirmPassword: z.string(),
+    rememberMe: z.boolean(),
     terms: z.boolean().refine((val) => val === true, {
       message: 'You must accept the terms',
     }),

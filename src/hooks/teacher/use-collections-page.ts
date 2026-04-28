@@ -9,6 +9,7 @@ import {
 export function useCollectionsPage() {
   const {
     data: folders,
+    isLoading: isFoldersLoading,
     isError: isFoldersError,
     isFetching: isFoldersFetching,
     refetch: refetchFolders,
@@ -65,6 +66,7 @@ export function useCollectionsPage() {
 
   return {
     folders,
+    isFoldersLoading,
     isFoldersError,
     isFoldersFetching,
     refetchFolders,

@@ -1,26 +1,51 @@
+import { useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signupSchema } from '../signup.schema.ts'
+import { useSignup } from '../postsignup.ts'
 
 import type { SignupFormValues } from '../signup.schema.ts'
 
 export function RightPanel() {
   const navigate = useNavigate()
+  const signupMutation = useSignup()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      rememberMe: false,
+    },
   })
 
-  const onSubmit = async (_data: SignupFormValues) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    navigate({
-      to: '/owner/dashboard',
-      replace: true,
+  const onSubmit = async (data: SignupFormValues) => {
+    setErrorMessage(null)
+
+    const callbackURL = new URL(
+      '/admin/dashboard',
+      window.location.origin,
+    ).toString()
+
+    const result = await signupMutation.mutateAsync({
+      fullName: data.fullName,
+      schoolName: data.schoolName,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      rememberMe: data.rememberMe,
+      callbackURL,
     })
+
+    if (!result.ok) {
+      setErrorMessage(result.message ?? 'Sign up failed. Please try again.')
+      return
+    }
+
+    navigate({ to: '/admin/dashboard', replace: true })
   }
   return (
     <div className="flex w-full flex-1 self-stretch flex-col justify-center bg-white dark:bg-background-dark overflow-y-auto overflow-x-hidden px-1 py-3 lg:px-15 xl:px-20">
@@ -37,7 +62,7 @@ export function RightPanel() {
         {/* <!-- Header --> */}
         <div className="mb-5">
           <h1 className="font-display text-3xl font-extrabold tracking-tight text-[#0d121b] dark:text-white ">
-            Owner Registration
+            Admin Registration
           </h1>
           <p className="mt-1 text-[#4c669a] dark:text-[#94a3b8] text-sm">
             Start managing your school today with our comprehensive dashboard.
@@ -200,6 +225,27 @@ export function RightPanel() {
             <div className="flex items-start">
               <div className="flex h-5 items-center pl-1">
                 <input
+                  {...register('rememberMe')}
+                  className="h-5 w-5 rounded border-slate-200 dark:border-slate-600 bg-white dark:bg-surface-dark text-primary focus:ring-primary"
+                  id="rememberMe"
+                  type="checkbox"
+                />
+              </div>
+              <div className="ml-3 text-sm leading-6">
+                <label
+                  className="font-medium text-slate-700 dark:text-slate-300"
+                  htmlFor="rememberMe"
+                >
+                  Remember me
+                </label>
+              </div>
+            </div>
+          </div>
+          {/* <!-- Terms --> */}
+          <div>
+            <div className="flex items-start">
+              <div className="flex h-5 items-center pl-1">
+                <input
                   {...register('terms')}
                   className="h-5 w-5 rounded border-slate-200 dark:border-slate-600 bg-white dark:bg-surface-dark text-primary focus:ring-primary"
                   id="terms"
@@ -235,12 +281,19 @@ export function RightPanel() {
           </div>
           {/* <!-- Submit Button --> */}
           <button
-            disabled={isSubmitting}
+            disabled={isSubmitting || signupMutation.isPending}
             className="flex w-full items-center justify-center rounded-lg bg-primary px-3 py-3 text-sm font-bold text-white shadow-lg shadow-primary/25 hover:bg-blue-600 hover:shadow-primary/40 focus-visible:outline  focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
             type="submit"
           >
-            {isSubmitting ? 'Creating...' : 'Create Owner Account'}
+            {isSubmitting || signupMutation.isPending
+              ? 'Creating...'
+              : 'Create Admin Account'}
           </button>
+          {errorMessage && (
+            <p className="mt-1 text-sm text-red-600 text-center">
+              {errorMessage}
+            </p>
+          )}
         </form>
         {/* <!-- Divider --> */}
         <div className="relative mt-5">
@@ -262,7 +315,7 @@ export function RightPanel() {
           <Link
             className="font-semibold leading-6 text-primary hover:text-primary/80 gap-1 ml-1"
             to="/log-in"
-            search={{ role: 'owner', redirectTo: '/owner/dashboard' }}
+            search={{ role: 'admin', redirectTo: '/admin/dashboard' }}
             replace={true}
           >
             Log in
