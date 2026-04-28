@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { TeacherWithUser } from "@/lib/Types/TeacherTypes";
-import type { ApiResponse, Filters, PaginatedApiResponse } from "../../teacher/types/apiTypes";
+import type { ApiResponse, PaginatedApiResponse } from "@/lib/Types/ApiTypes";
+import type { Filters } from "@/lib/Types/FilterTypes";
 
 
 

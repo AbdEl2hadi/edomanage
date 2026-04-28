@@ -7,10 +7,8 @@ import {
 } from '@tanstack/react-query'
 
 import { notificationFetcher } from './fetcher'
-import type {
-  AddTeacherNotificationPayload,
-  NotificationFilter,
-} from '../types/apiTypes'
+import type { NotificationFilter } from '@/lib/Types/FilterTypes'
+import type { AddTeacherNotificationPayload } from '@/lib/Types/NotificationTypes'
 
 export const getTeacherNotificationsQueryOptions = (
   filterAndPagination: NotificationFilter,

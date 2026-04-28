@@ -4,9 +4,8 @@ import { Skeleton } from 'boneyard-js/react'
 import z from 'zod'
 import { columns } from '../../../components/teacher/resources/columns.tsx'
 
-import type { ResourceFilter } from '@/services/api/teacher/types/apiTypes.ts'
-import type { Resource } from '@/services/api/teacher/types/modelType.ts'
-
+import type { ResourceFilter } from '@/lib/Types/FilterTypes.ts'
+import type { Resource } from '@/lib/Types/ResourceTypes.ts'
 import { ResourcesTable } from '@/components/teacher/resources/resources-table.tsx'
 import { useFilterResource } from '@/hooks/teacher/use-filter-resource.ts'
 import useGetResources, {
@@ -68,8 +67,8 @@ function TeacherFolderContent() {
   const { filters, setFilters } = useFilterResource(Route.id)
 
   const paginationState = {
-    pageIndex: filters.pageIndex ?? 1,
-    pageSize: filters.pageSize ?? 5,
+    pageIndex: filters.page ?? 1,
+    pageSize: filters.size ?? 5,
   }
   /* useQuery to get data */
 
@@ -92,7 +91,7 @@ function TeacherFolderContent() {
 
   /* fix data to table*/
   const data: Array<Resource> = resourcesData?.data ?? []
-  const rowCount = resourcesData?.rowCount ?? 0
+  const rowCount = resourcesData?.rowCount ?? 0 // maybe you meant resourcesData?.pagination.totalElements
 
   /* */
   return !isCollectionLoading && collectionData === undefined ? (

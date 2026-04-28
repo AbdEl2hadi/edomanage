@@ -1,16 +1,30 @@
 import { filterResources } from './filter'
-import type {
-  CollectionFetcher,
-  PaginationData,
-  ResourceApiModel,
-  ResourceFilter,
-} from '../types/apiTypes'
-import type { Collection, Resource } from '../types/modelType'
+import type { Collection } from '@/lib/Types/CollectionTypes'
+import type { ResourceFilter } from '@/lib/Types/FilterTypes'
+import type { Resource, ResourceApiModel } from '@/lib/Types/ResourceTypes'
+import type { PaginatedSuccessResponse } from '@/lib/Types/ApiTypes'
 import { api } from '@/lib/api'
 
 const API_URL = 'http://localhost:4000'
 
-class JsonCollectionFetcher implements CollectionFetcher {
+export interface ICollectionFetcher {
+  getCollection: (collectionId: string) => Promise<Collection>
+  getAllCollections: (all: boolean) => Promise<Array<Collection>>
+  getResources: (
+    collectionId: string | undefined,
+    filterAndPagination: ResourceFilter,
+  ) => Promise<PaginatedSuccessResponse<Resource>>
+  addOrEditCollection: (
+    name: string,
+    role: 'add' | 'edit',
+    id?: string,
+  ) => Promise<void>
+  deleteCollection: (collectionId: string) => Promise<void>
+}
+
+
+
+class CollectionFetcher implements ICollectionFetcher {
   async getCollection(collectionId: string): Promise<Collection> {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     const response = await api.get<Collection>(
@@ -29,7 +43,7 @@ class JsonCollectionFetcher implements CollectionFetcher {
   async getResources(
     collectionId: string | undefined,
     searchParams: ResourceFilter,
-  ): Promise<PaginationData<Resource>> {
+  ): Promise<PaginationData<Resource>> { // maafa change this paginationData type with the paginatedStuccessResponse type since i can't find it anywhere 
     await new Promise((resolve) => setTimeout(resolve, 200))
     const response = await api.get<Array<ResourceApiModel>>(
       `${API_URL}/resources`,
@@ -65,4 +79,4 @@ class JsonCollectionFetcher implements CollectionFetcher {
   }
 }
 
-export const collectionFetcher: CollectionFetcher = new JsonCollectionFetcher()
+export const collectionFetcher: ICollectionFetcher = new CollectionFetcher()

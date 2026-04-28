@@ -7,10 +7,8 @@ import {
 } from '@tanstack/react-query'
 
 import { collectionFetcher } from './fetcher'
-import type {
-  AddOrEditCollectionPayload,
-  ResourceFilter,
-} from '../types/apiTypes'
+import type { ResourceFilter } from '@/lib/Types/FilterTypes'
+import type { AddOrEditCollectionPayload } from '@/lib/Types/CollectionTypes'
 
 export const getCollectionQueryOptions = (collectionId: string) =>
   queryOptions({

@@ -1,11 +1,11 @@
-import type { NotificationFilter, PaginationData } from '../types/apiTypes'
-import type { Notification } from '../types/modelType'
+import type { NotificationFilter } from "@/lib/Types/FilterTypes"
+import type { Notification } from "@/lib/Types/NotificationTypes"
 
 export const filterNotifications = (
   notifications: Array<Notification>,
   filterAndPagination: NotificationFilter,
 ): PaginationData<Notification> => {
-  const { pageIndex = 1, pageSize = 5, ...filters } = filterAndPagination
+  const { page = 1, size = 5, ...filters } = filterAndPagination
 
   const normalizedFilters = Object.entries(filters).reduce<
     Partial<Record<keyof Notification, string>>
@@ -38,8 +38,8 @@ export const filterNotifications = (
     return second - first
   })
 
-  const start = (pageIndex - 1) * pageSize
-  const end = start + pageSize
+  const start = (page - 1) * size
+  const end = start + size
 
   return {
     data: sorted.slice(start, end),

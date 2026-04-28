@@ -1,9 +1,6 @@
-import type { PaginationData, ResourceFilter } from '../types/apiTypes'
-import type { Resource } from '../types/modelType'
+import type { ResourceFilter } from "@/lib/Types/FilterTypes"
+import type { Resource, ResourceApiModel } from "@/lib/Types/ResourceTypes"
 
-type ResourceApiModel = Resource & {
-  collectionId?: string | number
-}
 
 const parseDateAdded = (dateValue: string): number => {
   const timestamp = Date.parse(dateValue)
@@ -35,8 +32,8 @@ export const filterResources = (
   searchParams: ResourceFilter,
 ): PaginationData<Resource> => {
   const {
-    pageIndex = 1,
-    pageSize = 5,
+    page = 1,
+    size = 5,
     sortBy = 'newest',
     ...filters
   } = searchParams
@@ -85,8 +82,8 @@ export const filterResources = (
     return parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded)
   })
 
-  const start = (pageIndex - 1) * pageSize
-  const end = start + pageSize
+  const start = (page - 1) * size
+  const end = start + size
 
   return {
     data: sorted

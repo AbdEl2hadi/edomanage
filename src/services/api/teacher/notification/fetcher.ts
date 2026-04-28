@@ -1,14 +1,24 @@
 import { filterNotifications } from './filter'
-import type {
-  AddTeacherNotificationPayload,
-  NotificationFetcher,
-  NotificationFilter,
-  PaginatedSuccessResponse,
-} from '../types/apiTypes'
-import type { Notification } from '../types/modelType'
+import type { AddTeacherNotificationPayload, Notification } from '@/lib/Types/NotificationTypes'
+import type { NotificationFilter } from '@/lib/Types/FilterTypes'
+import type { PaginatedSuccessResponse } from '@/lib/Types/ApiTypes'
 import { api, isAxiosError } from '@/lib/api'
 
 const API_URL = 'http://localhost:4000/teacherNotifications'
+
+
+export interface INotificationFetcher {
+  getTeacherNotifications: (
+    filterAndPagination: NotificationFilter,
+  ) => Promise<PaginatedSuccessResponse<Notification>>
+  getTeacherNotification: (notificationId: string) => Promise<Notification>
+  addTeacherNotification: (
+    payload: AddTeacherNotificationPayload,
+  ) => Promise<Notification>
+  deleteOwnNotification: (notificationId: string) => Promise<void>
+}
+
+
 
 /* handle notification response */
 const unwrapNotificationResponse = (
@@ -50,7 +60,7 @@ const buildAudience = (
   return role === 'teacher' ? ['Students'] : ['Teachers', 'Students']
 }
 
-class JsonNotificationFetcher implements NotificationFetcher {
+class NotificationFetcher implements INotificationFetcher {
   async getTeacherNotifications(
     filterAndPagination: NotificationFilter,
   ): Promise<PaginationData<Notification>> {
@@ -165,5 +175,4 @@ class JsonNotificationFetcher implements NotificationFetcher {
   }
 }
 
-export const notificationFetcher: NotificationFetcher =
-  new JsonNotificationFetcher()
+export const notificationFetcher: INotificationFetcher = new NotificationFetcher()
