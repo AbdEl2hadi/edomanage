@@ -10,7 +10,7 @@ import { notificationFetcher } from './fetcher'
 import type {
   AddTeacherNotificationPayload,
   NotificationFilter,
-} from '../types/apiType'
+} from '../types/apiTypes'
 
 export const getTeacherNotificationsQueryOptions = (
   filterAndPagination: NotificationFilter,

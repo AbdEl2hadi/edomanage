@@ -8,7 +8,7 @@ import type {
   PaginationState,
 } from '@tanstack/react-table'
 /* filter types*/
-import type { NotificationFilter } from '../../../services/api/teacher/types/apiType'
+import type { NotificationFilter } from '../../../services/api/teacher/types/apiTypes'
 import type {
   Notification,
   NotificationAttachment,

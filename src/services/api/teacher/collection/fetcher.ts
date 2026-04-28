@@ -6,7 +6,7 @@ import type {
   PaginationData,
   ResourceApiModel,
   ResourceFilter,
-} from '../types/apiType'
+} from '../types/apiTypes'
 import type { Collection, Resource } from '../types/modelType'
 
 const API_URL = 'http://localhost:4000'

@@ -11,7 +11,7 @@ import {
 } from 'date-fns'
 import { useMemo, useState } from 'react'
 import type { EventPropGetter, View } from 'react-big-calendar'
-import type { EventForm } from '@/routes/owner/calendar'
+import type { EventForm } from '@/routes/admin/calendar'
 import useGetEvents from '@/services/api/getEvents'
 import {
   Dialog,

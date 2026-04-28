@@ -1,4 +1,4 @@
-import type { NotificationFilter, PaginationData } from '../types/apiType'
+import type { NotificationFilter, PaginationData } from '../types/apiTypes'
 import type { Notification } from '../types/modelType'
 
 export const filterNotifications = (

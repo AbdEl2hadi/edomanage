@@ -17,12 +17,12 @@ import { useDeleteTeacher } from '@/services/api/owner/teacher/hooks'
 
 type Props = {
   role: 'student' | 'teacher'
-  id: string
+  id: string | undefined
 }
 
 export default function DeleteMenuItem({ role, id }: Props) {
-  const { mutate: deleteStudent } = useDeleteStudent(id)
-  const { mutate: deleteTeacher } = useDeleteTeacher(id)
+  const { mutate: deleteStudent } = useDeleteStudent(id ?? '')
+  const { mutate: deleteTeacher } = useDeleteTeacher(id ?? '')
 
   let DeleteElement
   if (role === 'student') {
@@ -32,38 +32,40 @@ export default function DeleteMenuItem({ role, id }: Props) {
   }
   return (
     <DropdownMenuItem asChild>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <div className="flex items-center gap-2 justify-center cursor-pointer text-center text-red-600 dark:text-red-400 hover:bg-gray-200 py-1.5 rounded-sm">
-            <Trash2 size="18" />
-            <p className="text-sm">Delete Student</p>
-          </div>
-        </AlertDialogTrigger>
-        <AlertDialogContent size="sm">
-          <AlertDialogHeader>
-            <AlertDialogMedia className="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400">
-              <Trash2Icon className="h-6 w-6" />
-            </AlertDialogMedia>
-            <AlertDialogTitle>Delete Student?</AlertDialogTitle>
-            <AlertDialogDescription className="text-slate-700 dark:text-slate-300">
-              This will permanently delete this student record. This action
-              cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
+      {id && (
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <div className="flex items-center gap-2 justify-center cursor-pointer text-center text-red-600 dark:text-red-400 hover:bg-gray-200 py-1.5 rounded-sm">
+              <Trash2 size="18" />
+              <p className="text-sm">Delete Student</p>
+            </div>
+          </AlertDialogTrigger>
+          <AlertDialogContent size="sm">
+            <AlertDialogHeader>
+              <AlertDialogMedia className="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400">
+                <Trash2Icon className="h-6 w-6" />
+              </AlertDialogMedia>
+              <AlertDialogTitle>Delete Student?</AlertDialogTitle>
+              <AlertDialogDescription className="text-slate-700 dark:text-slate-300">
+                This will permanently delete this student record. This action
+                cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
 
-          <AlertDialogFooter className="space-x-2">
-            <AlertDialogCancel variant="outline" className="cursor-pointer">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              className="cursor-pointer bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500"
-              onClick={() => DeleteElement()}
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+            <AlertDialogFooter className="space-x-2">
+              <AlertDialogCancel variant="outline" className="cursor-pointer">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className="cursor-pointer bg-red-600 text-white hover:bg-red-700 focus:ring-2 focus:ring-red-500"
+                onClick={() => DeleteElement()}
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </DropdownMenuItem>
   )
 }

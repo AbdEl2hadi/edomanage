@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import type { TypeTabFilter } from '@/services/api/teacher/types/apiType'
+import type { TypeTabFilter } from '@/services/api/teacher/types/apiTypes'
 import NotificationList from '@/components/notificationList'
 import { queryClient } from '@/lib/queryClient'
 

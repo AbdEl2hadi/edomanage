@@ -9,8 +9,9 @@ import DeleteMenuItem from '../DropDownMenuComp/DeleteMenuItem'
 import ViewProfileMenuItem from '../DropDownMenuComp/ViewProfileMenuItem'
 import CopyIdMenuItem from '../DropDownMenuComp/CopyIdMenuItem'
 import type { ColumnDef } from '@tanstack/react-table'
-import type { TeacherModel } from '@/services/api/owner/teacher/schemas'
-import type { StudentModel } from '@/services/api/owner/student/Schemas'
+
+import type { TeacherModel } from '@/services/api/owner/teacher/Schemas'
+import type { StudentWithUser } from '@/services/api/owner/student/Schemas'
 import ProfilePicGenerator from '@/components/owner/profilePicGenerator'
 import { Button } from '@/components/ui/button'
 
@@ -25,7 +26,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 // definition for the student columns in the student table
-export const StudentColumns: Array<ColumnDef<StudentModel>> = [
+export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -57,7 +58,10 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
       const student = row.original
       return (
         <div className="flex items-center justify-center">
-          <ProfilePicGenerator name={student.name} imgSrc={student.imgSrc} />
+          <ProfilePicGenerator
+            name={student.user.name}
+            imgSrc={student.user.image ?? ''}
+          />
         </div>
       )
     },
@@ -70,7 +74,7 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
     size: 20,
     cell: ({ row }) => (
       <span className="font-medium text-slate-900 dark:text-white">
-        {row.original.name}
+        {row.original.user.name}
       </span>
     ),
   },
@@ -80,11 +84,13 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
       return <StudentSortButton property="email" />
     },
     size: 28,
-    cell: ({ row }) => (
-      <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
-        {row.original.email}
-      </div>
-    ),
+    cell: ({ row }) => {
+      return (
+        <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
+          {row.original.user.email}
+        </div>
+      )
+    },
   },
   {
     accessorKey: 'grade',
@@ -163,15 +169,10 @@ export const StudentColumns: Array<ColumnDef<StudentModel>> = [
                 Actions
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-black" />
-
               <CopyIdMenuItem role="student" id={student.id} />
-
               <DropdownMenuSeparator className="bg-gray-300" />
-
               <ViewProfileMenuItem role="student" id={student.id} />
-
               <DropdownMenuSeparator className="bg-gray-300" />
-
               <DeleteMenuItem role="student" id={student.id} />
             </DropdownMenuContent>
           </DropdownMenu>
@@ -317,7 +318,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
 ]
 
 function StudentSortButton({ property }: { property: 'name' | 'email' }) {
-  const Route = getRouteApi('/owner/students/')
+  const Route = getRouteApi('/admin/students/')
   const navigate = Route.useNavigate()
   const { sortBy, sortOrder } = Route.useSearch({
     select: (s) => ({ sortBy: s.sortBy, sortOrder: s.sortOrder }),
@@ -331,7 +332,7 @@ function StudentSortButton({ property }: { property: 'name' | 'email' }) {
         onClick={() =>
           navigate({
             replace: true,
-            to: '/owner/students',
+            to: '/admin/students',
             search: (s) => ({
               ...s,
               sortBy: property,
@@ -353,7 +354,7 @@ function StudentSortButton({ property }: { property: 'name' | 'email' }) {
       onClick={() =>
         navigate({
           // replace: true,
-          to: '/owner/students',
+          to: '/admin/students',
           search: (s) => ({
             ...s,
             sortBy: property,
@@ -373,7 +374,7 @@ function StudentSortButton({ property }: { property: 'name' | 'email' }) {
 }
 
 function TeacherSortButton({ property }: { property: 'name' | 'email' }) {
-  const Route = getRouteApi('/owner/teachers/')
+  const Route = getRouteApi('/admin/teachers/')
   const navigate = Route.useNavigate()
   const { sortBy, sortOrder } = Route.useSearch({
     select: (s) => ({ sortBy: s.sortBy, sortOrder: s.sortOrder }),
@@ -387,7 +388,7 @@ function TeacherSortButton({ property }: { property: 'name' | 'email' }) {
         onClick={() =>
           navigate({
             replace: true,
-            to: '/owner/teachers',
+            to: '/admin/teachers',
             search: (s) => ({
               ...s,
               sortBy: property,
@@ -409,7 +410,7 @@ function TeacherSortButton({ property }: { property: 'name' | 'email' }) {
       onClick={() =>
         navigate({
           // replace: true,
-          to: '/owner/teachers',
+          to: '/admin/teachers',
           search: (s) => ({
             ...s,
             sortBy: property,

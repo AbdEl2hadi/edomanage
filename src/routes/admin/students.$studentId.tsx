@@ -1,6 +1,7 @@
 import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import z from 'zod'
 import type { EditStudentModel } from '@/services/api/owner/student/Schemas'
 import {
   getStudentQueryOptions,
@@ -11,12 +12,23 @@ import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
 import DatePickerField from '@/components/owner/DatePickerField'
 import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 
-export const Route = createFileRoute('/owner/students/$studentId')({
+export const Route = createFileRoute('/admin/students/$studentId')({
   component: RouteComponent,
-  loader: async ({ params: { studentId }, context }) => {
+  // params: {
+  //   parse: (params) => ({
+  //     studentId: z.string().parse(params.studentId),
+  //   }),
+  // },
+  loader: async ({ params, context }) => {
+    const { studentId } = params
     const student = await context.queryClient.ensureQueryData(
       getStudentQueryOptions(studentId),
     )
+    console.log(studentId)
+    // console.log({ student: student. })
+    // if (studentId === student?.id) {
+    //   console.log('Student data loaded successfully in loader')
+    // }
     if (!student) {
       throw notFound()
     }
@@ -25,6 +37,8 @@ export const Route = createFileRoute('/owner/students/$studentId')({
 
 function RouteComponent() {
   const { studentId } = Route.useParams()
+
+  console.log(studentId)
 
   const [showPassword, setShowPassword] = useState(false)
   const [allowAccess, setAllowAccess] = useState(true)
@@ -90,7 +104,7 @@ function RouteComponent() {
                       label="Gender"
                       name="gender"
                       placeholder="pick your gender"
-                      values={['female', 'male']}
+                      values={['Female', 'Male']}
                     />
                   </div>
                 </div>
@@ -137,11 +151,11 @@ function RouteComponent() {
                     Academic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <DatePickerField
+                    {/* <DatePickerField
                       name="enrollmentDate"
                       label="Enrollment Date"
                       form={studentForm}
-                    />
+                    /> */}
                     <SelectWrapper
                       form={studentForm}
                       label="Class / Grade"
@@ -155,6 +169,21 @@ function RouteComponent() {
                         'Grade 5',
                         'Grade 6',
                         'Grade 7',
+                      ]}
+                    />
+                    <SelectWrapper
+                      form={studentForm}
+                      label="Classe"
+                      name="classe"
+                      placeholder="pick your classe"
+                      values={[
+                        'Classe 1',
+                        'Classe 2',
+                        'Classe 3',
+                        'Classe 4',
+                        'Classe 5',
+                        'Classe 6',
+                        'Classe 7',
                       ]}
                     />
                   </div>
@@ -214,7 +243,7 @@ function RouteComponent() {
                   </div>
                 </div>
                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
-                  <Link to="/owner/students">
+                  <Link to="/admin/students">
                     <button
                       type="button"
                       className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"

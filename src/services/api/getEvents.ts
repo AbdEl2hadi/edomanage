@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
-import type { EventForm } from '../../routes/owner/calendar'
+import type { EventForm } from '../../routes/admin/calendar'
 
 function getEvents(className?: string, teacherId?: string, isOwner = false) {
   const now = new Date()

@@ -282,7 +282,7 @@ import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
 import DatePickerField from '@/components/owner/DatePickerField'
 import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 
-export const Route = createFileRoute('/owner/teachers/$teacherId')({
+export const Route = createFileRoute('/admin/teachers/$teacherId')({
   component: RouteComponent,
   loader: async ({ params: { teacherId }, context }) => {
     const teacher = await context.queryClient.ensureQueryData(

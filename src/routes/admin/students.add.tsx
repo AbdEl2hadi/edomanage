@@ -7,7 +7,7 @@ import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 import { useAddStudent } from '@/services/api/owner/student/hooks'
 import ProfilePicWrapper from '@/components/owner/Wrappers/ProfilePicWrapper'
 
-export const Route = createFileRoute('/owner/students/add')({
+export const Route = createFileRoute('/admin/students/add')({
   component: RouteComponent,
   head: () => ({
     meta: [{ title: 'Owner | Add Student - EduManage' }],
@@ -72,7 +72,7 @@ function RouteComponent() {
                       label="Gender"
                       name="gender"
                       placeholder="pick your gender"
-                      values={['female', 'male']}
+                      values={['Female', 'Male']}
                     />
                   </div>
                 </div>
@@ -119,14 +119,10 @@ function RouteComponent() {
                     Academic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <DatePickerField
-                      name="enrollmentDate"
-                      label="Enrollment Date"
-                      form={studentForm}
-                    />
+                    
                     <SelectWrapper
                       form={studentForm}
-                      label="Class / Grade"
+                      label="Grade"
                       name="grade"
                       placeholder="pick your grade"
                       values={[
@@ -137,6 +133,21 @@ function RouteComponent() {
                         'Grade 5',
                         'Grade 6',
                         'Grade 7',
+                      ]}
+                    />
+                    <SelectWrapper
+                      form={studentForm}
+                      label="Classe"
+                      name="classe"
+                      placeholder="pick your classe"
+                      values={[
+                        'Classe 1',
+                        'Classe 2',
+                        'Classe 3',
+                        'Classe 4',
+                        'Classe 5',
+                        'Classe 6',
+                        'Classe 7',
                       ]}
                     />
                   </div>
@@ -172,14 +183,14 @@ function RouteComponent() {
                       <label className="text-[#111318] dark:text-gray-200 text-sm font-medium">
                         Temporary Password
                       </label>
-                      <div className="relative">
+                      <div className="relative h-full">
                         <input
                           className="w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white focus:ring-2 focus:ring-primary/50 transition-all"
                           type={showPassword ? 'text' : 'password'}
                         />
                         <button
                           type="button"
-                          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318] dark:hover:text-white dark:text-gray-400 cursor-pointer"
+                          className="absolute right-4 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318] dark:hover:text-white dark:text-gray-400 cursor-pointer flex items-center justify-center"
                           onClick={togglePassword}
                         >
                           <span className="material-symbols-outlined">
@@ -195,7 +206,7 @@ function RouteComponent() {
                   </div>
                 </div>
                 <div className="p-6 bg-[#f8f9fc] dark:bg-[#151a25] border-t border-[#f0f2f4] dark:border-gray-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-4 rounded-b-xl">
-                  <Link to="/owner/students">
+                  <Link to="/admin/students">
                     <button
                       type="button"
                       className="w-full sm:w-auto h-10 px-6 rounded-lg border border-transparent text-[#616f89] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-bold text-sm transition-colors cursor-pointer"

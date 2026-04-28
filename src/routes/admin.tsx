@@ -5,19 +5,19 @@ import SideBar from '@/components/side_bar'
 import TopNav from '@/components/top_nav'
 import { Toaster } from '@/components/ui/sonner'
 
-export const Route = createFileRoute('/owner')({
-  component: Owner,
+export const Route = createFileRoute('/admin')({
+  component: Admin,
   head: () => ({
     meta: [
       {
-        title: 'Owner - EduManage',
+        title: 'Admin - EduManage',
       },
     ],
   }),
 })
 
 const info = {
-  layout: 'owner',
+  layout: 'admin',
   list: [
     { name: 'Dashboard', icon: 'dashboard' },
     { name: 'Calendar', icon: 'calendar_month' },
@@ -29,14 +29,14 @@ const info = {
   ],
 }
 
-function Owner() {
+function Admin() {
   const location = useLocation()
   const path: Array<string> = [...location.pathname.split('/')]
 
   return (
     <div className="bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 h-screen overflow-hidden flex flex-row">
       <Toaster position="top-center" />
-      
+
       <SideBar info={info} />
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <TopNav />
@@ -48,14 +48,16 @@ function Owner() {
           <span className="text-slate-900 dark:text-white capitalize">
             {path[2]}
           </span>
-          <Activity mode={path[3] ? 'visible' : 'hidden'}>
-            <span className="mx-2 text-slate-400 dark:text-slate-600">
-              &gt;
-            </span>
-            <span className="text-slate-900 dark:text-white capitalize">
-              {path[3]}
-            </span>
-          </Activity>
+          {path[3] && (
+            <Activity mode={path[3] ? 'visible' : 'hidden'}>
+              <span className="mx-2 text-slate-400 dark:text-slate-600">
+                &gt;
+              </span>
+              <span className="text-slate-900 dark:text-white capitalize">
+                {path[3]}
+              </span>
+            </Activity>
+          )}
         </nav>
         <Outlet />
       </main>

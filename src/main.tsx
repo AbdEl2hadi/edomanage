@@ -6,7 +6,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { NotFound } from './components/NotFound'
-import { ErrorComponent}from './components/error'
+import { ErrorComponent } from './components/error'
 import Loading from './components/loading.tsx'
 import { queryClient } from './lib/queryClient'
 import { ThemeProvider } from './features/theme/theme-provider'
@@ -17,7 +17,7 @@ import reportWebVitals from './reportWebVitals.ts'
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  
+  basepath: '/',
   context: { queryClient },
   defaultErrorComponent: ErrorComponent,
   defaultNotFoundComponent: NotFound,

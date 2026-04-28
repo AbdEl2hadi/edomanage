@@ -12,32 +12,32 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
 import { Route as StudentRouteImport } from './routes/student'
 import { Route as SignUpRouteImport } from './routes/sign-up'
-import { Route as OwnerRouteImport } from './routes/owner'
 import { Route as LogInRouteImport } from './routes/log-in'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeacherSettingsRouteImport } from './routes/teacher/settings'
 import { Route as TeacherCalendarRouteImport } from './routes/teacher/calendar'
 import { Route as StudentSettingsRouteImport } from './routes/student/settings'
 import { Route as StudentCoursesRouteImport } from './routes/student/courses'
 import { Route as StudentCalendarRouteImport } from './routes/student/calendar'
-import { Route as OwnerSettingsRouteImport } from './routes/owner/settings'
-import { Route as OwnerDashboardRouteImport } from './routes/owner/dashboard'
-import { Route as OwnerCalendarRouteImport } from './routes/owner/calendar'
-import { Route as OwnerAnnouncementsRouteImport } from './routes/owner/announcements'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
+import { Route as AdminAnnouncementsRouteImport } from './routes/admin/announcements'
 import { Route as TeacherNotificationsIndexRouteImport } from './routes/teacher/notifications/index'
 import { Route as TeacherClassesIndexRouteImport } from './routes/teacher/classes/index'
 import { Route as StudentNotificationIndexRouteImport } from './routes/student/notification/index'
-import { Route as OwnerTeachersIndexRouteImport } from './routes/owner/teachers.index'
-import { Route as OwnerStudentsIndexRouteImport } from './routes/owner/students.index'
+import { Route as AdminTeachersIndexRouteImport } from './routes/admin/teachers.index'
+import { Route as AdminStudentsIndexRouteImport } from './routes/admin/students.index'
 import { Route as TeacherNotificationsAddRouteImport } from './routes/teacher/notifications/add'
 import { Route as TeacherNotificationsNotificationIdRouteImport } from './routes/teacher/notifications/$notificationId'
 import { Route as TeacherClassesAllCollectionsRouteImport } from './routes/teacher/classes/allCollections'
 import { Route as TeacherClassesFolderIdRouteImport } from './routes/teacher/classes/$folderId'
 import { Route as StudentNotificationNotificationIdRouteImport } from './routes/student/notification/$notificationId'
-import { Route as OwnerTeachersAddRouteImport } from './routes/owner/teachers.add'
-import { Route as OwnerTeachersTeacherIdRouteImport } from './routes/owner/teachers.$teacherId'
-import { Route as OwnerStudentsAddRouteImport } from './routes/owner/students.add'
-import { Route as OwnerStudentsStudentIdRouteImport } from './routes/owner/students.$studentId'
+import { Route as AdminTeachersAddRouteImport } from './routes/admin/teachers.add'
+import { Route as AdminTeachersTeacherIdRouteImport } from './routes/admin/teachers.$teacherId'
+import { Route as AdminStudentsAddRouteImport } from './routes/admin/students.add'
+import { Route as AdminStudentsStudentIdRouteImport } from './routes/admin/students.$studentId'
 
 const TeacherRoute = TeacherRouteImport.update({
   id: '/teacher',
@@ -54,14 +54,14 @@ const SignUpRoute = SignUpRouteImport.update({
   path: '/sign-up',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OwnerRoute = OwnerRouteImport.update({
-  id: '/owner',
-  path: '/owner',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LogInRoute = LogInRouteImport.update({
   id: '/log-in',
   path: '/log-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -94,25 +94,25 @@ const StudentCalendarRoute = StudentCalendarRouteImport.update({
   path: '/calendar',
   getParentRoute: () => StudentRoute,
 } as any)
-const OwnerSettingsRoute = OwnerSettingsRouteImport.update({
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerDashboardRoute = OwnerDashboardRouteImport.update({
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerCalendarRoute = OwnerCalendarRouteImport.update({
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerAnnouncementsRoute = OwnerAnnouncementsRouteImport.update({
+const AdminAnnouncementsRoute = AdminAnnouncementsRouteImport.update({
   id: '/announcements',
   path: '/announcements',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
 const TeacherNotificationsIndexRoute =
   TeacherNotificationsIndexRouteImport.update({
@@ -131,15 +131,15 @@ const StudentNotificationIndexRoute =
     path: '/notification/',
     getParentRoute: () => StudentRoute,
   } as any)
-const OwnerTeachersIndexRoute = OwnerTeachersIndexRouteImport.update({
+const AdminTeachersIndexRoute = AdminTeachersIndexRouteImport.update({
   id: '/teachers/',
   path: '/teachers/',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerStudentsIndexRoute = OwnerStudentsIndexRouteImport.update({
+const AdminStudentsIndexRoute = AdminStudentsIndexRouteImport.update({
   id: '/students/',
   path: '/students/',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
 const TeacherNotificationsAddRoute = TeacherNotificationsAddRouteImport.update({
   id: '/notifications/add',
@@ -169,85 +169,85 @@ const StudentNotificationNotificationIdRoute =
     path: '/notification/$notificationId',
     getParentRoute: () => StudentRoute,
   } as any)
-const OwnerTeachersAddRoute = OwnerTeachersAddRouteImport.update({
+const AdminTeachersAddRoute = AdminTeachersAddRouteImport.update({
   id: '/teachers/add',
   path: '/teachers/add',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerTeachersTeacherIdRoute = OwnerTeachersTeacherIdRouteImport.update({
+const AdminTeachersTeacherIdRoute = AdminTeachersTeacherIdRouteImport.update({
   id: '/teachers/$teacherId',
   path: '/teachers/$teacherId',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerStudentsAddRoute = OwnerStudentsAddRouteImport.update({
+const AdminStudentsAddRoute = AdminStudentsAddRouteImport.update({
   id: '/students/add',
   path: '/students/add',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
-const OwnerStudentsStudentIdRoute = OwnerStudentsStudentIdRouteImport.update({
+const AdminStudentsStudentIdRoute = AdminStudentsStudentIdRouteImport.update({
   id: '/students/$studentId',
   path: '/students/$studentId',
-  getParentRoute: () => OwnerRoute,
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/log-in': typeof LogInRoute
-  '/owner': typeof OwnerRouteWithChildren
   '/sign-up': typeof SignUpRoute
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
-  '/owner/announcements': typeof OwnerAnnouncementsRoute
-  '/owner/calendar': typeof OwnerCalendarRoute
-  '/owner/dashboard': typeof OwnerDashboardRoute
-  '/owner/settings': typeof OwnerSettingsRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
-  '/owner/students/$studentId': typeof OwnerStudentsStudentIdRoute
-  '/owner/students/add': typeof OwnerStudentsAddRoute
-  '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
-  '/owner/teachers/add': typeof OwnerTeachersAddRoute
+  '/admin/students/$studentId': typeof AdminStudentsStudentIdRoute
+  '/admin/students/add': typeof AdminStudentsAddRoute
+  '/admin/teachers/$teacherId': typeof AdminTeachersTeacherIdRoute
+  '/admin/teachers/add': typeof AdminTeachersAddRoute
   '/student/notification/$notificationId': typeof StudentNotificationNotificationIdRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
   '/teacher/notifications/$notificationId': typeof TeacherNotificationsNotificationIdRoute
   '/teacher/notifications/add': typeof TeacherNotificationsAddRoute
-  '/owner/students': typeof OwnerStudentsIndexRoute
-  '/owner/teachers': typeof OwnerTeachersIndexRoute
+  '/admin/students': typeof AdminStudentsIndexRoute
+  '/admin/teachers': typeof AdminTeachersIndexRoute
   '/student/notification': typeof StudentNotificationIndexRoute
   '/teacher/classes': typeof TeacherClassesIndexRoute
   '/teacher/notifications': typeof TeacherNotificationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/log-in': typeof LogInRoute
-  '/owner': typeof OwnerRouteWithChildren
   '/sign-up': typeof SignUpRoute
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
-  '/owner/announcements': typeof OwnerAnnouncementsRoute
-  '/owner/calendar': typeof OwnerCalendarRoute
-  '/owner/dashboard': typeof OwnerDashboardRoute
-  '/owner/settings': typeof OwnerSettingsRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
-  '/owner/students/$studentId': typeof OwnerStudentsStudentIdRoute
-  '/owner/students/add': typeof OwnerStudentsAddRoute
-  '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
-  '/owner/teachers/add': typeof OwnerTeachersAddRoute
+  '/admin/students/$studentId': typeof AdminStudentsStudentIdRoute
+  '/admin/students/add': typeof AdminStudentsAddRoute
+  '/admin/teachers/$teacherId': typeof AdminTeachersTeacherIdRoute
+  '/admin/teachers/add': typeof AdminTeachersAddRoute
   '/student/notification/$notificationId': typeof StudentNotificationNotificationIdRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
   '/teacher/notifications/$notificationId': typeof TeacherNotificationsNotificationIdRoute
   '/teacher/notifications/add': typeof TeacherNotificationsAddRoute
-  '/owner/students': typeof OwnerStudentsIndexRoute
-  '/owner/teachers': typeof OwnerTeachersIndexRoute
+  '/admin/students': typeof AdminStudentsIndexRoute
+  '/admin/teachers': typeof AdminTeachersIndexRoute
   '/student/notification': typeof StudentNotificationIndexRoute
   '/teacher/classes': typeof TeacherClassesIndexRoute
   '/teacher/notifications': typeof TeacherNotificationsIndexRoute
@@ -255,31 +255,31 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/log-in': typeof LogInRoute
-  '/owner': typeof OwnerRouteWithChildren
   '/sign-up': typeof SignUpRoute
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
-  '/owner/announcements': typeof OwnerAnnouncementsRoute
-  '/owner/calendar': typeof OwnerCalendarRoute
-  '/owner/dashboard': typeof OwnerDashboardRoute
-  '/owner/settings': typeof OwnerSettingsRoute
+  '/admin/announcements': typeof AdminAnnouncementsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
   '/student/settings': typeof StudentSettingsRoute
   '/teacher/calendar': typeof TeacherCalendarRoute
   '/teacher/settings': typeof TeacherSettingsRoute
-  '/owner/students/$studentId': typeof OwnerStudentsStudentIdRoute
-  '/owner/students/add': typeof OwnerStudentsAddRoute
-  '/owner/teachers/$teacherId': typeof OwnerTeachersTeacherIdRoute
-  '/owner/teachers/add': typeof OwnerTeachersAddRoute
+  '/admin/students/$studentId': typeof AdminStudentsStudentIdRoute
+  '/admin/students/add': typeof AdminStudentsAddRoute
+  '/admin/teachers/$teacherId': typeof AdminTeachersTeacherIdRoute
+  '/admin/teachers/add': typeof AdminTeachersAddRoute
   '/student/notification/$notificationId': typeof StudentNotificationNotificationIdRoute
   '/teacher/classes/$folderId': typeof TeacherClassesFolderIdRoute
   '/teacher/classes/allCollections': typeof TeacherClassesAllCollectionsRoute
   '/teacher/notifications/$notificationId': typeof TeacherNotificationsNotificationIdRoute
   '/teacher/notifications/add': typeof TeacherNotificationsAddRoute
-  '/owner/students/': typeof OwnerStudentsIndexRoute
-  '/owner/teachers/': typeof OwnerTeachersIndexRoute
+  '/admin/students/': typeof AdminStudentsIndexRoute
+  '/admin/teachers/': typeof AdminTeachersIndexRoute
   '/student/notification/': typeof StudentNotificationIndexRoute
   '/teacher/classes/': typeof TeacherClassesIndexRoute
   '/teacher/notifications/': typeof TeacherNotificationsIndexRoute
@@ -288,93 +288,93 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/log-in'
-    | '/owner'
     | '/sign-up'
     | '/student'
     | '/teacher'
-    | '/owner/announcements'
-    | '/owner/calendar'
-    | '/owner/dashboard'
-    | '/owner/settings'
+    | '/admin/announcements'
+    | '/admin/calendar'
+    | '/admin/dashboard'
+    | '/admin/settings'
     | '/student/calendar'
     | '/student/courses'
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
-    | '/owner/students/$studentId'
-    | '/owner/students/add'
-    | '/owner/teachers/$teacherId'
-    | '/owner/teachers/add'
+    | '/admin/students/$studentId'
+    | '/admin/students/add'
+    | '/admin/teachers/$teacherId'
+    | '/admin/teachers/add'
     | '/student/notification/$notificationId'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
     | '/teacher/notifications/$notificationId'
     | '/teacher/notifications/add'
-    | '/owner/students'
-    | '/owner/teachers'
+    | '/admin/students'
+    | '/admin/teachers'
     | '/student/notification'
     | '/teacher/classes'
     | '/teacher/notifications'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/log-in'
-    | '/owner'
     | '/sign-up'
     | '/student'
     | '/teacher'
-    | '/owner/announcements'
-    | '/owner/calendar'
-    | '/owner/dashboard'
-    | '/owner/settings'
+    | '/admin/announcements'
+    | '/admin/calendar'
+    | '/admin/dashboard'
+    | '/admin/settings'
     | '/student/calendar'
     | '/student/courses'
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
-    | '/owner/students/$studentId'
-    | '/owner/students/add'
-    | '/owner/teachers/$teacherId'
-    | '/owner/teachers/add'
+    | '/admin/students/$studentId'
+    | '/admin/students/add'
+    | '/admin/teachers/$teacherId'
+    | '/admin/teachers/add'
     | '/student/notification/$notificationId'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
     | '/teacher/notifications/$notificationId'
     | '/teacher/notifications/add'
-    | '/owner/students'
-    | '/owner/teachers'
+    | '/admin/students'
+    | '/admin/teachers'
     | '/student/notification'
     | '/teacher/classes'
     | '/teacher/notifications'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/log-in'
-    | '/owner'
     | '/sign-up'
     | '/student'
     | '/teacher'
-    | '/owner/announcements'
-    | '/owner/calendar'
-    | '/owner/dashboard'
-    | '/owner/settings'
+    | '/admin/announcements'
+    | '/admin/calendar'
+    | '/admin/dashboard'
+    | '/admin/settings'
     | '/student/calendar'
     | '/student/courses'
     | '/student/settings'
     | '/teacher/calendar'
     | '/teacher/settings'
-    | '/owner/students/$studentId'
-    | '/owner/students/add'
-    | '/owner/teachers/$teacherId'
-    | '/owner/teachers/add'
+    | '/admin/students/$studentId'
+    | '/admin/students/add'
+    | '/admin/teachers/$teacherId'
+    | '/admin/teachers/add'
     | '/student/notification/$notificationId'
     | '/teacher/classes/$folderId'
     | '/teacher/classes/allCollections'
     | '/teacher/notifications/$notificationId'
     | '/teacher/notifications/add'
-    | '/owner/students/'
-    | '/owner/teachers/'
+    | '/admin/students/'
+    | '/admin/teachers/'
     | '/student/notification/'
     | '/teacher/classes/'
     | '/teacher/notifications/'
@@ -382,8 +382,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   LogInRoute: typeof LogInRoute
-  OwnerRoute: typeof OwnerRouteWithChildren
   SignUpRoute: typeof SignUpRoute
   StudentRoute: typeof StudentRouteWithChildren
   TeacherRoute: typeof TeacherRouteWithChildren
@@ -412,18 +412,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignUpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/owner': {
-      id: '/owner'
-      path: '/owner'
-      fullPath: '/owner'
-      preLoaderRoute: typeof OwnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/log-in': {
       id: '/log-in'
       path: '/log-in'
       fullPath: '/log-in'
       preLoaderRoute: typeof LogInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -468,33 +468,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentCalendarRouteImport
       parentRoute: typeof StudentRoute
     }
-    '/owner/settings': {
-      id: '/owner/settings'
+    '/admin/settings': {
+      id: '/admin/settings'
       path: '/settings'
-      fullPath: '/owner/settings'
-      preLoaderRoute: typeof OwnerSettingsRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/dashboard': {
-      id: '/owner/dashboard'
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
       path: '/dashboard'
-      fullPath: '/owner/dashboard'
-      preLoaderRoute: typeof OwnerDashboardRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/calendar': {
-      id: '/owner/calendar'
+    '/admin/calendar': {
+      id: '/admin/calendar'
       path: '/calendar'
-      fullPath: '/owner/calendar'
-      preLoaderRoute: typeof OwnerCalendarRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/announcements': {
-      id: '/owner/announcements'
+    '/admin/announcements': {
+      id: '/admin/announcements'
       path: '/announcements'
-      fullPath: '/owner/announcements'
-      preLoaderRoute: typeof OwnerAnnouncementsRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof AdminAnnouncementsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/teacher/notifications/': {
       id: '/teacher/notifications/'
@@ -517,19 +517,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentNotificationIndexRouteImport
       parentRoute: typeof StudentRoute
     }
-    '/owner/teachers/': {
-      id: '/owner/teachers/'
+    '/admin/teachers/': {
+      id: '/admin/teachers/'
       path: '/teachers'
-      fullPath: '/owner/teachers'
-      preLoaderRoute: typeof OwnerTeachersIndexRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/teachers'
+      preLoaderRoute: typeof AdminTeachersIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/students/': {
-      id: '/owner/students/'
+    '/admin/students/': {
+      id: '/admin/students/'
       path: '/students'
-      fullPath: '/owner/students'
-      preLoaderRoute: typeof OwnerStudentsIndexRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/students'
+      preLoaderRoute: typeof AdminStudentsIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/teacher/notifications/add': {
       id: '/teacher/notifications/add'
@@ -566,64 +566,64 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentNotificationNotificationIdRouteImport
       parentRoute: typeof StudentRoute
     }
-    '/owner/teachers/add': {
-      id: '/owner/teachers/add'
+    '/admin/teachers/add': {
+      id: '/admin/teachers/add'
       path: '/teachers/add'
-      fullPath: '/owner/teachers/add'
-      preLoaderRoute: typeof OwnerTeachersAddRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/teachers/add'
+      preLoaderRoute: typeof AdminTeachersAddRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/teachers/$teacherId': {
-      id: '/owner/teachers/$teacherId'
+    '/admin/teachers/$teacherId': {
+      id: '/admin/teachers/$teacherId'
       path: '/teachers/$teacherId'
-      fullPath: '/owner/teachers/$teacherId'
-      preLoaderRoute: typeof OwnerTeachersTeacherIdRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/teachers/$teacherId'
+      preLoaderRoute: typeof AdminTeachersTeacherIdRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/students/add': {
-      id: '/owner/students/add'
+    '/admin/students/add': {
+      id: '/admin/students/add'
       path: '/students/add'
-      fullPath: '/owner/students/add'
-      preLoaderRoute: typeof OwnerStudentsAddRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/students/add'
+      preLoaderRoute: typeof AdminStudentsAddRouteImport
+      parentRoute: typeof AdminRoute
     }
-    '/owner/students/$studentId': {
-      id: '/owner/students/$studentId'
+    '/admin/students/$studentId': {
+      id: '/admin/students/$studentId'
       path: '/students/$studentId'
-      fullPath: '/owner/students/$studentId'
-      preLoaderRoute: typeof OwnerStudentsStudentIdRouteImport
-      parentRoute: typeof OwnerRoute
+      fullPath: '/admin/students/$studentId'
+      preLoaderRoute: typeof AdminStudentsStudentIdRouteImport
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
-interface OwnerRouteChildren {
-  OwnerAnnouncementsRoute: typeof OwnerAnnouncementsRoute
-  OwnerCalendarRoute: typeof OwnerCalendarRoute
-  OwnerDashboardRoute: typeof OwnerDashboardRoute
-  OwnerSettingsRoute: typeof OwnerSettingsRoute
-  OwnerStudentsStudentIdRoute: typeof OwnerStudentsStudentIdRoute
-  OwnerStudentsAddRoute: typeof OwnerStudentsAddRoute
-  OwnerTeachersTeacherIdRoute: typeof OwnerTeachersTeacherIdRoute
-  OwnerTeachersAddRoute: typeof OwnerTeachersAddRoute
-  OwnerStudentsIndexRoute: typeof OwnerStudentsIndexRoute
-  OwnerTeachersIndexRoute: typeof OwnerTeachersIndexRoute
+interface AdminRouteChildren {
+  AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
+  AdminCalendarRoute: typeof AdminCalendarRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStudentsStudentIdRoute: typeof AdminStudentsStudentIdRoute
+  AdminStudentsAddRoute: typeof AdminStudentsAddRoute
+  AdminTeachersTeacherIdRoute: typeof AdminTeachersTeacherIdRoute
+  AdminTeachersAddRoute: typeof AdminTeachersAddRoute
+  AdminStudentsIndexRoute: typeof AdminStudentsIndexRoute
+  AdminTeachersIndexRoute: typeof AdminTeachersIndexRoute
 }
 
-const OwnerRouteChildren: OwnerRouteChildren = {
-  OwnerAnnouncementsRoute: OwnerAnnouncementsRoute,
-  OwnerCalendarRoute: OwnerCalendarRoute,
-  OwnerDashboardRoute: OwnerDashboardRoute,
-  OwnerSettingsRoute: OwnerSettingsRoute,
-  OwnerStudentsStudentIdRoute: OwnerStudentsStudentIdRoute,
-  OwnerStudentsAddRoute: OwnerStudentsAddRoute,
-  OwnerTeachersTeacherIdRoute: OwnerTeachersTeacherIdRoute,
-  OwnerTeachersAddRoute: OwnerTeachersAddRoute,
-  OwnerStudentsIndexRoute: OwnerStudentsIndexRoute,
-  OwnerTeachersIndexRoute: OwnerTeachersIndexRoute,
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnnouncementsRoute: AdminAnnouncementsRoute,
+  AdminCalendarRoute: AdminCalendarRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminStudentsStudentIdRoute: AdminStudentsStudentIdRoute,
+  AdminStudentsAddRoute: AdminStudentsAddRoute,
+  AdminTeachersTeacherIdRoute: AdminTeachersTeacherIdRoute,
+  AdminTeachersAddRoute: AdminTeachersAddRoute,
+  AdminStudentsIndexRoute: AdminStudentsIndexRoute,
+  AdminTeachersIndexRoute: AdminTeachersIndexRoute,
 }
 
-const OwnerRouteWithChildren = OwnerRoute._addFileChildren(OwnerRouteChildren)
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface StudentRouteChildren {
   StudentCalendarRoute: typeof StudentCalendarRoute
@@ -673,8 +673,8 @@ const TeacherRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   LogInRoute: LogInRoute,
-  OwnerRoute: OwnerRouteWithChildren,
   SignUpRoute: SignUpRoute,
   StudentRoute: StudentRouteWithChildren,
   TeacherRoute: TeacherRouteWithChildren,

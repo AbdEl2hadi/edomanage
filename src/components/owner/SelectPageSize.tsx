@@ -1,3 +1,4 @@
+import { Fragment } from 'react/jsx-runtime'
 import {
   Select,
   SelectContent,
@@ -28,9 +29,8 @@ export function SelectPageSize({
       </SelectTrigger>
       <SelectContent className="bg-background-light dark:bg-background-dark dark:text-white">
         {options.map((sizeOption) => (
-          <>
+          <Fragment key={sizeOption}>
             <SelectItem
-              key={sizeOption}
               value={`${sizeOption}`}
               className="bg-background-light dark:bg-background-dark"
             >
@@ -39,7 +39,7 @@ export function SelectPageSize({
             {sizeOption !== options[options.length - 1] && (
               <SelectSeparator className=" dark:bg-white bg-black" />
             )}
-          </>
+          </Fragment>
         ))}
       </SelectContent>
     </Select>

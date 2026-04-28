@@ -3,7 +3,6 @@ import type {
   Notification,
   Resource,
   ResourceApiModel,
-  ResourceSortOption,
 } from './modelType'
 
 export type SuccessResponse<T> = {
@@ -12,12 +11,32 @@ export type SuccessResponse<T> = {
   data: T
 }
 
-export type ErrorResponse = {
-  success: false
+export enum ErrorTypes {
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  HTTP_ERROR = 'HTTP_ERROR',
+  INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR'
+}
+
+interface ErrorResponse {
+  success: false,
+}
+
+type ValidationErrorResponse = ErrorResponse & {
+  errorType: ErrorTypes.VALIDATION_ERROR,
+  issues: Array<string>
+}
+
+type HTTPErrorResponse = ErrorResponse & {
+  errorType: ErrorTypes.HTTP_ERROR,
   message: string
 }
 
-export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse
+type InternalServerErrorResponse = ErrorResponse & {
+  errorType: ErrorTypes.INTERNAL_SERVER_ERROR,
+  message: string
+}
+
+export type ApiResponse<T> = SuccessResponse<T> | ValidationErrorResponse | HTTPErrorResponse | InternalServerErrorResponse
 
 export type PaginatedSuccessResponse<T> = SuccessResponse<Array<T>> & {
   pagination: {
@@ -28,26 +47,27 @@ export type PaginatedSuccessResponse<T> = SuccessResponse<Array<T>> & {
 
 export type PaginatedApiResponse<T> =
   | PaginatedSuccessResponse<T>
-  | ErrorResponse
+  | ValidationErrorResponse | HTTPErrorResponse | InternalServerErrorResponse
 
-export type PaginationData<T> = {
-  data: Array<T>
-  rowCount: number
-}
 
 export type PaginationParams = {
-  pageIndex: number
-  pageSize: number
+  page: number
+  size: number
 }
 
-export type Filter<T> = Partial<T & PaginationParams>
+// export type Filter<T> = Partial<T & PaginationParams>
+export type SortParams<T extends string = string> = { sortBy: T, sortOrder: "asc" | "desc" | null }
+export type Filters<T> = Partial<T & PaginationParams & SortParams> & {
+  search?: string
+}
+
+
+
 export type TypeTabFilter = 'All' | 'Urgent' | 'Administration'
 
-export type ResourceFilter = Filter<Resource> & {
-  sortBy?: ResourceSortOption
-}
+export type ResourceFilter = Filters<Resource>
 
-export type NotificationFilter = Filter<Notification>
+export type NotificationFilter = Filters<Notification>
 
 export type AddOrEditCollectionPayload = {
   name: string
@@ -61,7 +81,7 @@ export interface CollectionFetcher {
   getResources: (
     collectionId: string | undefined,
     filterAndPagination: ResourceFilter,
-  ) => Promise<PaginationData<Resource>>
+  ) => Promise<PaginatedSuccessResponse<Resource>>
   addOrEditCollection: (
     name: string,
     role: 'add' | 'edit',
@@ -83,7 +103,7 @@ export type AddTeacherNotificationPayload = {
 export interface NotificationFetcher {
   getTeacherNotifications: (
     filterAndPagination: NotificationFilter,
-  ) => Promise<PaginationData<Notification>>
+  ) => Promise<PaginatedSuccessResponse<Notification>>
   getTeacherNotification: (notificationId: string) => Promise<Notification>
   addTeacherNotification: (
     payload: AddTeacherNotificationPayload,

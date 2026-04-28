@@ -3,7 +3,7 @@ import OwnNotificationTable from './ownNotification-table'
 import { columns } from './columns'
 import { NotificationForm } from './form/NotificationForm'
 
-import type { NotificationFilter } from '@/services/api/teacher/types/apiType'
+import type { NotificationFilter } from '@/services/api/teacher/types/apiTypes'
 import type { Notification } from '@/services/api/teacher/types/modelType'
 import Loading from '@/components/loading'
 import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'

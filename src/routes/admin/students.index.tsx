@@ -3,10 +3,10 @@ import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
 import { fallback, zodValidator } from '@tanstack/zod-adapter'
-import type { Filters } from '@/services/api/owner/types/apiTypes'
-import type { TeacherModel } from '@/services/api/owner/teacher/Schemas'
+import { getStudentsQueryOptions } from '../../services/api/owner/student/hooks'
 import type { UICardType } from '@/components/owner/UICard'
-import { TeacherColumns } from '@/components/owner/Table/columnsData'
+import type { StudentWithUser } from '@/services/api/owner/student/Schemas'
+import { StudentColumns } from '@/components/owner/Table/columnsData'
 
 import DataTable, {
   CustomDataTableSkeleton,
@@ -14,139 +14,89 @@ import DataTable, {
 import { CustomPagination } from '@/components/owner/PaginationComp'
 import { SearchInput } from '@/components/owner/SearchInput'
 import { SelectPageSize } from '@/components/owner/SelectPageSize'
-import { teacherFetcher } from '@/services/api/owner/teacher/fetcher'
 import IndexPageComponent from '@/components/owner/IndexPageComponent'
+import SelectFilter from '@/components/owner/SelectFilter'
 
-const subjects = [
-  { label: 'All Subjects', value: '' },
-  { label: 'Math', value: 'math' },
-  { label: 'Science', value: 'science' },
-  { label: 'English', value: 'english' },
-  { label: 'History', value: 'history' },
-  { label: 'Physical Education', value: 'physical_education' },
+const grades = [
+  { label: 'All Grades', value: '' },
+  { label: 'Grade 9', value: 'grade_9' },
+  { label: 'Grade 10', value: 'grade_10' },
+  { label: 'Grade 11', value: 'grade_11' },
+  { label: 'Grade 12', value: 'grade_12' },
 ]
-
-const status = [
+const statuses = [
   { label: 'All Status', value: '' },
   { label: 'Active', value: 'active' },
   { label: 'Inactive', value: 'inactive' },
-  { label: 'Pending', value: 'pending' },
+  { label: 'Pending', value: 'Pending' },
 ]
 
 const UICardList: Array<UICardType> = [
   {
     id: '0',
-    iconName: 'school',
+    iconName: 'groups',
     iconColor: 'blue',
     stateIcon: 'trending_up',
     percentage: 5,
-    cardTitle: 'Total Teachers',
-    info: '42',
+    cardTitle: 'Total Students',
+    info: '452',
   },
   {
     id: '1',
-    iconName: 'bolt',
-    iconColor: 'green',
-    stateIcon: 'trending_up',
-    percentage: 2,
-    cardTitle: 'Active Now',
-    info: '38',
-  },
-  {
-    id: '2',
     iconName: 'person_add',
     iconColor: 'purple',
     stateIcon: 'trending_up',
-    percentage: 10,
-    cardTitle: 'New This Month',
-    info: '3',
+    percentage: 12,
+    cardTitle: 'New Enrollments',
+    info: '34',
+  },
+  {
+    id: '2',
+    iconName: 'calendar_month',
+    iconColor: 'orange',
+    stateIcon: 'trending_up',
+    percentage: 96,
+    cardTitle: 'Average Attendance',
+    info: 'Last 30 days',
   },
 ]
 
-type QueryOptionsType = Filters<TeacherModel>
-export type TeacherSortOption = 'name' | 'email'
-
-export const TeacherSearchSchema = z.object({
+export const StudentSearchSchema = z.object({
   search: fallback(z.string(), '').default(''),
-  email: fallback(z.string().email(), '').default(''),
-  status: fallback(z.string(), '').default(''),
-  sortBy: fallback(z.enum(['name', 'email']), 'name').default('name'),
-  sortOrder: fallback(z.enum(['asc', 'desc']).nullable(), 'asc').default('asc'),
   page: fallback(z.number(), 1).default(1),
   size: fallback(z.number(), 10).default(10),
+  name: fallback(z.string(), '').default(''),
+  email: fallback(z.string().email(), '').default(''),
+  status: fallback(
+    z.enum(['Active', 'Inactive', 'Pending', 'New']).optional(),
+    undefined,
+  ),
+  grade: fallback(z.string(), '').default(''),
+  sortBy: fallback(z.enum(['name', 'email']), 'name').default('name'),
+  sortOrder: fallback(z.enum(['asc', 'desc']).nullable(), 'asc').default('asc'),
 })
 
-const getTeachersQueryOptions = ({
-  page,
-  search,
-  size,
-  status,
-  sortOrder,
-  sortBy,
-}: QueryOptionsType) => ({
-  queryKey: ['teachers', page, search, size, sortOrder, sortBy, status],
-  queryFn: async () => {
-    const response = await teacherFetcher.getTeachers({
-      page,
-      search,
-      size,
-      status,
-      sortOrder,
-      sortBy,
-    })
-    if (response.success)
-      return {
-        data: response.data,
-      }
-  },
-})
-
-const getStudentsQueryOptions = ({
-  page,
-  search,
-  size,
-  status,
-  sortOrder,
-  sortBy,
-}: QueryOptionsType) => ({
-  queryKey: ['students', page, search, size, sortOrder, sortBy, status],
-  queryFn: async () => {
-    const response = await teacherFetcher.getTeachers({
-      page,
-      search,
-      size,
-      status,
-      sortOrder,
-      sortBy,
-    })
-    if (response.success)
-      return {
-        data: response.data,
-        pagination: response.pagination,
-      }
-    else throw new Error(response.message)
-  },
-  placeholderData: keepPreviousData,
-})
-
-export const Route = createFileRoute('/owner/teachers/')({
+export const Route = createFileRoute('/admin/students/')({
   component: RouteComponent,
   loaderDeps: ({ search }) => search,
   loader: ({ context, deps }) => {
-    context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
+    context.queryClient.ensureQueryData(getStudentsQueryOptions(deps))
   },
-  validateSearch: zodValidator(TeacherSearchSchema),
+  validateSearch: zodValidator(StudentSearchSchema),
 })
 
 function RouteComponent() {
   const navigate = Route.useNavigate()
-  const { size, page, search, sortBy, sortOrder } = Route.useSearch()
+  const { size, page, search, sortBy, sortOrder, status, grade } =
+    Route.useSearch()
   const { data: studentsData, status: fetchStatus } = useQuery({
     ...getStudentsQueryOptions({
       page,
       size,
       search,
       sortBy,
+      status,
+      grade,
       sortOrder,
     }),
     placeholderData: keepPreviousData,
@@ -154,13 +104,13 @@ function RouteComponent() {
 
   return (
     <div className="flex-1 overflow-y-scroll w-full overflow-x-auto flex flex-col gap-4 px-6 p-6">
-      {fetchStatus === 'pending' ? (
-        <CustomDataTableSkeleton rows={size} cols={6} />
-      ) : fetchStatus === 'error' ? (
-        <p>Error</p>
-      ) : (
-        <>
-          <IndexPageComponent role="teacher" UICards={UICardList}>
+      <IndexPageComponent role="student" UICards={UICardList}>
+        {fetchStatus === 'pending' ? (
+          <CustomDataTableSkeleton rows={size} cols={6} />
+        ) : fetchStatus === 'error' ? (
+          <p>Error</p>
+        ) : (
+          <>
             <div className="flex items-center justify-between">
               <SearchInput
                 value={search}
@@ -175,9 +125,31 @@ function RouteComponent() {
                     navigate({ search: (s) => ({ ...s, size: value }) })
                   }
                 />
+                <SelectFilter
+                  options={grades}
+                  value={grade}
+                  onChange={(value) =>
+                    navigate({ search: (s) => ({ ...s, grade: value }) })
+                  }
+                  label="grade"
+                />
+                <SelectFilter
+                  options={statuses}
+                  value={status ?? ''}
+                  onChange={(value) => {
+                    if (
+                      value === 'Active' ||
+                      value === 'Inactive' ||
+                      value === 'Pending' ||
+                      value === 'New'
+                    )
+                      navigate({ search: (s) => ({ ...s, status: value }) })
+                  }}
+                  label="status"
+                />
               </div>
             </div>
-            <TeachersTable data={studentsData.data} />
+            <StudentsTable data={studentsData.data} />
             <div className="flex items-center justify-between">
               <p className="w-fit">
                 Showing {size} of {studentsData.pagination.totalElements}
@@ -190,17 +162,17 @@ function RouteComponent() {
                 }
               />
             </div>
-          </IndexPageComponent>
-        </>
-      )}
+          </>
+        )}
+      </IndexPageComponent>
     </div>
   )
 }
 
-function TeachersTable({ data }: { data: Array<TeacherModel> }) {
+function StudentsTable({ data }: { data: Array<StudentWithUser> }) {
   const table = useReactTable({
     data,
-    columns: TeacherColumns,
+    columns: StudentColumns,
     getCoreRowModel: getCoreRowModel(),
   })
 

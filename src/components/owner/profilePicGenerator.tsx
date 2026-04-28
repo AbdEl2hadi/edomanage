@@ -3,7 +3,7 @@ type propsType = {
   imgSrc?: string
 }
 
-export default function ProfilePicGenerator({ name, imgSrc }: propsType) {
+export default function ProfilePicGenerator({ name="HELLO WORLD", imgSrc }: propsType) {
   function getInitials(fullName: string) {
     if (!fullName) return ''
 

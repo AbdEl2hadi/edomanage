@@ -3,7 +3,7 @@ import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import z from 'zod'
 import { columns } from '../../../components/teacher/resources/columns.tsx'
 
-import type { ResourceFilter } from '@/services/api/teacher/types/apiType.ts'
+import type { ResourceFilter } from '@/services/api/teacher/types/apiTypes.ts'
 import type { Resource } from '@/services/api/teacher/types/modelType.ts'
 
 import { ResourcesTable } from '@/components/teacher/resources/resources-table.tsx'

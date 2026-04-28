@@ -46,3 +46,25 @@ export type Not = Array<{
   message: string
   time: string
 }>
+
+// export type StudentUser = {
+//     id: string;
+//     userId: string;
+//     schoolId: string;
+//     grade: string;
+//     classe: string;
+//     parentPhoneNumber: string;
+//     parentName: string;
+//     status: "Active" | "Inactive" | "Pending" | "New";
+//     gender: "Male" | "Female";
+//     address: string;
+//     dateOfBirth: string;
+//     email: string;
+//     emailVerified: boolean;
+//     image: string | null;
+//     name: string;
+//     telNumber: string | null;
+//     role: "Student" | "Teacher" | "Admin";
+//     createdAt: Date;
+//     updatedAt: Date;
+// }

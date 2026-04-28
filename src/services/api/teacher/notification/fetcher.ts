@@ -5,8 +5,8 @@ import type {
   AddTeacherNotificationPayload,
   NotificationFetcher,
   NotificationFilter,
-  PaginationData,
-} from '../types/apiType'
+  PaginatedSuccessResponse,
+} from '../types/apiTypes'
 import type { Notification } from '../types/modelType'
 
 const API_URL = 'http://localhost:4000/teacherNotifications'
@@ -54,7 +54,7 @@ const buildAudience = (
 class JsonNotificationFetcher implements NotificationFetcher {
   async getTeacherNotifications(
     filterAndPagination: NotificationFilter,
-  ): Promise<PaginationData<Notification>> {
+  ): Promise<PaginatedSuccessResponse<Notification>> {
     await new Promise((resolve) => setTimeout(resolve, 200))
     const response = await axios.get<Array<Notification>>(API_URL)
     return filterNotifications(response.data, filterAndPagination)

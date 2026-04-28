@@ -1,6 +1,7 @@
+import type { ApiResponse, Filters, PaginatedApiResponse } from "../../teacher/types/apiTypes";
 import type { StudentModel } from "../student/Schemas";
 import type { TeacherModel } from "../teacher/Schemas";
-import type { ApiResponse, Filters, PaginatedApiResponse } from "../types/apiTypes";
+
 
 
 interface TeacherFetcher {
@@ -13,7 +14,7 @@ interface TeacherFetcher {
 
 class JSONTeacherFetcher implements TeacherFetcher {
   async addTeacher(teacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
-    const response = await fetch('http://localhost:4000/teachers', {
+    const response = await fetch(`${process.env.WebsiteUrl}/admin/teachers`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(teacher),
@@ -21,12 +22,13 @@ class JSONTeacherFetcher implements TeacherFetcher {
     return response.json()
   }
 
-  async getTeachers({ page, search,size, status, email, sortBy, sortOrder }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<TeacherModel>> {
+  async getTeachers({ page, search, size, name, status, email, sortBy, sortOrder }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<TeacherModel>> {
     try {
-      const url = new URL("http://localhost:8080/students")
+      const url = new URL(`${process.env.WebsiteUrl}/admin/teachers`)
       search && url.searchParams.append("search", search.toString())
       page && url.searchParams.append("page", page.toString())
       size && url.searchParams.append("limit", size.toString())
+      name && url.searchParams.append("name", name.toString())
       status && url.searchParams.append("status", status.toString())
       email && url.searchParams.append("email", email.toString())
       sortBy && url.searchParams.append("sortBy", sortBy.toString())
@@ -44,15 +46,17 @@ class JSONTeacherFetcher implements TeacherFetcher {
       }
     }
   }
+
+  
   async getTeacher(id: string): Promise<ApiResponse<TeacherModel>> {
-    return fetch(`http://localhost:4000/teachers/${id}`).then((response) =>
+    return fetch(`${process.env.WebsiteUrl}/admin/teachers/${id}`).then((response) =>
       response.json(),
     )
   }
 
   async editTeacher(modifiedTeacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
     const response = await fetch(
-      `http://localhost:4000/teachers/${modifiedTeacher.id}`,
+      `${process.env.WebsiteUrl}/admin/teachers/${modifiedTeacher.id}`,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -63,7 +67,7 @@ class JSONTeacherFetcher implements TeacherFetcher {
   }
 
   async deleteTeacher(id: string): Promise<ApiResponse<void>> {
-    const response = await fetch(`http://localhost:4000/teachers/${id}`, {
+    const response = await fetch(`${process.env.WebsiteUrl}/admin/teachers/${id}`, {
       method: 'DELETE',
     })
     return response.json()

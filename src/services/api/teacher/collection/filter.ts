@@ -1,4 +1,4 @@
-import type { PaginationData, ResourceFilter } from '../types/apiType'
+import type { PaginationData, ResourceFilter } from '../types/apiTypes'
 import type { Resource } from '../types/modelType'
 
 type ResourceApiModel = Resource & {

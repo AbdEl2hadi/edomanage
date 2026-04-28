@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import type { AnnouncementCardType } from '@/components/owner/announcementCard'
 import AnnouncementCard from '@/components/owner/announcementCard'
 
-export const Route = createFileRoute('/owner/announcements')({
+export const Route = createFileRoute('/admin/announcements')({
   component: RouteComponent,
   head: () => ({
     meta: [{ title: 'Owner | Announcements - EduManage' }],

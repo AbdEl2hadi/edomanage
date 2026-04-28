@@ -29,7 +29,7 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-export const Route = createFileRoute('/owner/calendar')({
+export const Route = createFileRoute('/admin/calendar')({
   component: RouteComponent,
   head: () => ({
     meta: [{ title: 'Owner | School Calendar - EduManage' }],

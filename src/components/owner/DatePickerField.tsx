@@ -30,7 +30,7 @@ export default function DatePickerField<T extends FieldValues>({
   label,
   placeholder = 'Select date',
 }: Props<T>) {
-  const stringValue = form.watch(name) as string | undefined
+  const stringValue = form.getValues(name) as string | undefined
   const dateValue = stringValue ? parseISO(stringValue) : undefined
   const safeDate = dateValue && isValid(dateValue) ? dateValue : undefined
   const error = form.formState.errors[name]
@@ -48,7 +48,7 @@ export default function DatePickerField<T extends FieldValues>({
               variant="outline"
               className={cn(
                 'w-full justify-start text-left font-normal h-10 px-3 transition-all',
-                'bg-white border border-gray-300 hover:bg-gray-50 focus:ring-2 focus:ring-blue-400',
+                'bg-[#f0f2f4] dark:bg-gray-800 border border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 focus:ring-2 focus:ring-blue-400',
                 !safeDate && 'text-gray-400',
                 error ? 'ring-2 ring-red-500' : 'ring-primary/50',
               )}
@@ -70,7 +70,7 @@ export default function DatePickerField<T extends FieldValues>({
                   shouldValidate: true,
                 })
               }}
-              className="absolute right-9 top-1/2 -translate-y-1/2 p-1 rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-all"
+              className="absolute right-9 top-1/2 -translate-y-1/2 p-1 rounded-md text-gray-400 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 transition-all"
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -78,7 +78,7 @@ export default function DatePickerField<T extends FieldValues>({
         </div>
 
         <PopoverContent
-          className="w-auto p-2 bg-white border border-gray-200 rounded-lg shadow-lg"
+          className="w-auto p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg"
           align="start"
           sideOffset={6}
         >
@@ -93,7 +93,7 @@ export default function DatePickerField<T extends FieldValues>({
               })
             }}
             initialFocus
-            className="bg-white"
+            className="bg-white dark:bg-gray-800 dark:text-white"
           />
         </PopoverContent>
       </Popover>

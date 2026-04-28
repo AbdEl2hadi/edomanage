@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { EventForm } from "../../../routes/owner/calendar";
+import type { EventForm } from "../../../routes/admin/calendar";
 
 function editEvent(event: EventForm) {
   return axios

@@ -10,7 +10,7 @@ import InputWrapper from '@/components/owner/Wrappers/InputWrapper'
 import SelectWrapper from '@/components/owner/Wrappers/SelectWrapper'
 import DatePickerField from '@/components/owner/DatePickerField'
 
-export const Route = createFileRoute('/owner/teachers/add')({
+export const Route = createFileRoute('/admin/teachers/add')({
   component: RouteComponent,
   head: () => ({
     meta: [{ title: 'Owner | Add Teacher - EduManage' }],

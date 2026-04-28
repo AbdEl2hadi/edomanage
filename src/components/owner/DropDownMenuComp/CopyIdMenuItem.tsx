@@ -4,7 +4,7 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 type Props = {
   role: 'student' | 'teacher'
-  id: string
+  id: string | undefined
 }
 
 export default function CopyIdMenuItem({ role, id }: Props) {
@@ -13,8 +13,10 @@ export default function CopyIdMenuItem({ role, id }: Props) {
       <div
         className="flex items-center justify-center gap-2 cursor-pointer text-dark dark:text-white hover:bg-gray-200 py-1.5 rounded-sm"
         onClick={() => {
-          navigator.clipboard.writeText(id)
-          toast.success(`${role} ID has been copied`)
+          if (id) {
+            navigator.clipboard.writeText(id)
+            toast.success(`${role} ID has been copied`)
+          }
         }}
       >
         <Copy size="18" />

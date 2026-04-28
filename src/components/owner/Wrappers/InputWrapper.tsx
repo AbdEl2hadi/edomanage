@@ -24,7 +24,7 @@ export default function InputWrapper<T extends FieldValues>({
       <input
         className={`w-full h-11 rounded-lg bg-[#f0f2f4] dark:bg-gray-800 border-none px-4 text-[#111318] dark:text-white placeholder:text-[#9ca3af] focus:ring-2 focus:ring-primary/50 transition-all ${error ? 'ring-2 ring-red-500' : 'ring-primary/50'}`}
         placeholder={placeholder}
-        type={type ? type : 'texy'}
+        type={type ? type : 'text'}
         {...form.register(name)}
       />
       {error && (

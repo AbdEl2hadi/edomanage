@@ -10,7 +10,7 @@ import { collectionFetcher } from './fetcher'
 import type {
   AddOrEditCollectionPayload,
   ResourceFilter,
-} from '../types/apiType'
+} from '../types/apiTypes'
 
 export const getCollectionQueryOptions = (collectionId: string) =>
   queryOptions({

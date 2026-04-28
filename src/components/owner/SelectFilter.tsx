@@ -10,16 +10,22 @@ type props = {
   value: string
   onChange: (value: string) => void
   options?: Array<Record<string, string> | string>
+  label?: string
 }
 
-export default function SelectFilter({ value, onChange, options }: props) {
+export default function SelectFilter({
+  value,
+  onChange,
+  options,
+  label,
+}: props) {
   return (
     <Select
       defaultValue={`${value}`}
       onValueChange={(v) => onChange(String(v))}
     >
       <SelectTrigger className="w-45">
-        <SelectValue placeholder="Select a size" />
+        <SelectValue placeholder={`Select a ${label}`} />
       </SelectTrigger>
       <SelectContent className="bg-background-light dark:bg-background-dark dark:text-white">
         {options?.map((filterOption) => (
@@ -27,7 +33,7 @@ export default function SelectFilter({ value, onChange, options }: props) {
             key={
               typeof filterOption === 'string'
                 ? filterOption
-                : Object.keys(filterOption)[0]
+                : JSON.stringify(filterOption)
             }
             value={`${filterOption}`}
             className="bg-background-light dark:bg-background-dark"

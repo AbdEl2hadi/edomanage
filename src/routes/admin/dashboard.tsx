@@ -4,7 +4,7 @@ import type { UICardType } from '@/components/owner/UICard'
 import DashboardChart from '@/components/owner/dashboardChart'
 import UICardComponent from '@/components/owner/UICard'
 
-export const Route = createFileRoute('/owner/dashboard')({
+export const Route = createFileRoute('/admin/dashboard')({
   component: RouteComponent,
   head: () => ({
     meta: [{ title: 'Owner | Dashboard - EduManage' }],
