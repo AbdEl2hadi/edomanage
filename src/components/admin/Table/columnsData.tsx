@@ -10,8 +10,8 @@ import ViewProfileMenuItem from '../DropDownMenuComp/ViewProfileMenuItem'
 import CopyIdMenuItem from '../DropDownMenuComp/CopyIdMenuItem'
 import type { ColumnDef } from '@tanstack/react-table'
 
-import type { StudentWithUser } from '@/services/api/owner/student/Schemas'
-
+import type { TeacherWithUser } from '@/lib/Types/TeacherTypes'
+import type { StudentWithUser } from '@/lib/Types/StudentTypes'
 import { Button } from '@/components/ui/button'
 
 import { Checkbox } from '@/components/ui/checkbox'
@@ -59,10 +59,21 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
       const student = row.original
       return (
         <div className="flex items-center justify-center">
-          <ProfilePicGenerator
+          student.user.image ? (
+          <img
+            src={student.user.image ?? ''}
+            alt={student.user.name}
+            className="w-8 h-8 rounded-full object-cover"
+          />
+          ) : (
+          <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
+            person
+          </span>
+          )
+          {/* <ProfilePicGenerator
             name={student.user.name}
             imgSrc={student.user.image ?? ''}
-          />
+          /> */}
         </div>
       )
     },
@@ -184,7 +195,8 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
 ]
 
 // definition for the teacher columns in the teacher table
-export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
+
+export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
   {
     accessorKey: 'imgSrc',
     header: '',
@@ -193,8 +205,26 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
       const teacher = row.original
       return (
         <div className="flex items-center justify-center">
-          <ProfilePicGenerator name={teacher.name} imgSrc={teacher.imgSrc} />
+          teacher.user.image ? (
+          <img
+            src={teacher.user.image ?? ''}
+            alt={teacher.user.name}
+            className="w-8 h-8 rounded-full object-cover"
+          />
+          ) : (
+          <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
+            person
+          </span>
+          )
+          {/* <ProfilePicGenerator
+            name={student.user.name}
+            imgSrc={student.user.image ?? ''}
+          /> */}
         </div>
+        // <div className="flex items-center justify-center">
+
+        //   <ProfilePicGenerator name={teacher.name} imgSrc={teacher.imgSrc} />
+        // </div>
       )
     },
   },
@@ -206,7 +236,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
     size: 20,
     cell: ({ row }) => (
       <span className="font-medium text-slate-900 dark:text-white">
-        {row.original.name}
+        {row.original.user.name}
       </span>
     ),
   },
@@ -219,7 +249,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
     size: 28,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
-        {row.original.email}
+        {row.original.user.email}
       </div>
     ),
   },
@@ -244,7 +274,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherModel>> = [
     size: 20,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate">
-        {row.original.subjects}
+        {row.original.subject}
       </div>
     ),
   },

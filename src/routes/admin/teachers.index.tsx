@@ -6,8 +6,8 @@ import z from 'zod'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { toast } from 'sonner'
 import type { Filters } from '@/services/api/admin/types/apiTypes'
-import type { TeacherModel } from '@/services/api/admin/teacher/Schemas'
 import type { UICardType } from '@/components/admin/UICard'
+import type { TeacherWithUser } from '@/lib/Types/TeacherTypes'
 import { TeacherColumns } from '@/components/admin/Table/columnsData'
 
 import DataTable, {
@@ -51,7 +51,7 @@ const UICardList: Array<UICardType> = [
   },
 ]
 
-type QueryOptionsType = Filters<TeacherModel>
+type QueryOptionsType = Filters<TeacherWithUser>
 export type TeacherSortOption = 'name' | 'email'
 
 export const TeacherSearchSchema = z.object({
@@ -86,31 +86,6 @@ const getTeachersQueryOptions = ({
     if (response.success)
       return {
         data: response.data,
-      }
-  },
-})
-
-const getStudentsQueryOptions = ({
-  page,
-  search,
-  size,
-  status,
-  sortOrder,
-  sortBy,
-}: QueryOptionsType) => ({
-  queryKey: ['students', page, search, size, sortOrder, sortBy, status],
-  queryFn: async () => {
-    const response = await teacherFetcher.getTeachers({
-      page,
-      search,
-      size,
-      // status,
-      sortOrder,
-      sortBy,
-    })
-    if (response.success)
-      return {
-        data: response.data,
         pagination: response.pagination,
       }
     else throw new Error(response.errorType)
@@ -122,10 +97,10 @@ export const Route = createFileRoute('/admin/teachers/')({
   component: RouteComponent,
   pendingComponent: AdminTeachersPending,
   loaderDeps: ({ search }) => search,
-  loader: async ({ context, deps }) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    return context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
-  },
+  // loader: async ({ context, deps }) => {
+  //   await new Promise((resolve) => setTimeout(resolve, 2000))
+  //   return context.queryClient.ensureQueryData(getTeachersQueryOptions(deps))
+  // },
   validateSearch: zodValidator(TeacherSearchSchema),
 })
 
@@ -151,16 +126,16 @@ function AdminTeachersContent() {
   const searchParams = TeacherSearchSchema.parse(Route.useSearch())
   const { size, page, search, sortBy, sortOrder, status } = searchParams
   const {
-    data: studentsData,
+    data: teachersData,
     status: fetchStatus,
     refetch,
   } = useQuery({
-    ...getStudentsQueryOptions({
+    ...getTeachersQueryOptions({
       page,
       size,
       search,
       sortBy,
-      status,
+      // status,
       sortOrder,
     }),
     placeholderData: keepPreviousData,
@@ -212,14 +187,14 @@ function AdminTeachersContent() {
                 />
               </div>
             </div>
-            <TeachersTable data={studentsData.data} />
+            <TeachersTable data={teachersData.data} />
             <div className="flex items-center justify-between">
               <p className="w-fit">
-                Showing {size} of {studentsData.pagination.totalElements}
+                Showing {size} of {teachersData.pagination.totalElements}
               </p>
               <CustomPagination
                 currentPage={page}
-                totalPages={studentsData.pagination.totalPages}
+                totalPages={teachersData.pagination.totalPages}
                 onPageChange={(p) =>
                   navigate({
                     search: (s: TeacherSearchParams) => ({ ...s, page: p }),
@@ -234,7 +209,7 @@ function AdminTeachersContent() {
   )
 }
 
-function TeachersTable({ data }: { data: Array<TeacherModel> }) {
+function TeachersTable({ data }: { data: Array<TeacherWithUser> }) {
   const table = useReactTable({
     data,
     columns: TeacherColumns,

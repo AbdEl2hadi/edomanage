@@ -5,12 +5,9 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { toast } from 'sonner'
-import type {
-  StudentModel,
-  StudentWithUser,
-} from '@/services/api/admin/student/Schemas'
 import type { Filters } from '@/services/api/admin/types/apiTypes'
 import type { UICardType } from '@/components/admin/UICard'
+import type { StudentWithUser } from '@/lib/Types/StudentTypes'
 import { StudentColumns } from '@/components/admin/Table/columnsData'
 import { studentFetcher } from '@/services/api/admin/student/fetcher'
 
@@ -63,7 +60,7 @@ const UICardList: Array<UICardType> = [
   },
 ]
 
-type QueryOptionsType = Filters<StudentModel>
+type QueryOptionsType = Filters<StudentWithUser>
 export type StudentSortOption = 'name' | 'email'
 
 export const StudentSearchSchema = z.object({

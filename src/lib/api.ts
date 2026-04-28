@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { useAuthStore , type  AuthUser } from '@/services/store/auth_store'
+import type { AuthUser } from '@/services/store/auth_store';
+import { useAuthStore } from '@/services/store/auth_store'
 
 export { isAxiosError } from 'axios'
 
@@ -20,17 +21,17 @@ api.interceptors.request.use((config) => {
 })
 
 type RefreshSessionResponse = {
-  user : AuthUser
+  user: AuthUser
   token: string
 }
 
 // * fetch to get new refresh token
 export async function syncAuthSession(): Promise<string | null> {
-  const { setToken , setUser } = useAuthStore.getState()
+  const { setToken, setUser } = useAuthStore.getState()
 
   try {
     const response = await api.post<RefreshSessionResponse>('/auth/refresh')
-    const  {user , token } = response.data
+    const { user, token } = response.data
 
     if (typeof token === 'string' && token.length > 0) {
       setToken(token)

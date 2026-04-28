@@ -1,82 +1,78 @@
+import axios from "axios";
+import type { TeacherWithUser } from "@/lib/Types/TeacherTypes";
 import type { ApiResponse, Filters, PaginatedApiResponse } from "../../teacher/types/apiTypes";
-import type { StudentModel } from "../student/Schemas";
-import type { TeacherModel } from "../teacher/Schemas";
 
 
 
-interface TeacherFetcher {
-  addTeacher: (Teacher: TeacherModel) => Promise<ApiResponse<TeacherModel>>
+
+interface ITeacherFetcher {
+  addTeacher: (Teacher: TeacherWithUser) => Promise<ApiResponse<TeacherWithUser>>
   getTeachers: (
-    args: Partial<Filters<TeacherModel>>,
-  ) => Promise<PaginatedApiResponse<TeacherModel>>
-  getTeacher: (id: string) => Promise<ApiResponse<TeacherModel>>
+    args: Partial<Filters<TeacherWithUser>>,
+  ) => Promise<PaginatedApiResponse<TeacherWithUser>>
+  getTeacher: (id: string) => Promise<ApiResponse<TeacherWithUser>>
   editTeacher: (
-    modifiedTeacher: TeacherModel,
-  ) => Promise<ApiResponse<TeacherModel>>
+    modifiedTeacher: TeacherWithUser,
+  ) => Promise<ApiResponse<TeacherWithUser>>
   deleteTeacher: (id: string) => Promise<ApiResponse<void>>
 }
 
-class JSONTeacherFetcher implements TeacherFetcher {
-  async addTeacher(teacher: TeacherModel): Promise<ApiResponse<TeacherModel>> {
-    const response = await fetch(`${process.env.WebsiteUrl}/admin/teachers`, {
+class TeacherFetcher implements ITeacherFetcher {
+  async addTeacher(teacher: TeacherWithUser): Promise<ApiResponse<TeacherWithUser>> {
+    const response = await axios({
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(teacher),
+      url: `${process.env.WebsiteUrl}/admin/teachers`,
+      data: teacher,
     })
-    return response.json()
+    return response.data
   }
 
-  async getTeachers({ page, search, size, name, status, email, sortBy, sortOrder }: Partial<Filters<StudentModel>>): Promise<PaginatedApiResponse<TeacherModel>> {
-    try {
-      const url = new URL('http://localhost:8080/students')
-      search && url.searchParams.append('search', search.toString())
-      page && url.searchParams.append('page', page.toString())
-      size && url.searchParams.append('limit', size.toString())
-      status && url.searchParams.append('status', status.toString())
-      email && url.searchParams.append('email', email.toString())
-      sortBy && url.searchParams.append('sortBy', sortBy.toString())
-      sortOrder && url.searchParams.append('sortOrder', sortOrder.toString())
+  async getTeachers(filters: Partial<Filters<TeacherWithUser>>) {
+    // name and email should be added in here 
 
-      const response = await fetch(url.toString())
-
-      const responseData = await response.json()
-
-      return responseData
-    } catch (error) {
-      return {
-        success: false,
-        message: 'error fetching students data',
+    const { data } = await axios<PaginatedApiResponse<TeacherWithUser>>({
+      method: 'GET',
+      url: `${process.env.WebsiteUrl}/admin/teachers`,
+      params: {
+        search: filters.search,
+        page: filters.page,
+        limit: filters.size,
+        status: filters.status,
+        // email: filters.email,
+        sortBy: filters.sortBy,
+        sortOrder: filters.sortOrder,
       }
-    }
+    })
+    return data;
   }
 
-  
-  async getTeacher(id: string): Promise<ApiResponse<TeacherModel>> {
-    return fetch(`${process.env.WebsiteUrl}/admin/teachers/${id}`).then((response) =>
-      response.json(),
-    )
+
+  async getTeacher(id: string): Promise<ApiResponse<TeacherWithUser>> {
+    const { data } = await axios<ApiResponse<TeacherWithUser>>({
+      method: 'GET',
+      url: `${process.env.WebsiteUrl}/admin/teachers/${id}`,
+    })
+    return data
   }
 
   async editTeacher(
-    modifiedTeacher: TeacherModel,
-  ): Promise<ApiResponse<TeacherModel>> {
-    const response = await fetch(
-      `${process.env.WebsiteUrl}/admin/teachers/${modifiedTeacher.id}`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(modifiedTeacher),
-      },
-    )
-    return response.json()
+    modifiedTeacher: TeacherWithUser,
+  ): Promise<ApiResponse<TeacherWithUser>> {
+    const response = await axios<ApiResponse<TeacherWithUser>>({
+      method: 'PUT',
+      url: `${process.env.WebsiteUrl}/admin/teachers/${modifiedTeacher.id}`,
+      data: modifiedTeacher,
+    })
+    return response.data
   }
 
   async deleteTeacher(id: string): Promise<ApiResponse<void>> {
-    const response = await fetch(`${process.env.WebsiteUrl}/admin/teachers/${id}`, {
+    const response = await axios<ApiResponse<void>>({
       method: 'DELETE',
+      url: `${process.env.WebsiteUrl}/admin/teachers/${id}`,
     })
-    return response.json()
+    return response.data
   }
 }
 
-export const teacherFetcher = new JSONTeacherFetcher()
+export const teacherFetcher: ITeacherFetcher = new TeacherFetcher()
