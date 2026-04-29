@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export type UICardType = {
   id: string
   iconName: string
@@ -6,6 +8,57 @@ export type UICardType = {
   percentage: number
   cardTitle: string
   info: string
+}
+
+export async function getUiCardData(): Promise<Array<UICardType>> {
+  const { data } = await axios({
+    method: 'GET',
+    url: `${process.env.WebsiteUrl}/admin/teachers/total-teachers`,
+    params: {
+      schoolId: '9a901841-3f1a-457b-9c61-7df6d6f988cb',
+    },
+  })
+  console.log(data)
+  // Simulate an API call
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return [
+    {
+      id: '1',
+      iconName: 'person',
+      iconColor: 'blue',
+      stateIcon: 'arrow_upward',
+      percentage: 10,
+      cardTitle: 'Total Students',
+      info: '1,234',
+    },
+    {
+      id: '2',
+      iconName: 'school',
+      iconColor: 'purple',
+      stateIcon: 'arrow_downward',
+      percentage: -5,
+      cardTitle: 'Enrollment Rate',
+      info: '85%',
+    },
+    {
+      id: '3',
+      iconName: 'check_circle',
+      iconColor: 'green',
+      stateIcon: 'arrow_upward',
+      percentage: 15,
+      cardTitle: 'Graduation Rate',
+      info: '92%',
+    },
+    {
+      id: '4',
+      iconName: 'warning',
+      iconColor: 'orange',
+      stateIcon: 'arrow_upward',
+      percentage: 20,
+      cardTitle: 'Dropout Rate',
+      info: '8%',
+    },
+  ]
 }
 
 export default function UICardComponent(props: UICardType) {
@@ -19,7 +72,7 @@ export default function UICardComponent(props: UICardType) {
           <span className="material-symbols-outlined">{props.iconName}</span>
         </div>
         <span
-          className={`flex items-center text-xs font-bold   px-2 py-1 rounded-full border border-transparent  ${props.percentage > 0 ? 'text-green-600 dark:text-green-400 dark:border-green-500/10 bg-green-50 dark:bg-green-500/10' : 'text-red-600 dark:text-red-400 dark:border-red-500/10 bg-red-50 dark:bg-red-500/10'}`}
+          className={`flex items-center text-xs font-bold px-2 py-1 rounded-full border border-transparent  ${props.percentage > 0 ? 'text-green-600 dark:text-green-400 dark:border-green-500/10 bg-green-50 dark:bg-green-500/10' : 'text-red-600 dark:text-red-400 dark:border-red-500/10 bg-red-50 dark:bg-red-500/10'}`}
         >
           <span className="material-symbols-outlined text-sm mr-1">
             {props.stateIcon}

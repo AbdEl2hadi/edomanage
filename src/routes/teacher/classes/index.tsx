@@ -61,8 +61,8 @@ function TeacherClassesContent() {
   }
   /* create pagination state */
   const paginationState = {
-    pageIndex: filters.pageIndex ?? 1,
-    pageSize: filters.pageSize ?? 5,
+    pageIndex: filters.page ?? 1,
+    pageSize: filters.size ?? 5,
   }
   /* create */
 

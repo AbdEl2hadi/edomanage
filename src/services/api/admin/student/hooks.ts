@@ -7,8 +7,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { studentFetcher } from './fetcher'
-import type { Filters } from '../types/apiTypes'
 import type { StudentWithUser } from '@/lib/Types/StudentTypes'
+import type { Filters } from '@/lib/Types/FilterTypes'
 
 // // add student
 // export function useAddStudent() {

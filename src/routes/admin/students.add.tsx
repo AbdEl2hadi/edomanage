@@ -1,7 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Skeleton } from 'boneyard-js/react'
-import type { AddStudentModel } from '@/services/api/admin/student/Schemas'
 import DatePickerField from '@/components/admin/DatePickerField'
 import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
 import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'

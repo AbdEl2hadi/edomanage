@@ -68,7 +68,7 @@ function TeacherFolderContent() {
 
   const paginationState = {
     pageIndex: filters.page ?? 1,
-    pageSize: filters.size ?? 5,
+    pageSize: filters.size ?? 5, // this can't be null or underfined,i think the problem is the cleanSearchParams function in the useFilterResource hook.
   }
   /* useQuery to get data */
 

@@ -60,7 +60,7 @@ function Admin() {
         <SideBar info={info} />
         <main className="flex-1 flex flex-col h-full overflow-y-auto relative">
           <TopNav />
-          <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 pt-3 mb-1.5 flex-shrink-0">
+          <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 pt-3 mb-1.5 shrink-0">
             <span className="capitalize text-slate-450 dark:text-slate-400">
               {path[1]}
             </span>

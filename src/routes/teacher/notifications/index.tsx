@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Skeleton } from 'boneyard-js/react'
 
-import type { TypeTabFilter } from '@/services/api/teacher/types/apiTypes'
+import type { TypeTabFilterT } from '@/lib/Types/FilterTypes'
 import NotificationList from '@/components/notificationList'
 import { queryClient } from '@/lib/queryClient'
 
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/teacher/notifications/')({
     meta: [{ title: 'Teacher | Notifications - EduManage' }],
   }),
 })
-const tabFilters: Array<TypeTabFilter> = ['All', 'Urgent', 'Administration']
+const tabFilters: Array<TypeTabFilterT> = ['All', 'Urgent', 'Administration']
 
 export function Notifications() {
   return (
@@ -27,7 +27,7 @@ function TeacherNotificationsContent() {
   const navigate = useNavigate()
 
   /* State */
-  const [tab, setTab] = useState<TypeTabFilter>('All')
+  const [tab, setTab] = useState<TypeTabFilterT>('All')
   const [searchText, setSearchText] = useState('')
   const [isMarkingAllRead, setIsMarkingAllRead] = useState(false)
 

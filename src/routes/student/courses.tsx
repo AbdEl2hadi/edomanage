@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Skeleton } from 'boneyard-js/react'
 
-import type { Resource } from '@/services/api/teacher/types/modelType'
+import type { Resource } from '@/lib/Types/ResourceTypes'
 import { ResourceSearchSchema } from '@/routes/teacher/classes/$folderId'
 import { ResourcesTable } from '@/components/teacher/resources/resources-table'
 import { columns } from '@/components/teacher/resources/columns'
@@ -48,8 +48,8 @@ export function Courses() {
 function CoursesContent() {
   const { filters, setFilters } = useFilterResource(Route.id)
   const paginationState = {
-    pageIndex: filters.pageIndex ?? 1,
-    pageSize: filters.pageSize ?? 5,
+    pageIndex: filters.page ?? 1,
+    pageSize: filters.size ?? 5,
   }
   const { data: resourcesData, isLoading: isResourcesLoading } =
     useGetResources(undefined, filters)

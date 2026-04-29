@@ -3,10 +3,7 @@ import { useState } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Skeleton } from 'boneyard-js/react'
 // import type { EditStudentModel } from '@/services/api/admin/student/Schemas'
-import {
-  getStudentQueryOptions,
-  useEditStudent,
-} from '@/services/api/admin/student/hooks'
+import { getStudentQueryOptions } from '@/services/api/admin/student/hooks'
 import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
 import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
 import DatePickerField from '@/components/admin/DatePickerField'
@@ -21,12 +18,12 @@ export const Route = createFileRoute('/admin/students/$studentId')({
   ),
   pendingMs: 0,
   pendingMinMs: 220,
-  loader: async ({ params: { studentId }, context }) => {
+  loader: async ({ params, context }) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     const student = await context.queryClient.ensureQueryData(
-      getStudentQueryOptions(studentId),
+      getStudentQueryOptions(params.studentId),
     )
-    console.log(studentId)
+    console.log(params.studentId)
     // console.log({ student: student. })
     // if (studentId === student?.id) {
     //   console.log('Student data loaded successfully in loader')
@@ -62,7 +59,7 @@ function AdminStudentDetailContent() {
     throw notFound()
   }
 
-  const { studentForm, onSubmit } = useEditStudent(studentData)
+  // const { studentForm, onSubmit } = useEditStudent(studentData)
 
   function togglePassword() {
     setShowPassword(!showPassword)
@@ -161,11 +158,11 @@ function AdminStudentDetailContent() {
                     Academic Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* <DatePickerField
+                    <DatePickerField
                       name="enrollmentDate"
                       label="Enrollment Date"
                       form={studentForm}
-                    /> */}
+                    />
                     <SelectWrapper
                       form={studentForm}
                       label="Class / Grade"
