@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui/icon'
 import axios from 'axios'
 
 export type UICardType = {
@@ -69,14 +70,12 @@ export default function UICardComponent(props: UICardType) {
           className={`p-2 ${props.iconColor == 'blue' ? 'bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400' : props.iconColor == 'purple' ? 'bg-purple-50 dark:bg-purple-500/20  text-purple-600 dark:text-purple-400' : props.iconColor == 'green' ? 'bg-green-50 dark:bg-green-500/20  text-green-600 dark:text-green-400' : 'bg-orange-50 dark:bg-orange-500/20  text-orange-600 dark:text-orange-400'} rounded-lg group-hover:scale-110`}
           style={{ transition: 'transform 0.2s ease-in-out' }}
         >
-          <span className="material-symbols-outlined">{props.iconName}</span>
+          <Icon name={props.iconName} />
         </div>
         <span
           className={`flex items-center text-xs font-bold px-2 py-1 rounded-full border border-transparent  ${props.percentage > 0 ? 'text-green-600 dark:text-green-400 dark:border-green-500/10 bg-green-50 dark:bg-green-500/10' : 'text-red-600 dark:text-red-400 dark:border-red-500/10 bg-red-50 dark:bg-red-500/10'}`}
         >
-          <span className="material-symbols-outlined text-sm mr-1">
-            {props.stateIcon}
-          </span>
+          <Icon name={props.stateIcon} className="text-sm mr-1" />
           {props.percentage}%
         </span>
       </div>

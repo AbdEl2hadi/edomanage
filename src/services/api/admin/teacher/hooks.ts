@@ -7,7 +7,8 @@ import {
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { teacherFetcher } from './fetcher'
-import type { TeacherWithUser } from '@/lib/Types/TeacherTypes'
+import type { TeacherWithUser, AddTeacherModel } from '@/lib/Types/TeacherTypes'
+import { addTeacherSchema } from '@/lib/Schemas/TeacherSchemas'
 import type { Filters } from '@/lib/Types/FilterTypes'
 
 export function useAddTeacher() {
@@ -31,13 +32,13 @@ export function useAddTeacher() {
 }
 
 export function useGetTeachers({
-  page,
+  pageIndex,
   search,
-  size,
+  pageSize,
 }: Partial<Filters<TeacherWithUser>> = {}) {
   return useQuery({
-    queryKey: ['teachers', page, search, size],
-    queryFn: () => teacherFetcher.getTeachers({ page, search, size }),
+    queryKey: ['teachers', pageIndex, search, pageSize],
+    queryFn: () => teacherFetcher.getTeachers({ pageIndex, search, pageSize }),
     select: (response) => {
       return {
         data: response.success ? response.data : [],
@@ -127,4 +128,28 @@ export const getTeacherQueryOptions = (teacherId: string) => ({
 
 export function useGetTeacher(id: string) {
   return useQuery(getTeacherQueryOptions(id))
+}
+
+export function useEditTeacher(EditedTeacher: TeacherWithUser) {
+  const queryClient = useQueryClient()
+
+  const teacherForm = useForm<AddTeacherModel>({
+    defaultValues: EditedTeacher as unknown as AddTeacherModel,
+    resolver: zodResolver(addTeacherSchema as any),
+  })
+
+  const { mutate: editTeacher } = useMutation({
+    mutationFn: teacherFetcher.editTeacher,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['teachers'] })
+      queryClient.invalidateQueries({ queryKey: ['teacher', EditedTeacher.id] })
+    },
+  })
+
+  const onSubmit = (data: AddTeacherModel) => {
+    const payload = { ...EditedTeacher, ...data } as TeacherWithUser
+    editTeacher(payload)
+  }
+
+  return { teacherForm, onSubmit }
 }

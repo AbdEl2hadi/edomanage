@@ -147,3 +147,29 @@
 
 //   return <DataTable table={table} />
 // }
+
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/admin/payments')({
+  component: RouteComponent,
+  head: () => ({
+    meta: [
+      {
+        title: 'Payments - EduManage',
+      },
+    ],
+  }),
+})
+
+function RouteComponent() {
+  return (
+    <div className="flex-1 overflow-y-scroll w-full overflow-x-auto flex flex-col gap-4 px-6 p-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl md:text-2xl font-black leading-tight tracking-[-0.033em]">
+          Payments
+        </h1>
+      </div>
+      <p>Payments content goes here</p>
+    </div>
+  )
+}

@@ -268,23 +268,28 @@
 //     </div>
 //   )
 // }
-
-import { Link, createFileRoute, notFound } from '@tanstack/react-router'
-import { useState } from 'react'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute , notFound } from '@tanstack/react-router'
 import { Skeleton } from 'boneyard-js/react'
-import type { AddTeacherModel } from '@/services/api/admin/teacher/Schemas'
 import {
   getTeacherQueryOptions,
-  useEditTeacher,
 } from '@/services/api/admin/teacher/hooks'
+/*import { Link, createFileRoute, notFound } from '@tanstack/react-router'
+import { useState } from 'react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+
+import type { AddTeacherModel } from '@/lib/Types/TeacherTypes'
+
 import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
 import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
 import DatePickerField from '@/components/admin/DatePickerField'
 import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
-
+*/
 export const Route = createFileRoute('/admin/teachers/$teacherId')({
-  component: RouteComponent,
+  component: () => {
+    return (<div className="flex h-full w-full">
+        in development
+    </div>)
+  },
   pendingComponent: () => (
     <Skeleton name="admin-teacher-detail-page" loading>
       <div className="flex h-full w-full" />
@@ -300,7 +305,7 @@ export const Route = createFileRoute('/admin/teachers/$teacherId')({
   },
 })
 
-function RouteComponent() {
+/*function RouteComponent() {
   return (
     <Skeleton name="admin-teacher-detail-page" loading={false}>
       <AdminTeacherDetailContent />
@@ -436,13 +441,13 @@ function AdminTeacherDetailContent() {
                       </label>
                     </div>
 
-                    {/* <InputWrapper
+                    {// <InputWrapper
                       form={teacherForm}
                       name="temporaryPassword"
                       label="Temporary Password"
                       placeholder="Enter temporary password"
                       type={showPassword ? 'text' : 'password'}
-                    /> */}
+                    /> }
                   </div>
                 </div>
 
@@ -473,3 +478,4 @@ function AdminTeacherDetailContent() {
     </div>
   )
 }
+*/

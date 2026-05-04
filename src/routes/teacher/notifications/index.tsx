@@ -5,6 +5,7 @@ import { Skeleton } from 'boneyard-js/react'
 import type { TypeTabFilterT } from '@/lib/Types/FilterTypes'
 import NotificationList from '@/components/notificationList'
 import { queryClient } from '@/lib/queryClient'
+import { Icon } from '@/components/ui/icon'
 
 export const Route = createFileRoute('/teacher/notifications/')({
   component: Notifications,
@@ -80,7 +81,7 @@ function TeacherNotificationsContent() {
             onClick={() => navigate({ to: '/teacher/notifications/add' })}
             className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary  hover:bg-blue-700 dark:hover:bg-blue-500 text-white text-sm font-bold active:scale-95 cursor-pointer"
           >
-            <span className="material-symbols-outlined text-[18px]">add</span>
+            <Icon name="add" className="text-[18px]" />
             <span>Add Notification</span>
           </button>
 
@@ -89,9 +90,7 @@ function TeacherNotificationsContent() {
             disabled={isMarkingAllRead}
             className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5  border border-gray-300 dark:border-gray-700  bg-white dark:bg-[#282e39] hover:bg-slate-200 dark:hover:bg-[#323b49] text-black text-sm font-bold active:scale-95 cursor-pointer"
           >
-            <span className="material-symbols-outlined text-[18px]">
-              done_all
-            </span>
+            <Icon name="done_all" className="text-[18px]" />
             <span>Mark all as read</span>
           </button>
         </div>
@@ -101,9 +100,7 @@ function TeacherNotificationsContent() {
           {/* Search Bar */}
           <label className="group relative flex w-full md:max-w-md items-center">
             <span className="absolute left-4 text-[#9da6b9] group-focus-within:text-primary">
-              <span className="material-symbols-outlined text-[24px]">
-                search
-              </span>
+              <Icon name="search" className="text-[24px]" />
             </span>
             <input
               type="text"

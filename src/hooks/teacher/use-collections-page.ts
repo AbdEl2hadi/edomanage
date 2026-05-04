@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
-import type { Collection } from '@/services/api/teacher/types/modelType'
+import type { Collection } from '@/lib/Types/CollectionTypes'
 import {
   useDeleteCollection,
   useGetAllCollections,

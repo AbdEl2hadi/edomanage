@@ -1,16 +1,21 @@
-import { Link, createFileRoute, notFound } from '@tanstack/react-router'
-import { useState } from 'react'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
+//import { Link, createFileRoute, notFound } from '@tanstack/react-router'
+//import { useState } from 'react'
+//import { useSuspenseQuery } from '@tanstack/react-query'
 import { Skeleton } from 'boneyard-js/react'
 // import type { EditStudentModel } from '@/services/api/admin/student/Schemas'
-import { getStudentQueryOptions } from '@/services/api/admin/student/hooks'
-import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
-import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
-import DatePickerField from '@/components/admin/DatePickerField'
-import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
+//import { getStudentQueryOptions } from '@/services/api/admin/student/hooks'
+//import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
+//import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
+//import DatePickerField from '@/components/admin/DatePickerField'
+//import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
 
 export const Route = createFileRoute('/admin/students/$studentId')({
-  component: RouteComponent,
+  component: () => {
+    return (<div className="flex h-full w-full">
+        in development
+    </div>)
+  },
   pendingComponent: () => (
     <Skeleton name="admin-student-detail-page" loading>
       <div className="flex h-full w-full" />
@@ -18,7 +23,7 @@ export const Route = createFileRoute('/admin/students/$studentId')({
   ),
   pendingMs: 0,
   pendingMinMs: 220,
-  loader: async ({ params, context }) => {
+  /*loader: async ({ params, context }) => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     const student = await context.queryClient.ensureQueryData(
       getStudentQueryOptions(params.studentId),
@@ -31,17 +36,18 @@ export const Route = createFileRoute('/admin/students/$studentId')({
     if (!student) {
       throw notFound()
     }
-  },
+  },*/
 })
 
-function RouteComponent() {
+/*function RouteComponent() {
   return (
     <Skeleton name="admin-student-detail-page" loading={false}>
       <AdminStudentDetailContent />
     </Skeleton>
   )
 }
-
+*/
+/*{
 function AdminStudentDetailContent() {
   const { studentId } = Route.useParams()
 
@@ -86,7 +92,7 @@ function AdminStudentDetailContent() {
                 className="flex flex-col"
                 onSubmit={studentForm.handleSubmit(onSubmit)}
               >
-                {/* <ProfilePicWrapper<EditStudentModel> form={studentForm} /> */}
+                {/* <ProfilePicWrapper<EditStudentModel> form={studentForm} /> *
                 <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
                   <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">
@@ -276,3 +282,4 @@ function AdminStudentDetailContent() {
     </div>
   )
 }
+}*/

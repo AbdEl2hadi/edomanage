@@ -5,7 +5,6 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import z from 'zod'
 import { zodValidator } from '@tanstack/zod-adapter'
 import { toast } from 'sonner'
-import type { Filters } from '@/services/api/admin/types/apiTypes'
 import type { UICardType } from '@/components/admin/UICard'
 import type { TeacherWithUser } from '@/lib/Types/TeacherTypes'
 import { TeacherColumns } from '@/components/admin/Table/columnsData'
@@ -51,7 +50,6 @@ const UICardList: Array<UICardType> = [
   },
 ]
 
-type QueryOptionsType = Filters<TeacherWithUser>
 export type TeacherSortOption = 'name' | 'email'
 
 export const TeacherSearchSchema = z.object({
@@ -64,6 +62,7 @@ export const TeacherSearchSchema = z.object({
   size: z.coerce.number().int().positive().catch(10).default(10),
 })
 type TeacherSearchParams = z.infer<typeof TeacherSearchSchema>
+type QueryOptionsType = TeacherSearchParams
 
 const getTeachersQueryOptions = ({
   page,
@@ -72,14 +71,13 @@ const getTeachersQueryOptions = ({
   status,
   sortOrder,
   sortBy,
-}: QueryOptionsType) => ({
+}: Omit<QueryOptionsType, 'email'>) => ({
   queryKey: ['teachers', page, search, size, sortOrder, sortBy, status],
   queryFn: async () => {
     const response = await teacherFetcher.getTeachers({
-      page,
+      pageIndex: page,
       search,
-      size,
-      // status,
+      pageSize: size,
       sortOrder,
       sortBy,
     })
@@ -90,7 +88,12 @@ const getTeachersQueryOptions = ({
       }
     else throw new Error(response.errorType)
   },
+  staleTime: 5 * 60 * 1000, // 5 minutes
+  gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
   placeholderData: keepPreviousData,
+  retry: 1,
+  refetchOnWindowFocus: false,
+  refetchOnMount: false,
 })
 
 export const Route = createFileRoute('/admin/teachers/')({
@@ -135,10 +138,9 @@ function AdminTeachersContent() {
       size,
       search,
       sortBy,
-      // status,
+      status,
       sortOrder,
     }),
-    placeholderData: keepPreviousData,
   })
 
   return (

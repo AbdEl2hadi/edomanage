@@ -7,8 +7,8 @@ import type {
   PaginationState,
 } from '@tanstack/react-table'
 /* filter types*/
-import type { ResourceFilter } from '../../../services/api/teacher/types/apiTypes'
-import type { ResourceSortOption } from '../../../services/api/teacher/types/modelType'
+import type { ResourceFilter } from '../../../lib/Types/FilterTypes'
+import type { ResourceSortOption } from '../../../lib/Types/ResourceTypes'
 
 import { useDebounce } from '@/hooks/use-debounce'
 import { DataTable } from '@/components/table/data-table'
@@ -19,7 +19,7 @@ type Props<T extends Record<string, string | number>> = {
   pagination: PaginationState
   paginationOptions: {
     onPaginationChange: NonNullable<PaginationOptions['onPaginationChange']>
-    rowCount: number
+    totalElements: number
   }
   filters: ResourceFilter
   onFilterChange: (dataFilters: Partial<ResourceFilter>) => void
@@ -40,7 +40,7 @@ export function ResourcesTable<T extends Record<string, string | number>>({
   }
   const pageCount = Math.max(
     1,
-    Math.ceil(paginationOptions.rowCount / tablePagination.pageSize),
+    Math.ceil(paginationOptions.totalElements / tablePagination.pageSize),
   )
 
   const visiblePages = 3
@@ -79,7 +79,7 @@ export function ResourcesTable<T extends Record<string, string | number>>({
     data,
     columns,
     manualPagination: true,
-    rowCount: paginationOptions.rowCount,
+    rowCount: paginationOptions.totalElements,
     state: {
       pagination: tablePagination,
     },

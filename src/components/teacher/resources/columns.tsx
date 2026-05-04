@@ -1,6 +1,6 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
-import type { Resource } from '@/services/api/teacher/types/modelType'
+import type { Resource } from '@/lib/Types/ResourceTypes'
 
 const typeUrl: Partial<Record<string, { icon: string; color: string }>> = {
   pdf: {

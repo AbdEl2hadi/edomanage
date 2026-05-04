@@ -1,4 +1,5 @@
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { Icon } from '@/components/ui/icon'
 import { Controller, useForm } from 'react-hook-form'
 import { EVENT_COLORS } from './model'
 import type { EventForm } from './model'
@@ -89,12 +90,13 @@ const SearchableSelect = memo(function SearchableSelect({
               setQuery('')
             }}
           >
-            <span className="material-symbols-outlined text-[16px]">close</span>
+            <Icon name="close" className="text-[16px]" />
           </button>
         ) : (
-          <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-[16px] pointer-events-none">
-            search
-          </span>
+          <Icon
+            name="search"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-[16px] pointer-events-none"
+          />
         )}
       </div>
       {open && (
@@ -140,9 +142,7 @@ const DateTimeInput = memo(function DateTimeInput({
   const icon = type === 'date' ? 'calendar_today' : 'schedule'
   return (
     <div className="cal-datetime-wrapper">
-      <span className="cal-datetime-icon material-symbols-outlined">
-        {icon}
-      </span>
+      <Icon name={icon} className="cal-datetime-icon" />
       <input
         type={type}
         className="cal-datetime-input"

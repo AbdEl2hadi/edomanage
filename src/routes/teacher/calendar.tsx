@@ -17,7 +17,6 @@ export const Route = createFileRoute('/teacher/calendar')({
     meta: [{ title: 'Teacher | Calendar - EduManage' }],
   }),
   loader: async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
     await queryClient.prefetchQuery(useGetEventsOptions(undefined, 'td-123'))
   },
 })

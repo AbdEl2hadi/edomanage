@@ -3,8 +3,8 @@ import OwnNotificationTable from './ownNotification-table'
 import { columns } from './columns'
 import { NotificationForm } from './form/NotificationForm'
 
-import type { NotificationFilter } from '@/services/api/teacher/types/apiTypes'
-import type { Notification } from '@/services/api/teacher/types/modelType'
+import type { NotificationFilter } from '@/lib/Types/FilterTypes'
+import type { Notification } from '@/lib/Types/NotificationTypes'
 import Loading from '@/components/loading'
 import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'
 
@@ -31,7 +31,7 @@ export default function AddNotification({
     isError: isNotificationsError,
   } = useGetTeacherNotifications(filters)
   const data: Array<Notification> = notificationsData?.data ?? []
-  const rowCount = notificationsData?.rowCount ?? 0
+  const rowCount = notificationsData?.pagination?.totalElements ?? 0
 
   const handlePaginationChange = useCallback(
     (

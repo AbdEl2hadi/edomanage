@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui/icon'
 import {
   ArrowUpDown,
   MoreHorizontal,
@@ -61,14 +62,12 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
         <div className="flex items-center justify-center">
           student.user.image ? (
           <img
-            src={student.user.image ?? ''}
-            alt={student.user.name}
+            src={student.image ?? ''}
+            alt={student.name}
             className="w-8 h-8 rounded-full object-cover"
           />
           ) : (
-          <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
-            person
-          </span>
+          <Icon name="person" className="text-4xl text-[#9ca3af]" />
           )
           {/* <ProfilePicGenerator
             name={student.user.name}
@@ -86,7 +85,7 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
     size: 20,
     cell: ({ row }) => (
       <span className="font-medium text-slate-900 dark:text-white">
-        {row.original.user.name}
+        {row.original.name}
       </span>
     ),
   },
@@ -99,7 +98,7 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
     cell: ({ row }) => {
       return (
         <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
-          {row.original.user.email}
+          {row.original.email}
         </div>
       )
     },
@@ -110,7 +109,7 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
     size: 15,
     cell: ({ row }) => (
       <span className="font-medium text-slate-800 dark:text-slate-200">
-        {row.original.grade}
+        {row.original.info?.grade}
       </span>
     ),
   },
@@ -122,9 +121,9 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
       const student = row.original
       return (
         <div className="flex flex-col text-sm text-slate-700 dark:text-slate-300">
-          <span className="font-medium">{student.parentName}</span>
+          <span className="font-medium">{student.info?.parentName}</span>
           <span className="text-xs text-slate-500 dark:text-slate-400">
-            {student.parentPhoneNumber}
+            {student.info?.parentPhoneNumber}
           </span>
         </div>
       )
@@ -137,18 +136,18 @@ export const StudentColumns: Array<ColumnDef<StudentWithUser>> = [
     cell: ({ row }) => {
       const student = row.original
       const bgColor =
-        student.status === 'Active'
+        student.info?.status === 'Active'
           ? 'bg-green-100 text-green-800'
-          : student.status === 'Inactive'
+          : student.info?.status === 'Inactive'
             ? 'bg-red-100 text-red-800'
-            : student.status === 'Pending'
+            : student.info?.status === 'Pending'
               ? 'bg-yellow-100 text-yellow-800'
               : 'bg-gray-100 text-gray-800'
       return (
         <span
           className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${bgColor} `}
         >
-          {student.status}
+          {student.info?.status}
         </span>
       )
     },
@@ -207,14 +206,12 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
         <div className="flex items-center justify-center">
           teacher.user.image ? (
           <img
-            src={teacher.user.image ?? ''}
-            alt={teacher.user.name}
+            src={teacher.image ?? ''}
+            alt={teacher.name}
             className="w-8 h-8 rounded-full object-cover"
           />
           ) : (
-          <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
-            person
-          </span>
+          <Icon name="person" className="text-4xl text-[#9ca3af]" />
           )
           {/* <ProfilePicGenerator
             name={student.user.name}
@@ -236,7 +233,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
     size: 20,
     cell: ({ row }) => (
       <span className="font-medium text-slate-900 dark:text-white">
-        {row.original.user.name}
+        {row.original.name}
       </span>
     ),
   },
@@ -249,7 +246,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
     size: 28,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate w-full">
-        {row.original.user.email}
+        {row.original.email}
       </div>
     ),
   },
@@ -258,7 +255,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
     header: 'Gender',
     size: 10,
     cell: ({ row }) => (
-      <span className="capitalize">{row.original.gender}</span>
+      <span className="capitalize">{row.original.info?.gender}</span>
     ),
   },
 
@@ -274,7 +271,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
     size: 20,
     cell: ({ row }) => (
       <div className="text-sm text-slate-700 dark:text-slate-300 truncate">
-        {row.original.subject}
+        {row.original.info?.subject}
       </div>
     ),
   },
@@ -287,11 +284,11 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
       const teacher = row.original
 
       const bgColor =
-        teacher.status === 'Active'
+        teacher.info?.status === 'Active'
           ? 'bg-green-100 text-green-800'
-          : teacher.status === 'Inactive'
+          : teacher.info?.status === 'Inactive'
             ? 'bg-red-100 text-red-800'
-            : teacher.status === 'Pending'
+            : teacher.info?.status === 'Pending'
               ? 'bg-yellow-100 text-yellow-800'
               : 'bg-gray-100 text-gray-800'
 
@@ -299,7 +296,7 @@ export const TeacherColumns: Array<ColumnDef<TeacherWithUser>> = [
         <span
           className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${bgColor}`}
         >
-          {teacher.status}
+          {teacher.info?.status}
         </span>
       )
     },

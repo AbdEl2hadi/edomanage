@@ -1,28 +1,35 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { useForm } from 'react-hook-form'
+import { createFileRoute } from '@tanstack/react-router'
+/*import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Skeleton } from 'boneyard-js/react'
-import type { TeacherModel } from '@/services/api/admin/teacher/Schemas'
-import { TeacherSchema } from '@/services/api/admin/teacher/Schemas'
+import type { TeacherModel } from '@/lib/Types/TeacherTypes'
+import { teacherSchema as TeacherSchema } from '@/lib/Schemas/TeacherSchemas'
 import { useAddTeacher } from '@/services/api/admin/teacher/hooks'
 import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
 import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
 import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
 import DatePickerField from '@/components/admin/DatePickerField'
+*/
 
 export const Route = createFileRoute('/admin/teachers/add')({
-  component: RouteComponent,
+  component: () => {
+    return (
+      <div className="flex h-full w-full">
+        in development
+      </div>
+    )
+  },
   head: () => ({
     meta: [{ title: 'Admin | Add Teacher - EduManage' }],
   }),
 })
 
-function RouteComponent() {
+/*function RouteComponent() {
   const form = useForm<TeacherModel>({
     resolver: zodResolver(TeacherSchema),
     defaultValues: {
-      subjects: ['math', 'science'],
+      subject: 'math',
       status: 'New',
     },
   })
@@ -185,7 +192,7 @@ function RouteComponent() {
                         values={['science', 'math', 'literature', 'arts']}
                       />
 
-                      {/* this needs a special component since it's doing so much problems here */}
+                      {// this needs a special component since it's doing so much problems here */
 
                       {/* <div className="flex flex-col gap-1.5 md:col-span-2">
                       <label className="text-neutral-900 dark:text-gray-200 text-sm font-medium">
@@ -224,7 +231,7 @@ function RouteComponent() {
                           }}
                         />
                       </div>
-                    </div> */}
+                    </div> }
                     </div>
                   </div>
                   <div className="p-8">
@@ -311,4 +318,5 @@ function RouteComponent() {
       </div>
     </Skeleton>
   )
+}*/
 }

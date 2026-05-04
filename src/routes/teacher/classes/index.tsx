@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
 import { Skeleton } from 'boneyard-js/react'
 import { ResourceSearchSchema } from './$folderId'
-import type { Resource } from '@/services/api/teacher/types/modelType'
+
 import { AddOrEditCollectionDialog } from '@/components/teacher/collection/CollectionDialogs'
 import SendResForm from '@/components/teacher/resources/sendResForm'
 import { ResourcesTable } from '@/components/teacher/resources/resources-table'
@@ -13,6 +13,8 @@ import useGetResources, {
   getResourcesQueryOptions,
   useGetAllCollections,
 } from '@/services/api/teacher/collection/hooks'
+import { Icon } from '@/components/ui/icon'
+import type { Resource } from '@/lib/Types/ResourceTypes'
 
 export const Route = createFileRoute('/teacher/classes/')({
   component: RouteComponent,
@@ -61,8 +63,8 @@ function TeacherClassesContent() {
   }
   /* create pagination state */
   const paginationState = {
-    pageIndex: filters.page ?? 1,
-    pageSize: filters.size ?? 5,
+    pageIndex: filters.pageIndex ?? 1,
+    pageSize: filters.pageSize ?? 5,
   }
   /* create */
 
@@ -70,7 +72,7 @@ function TeacherClassesContent() {
     useGetResources(undefined, filters)
 
   const data: Array<Resource> = resourcesData?.data ?? []
-  const rowCount = resourcesData?.rowCount ?? 0
+  const totalElements = resourcesData?.pagination?.totalElements ?? 0
 
   /* default search value */
   /* collections folders*/
@@ -218,9 +220,10 @@ function TeacherClassesContent() {
                   >
                     <div className="group cursor-pointer rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 py-9 transition-all hover:border-primary/50 hover:shadow-md">
                       <div className="flex items-start justify-between mb-3">
-                        <span className="material-symbols-outlined text-4xl text-primary/80 group-hover:text-primary transition-colors filled">
-                          folder
-                        </span>
+                        <Icon
+                          name="folder"
+                          className="text-4xl text-primary/80 group-hover:text-primary transition-colors filled"
+                        />
                       </div>
                       <h4 className="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
                         {folder.name}
@@ -259,7 +262,7 @@ function TeacherClassesContent() {
                     : pagination,
                 )
               },
-              rowCount,
+              totalElements,
             }}
             filters={filters}
             onFilterChange={setFilters}

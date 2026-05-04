@@ -1,11 +1,12 @@
+import type { PaginatedSuccessResponse } from "@/lib/Types/ApiTypes"
 import type { NotificationFilter } from "@/lib/Types/FilterTypes"
 import type { Notification } from "@/lib/Types/NotificationTypes"
 
 export const filterNotifications = (
   notifications: Array<Notification>,
   filterAndPagination: NotificationFilter,
-): PaginationData<Notification> => {
-  const { page = 1, size = 5, ...filters } = filterAndPagination
+): PaginatedSuccessResponse<Notification> => {
+  const { pageIndex = 1, pageSize = 5, ...filters } = filterAndPagination
 
   const normalizedFilters = Object.entries(filters).reduce<
     Partial<Record<keyof Notification, string>>
@@ -38,11 +39,16 @@ export const filterNotifications = (
     return second - first
   })
 
-  const start = (page - 1) * size
-  const end = start + size
+  const start = (pageIndex - 1) * pageSize
+  const end = start + pageSize
 
   return {
     data: sorted.slice(start, end),
-    rowCount: sorted.length,
+    pagination: {
+      totalPages: Math.ceil(sorted.length / pageSize),
+      totalElements: sorted.length,
+    },
+    success: true,
+    message: 'Notifications filtered successfully'
   }
 }

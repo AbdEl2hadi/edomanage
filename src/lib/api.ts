@@ -4,8 +4,10 @@ import { useAuthStore } from '@/services/store/auth_store'
 
 export { isAxiosError } from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL || '/'
+
 export const api = axios.create({
-  baseURL: '/',
+  baseURL: API_URL,
   withCredentials: false,
   headers: {
     'Content-Type': 'application/json',

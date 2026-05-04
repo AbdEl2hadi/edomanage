@@ -3,6 +3,7 @@ import type { Collection } from '@/lib/Types/CollectionTypes'
 import type { ResourceFilter } from '@/lib/Types/FilterTypes'
 import type { Resource, ResourceApiModel } from '@/lib/Types/ResourceTypes'
 import type { PaginatedSuccessResponse } from '@/lib/Types/ApiTypes'
+
 import { api } from '@/lib/api'
 
 const API_URL = 'http://localhost:4000'
@@ -43,7 +44,7 @@ class CollectionFetcher implements ICollectionFetcher {
   async getResources(
     collectionId: string | undefined,
     searchParams: ResourceFilter,
-  ): Promise<PaginationData<Resource>> { // maafa change this paginationData type with the paginatedStuccessResponse type since i can't find it anywhere 
+  ): Promise<PaginatedSuccessResponse<Resource>> { // maafa change this paginationData type with the paginatedStuccessResponse type since i can't find it anywhere 
     await new Promise((resolve) => setTimeout(resolve, 200))
     const response = await api.get<Array<ResourceApiModel>>(
       `${API_URL}/resources`,

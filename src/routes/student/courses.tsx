@@ -11,6 +11,7 @@ import useGetResources, {
   getAllCollectionsQueryOptions,
   getResourcesQueryOptions,
 } from '@/services/api/teacher/collection/hooks.ts'
+//import { Icon } from '@/components/ui/icon'
 
 export const Route = createFileRoute('/student/courses')({
   component: Courses,
@@ -48,13 +49,13 @@ export function Courses() {
 function CoursesContent() {
   const { filters, setFilters } = useFilterResource(Route.id)
   const paginationState = {
-    pageIndex: filters.page ?? 1,
-    pageSize: filters.size ?? 5,
+    pageIndex: filters.pageIndex ?? 1,
+    pageSize: filters.pageSize ?? 5,
   }
   const { data: resourcesData, isLoading: isResourcesLoading } =
     useGetResources(undefined, filters)
   const data: Array<Resource> = resourcesData?.data ?? []
-  const rowCount = resourcesData?.rowCount ?? 0
+  const totalElements = resourcesData?.pagination.totalElements ?? 0
   const isResourcesInitialLoading = isResourcesLoading && !resourcesData
 
   return (
@@ -65,15 +66,11 @@ function CoursesContent() {
         <a className="hover:text-primary" href="#">
           Home
         </a>
-        <span className="material-symbols-outlined text-[16px]">
-          chevron_right
-        </span>
+        <Icon name="chevron_right" className="text-[16px]" />
         <a className="hover:text-primary" href="#">
           Student
         </a>
-        <span className="material-symbols-outlined text-[16px]">
-          chevron_right
-        </span>
+        <Icon name="chevron_right" className="text-[16px]" />
         <span className="font-medium text-[#0d121b] dark:text-white">
           Resources
         </span>
@@ -105,7 +102,7 @@ function CoursesContent() {
                     : pagination,
                 )
               },
-              rowCount,
+              totalElements,
             }}
             filters={filters}
             onFilterChange={setFilters}
