@@ -20,7 +20,7 @@ class StudentFetcher implements IStudentFetcher {
         try {
             const { data } = await axios<ApiResponse<StudentWithUser>>(
                 {
-                    url: `${import.meta.env.VITE_WebsiteUrl}/admin/students`,
+                    url: `/admin/students`,
                     method: "POST",
                     data: student,
                 }
@@ -44,17 +44,18 @@ class StudentFetcher implements IStudentFetcher {
     async getStudents(filters: Partial<Filters<StudentWithUser>>) {
         const { data } = await axios<PaginatedApiResponse<StudentWithUser>>({
             method: "GET",
-            url: `${import.meta.env.VITE_WebsiteUrl}/admin/students`,
+            url: `/admin/students`,
             params: {
                 search: filters.search,
                 page: filters.page,
                 limit: filters.size,
-                grade: filters.grade,
+                // grade: filters.grade,
                 status: filters.status,
                 // email: filters.email,
                 sortBy: filters.sortBy,
                 sortOrder: filters.sortOrder,
             }
+            
         });
         return data;
     }
@@ -63,7 +64,7 @@ class StudentFetcher implements IStudentFetcher {
         // try {
         const { data } = await axios<ApiResponse<StudentWithUser>>({
             method: "GET",
-            url: `${import.meta.env.VITE_WebsiteUrl}/admin/students/${studentId}`,
+            url: `/admin/students/${studentId}`,
         });
         return data;
         // } catch (error: any) {
@@ -85,7 +86,7 @@ class StudentFetcher implements IStudentFetcher {
     async editStudent(modifiedStudent: StudentWithUser) {
         try {
             const { data } = await axios.put<ApiResponse<StudentWithUser>>(
-                `${import.meta.env.VITE_WebsiteUrl}/admin/students/${modifiedStudent.id}`,
+                `/admin/students/${modifiedStudent.id}`,
                 modifiedStudent
             );
             return data;
@@ -107,7 +108,7 @@ class StudentFetcher implements IStudentFetcher {
         // try {
         const { data } = await axios<ApiResponse<void>>({
             method: "DELETE",
-            url: `${import.meta.env.VITE_WebsiteUrl}/admin/students/${id}`,
+            url: `/admin/students/${id}`,
         });
         return data;
         // } catch (error: any) {

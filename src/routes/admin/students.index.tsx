@@ -80,11 +80,11 @@ const getStudentsQueryOptions = ({
   search,
   size,
   status,
-  grade,
+  // grade,
   sortOrder,
   sortBy,
 }: QueryOptionsType) => ({
-  queryKey: ['students', page, search, size, sortOrder, sortBy, status, grade],
+  queryKey: ['students', page, search, size, sortOrder, sortBy, status],
   queryFn: async () => {
     const response = await studentFetcher.getStudents({
       page,
@@ -93,7 +93,7 @@ const getStudentsQueryOptions = ({
       status,
       sortOrder,
       sortBy,
-      grade,
+      // grade,
     })
     if (response.success)
       return {
@@ -134,8 +134,7 @@ function AdminStudentsPending() {
 
 function AdminStudentsContent() {
   const navigate = Route.useNavigate()
-  const { size, page, search, sortBy, sortOrder, status, grade } =
-    Route.useSearch()
+  const { size, page, search, sortBy, sortOrder } = Route.useSearch()
   const {
     data: studentsData,
     status: fetchStatus,
@@ -148,7 +147,7 @@ function AdminStudentsContent() {
       search,
       sortBy,
       // status,
-      grade,
+      // grade,
       sortOrder,
     }),
   })
@@ -193,7 +192,7 @@ function AdminStudentsContent() {
                 />
                 <SelectFilter
                   options={grades}
-                  value={grade}
+                  value={''}
                   onChange={(value) =>
                     navigate({
                       search: (s: StudentSearchParams) => ({

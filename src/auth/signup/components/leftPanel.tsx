@@ -21,7 +21,7 @@ export function LeftPanel() {
         }}
       />
       {/* Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/70 to-[#111318]/20"></div>
+      <div className="absolute inset-0 bg-linear-to-t from-[#111318] via-[#111318]/70 to-[#111318]/20"></div>
       {/* Content Overlay */}
       <div className="relative z-10 max-w-xl">
         <div className="mb-3 flex items-center">
