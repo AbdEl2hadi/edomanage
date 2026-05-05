@@ -17,27 +17,14 @@ class StudentFetcher implements IStudentFetcher {
 
     // Add Student with User Details
     async addStudent(student: AddStudentWithUser) {
-        try {
-            const { data } = await axios<ApiResponse<StudentWithUser>>(
-                {
-                    url: `/admin/students`,
-                    method: "POST",
-                    data: student,
-                }
-            );
-            return data;
-        } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                if (error.response) {
-                    console.error("addStudent - Server Error:", error.response.status, error.response.data);
-                } else if (error.request) {
-                    console.error("addStudent - Network Error:", error.request);
-                }
-            } else {
-                console.error("addStudent - General Error:", error.message);
+        const { data } = await axios<ApiResponse<StudentWithUser>>(
+            {
+                url: `/admin/students`,
+                method: "POST",
+                data: student,
             }
-            throw error;
-        }
+        );
+        return data;
     }
 
 
@@ -51,34 +38,19 @@ class StudentFetcher implements IStudentFetcher {
                 limit: filters.pageSize,
                 grade: filters.info?.grade,
                 status: filters.info?.status,
-                // email: filters.email,
                 sortBy: filters.sortBy,
                 sortOrder: filters.sortOrder,
             }
-
         });
         return data;
     }
 
     async getStudent(studentId: string) {
-        // try {
         const { data } = await axios<ApiResponse<StudentWithUser>>({
             method: "GET",
             url: `/admin/students/${studentId}`,
         });
         return data;
-        // } catch (error: any) {
-        //     if (axios.isAxiosError(error)) {
-        //         if (error.response) {
-        //             console.error("getStudent - Server Error:", error.response.status, error.response.data);
-        //         } else if (error.request) {
-        //             console.error("getStudent - Network Error:", error.request);
-        //         }
-        //     } else {
-        //         console.error("getStudent - General Error:", error.message);
-        //     }
-        //     throw error;
-        // }
     }
 
 
@@ -105,24 +77,11 @@ class StudentFetcher implements IStudentFetcher {
     }
 
     async deleteStudent(id: string) {
-        // try {
         const { data } = await axios<ApiResponse<void>>({
             method: "DELETE",
             url: `/admin/students/${id}`,
         });
         return data;
-        // } catch (error: any) {
-        //     if (axios.isAxiosError(error)) {
-        //         if (error.response) {
-        //             console.error("deleteStudent - Server Error:", error.response.status, error.response.data);
-        //         } else if (error.request) {
-        //             console.error("deleteStudent - Network Error:", error.request);
-        //         }
-        //     } else {
-        //         console.error("deleteStudent - General Error:", error.message);
-        //     }
-        //     throw error;
-        // }
     }
 }
 

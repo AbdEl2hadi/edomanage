@@ -1,6 +1,8 @@
 import z from "zod";
 import { AuthUserSchema } from "./UserSchemas";
 
+// grade and class should be disscussed later
+
 export const studentSchema = z.object({
     id: z.string().optional(),
     userId: z.string().optional(),
@@ -20,6 +22,7 @@ export const studentWithUserSchema = AuthUserSchema.extend({
     info: studentSchema.optional(),
 });
 
+
 export const addStudentSchema = z.object({
     schoolId: z.string(),
     id: z.string().optional(),
@@ -35,6 +38,6 @@ export const addStudentSchema = z.object({
     studentPictureFileId: z.string().nullable().optional(),
 });
 
-export const addStudentWithUserSchema = addStudentSchema.extend({
-    user: AuthUserSchema,
+export const addStudentWithUserSchema = AuthUserSchema.extend({
+    info: addStudentSchema.optional(),
 });

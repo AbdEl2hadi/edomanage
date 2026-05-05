@@ -118,8 +118,7 @@ function App() {
                       <a
                         href="#create-account"
                         onClick={scrollToSection('create-account')}
-                        className="flex items-center justify-center rounded-full h-12 px-8 bg-primary text-white text-base font-bold hover:scale-105 cursor-pointer"
-                        style={{ transition: 'transform 0.2s ease-in-out' }}
+                        className="flex items-center justify-center rounded-full h-12 px-8 bg-primary text-white text-base font-bold hover:scale-105 cursor-pointer transition-transform duration-200 ease-out"
                       >
                         Get Started
                       </a>
@@ -127,7 +126,7 @@ function App() {
                       <a
                         href="#features"
                         onClick={scrollToSection('features')}
-                        className="flex items-center justify-center rounded-full h-12 px-8 bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white text-base font-bold hover:bg-slate-200/80 dark:hover:bg-white/15 cursor-pointer"
+                        className="flex items-center justify-center rounded-full h-12 px-8 bg-slate-100 dark:bg-white/10 text-slate-900 border border-slate-300 dark:border-white/10 dark:text-white text-base font-bold hover:bg-slate-200/80 dark:hover:bg-white/15 cursor-pointer transition-all duration-200 ease-out"
                       >
                         View Demo
                       </a>
@@ -136,8 +135,8 @@ function App() {
                   {/* Hero Image */}
                   <div className="flex-1 w-full relative">
                     <div
-                      className="relative w-full aspect-4/3 rounded-xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0"
-                      style={{ transition: 'transform 0.5s ease-out' }}
+                      className="relative w-full aspect-4/3 rounded-xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 
+                      transition-all duration-500 ease-in-out cursor-pointer"
                     >
                       <div className="absolute inset-0 bg-linear-to-tr from-black/20 to-transparent z-10"></div>
                       <div
@@ -174,15 +173,20 @@ function App() {
             {/* Statistics Section */}
             <div className="w-full bg-background-light dark:bg-surface-dark/30 border-y border-slate-200/70 dark:border-white/10">
               <div className="px-4 md:px-40 flex flex-1 justify-center py-12">
-                <div className="layout-content-container flex flex-col max-w-240 flex-1">
+                <div className="layout-content-container flex flex-col gap-20 max-w-300 justify-center flex-1">
+                  <div className='flex flex-col gap-5 items-center text-center max-w-150 mx-auto'>
+                    <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">
+                      can you trust us?
+                    </span>
+                    <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+                      Our Achievements
+                    </h1>
+                    <p className="text-slate-600 dark:text-slate-400">
+                        Day by day growth and software developement gain us the trust of over 50 schools and more than 10k students worldwide.
+                    </p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div
-                      className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer"
-                      style={{
-                        transition:
-                          'transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out',
-                      }}
-                    >
+                    <div className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/50 cursor-pointer transition-all duration-200 ease-out">
                       <div className="flex items-center gap-3 mb-2">
                         <Icon name="domain" className="text-primary text-3xl" />
                         <p className="text-slate-600 dark:text-slate-400 text-base font-medium leading-normal">
@@ -193,13 +197,7 @@ function App() {
                         50+
                       </p>
                     </div>
-                    <div
-                      className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer"
-                      style={{
-                        transition:
-                          'transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out',
-                      }}
-                    >
+                    <div className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/50 cursor-pointer transition-all duration-200 ease-out">
                       <div className="flex items-center gap-3 mb-2">
                         <Icon name="groups" className="text-primary text-3xl" />
                         <p className="text-slate-600 dark:text-slate-400 text-base font-medium leading-normal">
@@ -210,13 +208,7 @@ function App() {
                         10k+
                       </p>
                     </div>
-                    <div
-                      className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/30 cursor-pointer"
-                      style={{
-                        transition:
-                          'transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out',
-                      }}
-                    >
+                    <div className="flex flex-col gap-2 rounded-xl p-8 bg-white dark:bg-surface-dark shadow-sm hover:shadow-lg hover:-translate-y-1 border border-slate-200/70 dark:border-white/10 hover:border-primary/50 cursor-pointer transition-all duration-200 ease-out">
                       <div className="flex items-center gap-3 mb-2">
                         <Icon
                           name="cast_for_education"
@@ -253,17 +245,12 @@ function App() {
                   {/* Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 h-auto md:h-125">
                     {/* Large Feature 1 */}
-                    <div
-                      className="md:col-span-2 md:row-span-2 rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-8 flex flex-col overflow-hidden relative group cursor-pointer hover:shadow-lg hover:-translate-y-1"
-                      style={{
-                        transition: 'translate 0.2s ease-out',
-                      }}
-                    >
+                    <div className="md:col-span-2 md:row-span-2 rounded-xl bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 p-8 hover:border-primary/50 flex flex-col overflow-hidden relative group cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ease-out ">
                       <div className="z-10">
                         <span className="w-10 h-10 flex items-center justify-center rounded-full bg-primary mb-4">
                           <Icon name="monitoring" className="text-white" />
                         </span>
-                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 ">
                           Real-time Analytics
                         </h3>
                         <p className="text-slate-600 dark:text-slate-400 max-w-sm">
@@ -272,7 +259,8 @@ function App() {
                         </p>
                       </div>
                       <div
-                        className="absolute right-0 bottom-0 w-3/4 h-3/4 bg-linear-to-tl from-gray-100 to-transparent dark:from-white/5 rounded-tl-full translate-x-10 translate-y-10 group-hover:translate-x-5 group-hover:translate-y-5"
+                        className="absolute right-0 bottom-0 w-3/4 h-3/4 bg-linear-to-tl from-gray-100 to-transparent dark:from-white/5 rounded-tl-full translate-x-10 translate-y-10 "
+                        // group-hover:translate-x-5 group-hover:translate-y-5"
                         style={{ transition: 'transform 0.5s ease-in-out' }}
                       >
                         <div className="w-full h-full p-8 flex items-end justify-end">
@@ -287,13 +275,11 @@ function App() {
                       </div>
                     </div>
                     {/* Small Feature 2 */}
-                    <div
-                      className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 cursor-pointer hover:shadow-md hover:-translate-y-1"
-                      style={{
-                        transition: 'translate 0.2s ease-out',
-                      }}
-                    >
-                      <Icon name="payments" className="text-4xl text-primary mb-2" />
+                    <div className="rounded-xl bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 cursor-pointer hover:shadow-md hover:-translate-y-1 transition-all duration-200 ease-out">
+                      <Icon
+                        name="payments"
+                        className="text-4xl text-primary mb-2"
+                      />
                       <div>
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                           Fee Management
@@ -304,13 +290,11 @@ function App() {
                       </div>
                     </div>
                     {/* Small Feature 3 */}
-                    <div
-                      className="rounded-xl bg-background-light dark:bg-surface-dark border border-gray-100 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 cursor-pointer hover:shadow-md hover:-translate-y-1"
-                      style={{
-                        transition: 'translate 0.2s ease-out',
-                      }}
-                    >
-                      <Icon name="chat" className="text-4xl text-primary mb-2" />
+                    <div className="rounded-xl bg-white dark:bg-surface-dark border border-gray-200 dark:border-white/10 p-6 flex flex-col justify-between hover:border-primary/50 cursor-pointer hover:shadow-md hover:-translate-y-1 transition-all duration-200 ease-out">
+                      <Icon
+                        name="chat"
+                        className="text-4xl text-primary mb-2"
+                      />
                       <div>
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                           Communication
@@ -349,12 +333,12 @@ function App() {
               <div className="px-5 md:px-10 lg:px-40 flex justify-center">
                 <div className="max-w-300 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Admin Card */}
-                  <div
-                    className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
-                    style={{ transition: 'translate 0.2s ease-out' }}
-                  >
+                  <div className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 group cursor-pointer transition-all duration-200 ease-out">
                     <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
-                      <Icon name="domain" className="text-3xl" />
+                      <Icon
+                        name="domain"
+                        className="text-3xl transition-all duration-200 ease-out"
+                      />
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
@@ -371,21 +355,19 @@ function App() {
                         role: 'admin',
                         redirectTo: '/admin/dashboard',
                       }}
-                      className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
+                      className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer transition-all duration-200 ease-out"
                     >
                       Login as Admin
                     </Link>
                   </div>
 
                   {/* Teacher Card */}
-                  <div
-                    className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
-                    style={{
-                      transition: 'translate 0.2s ease-out',
-                    }}
-                  >
+                  <div className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 group cursor-pointer transition-all duration-200 ease-out">
                     <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
-                      <Icon name="auto_stories" className="text-3xl" />
+                      <Icon
+                        name="auto_stories"
+                        className="text-3xl transition-all duration-200 ease-out"
+                      />
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
@@ -402,19 +384,19 @@ function App() {
                         role: 'teacher',
                         redirectTo: '/teacher/calendar',
                       }}
-                      className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
+                      className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer transition-all duration-200 ease-out"
                     >
                       Login as Teacher
                     </Link>
                   </div>
 
                   {/* Student Card */}
-                  <div
-                    className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
-                    style={{ transition: 'translate 0.2s ease-out' }}
-                  >
+                  <div className="flex flex-col gap-4 rounded-xl border border-slate-200/70 dark:border-white/10 bg-white dark:bg-surface-dark p-8 items-center text-center hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 group cursor-pointer transition-all duration-200 ease-out">
                     <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
-                      <Icon name="backpack" className="text-3xl" />
+                      <Icon
+                        name="backpack"
+                        className="text-3xl transition-all duration-200 ease-out"
+                      />
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
@@ -431,7 +413,7 @@ function App() {
                         role: 'student',
                         redirectTo: '/student/calendar',
                       }}
-                      className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer"
+                      className="mt-auto w-full py-3 rounded-full border border-slate-200/70 dark:border-white/15 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/15 text-sm font-bold text-slate-900 dark:text-white cursor-pointer transition-all duration-200 ease-out"
                     >
                       Login as Student
                     </Link>
@@ -455,12 +437,14 @@ function App() {
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <button
-                      className="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-bold hover:brightness-110 cursor-pointer shadow-[0_0_20px_rgba(249,245,6,0.3)]"
-                      style={{ transition: 'filter 0.2s ease-in-out' }}
-                    >
-                      <Link to="/sign-up">Create an Account</Link>
-                    </button>
+                    <Link to="/sign-up">
+                      <button
+                        className="flex items-center justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-bold hover:brightness-110 cursor-pointer shadow-[0_0_20px_rgba(249,245,6,0.3)]"
+                        style={{ transition: 'filter 0.2s ease-in-out' }}
+                      >
+                        Create an Account
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -488,19 +472,20 @@ function App() {
                     </h4>
                     <a
                       className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
-                      href="#"
+                      href="features"
+                      onClick={scrollToSection('features')}
                     >
                       Features
                     </a>
                     <a
                       className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
-                      href="#"
+                      href="pricing"
                     >
                       Pricing
                     </a>
                     <a
                       className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
-                      href="#"
+                      href="security"
                     >
                       Security
                     </a>
@@ -511,31 +496,33 @@ function App() {
                     </h4>
                     <a
                       className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
-                      href="#"
+                      href="about"
                     >
                       About Us
                     </a>
                     <a
                       className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
-                      href="#"
+                      href="careers"
                     >
                       Careers
                     </a>
                     <a
                       className="text-sm text-slate-600 dark:text-slate-400 hover:text-primary"
-                      href="#"
+                      href="contact"
                     >
                       Contact
                     </a>
                   </div>
                   <div className="flex flex-col gap-4">
                     <h4 className="font-bold text-slate-900 dark:text-slate-100">
-                      Connect
+                      Our Accounts
                     </h4>
                     <div className="flex gap-4">
                       <a
-                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-primary hover:text-white text-slate-600 dark:text-slate-200"
-                        href="#"
+                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center hover:bg-primary hover:text-white text-slate-600 dark:text-slate-200 transition-all duration-300 ease-in-out"
+                        href="https://twitter.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         {/* Twitter Icon stub */}
                         <svg
@@ -543,12 +530,14 @@ function App() {
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
-                          <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
+                          <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.057 0 14.01-7.506 14.01-14.01 0-.213-.005-.425-.014-.636.961-.695 1.796-1.562 2.457-2.549z"></path>
                         </svg>
                       </a>
                       <a
-                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-primary hover:text-white text-slate-600 dark:text-slate-200"
-                        href="#"
+                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center hover:bg-primary hover:text-white text-slate-600 dark:text-slate-200 transition-all duration-300 ease-in-out"
+                        href="https://linkedin.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         {/* Linkedin Icon stub */}
                         <svg

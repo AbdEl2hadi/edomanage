@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { SearchBar } from './SearchBar'
+// import { SearchBar } from './SearchBar'
 import { NavButton } from './NavButton'
 import { UserProfile } from './UserProfile'
 import type { SideBarContentProps } from './types'
@@ -47,7 +47,7 @@ export function SideBarContent({
         {/* Navigation */}
         <nav className="flex flex-col gap-2" aria-label="Primary">
           {/* Search Bar - visible only on desktop and tablet */}
-          <SearchBar />
+          {/* <SearchBar /> */}
 
           {/* Navigation Items */}
           {list.length > 0 ? (

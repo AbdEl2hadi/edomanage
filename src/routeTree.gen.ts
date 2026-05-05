@@ -21,7 +21,6 @@ import { Route as StudentSettingsRouteImport } from './routes/student/settings'
 import { Route as StudentCoursesRouteImport } from './routes/student/courses'
 import { Route as StudentCalendarRouteImport } from './routes/student/calendar'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
-import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
 import { Route as AdminAnnouncementsRouteImport } from './routes/admin/announcements'
@@ -98,11 +97,6 @@ const StudentCalendarRoute = StudentCalendarRouteImport.update({
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
-  id: '/payments',
-  path: '/payments',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -206,7 +200,6 @@ export interface FileRoutesByFullPath {
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
@@ -238,7 +231,6 @@ export interface FileRoutesByTo {
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
@@ -271,7 +263,6 @@ export interface FileRoutesById {
   '/admin/announcements': typeof AdminAnnouncementsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/student/calendar': typeof StudentCalendarRoute
   '/student/courses': typeof StudentCoursesRoute
@@ -305,7 +296,6 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/calendar'
     | '/admin/dashboard'
-    | '/admin/payments'
     | '/admin/settings'
     | '/student/calendar'
     | '/student/courses'
@@ -337,7 +327,6 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/calendar'
     | '/admin/dashboard'
-    | '/admin/payments'
     | '/admin/settings'
     | '/student/calendar'
     | '/student/courses'
@@ -369,7 +358,6 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/calendar'
     | '/admin/dashboard'
-    | '/admin/payments'
     | '/admin/settings'
     | '/student/calendar'
     | '/student/courses'
@@ -485,13 +473,6 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/payments': {
-      id: '/admin/payments'
-      path: '/payments'
-      fullPath: '/admin/payments'
-      preLoaderRoute: typeof AdminPaymentsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/dashboard': {
@@ -620,7 +601,6 @@ interface AdminRouteChildren {
   AdminAnnouncementsRoute: typeof AdminAnnouncementsRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
-  AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminStudentsStudentIdRoute: typeof AdminStudentsStudentIdRoute
   AdminStudentsAddRoute: typeof AdminStudentsAddRoute
@@ -634,7 +614,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAnnouncementsRoute: AdminAnnouncementsRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminDashboardRoute: AdminDashboardRoute,
-  AdminPaymentsRoute: AdminPaymentsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminStudentsStudentIdRoute: AdminStudentsStudentIdRoute,
   AdminStudentsAddRoute: AdminStudentsAddRoute,
