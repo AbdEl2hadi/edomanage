@@ -7,9 +7,9 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { studentFetcher } from './fetcher'
-import type { AddStudentModel, AddStudentWithUser, StudentWithUser } from '@/lib/Types/StudentTypes'
+import type { AddStudentWithUser, StudentWithUser } from '@/lib/Types/StudentTypes'
 import type { Filters } from '@/lib/Types/FilterTypes'
-import { addStudentSchema, addStudentWithUserSchema } from '@/lib/Schemas/StudentSchemas'
+import { addStudentWithUserSchema } from '@/lib/Schemas/StudentSchemas'
 
 export const useAddStudent = () => {
   const queryClient = useQueryClient()
