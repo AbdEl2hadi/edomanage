@@ -36,9 +36,9 @@ class TeacherFetcher implements ITeacherFetcher {
       url: `${process.env.WebsiteUrl}/admin/teachers`,
       params: {
         search: filters.search,
-        page: filters.page,
-        limit: filters.size,
-        status: filters.status,
+        page: filters.pageIndex,
+        limit: filters.pageSize,
+        status: filters.info?.status,
         // email: filters.email,
         sortBy: filters.sortBy,
         sortOrder: filters.sortOrder,

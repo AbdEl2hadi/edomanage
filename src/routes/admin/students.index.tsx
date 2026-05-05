@@ -66,49 +66,62 @@ export type StudentSortOption = 'name' | 'email'
 export const StudentSearchSchema = z.object({
   search: z.string().catch('').default(''),
   email: z.string().email().catch('').default(''),
-  status: z.string().catch('').default(''),
+  status: z.enum(['Active', 'Inactive', 'Pending']).optional(),
   grade: z.string().catch('').default(''),
   sortBy: z.enum(['name', 'email']).catch('name').default('name'),
   sortOrder: z.enum(['asc', 'desc']).nullable().catch('asc').default('asc'),
-  page: z.coerce.number().int().positive().catch(1).default(1),
-  size: z.coerce.number().int().positive().catch(10).default(10),
+  pageIndex: z.coerce.number().int().positive().catch(1).default(1),
+  pageSize: z.coerce.number().int().positive().catch(10).default(10),
 })
 type StudentSearchParams = z.infer<typeof StudentSearchSchema>
 
 const getStudentsQueryOptions = ({
-  page,
+  pageIndex,
   search,
-  size,
-  status,
-  // grade,
+  pageSize,
   sortOrder,
   sortBy,
-}: QueryOptionsType) => ({
-  queryKey: ['students', page, search, size, sortOrder, sortBy, status],
-  queryFn: async () => {
-    const response = await studentFetcher.getStudents({
-      page,
+  info,
+}: QueryOptionsType) => {
+  const status = info?.status ?? undefined
+  const grade = info?.grade ?? undefined
+  return {
+    queryKey: [
+      'students',
+      pageIndex,
       search,
-      size,
-      status,
+      pageSize,
       sortOrder,
       sortBy,
-      // grade,
-    })
-    if (response.success)
-      return {
-        data: response.data,
-        pagination: response.pagination,
+      status,
+      grade,
+    ],
+    queryFn: async () => {
+      const response = await studentFetcher.getStudents({
+        pageIndex,
+        pageSize,
+        search,
+        info: { status, grade },
+        sortOrder,
+        sortBy,
+      })
+      if (response.success) {
+        return {
+          data: response.data,
+          pagination: response.pagination,
+        }
+      } else {
+        throw new Error('Failed to fetch students')
       }
-    else throw new Error('Failed to fetch students')
-  },
-  staleTime: 5 * 60 * 1000, // 5 minutes
-  gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
-  placeholderData: keepPreviousData,
-  retry: 1,
-  refetchOnWindowFocus: false,
-  refetchOnMount: false,
-})
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+    placeholderData: keepPreviousData,
+    retry: 1,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  }
+}
 
 export const Route = createFileRoute('/admin/students/')({
   component: RouteComponent,
@@ -134,7 +147,8 @@ function AdminStudentsPending() {
 
 function AdminStudentsContent() {
   const navigate = Route.useNavigate()
-  const { size, page, search, sortBy, sortOrder } = Route.useSearch()
+  const { pageSize, pageIndex, search, sortBy, sortOrder, status, grade } =
+    Route.useSearch()
   const {
     data: studentsData,
     status: fetchStatus,
@@ -142,12 +156,14 @@ function AdminStudentsContent() {
     refetch,
   } = useQuery({
     ...getStudentsQueryOptions({
-      page,
-      size,
+      pageIndex,
+      pageSize,
       search,
       sortBy,
-      // status,
-      // grade,
+      info: {
+        status,
+        grade,
+      },
       sortOrder,
     }),
   })
@@ -162,7 +178,7 @@ function AdminStudentsContent() {
   return (
     <div className="flex-1 overflow-y-auto w-full overflow-x-hidden flex flex-col gap-4 px-6 py-6 h-full">
       {fetchStatus === 'pending' ? (
-        <CustomDataTableSkeleton rows={size} cols={6} />
+        <CustomDataTableSkeleton rows={pageSize} cols={6} />
       ) : (
         <>
           <IndexPageComponent role="student" UICards={UICardList}>
@@ -180,12 +196,12 @@ function AdminStudentsContent() {
               />
               <div className="flex items-center gap-4">
                 <SelectPageSize
-                  value={size}
+                  value={pageSize}
                   onChange={(value) =>
                     navigate({
                       search: (s: StudentSearchParams) => ({
                         ...s,
-                        size: value,
+                        pageSize: value,
                       }),
                     })
                   }
@@ -272,7 +288,7 @@ function AdminStudentsContent() {
                     {displayData.pagination.totalElements}
                   </p>
                   <CustomPagination
-                    currentPage={page}
+                    currentPage={pageIndex}
                     totalPages={displayData.pagination.totalPages}
                     onPageChange={(p: any) =>
                       navigate({

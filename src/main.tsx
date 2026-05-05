@@ -36,7 +36,11 @@ declare module '@tanstack/react-router' {
 }
 
 async function bootstrap() {
-  await syncAuthSession()
+  const isAuthenticated = await syncAuthSession()
+
+  if (!isAuthenticated && window.location.pathname !== '/') {
+    await router.navigate({ to: '/' })
+  }
 
   const rootElement = document.getElementById('app')
   if (!rootElement) {

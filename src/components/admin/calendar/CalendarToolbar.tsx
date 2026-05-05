@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui/icon'
 import { format } from 'date-fns'
 import { memo, useMemo } from 'react'
 import { Views } from 'react-big-calendar'
@@ -33,9 +34,7 @@ function CalendarToolbarComponent({
             onClick={() => onShiftDate(-1)}
             aria-label="Previous"
           >
-            <span className="material-symbols-outlined text-[20px]">
-              chevron_left
-            </span>
+            <Icon name="chevron_left" className="text-[20px]" />
           </button>
           <button
             type="button"
@@ -50,9 +49,7 @@ function CalendarToolbarComponent({
             onClick={() => onShiftDate(1)}
             aria-label="Next"
           >
-            <span className="material-symbols-outlined text-[20px]">
-              chevron_right
-            </span>
+            <Icon name="chevron_right" className="text-[20px]" />
           </button>
         </div>
       </div>

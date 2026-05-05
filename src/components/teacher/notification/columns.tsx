@@ -1,6 +1,6 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
-import type { Notification } from '@/services/api/teacher/types/modelType'
+import type { Notification } from '@/lib/Types/NotificationTypes'
 import { notificationFetcher } from '@/services/api/teacher/notification/fetcher'
 
 const getColors = (type: string) => {

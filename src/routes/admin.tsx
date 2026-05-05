@@ -1,20 +1,14 @@
-import {
-  Outlet,
-  createFileRoute,
-  redirect,
-  useLocation,
-} from '@tanstack/react-router'
+import { Outlet, createFileRoute, useLocation } from '@tanstack/react-router'
 import { Skeleton } from 'boneyard-js/react'
 
 import { Activity } from 'react'
 import { SideBar } from '@/components/sideBar/SideBar'
 import TopNav from '@/components/top_nav'
 import { Toaster } from '@/components/ui/sonner'
-import { useAuthStore } from '@/services/store/auth_store'
 
 export const Route = createFileRoute('/admin')({
   component: Admin,
-  beforeLoad: ({ location }) => {
+  /*beforeLoad: ({ location }) => {
     const token = useAuthStore.getState().token
 
     if (!token) {
@@ -25,7 +19,7 @@ export const Route = createFileRoute('/admin')({
         search: { role: 'admin', redirectTo },
       })
     }
-  },
+  },*/
   head: () => ({
     meta: [
       {
@@ -58,7 +52,7 @@ function Admin() {
         <Toaster position="top-center" />
 
         <SideBar info={info} />
-        <main className="flex-1 flex flex-col h-full overflow-y-auto relative">
+        <main className="flex-1 flex flex-col h-full min-h-0 overflow-y-auto relative *:data-[boneyard='admin-calendar-page']:flex-1 *:data-[boneyard='admin-calendar-page']:min-h-0 *:data-[boneyard='admin-calendar-page']:flex *:data-[boneyard='admin-calendar-page']:flex-col [&>[data-boneyard='admin-calendar-page']>*[data-boneyard-content]]:flex [&>[data-boneyard='admin-calendar-page']>*[data-boneyard-content]]:flex-col [&>[data-boneyard='admin-calendar-page']>*[data-boneyard-content]]:flex-1 [&>[data-boneyard='admin-calendar-page']>*[data-boneyard-content]]:min-h-0">
           <TopNav />
           <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 pt-3 mb-1.5 shrink-0">
             <span className="capitalize text-slate-450 dark:text-slate-400">

@@ -44,10 +44,10 @@ function Teacher() {
   }
   return (
     <Skeleton name="teacher-layout" loading={false}>
-      <div className="bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 h-screen overflow-hidden flex flex-row">
+      <div className="bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 h-screen overflow-hidden flex flex-row ">
         <Toaster position="top-center" />
         <SideBar info={info} />
-        <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+        <main className="flex-1 flex flex-col h-full min-h-0 overflow-hidden relative ">
           <TopNav />
           <nav className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 px-6 pt-3 -mb-1.5">
             <span className="capitalize text-slate-450 dark:text-slate-400">
@@ -71,7 +71,11 @@ function Teacher() {
               </span>
             </Activity>
           </nav>
-          <Outlet />
+          <div
+            className="flex-1 min-h-0 flex flex-col overflow-hidden *:flex-1 *:min-h-0 *:data-boneyard:flex *:data-boneyard:flex-col [&>[data-boneyard]>*[data-boneyard-content]]:flex [&>[data-boneyard]>*[data-boneyard-content]]:flex-col [&>[data-boneyard]>*[data-boneyard-content]]:flex-1 [&>[data-boneyard]>*[data-boneyard-content]]:min-h-0"
+          >
+            <Outlet />
+          </div>
         </main>
       </div>
     </Skeleton>

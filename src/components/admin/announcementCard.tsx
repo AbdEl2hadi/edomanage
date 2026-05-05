@@ -1,3 +1,5 @@
+import { Icon } from '../ui/icon'
+
 export type AnnouncementCardType = {
   id: string
   audience: 'All School' | 'Parents & Students' | 'Teachers only'
@@ -32,10 +34,7 @@ export default function AnnouncementCard(props: AnnouncementCardType) {
             <span
               className={`${props.isPinned ? 'text-primary bg-primary/20' : 'invisible'} inline-flex items-center gap-1 rounded-full bg-primary/20 px-2.5 py-0.5 text-xs font-semibold text-primary`}
             >
-              <span className=" material-symbols-outlined text-[14px]">
-                {'push_pin'}
-                {/* props.isPinned &&  */}
-              </span>
+              <Icon name="push_pin" className="text-[14px]" />
               {props.isPinned}
             </span>
           )}
@@ -53,34 +52,31 @@ export default function AnnouncementCard(props: AnnouncementCardType) {
         </p>
         <div className="flex items-center gap-4 mt-1 text-sm text-slate-400 dark:text-slate-500">
           <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px]">
-              calendar_today
-            </span>
+            <Icon name="calendar_today" className="text-[16px]" />
             {props.publishedAt}
             {/* the date type can't be assigned to a jsx so we make it a string then we render it  */}
           </span>
           <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-[16px]">
-              {props.authorName && 'person'}
-            </span>
+            <Icon name="person" className="text-[16px]" />
             Posted by {props.authorName}
           </span>
           <span className="flex items-center gap-1 rounded-2xl font-medium md:ml-0">
-            <span
+            <Icon
+              name={
+                props.status === 'PUBLISHED'
+                  ? 'check_circle'
+                  : props.status === 'DRAFT'
+                    ? 'edit'
+                    : 'inventory_2'
+              }
               className={`${
                 props.status === 'PUBLISHED'
                   ? 'text-emerald-500'
                   : props.status === 'DRAFT'
                     ? 'text-amber-500'
                     : ' text-slate-700 '
-              } material-symbols-outlined text-[16px] fill-1`}
-            >
-              {props.status === 'PUBLISHED'
-                ? 'check_circle'
-                : props.status === 'DRAFT'
-                  ? 'edit'
-                  : 'inventory_2'}
-            </span>
+              } text-[16px] fill-1`}
+            />
             <span
               className={`${
                 props.status === 'PUBLISHED'

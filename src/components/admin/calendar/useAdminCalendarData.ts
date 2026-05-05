@@ -3,6 +3,8 @@ import type { AdminEvent } from './model'
 import { useGetTeachers } from '@/services/api/admin/teacher/hooks'
 import { useGetStudents } from '@/services/api/admin/student/hooks'
 import useGetEvents from '@/services/api/getEvents'
+import type { TeacherWithUser } from '@/lib/Types/TeacherTypes'
+import type { StudentWithUser } from '@/lib/Types/StudentTypes'
 
 type ApiEvent = Omit<AdminEvent, 'start' | 'end'> & {
   start: string | Date
@@ -32,14 +34,14 @@ export function useAdminCalendarData() {
   const teacherNames: Array<string> = useMemo(
     () =>
       teachersData
-        .map((t: { id: string; name: string }) => t.name)
+        .map((t: TeacherWithUser) => t.name)
         .filter(Boolean),
     [teachersData],
   )
 
-  const classOptions: Array<string> = useMemo(() => {
-    const grades: Array<string> = studentsData.map(
-      (s: { grade: string }) => s.grade,
+  const classOptions: Array<string | undefined | null> = useMemo(() => {
+    const grades: Array<string | undefined | null> = studentsData.map(
+      (s: StudentWithUser) => s.info?.grade,
     )
     return Array.from(new Set(grades)).sort()
   }, [studentsData])

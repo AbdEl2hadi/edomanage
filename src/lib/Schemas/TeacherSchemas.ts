@@ -14,8 +14,8 @@ export const teacherSchema = z.object({
     teacherPictureFileId: z.string().nullable().optional(),
 });
 
-export const teacherWithUserSchema = teacherSchema.extend({
-    user: userSchema,
+export const teacherWithUserSchema = userSchema.extend({
+    info : teacherSchema,
 });
 
 export const addTeacherSchema = z.object({

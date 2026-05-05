@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 // import { useQueryClient } from '@tanstack/react-query'
 
 import { Skeleton } from './ui/skeleton'
-import type { ResourceCard } from '@/services/api/student/types/apiType'
+import type { ResourceCard } from '@/lib/Types/ResourceTypes'
 import useSideBarListStore from '@/services/store/sidebar_list_store'
 import useGetNotPanel from '@/services/api/getNotification'
 import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'

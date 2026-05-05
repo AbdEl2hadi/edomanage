@@ -296,7 +296,7 @@ function AdminCalendarContent() {
         open={dialogOpen}
         mode={editingId !== null ? 'edit' : 'add'}
         initialForm={initialForm}
-        classOptions={classOptions}
+        classOptions={classOptions.filter((c) => c != null)}
         teacherNames={teacherNames}
         isSaving={isAdding || isEditing}
         onOpenChange={setDialogOpen}

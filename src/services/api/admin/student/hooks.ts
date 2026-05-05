@@ -4,8 +4,8 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+//import { zodResolver } from '@hookform/resolvers/zod'
+//import { useForm } from 'react-hook-form'
 import { studentFetcher } from './fetcher'
 import type { StudentWithUser } from '@/lib/Types/StudentTypes'
 import type { Filters } from '@/lib/Types/FilterTypes'
@@ -59,14 +59,14 @@ export function useGetStudent(id: string) {
 
 // get student list
 export function useGetStudents({
-  page,
+  pageIndex,
   search,
-  size,
+  pageSize,
 }: Partial<Filters<StudentWithUser>>) {
   return useQuery({
-    queryKey: ['students', page, search, size],
+    queryKey: ['students', pageIndex, search, pageSize],
     queryFn: () =>
-      studentFetcher.getStudents({ page, search, size }),
+      studentFetcher.getStudents({ pageIndex, search, pageSize }),
     select: (response) => {
       return {
         data: response.success ? response.data : [],

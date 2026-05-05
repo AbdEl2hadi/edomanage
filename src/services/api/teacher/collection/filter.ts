@@ -1,6 +1,6 @@
-import type { ResourceFilter } from "@/lib/Types/FilterTypes"
-import type { Resource, ResourceApiModel } from "@/lib/Types/ResourceTypes"
-
+import type { ResourceFilter } from '@/lib/Types/FilterTypes'
+import type { Resource, ResourceApiModel } from '@/lib/Types/ResourceTypes'
+import type { PaginatedSuccessResponse } from '@/lib/Types/ApiTypes'
 
 const parseDateAdded = (dateValue: string): number => {
   const timestamp = Date.parse(dateValue)
@@ -30,10 +30,10 @@ export const filterResources = (
   resources: Array<ResourceApiModel>,
   collectionId: string | undefined,
   searchParams: ResourceFilter,
-): PaginationData<Resource> => {
+): PaginatedSuccessResponse<Resource> => {
   const {
-    page = 1,
-    size = 5,
+    pageIndex = 1,
+    pageSize = 5,
     sortBy = 'newest',
     ...filters
   } = searchParams
@@ -82,13 +82,18 @@ export const filterResources = (
     return parseDateAdded(b.dateAdded) - parseDateAdded(a.dateAdded)
   })
 
-  const start = (page - 1) * size
-  const end = start + size
+  const start = (pageIndex - 1) * pageSize
+  const end = start + pageSize
 
   return {
+    success: true,
+    message: 'Resources filtered successfully',
     data: sorted
       .slice(start, end)
       .map(({ collectionId: _collectionId, ...resource }) => resource),
-    rowCount: sorted.length,
+    pagination: {
+      totalPages: Math.ceil(sorted.length / pageSize),
+      totalElements: sorted.length,
+    },
   }
 }

@@ -8,6 +8,7 @@ import { useMediaQuery } from '../../hooks/use-media-query'
 import { SideBarContent } from './SideBarContent'
 import type { LogoutResponse, SideBarProps, SidebarItem } from './types'
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
+import { Icon } from '@/components/ui/icon'
 import { api } from '@/lib/api'
 
 export function SideBar({ info }: SideBarProps) {
@@ -70,7 +71,7 @@ export function SideBar({ info }: SideBarProps) {
               className="fixed top-4 left-4 z-40 lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
               aria-label="Toggle navigation menu"
             >
-              <span className="material-symbols-outlined">menu</span>
+              <Icon name="menu" />
             </button>
           </DrawerTrigger>
           <DrawerContent className="w-52 h-screen justify-between bg-surface-light dark:bg-surface-dark border-r border-slate-200/80 dark:border-slate-800 p-4">

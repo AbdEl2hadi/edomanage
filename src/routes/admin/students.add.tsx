@@ -1,20 +1,26 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+/*import { Link, createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Skeleton } from 'boneyard-js/react'
 import DatePickerField from '@/components/admin/DatePickerField'
 import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
 import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
 import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
+import { Icon } from '@/components/ui/icon'*/
 // import { useAddStudent } from '@/services/api/owner/student/hooks'
 
 export const Route = createFileRoute('/admin/students/add')({
-  component: RouteComponent,
+  component: ()=> {
+    return (<div className="flex h-full w-full">
+        in development
+    </div>)
+  },
   head: () => ({
     meta: [{ title: 'Admin | Add Student - EduManage' }],
   }),
 })
 
-function RouteComponent() {
+/*function RouteComponent() {
   const [showPassword, setShowPassword] = useState(false)
   const [allowAccess, setAllowAccess] = useState(true)
 
@@ -51,9 +57,7 @@ function RouteComponent() {
 
                   <div className="p-8 border-b border-t border-[#f0f2f4] dark:border-gray-800">
                     <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary">
-                        badge
-                      </span>
+                      <Icon name="badge" className="text-primary" />
                       Personal Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -79,9 +83,7 @@ function RouteComponent() {
                   </div>
                   <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
                     <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary">
-                        contact_mail
-                      </span>
+                      <Icon name="contact_mail" className="text-primary" />
                       Contact Details
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -114,9 +116,7 @@ function RouteComponent() {
                   </div>
                   <div className="p-8 border-b border-[#f0f2f4] dark:border-gray-800">
                     <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary">
-                        school
-                      </span>
+                      <Icon name="school" className="text-primary" />
                       Academic Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -144,9 +144,7 @@ function RouteComponent() {
                   </div>
                   <div className="p-8">
                     <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
-                      <span className="material-symbols-outlined text-primary">
-                        lock
-                      </span>
+                      <Icon name="lock" className="text-primary" />
                       Account Settings
                     </h3>
                     <div className="flex flex-col gap-4">
@@ -183,9 +181,11 @@ function RouteComponent() {
                             className="absolute right-4 top-1/2 -translate-y-1/2 text-[#616f89] hover:text-[#111318] dark:hover:text-white dark:text-gray-400 cursor-pointer"
                             onClick={togglePassword}
                           >
-                            <span className="material-symbols-outlined">
-                              {showPassword ? 'visibility_off' : 'visibility'}
-                            </span>
+                            <Icon
+                              name={
+                                showPassword ? 'visibility_off' : 'visibility'
+                              }
+                            />
                           </button>
                         </div>
                         <p className="text-xs text-[#616f89] dark:text-gray-500">
@@ -208,9 +208,7 @@ function RouteComponent() {
                       type="submit"
                       className="w-full sm:w-auto h-10 px-6 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[18px]">
-                        check
-                      </span>
+                      <Icon name="check" className="text-[18px]" />
                       Create Student Account
                     </button>
                   </div>
@@ -223,3 +221,4 @@ function RouteComponent() {
     </Skeleton>
   )
 }
+*/

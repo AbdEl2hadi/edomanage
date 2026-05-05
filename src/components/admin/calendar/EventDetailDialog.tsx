@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui/icon'
 import { format } from 'date-fns'
 import { memo } from 'react'
 import type { AdminEvent } from './model'
@@ -40,9 +41,7 @@ function EventDetailDialogComponent({
 
             <div className="flex flex-col gap-3 mt-2 text-sm text-slate-700 dark:text-slate-300">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-slate-400 text-[18px]">
-                  calendar_today
-                </span>
+                <Icon name="calendar_today" className="text-slate-400 text-[18px]" />
                 <span>
                   {event.allDay
                     ? format(event.start, 'MMMM d, yyyy')
@@ -53,17 +52,13 @@ function EventDetailDialogComponent({
                 <>
                   {event.className && (
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-slate-400 text-[18px]">
-                        school
-                      </span>
+                      <Icon name="school" className="text-slate-400 text-[18px]" />
                       <span>{event.className}</span>
                     </div>
                   )}
                   {event.teacherName && (
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-slate-400 text-[18px]">
-                        person
-                      </span>
+                      <Icon name="person" className="text-slate-400 text-[18px]" />
                       <span>{event.teacherName}</span>
                     </div>
                   )}
@@ -71,9 +66,7 @@ function EventDetailDialogComponent({
               )}
               {event.repeatWeekly && (
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-slate-400 text-[18px]">
-                    repeat
-                  </span>
+                  <Icon name="repeat" className="text-slate-400 text-[18px]" />
                   <span className="text-xs font-semibold text-primary">
                     Repeats weekly · unlimited
                   </span>
@@ -81,9 +74,7 @@ function EventDetailDialogComponent({
               )}
               {event.description && (
                 <div className="flex items-start gap-2">
-                  <span className="material-symbols-outlined text-slate-400 text-[18px]">
-                    notes
-                  </span>
+                  <Icon name="notes" className="text-slate-400 text-[18px]" />
                   <span className="text-slate-600 dark:text-slate-400">
                     {event.description}
                   </span>

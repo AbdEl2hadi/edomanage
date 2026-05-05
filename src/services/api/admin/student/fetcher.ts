@@ -47,15 +47,15 @@ class StudentFetcher implements IStudentFetcher {
             url: `/admin/students`,
             params: {
                 search: filters.search,
-                page: filters.page,
-                limit: filters.size,
-                // grade: filters.grade,
-                status: filters.status,
+                page: filters.pageIndex,
+                limit: filters.pageSize,
+                grade: filters.info?.grade,
+                status: filters.info?.status,
                 // email: filters.email,
                 sortBy: filters.sortBy,
                 sortOrder: filters.sortOrder,
             }
-            
+
         });
         return data;
     }

@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui/icon'
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 type props<T extends FieldValues> = {
@@ -10,9 +11,7 @@ export default function ProfilePicWrapper<T extends FieldValues>({
     <div className="p-20 border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row gap-20 items-center sm:items-start">
       <div className="relative group cursor-pointer">
         <div className="size-32 rounded-full bg-[#f0f2f4] dark:bg-gray-800 flex items-center justify-center overflow-hidden border-4 border-white dark:border-gray-700 shadow-sm transition-all group-hover:border-primary/20">
-          <span className="material-symbols-outlined text-4xl text-[#9ca3af]">
-            person_add
-          </span>
+          <Icon name="person_add" className="text-4xl text-[#9ca3af]" />
           <img
             alt="User profile preview"
             className="hidden w-full h-full object-cover"
@@ -21,7 +20,7 @@ export default function ProfilePicWrapper<T extends FieldValues>({
           />
         </div>
         <div className="absolute flex justify-center bottom-0 right-0 bg-primary text-white rounded-full p-2 shadow-md border-2 border-white dark:bg-surface-dark">
-          <span className="material-symbols-outlined text-[18px]">edit</span>
+          <Icon name="edit" className="text-[18px]" />
         </div>
       </div>
       <div className="flex flex-col gap-2 text-center sm:text-left">

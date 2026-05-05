@@ -6,6 +6,7 @@ import { Skeleton } from 'boneyard-js/react'
 import type { NotificationsProps } from '@/lib/Types/NotificationTypes'
 import type { TypeTabFilterS } from '@/lib/Types/FilterTypes'
 import NotificationList from '@/components/notificationList'
+import { Icon } from '@/components/ui/icon'
 
 export const Route = createFileRoute('/student/notification/')({
   component: Notifications,
@@ -78,9 +79,7 @@ export function Notifications({ initialTab = 'All' }: NotificationsProps) {
               disabled={isMarkingAllRead}
               className="flex shrink-0 items-center gap-2 justify-center rounded-lg h-10 px-5   bg-primary dark:bg-[#282e39] hover:bg-blue-700 dark:hover:bg-[#323b49] text-white text-sm font-bold active:scale-95"
             >
-              <span className="material-symbols-outlined text-[18px]">
-                done_all
-              </span>
+              <Icon name="done_all" className="text-[18px]" />
               <span>Mark all as read</span>
             </button>
           </div>
@@ -90,9 +89,7 @@ export function Notifications({ initialTab = 'All' }: NotificationsProps) {
             {/* Search Bar */}
             <label className="group relative flex w-full md:max-w-md items-center">
               <span className="absolute left-4 text-[#9da6b9] group-focus-within:text-primary">
-                <span className="material-symbols-outlined text-[24px]">
-                  search
-                </span>
+                <Icon name="search" className="text-[24px]" />
               </span>
               <input
                 type="text"

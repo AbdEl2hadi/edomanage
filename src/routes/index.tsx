@@ -3,9 +3,11 @@ import { Skeleton } from 'boneyard-js/react'
 import useWelcomeSideBarStore from '../services/store/welcome_store'
 import { ModeToggle } from '../features/theme/mode-toggle'
 import SideBar from '@/components/welcomePage/side-bar'
+import { Icon } from '@/components/ui/icon'
 
 export const Route = createFileRoute('/')({
   component: App,
+
   head: () => ({
     meta: [
       {
@@ -44,9 +46,7 @@ function App() {
             <div className="h-full px-5 md:px-10 lg:px-40 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="text-slate-900 dark:text-white flex items-center justify-center">
-                  <span className="material-symbols-outlined text-3xl">
-                    school
-                  </span>
+                  <Icon name="school" className="text-3xl" />
                 </div>
                 <h2 className="text-slate-900 dark:text-white text-xl font-bold tracking-tight">
                   EduManage
@@ -60,7 +60,7 @@ function App() {
                 onClick={toggleSideBar}
                 aria-label="Open menu"
               >
-                <span className="material-symbols-outlined">menu</span>
+                <Icon name="menu" />
               </button>
               <div className="hidden md:flex items-center gap-8">
                 <a
@@ -154,9 +154,10 @@ function App() {
                       className="absolute -bottom-6 -left-6 bg-white dark:bg-surface-dark p-4 rounded-lg shadow-lg flex items-center gap-3 animate-bounce border border-slate-200/70 dark:border-white/10"
                       style={{ animationDuration: '3s' }}
                     >
-                      <span className="material-symbols-outlined text-green-500 text-3xl">
-                        check_circle
-                      </span>
+                      <Icon
+                        name="check_circle"
+                        className="text-green-500 text-3xl"
+                      />
                       <div>
                         <p className="text-xs text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wide">
                           Attendance
@@ -183,9 +184,7 @@ function App() {
                       }}
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="material-symbols-outlined text-primary text-3xl">
-                          domain
-                        </span>
+                        <Icon name="domain" className="text-primary text-3xl" />
                         <p className="text-slate-600 dark:text-slate-400 text-base font-medium leading-normal">
                           Schools Trust Us
                         </p>
@@ -202,9 +201,7 @@ function App() {
                       }}
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="material-symbols-outlined text-primary text-3xl">
-                          groups
-                        </span>
+                        <Icon name="groups" className="text-primary text-3xl" />
                         <p className="text-slate-600 dark:text-slate-400 text-base font-medium leading-normal">
                           Active Students
                         </p>
@@ -221,9 +218,10 @@ function App() {
                       }}
                     >
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="material-symbols-outlined text-primary text-3xl">
-                          cast_for_education
-                        </span>
+                        <Icon
+                          name="cast_for_education"
+                          className="text-primary text-3xl"
+                        />
                         <p className="text-slate-600 dark:text-slate-400 text-base font-medium leading-normal">
                           Teachers Empowered
                         </p>
@@ -263,9 +261,7 @@ function App() {
                     >
                       <div className="z-10">
                         <span className="w-10 h-10 flex items-center justify-center rounded-full bg-primary mb-4">
-                          <span className="material-symbols-outlined text-white">
-                            monitoring
-                          </span>
+                          <Icon name="monitoring" className="text-white" />
                         </span>
                         <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                           Real-time Analytics
@@ -297,9 +293,7 @@ function App() {
                         transition: 'translate 0.2s ease-out',
                       }}
                     >
-                      <span className="material-symbols-outlined text-4xl text-primary mb-2">
-                        payments
-                      </span>
+                      <Icon name="payments" className="text-4xl text-primary mb-2" />
                       <div>
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                           Fee Management
@@ -316,9 +310,7 @@ function App() {
                         transition: 'translate 0.2s ease-out',
                       }}
                     >
-                      <span className="material-symbols-outlined text-4xl text-primary mb-2">
-                        chat
-                      </span>
+                      <Icon name="chat" className="text-4xl text-primary mb-2" />
                       <div>
                         <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                           Communication
@@ -362,9 +354,7 @@ function App() {
                     style={{ transition: 'translate 0.2s ease-out' }}
                   >
                     <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
-                      <span className="material-symbols-outlined text-3xl">
-                        domain
-                      </span>
+                      <Icon name="domain" className="text-3xl" />
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
@@ -395,9 +385,7 @@ function App() {
                     }}
                   >
                     <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
-                      <span className="material-symbols-outlined text-3xl">
-                        auto_stories
-                      </span>
+                      <Icon name="auto_stories" className="text-3xl" />
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
@@ -426,9 +414,7 @@ function App() {
                     style={{ transition: 'translate 0.2s ease-out' }}
                   >
                     <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white">
-                      <span className="material-symbols-outlined text-3xl">
-                        backpack
-                      </span>
+                      <Icon name="backpack" className="text-3xl" />
                     </div>
                     <div>
                       <h2 className="text-slate-900 dark:text-white text-xl font-bold">
@@ -488,9 +474,7 @@ function App() {
                 <div className="max-w-300 w-full grid grid-cols-1 md:grid-cols-4 gap-10">
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
-                      <span className="material-symbols-outlined text-2xl">
-                        school
-                      </span>
+                      <Icon name="school" className="text-2xl" />
                       <span className="font-bold text-lg">SchoolManage</span>
                     </div>
                     <p className="text-sm text-slate-600 dark:text-slate-400">

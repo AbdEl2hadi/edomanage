@@ -13,6 +13,7 @@ import useGetResources, {
   getResourcesQueryOptions,
   useGetCollection,
 } from '@/services/api/teacher/collection/hooks'
+import { Icon } from '@/components/ui/icon'
 
 const SortOptions = z.enum(['newest', 'oldest', 'name', 'size'])
 
@@ -67,8 +68,8 @@ function TeacherFolderContent() {
   const { filters, setFilters } = useFilterResource(Route.id)
 
   const paginationState = {
-    pageIndex: filters.page ?? 1,
-    pageSize: filters.size ?? 5, // this can't be null or underfined,i think the problem is the cleanSearchParams function in the useFilterResource hook.
+    pageIndex: filters.pageIndex ?? 1,
+    pageSize: filters.pageSize ?? 5, // this can't be null or underfined,i think the problem is the cleanSearchParams function in the useFilterResource hook.
   }
   /* useQuery to get data */
 
@@ -91,7 +92,7 @@ function TeacherFolderContent() {
 
   /* fix data to table*/
   const data: Array<Resource> = resourcesData?.data ?? []
-  const rowCount = resourcesData?.rowCount ?? 0 // maybe you meant resourcesData?.pagination.totalElements
+  const totalElements = resourcesData?.pagination?.totalElements ?? 0
 
   /* */
   return !isCollectionLoading && collectionData === undefined ? (
@@ -120,17 +121,16 @@ function TeacherFolderContent() {
               to="/teacher/classes"
               replace
             >
-              <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">
-                arrow_back
-              </span>
+              <Icon
+                name="arrow_back"
+                className="text-[18px] group-hover:-translate-x-1 transition-transform"
+              />
               <span className="text-sm font-medium">Go Back</span>
             </Link>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-start gap-4">
                 <div className="hidden sm:flex size-14 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <span className="material-symbols-outlined filled text-3xl">
-                    folder
-                  </span>
+                  <Icon name="folder" className="filled text-3xl" />
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
@@ -172,7 +172,7 @@ function TeacherFolderContent() {
                       : pagination,
                   )
                 },
-                rowCount,
+                totalElements,
               }}
               filters={filters}
               onFilterChange={setFilters}

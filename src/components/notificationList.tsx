@@ -1,33 +1,30 @@
-import { MdOutlineGrade, MdPriorityHigh } from 'react-icons/md'
-import { GiWhiteBook } from 'react-icons/gi'
-import { FaRegCircleUser } from 'react-icons/fa6'
-import { FaUserTie } from 'react-icons/fa'
 import { useNavigate } from '@tanstack/react-router'
 import { Skeleton as BoneyardSkeleton } from 'boneyard-js/react'
 
 import Loading from './loading'
 import type {
   NotificationListProps,
-  ResourceCard,
-  TypeTabFilter,
-} from '@/services/api/student/types/apiType'
+} from '@/lib/Types/NotificationTypes'
+import type { ResourceCard } from '@/lib/Types/ResourceTypes'
+import type { TypeTabFilterS } from '@/lib/Types/FilterTypes'
+import { Icon } from '@/components/ui/icon'
 import { useNotifications } from '@/services/api/student/notification/notification'
 import useGetTeacherNotifications from '@/services/api/teacher/notification/hooks'
 
-const getIcon = (iconType: string) => {
+const getIconName = (iconType: string) => {
   switch (iconType) {
     case 'Urgent':
-      return <MdPriorityHigh className="text-[24px]" />
+      return 'warning'
     case 'Book':
-      return <GiWhiteBook className="text-[24px]" />
+      return 'auto_stories'
     case 'User':
-      return <FaRegCircleUser className="text-[24px]" />
+      return 'person'
     case 'Grade':
-      return <MdOutlineGrade className="text-[24px]" />
+      return 'star'
     case 'Teacher':
-      return <FaUserTie className="text-[24px]" />
+      return 'groups'
     default:
-      return <MdPriorityHigh className="text-[24px]" />
+      return 'warning'
   }
 }
 
@@ -86,7 +83,7 @@ const getColors = (type: string) => {
 
 const filterNotifications = (
   data: Array<ResourceCard>,
-  tab: TypeTabFilter = 'All',
+  tab: TypeTabFilterS = 'All',
   searchText = '',
 ) => {
   const lowerSearch = searchText.trim().toLowerCase()
@@ -193,9 +190,7 @@ export default function NotificationList({
     return (
       <div className="flex flex-col items-center justify-center h-32 text-center px-4">
         <div className="size-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 mb-3">
-          <span className="material-symbols-outlined text-[32px]">
-            notifications_off
-          </span>
+          <Icon name="notifications_off" className="text-[32px]" />
         </div>
         <p className="text-sm text-slate-500 dark:text-slate-400">
           You have no new notifications
@@ -220,7 +215,6 @@ export default function NotificationList({
     <div className="flex flex-col gap-3">
       {filteredData.map((notification: ResourceCard) => {
         const colors = getColors(notification.type)
-        const Icon = getIcon(notification.type)
 
         return (
           <div
@@ -250,7 +244,10 @@ export default function NotificationList({
               <div
                 className={`flex size-12 items-center justify-center rounded-full ${colors.bg} ${colors.text} ${colors.darkBg}`}
               >
-                {Icon}
+                <Icon
+                  name={getIconName(notification.type)}
+                  className="text-[24px]"
+                />
               </div>
             </div>
 
@@ -277,9 +274,10 @@ export default function NotificationList({
             </div>
 
             <div className="hidden md:flex shrink-0 items-center self-center">
-              <span className="material-symbols-outlined text-gray-400 hover:text-black dark:text-[#4b5563] dark:group-hover:text-white">
-                chevron_right
-              </span>
+              <Icon
+                name="chevron_right"
+                className="text-gray-400 hover:text-black dark:text-[#4b5563] dark:group-hover:text-white"
+              />
             </div>
           </div>
         )

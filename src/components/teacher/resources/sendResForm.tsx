@@ -4,7 +4,7 @@ import { resourceSchema } from './res.schema'
 
 import type { ResourceType } from './res.schema'
 import type { SubmitHandler } from 'react-hook-form'
-import type { Collection } from '@/services/api/teacher/types/modelType'
+import type { Collection } from '@/lib/Types/CollectionTypes'
 
 export default function SendResForm({
   folders,

@@ -63,7 +63,7 @@ const buildAudience = (
 class NotificationFetcher implements INotificationFetcher {
   async getTeacherNotifications(
     filterAndPagination: NotificationFilter,
-  ): Promise<PaginationData<Notification>> {
+  ): Promise<PaginatedSuccessResponse<Notification>> {
     await new Promise((resolve) => setTimeout(resolve, 2000))
     const response = await api.get<Array<Notification>>(API_URL)
     return filterNotifications(response.data, filterAndPagination)

@@ -4,8 +4,10 @@ import { useAuthStore } from '@/services/store/auth_store'
 
 export { isAxiosError } from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL || '/'
+
 export const api = axios.create({
-  baseURL: '/',
+  baseURL: API_URL,
   withCredentials: false,
   headers: {
     'Content-Type': 'application/json',
@@ -26,7 +28,7 @@ type RefreshSessionResponse = {
 }
 
 // * fetch to get new refresh token
-export async function syncAuthSession(): Promise<string | null> {
+export async function syncAuthSession(): Promise<boolean> {
   const { setToken, setUser } = useAuthStore.getState()
 
   try {
@@ -36,15 +38,15 @@ export async function syncAuthSession(): Promise<string | null> {
     if (typeof token === 'string' && token.length > 0) {
       setToken(token)
       setUser(user)
-      return token
+      return true
     }
 
     setToken(null)
     setUser(null)
-    return null
+    return false
   } catch {
     setToken(null)
     setUser(null)
-    return null
+    return false
   }
 }

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import type { Collection } from '@/services/api/teacher/types/modelType'
+import type { Collection } from '@/lib/Types/CollectionTypes'
 
 const gradients = [
   'from-blue-500 to-indigo-600',

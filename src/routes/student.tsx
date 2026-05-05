@@ -1,7 +1,6 @@
 import {
   Outlet,
   createFileRoute,
-  redirect,
   useLocation,
   // useMatchRoute,
 } from '@tanstack/react-router'
@@ -9,11 +8,10 @@ import { Skeleton } from 'boneyard-js/react'
 import { Activity } from 'react'
 import { SideBar } from '@/components/sideBar/SideBar'
 import TopNav from '@/components/top_nav'
-import { useAuthStore } from '@/services/store/auth_store'
 
 export const Route = createFileRoute('/student')({
   component: Student,
-  beforeLoad: ({ location }) => {
+  /*beforeLoad: ({ location }) => {
     const token = useAuthStore.getState().token
 
     if (!token) {
@@ -24,7 +22,7 @@ export const Route = createFileRoute('/student')({
         search: { role: 'student', redirectTo },
       })
     }
-  },
+  },*/
   head: () => ({
     meta: [{ title: 'Student - EduManage' }],
   }),
@@ -50,7 +48,7 @@ function Student() {
     <Skeleton name="student-layout" loading={false}>
       <div className="bg-background-light dark:bg-background-dark text-[#0d121b] dark:text-gray-100 h-screen overflow-hidden flex flex-row">
         <SideBar info={info} />
-        <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+        <main className="flex-1 flex flex-col h-full min-h-0 overflow-hidden relative">
           {/* <TopNav /> */}
           <TopNav />
           {/* switchTopNav={switchTopNav} */}
@@ -71,7 +69,9 @@ function Student() {
               </span>
             </Activity>
           </nav>
-          <Outlet />
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden *:flex-1 *:min-h-0 *:data-boneyard:flex *:data-boneyard:flex-col [&>[data-boneyard]>*[data-boneyard-content]]:flex [&>[data-boneyard]>*[data-boneyard-content]]:flex-col [&>[data-boneyard]>*[data-boneyard-content]]:flex-1 [&>[data-boneyard]>*[data-boneyard-content]]:min-h-0">
+            <Outlet />
+          </div>
         </main>
       </div>
     </Skeleton>
