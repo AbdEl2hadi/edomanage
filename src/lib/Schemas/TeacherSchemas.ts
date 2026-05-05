@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { newUserSchema, userSchema } from "./UserSchemas";
+import { AuthUserSchema } from "./UserSchemas";
 
 export const teacherSchema = z.object({
     id: z.string().optional(),
@@ -14,8 +14,8 @@ export const teacherSchema = z.object({
     teacherPictureFileId: z.string().nullable().optional(),
 });
 
-export const teacherWithUserSchema = userSchema.extend({
-    info : teacherSchema,
+export const teacherWithUserSchema = AuthUserSchema.extend({
+    info: teacherSchema,
 });
 
 export const addTeacherSchema = z.object({
@@ -31,6 +31,6 @@ export const addTeacherSchema = z.object({
     teacherPictureFileId: z.string().nullable().optional(),
 });
 
-export const addTeacherWithUserSchema = addTeacherSchema.extend({
-    user: newUserSchema,
+export const addTeacherWithUserSchema = AuthUserSchema.extend({
+    info: addTeacherSchema,
 });

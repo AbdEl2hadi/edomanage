@@ -208,7 +208,7 @@ function AdminStudentsContent() {
                 />
                 <SelectFilter
                   options={grades}
-                  value={grade}
+                  value={''}
                   onChange={(value) =>
                     navigate({
                       search: (s: StudentSearchParams) => ({

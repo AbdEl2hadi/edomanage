@@ -1,26 +1,31 @@
-import { createFileRoute } from '@tanstack/react-router'
-/*import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
+
 import { useState } from 'react'
 import { Skeleton } from 'boneyard-js/react'
+import type { AddStudentWithUser } from '@/lib/Types/StudentTypes'
 import DatePickerField from '@/components/admin/DatePickerField'
 import InputWrapper from '@/components/admin/Wrappers/InputWrapper'
 import SelectWrapper from '@/components/admin/Wrappers/SelectWrapper'
 import ProfilePicWrapper from '@/components/admin/Wrappers/ProfilePicWrapper'
-import { Icon } from '@/components/ui/icon'*/
-// import { useAddStudent } from '@/services/api/owner/student/hooks'
+import { Icon } from '@/components/ui/icon'
+import { useAddStudent } from '@/services/api/admin/student/hooks'
 
 export const Route = createFileRoute('/admin/students/add')({
-  component: ()=> {
-    return (<div className="flex h-full w-full">
-        in development
-    </div>)
-  },
+  component: RouteComponent,
+
+  // ()=> {
+  //   return (<div className="flex h-full w-full">
+  //       in development
+  //   </div>)
+
   head: () => ({
     meta: [{ title: 'Admin | Add Student - EduManage' }],
   }),
 })
 
-/*function RouteComponent() {
+function RouteComponent() {
+  const { studentForm, onSubmit } = useAddStudent()
+
   const [showPassword, setShowPassword] = useState(false)
   const [allowAccess, setAllowAccess] = useState(true)
 
@@ -30,8 +35,6 @@ export const Route = createFileRoute('/admin/students/add')({
   function toggleAllowAccess() {
     setAllowAccess(!allowAccess)
   }
-
-  // const { studentForm, onSubmit } = useAddStudent()
 
   return (
     <Skeleton name="admin-add-student-page" loading={false}>
@@ -53,7 +56,7 @@ export const Route = createFileRoute('/admin/students/add')({
                   className="flex flex-col"
                   onSubmit={studentForm.handleSubmit(onSubmit)}
                 >
-                  <ProfilePicWrapper<AddStudentModel> form={studentForm} />
+                  <ProfilePicWrapper<AddStudentWithUser> form={studentForm} />
 
                   <div className="p-8 border-b border-t border-[#f0f2f4] dark:border-gray-800">
                     <h3 className="text-[#111318] dark:text-white text-lg font-bold mb-6 flex items-center gap-2">
@@ -61,21 +64,21 @@ export const Route = createFileRoute('/admin/students/add')({
                       Personal Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <InputWrapper
+                      <InputWrapper<AddStudentWithUser>
                         form={studentForm}
                         name="name"
                         label="name"
                         placeholder="Student's Name"
                       />
-                      <DatePickerField
+                      <DatePickerField<AddStudentWithUser>
                         form={studentForm}
-                        name="dateOfBirth"
+                        name="info.dateOfBirth"
                         label="Birth Date "
                       />
-                      <SelectWrapper
+                      <SelectWrapper<AddStudentWithUser>
                         form={studentForm}
                         label="Gender"
-                        name="gender"
+                        name="info.gender"
                         placeholder="pick your gender"
                         values={['female', 'male']}
                       />
@@ -87,28 +90,28 @@ export const Route = createFileRoute('/admin/students/add')({
                       Contact Details
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <InputWrapper
+                      <InputWrapper<AddStudentWithUser>
                         form={studentForm}
                         name="email"
                         label="email"
                         placeholder="Student's Email"
                         type="email"
                       />
-                      <InputWrapper
+                      <InputWrapper<AddStudentWithUser>
                         form={studentForm}
-                        name="parentPhoneNumber"
+                        name="info.parentPhoneNumber"
                         label="Parent Phone Number"
                         placeholder="Parent Phone Number"
                       />
-                      <InputWrapper
+                      <InputWrapper<AddStudentWithUser>
                         form={studentForm}
-                        name="parentName"
+                        name="info.parentName"
                         label="Parent Name"
                         placeholder="Parent Name"
                       />
-                      <InputWrapper
+                      <InputWrapper<AddStudentWithUser>
                         form={studentForm}
-                        name="address"
+                        name="info.address"
                         label="Address"
                         placeholder="Student's Address"
                       />
@@ -120,15 +123,15 @@ export const Route = createFileRoute('/admin/students/add')({
                       Academic Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <DatePickerField
-                        name="enrollmentDate"
-                        label="Enrollment Date"
+                      {/* <DatePickerField<AddStudentWithUser>
                         form={studentForm}
-                      />
-                      <SelectWrapper
+                        name="info.enrollmentDate"
+                        label="Enrollment Date"
+                      /> */}
+                      <SelectWrapper<AddStudentWithUser>
                         form={studentForm}
                         label="Class / Grade"
-                        name="grade"
+                        name="info.grade"
                         placeholder="pick your grade"
                         values={[
                           'Grade 1',
@@ -221,4 +224,3 @@ export const Route = createFileRoute('/admin/students/add')({
     </Skeleton>
   )
 }
-*/

@@ -17,41 +17,27 @@ class StudentFetcher implements IStudentFetcher {
 
     // Add Student with User Details
     async addStudent(student: AddStudentWithUser) {
-        try {
-            const { data } = await axios<ApiResponse<StudentWithUser>>(
-                {
-                    url: `${import.meta.env.VITE_WebsiteUrl}/admin/students`,
-                    method: "POST",
-                    data: student,
-                }
-            );
-            return data;
-        } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                if (error.response) {
-                    console.error("addStudent - Server Error:", error.response.status, error.response.data);
-                } else if (error.request) {
-                    console.error("addStudent - Network Error:", error.request);
-                }
-            } else {
-                console.error("addStudent - General Error:", error.message);
+        const { data } = await axios<ApiResponse<StudentWithUser>>(
+            {
+                url: `/admin/students`,
+                method: "POST",
+                data: student,
             }
-            throw error;
-        }
+        );
+        return data;
     }
 
 
     async getStudents(filters: Partial<Filters<StudentWithUser>>) {
         const { data } = await axios<PaginatedApiResponse<StudentWithUser>>({
             method: "GET",
-            url: `${import.meta.env.VITE_WebsiteUrl}/admin/students`,
+            url: `/admin/students`,
             params: {
                 search: filters.search,
                 page: filters.pageIndex,
                 limit: filters.pageSize,
                 grade: filters.info?.grade,
                 status: filters.info?.status,
-                // email: filters.email,
                 sortBy: filters.sortBy,
                 sortOrder: filters.sortOrder,
             }
@@ -60,24 +46,11 @@ class StudentFetcher implements IStudentFetcher {
     }
 
     async getStudent(studentId: string) {
-        // try {
         const { data } = await axios<ApiResponse<StudentWithUser>>({
             method: "GET",
-            url: `${import.meta.env.VITE_WebsiteUrl}/admin/students/${studentId}`,
+            url: `/admin/students/${studentId}`,
         });
         return data;
-        // } catch (error: any) {
-        //     if (axios.isAxiosError(error)) {
-        //         if (error.response) {
-        //             console.error("getStudent - Server Error:", error.response.status, error.response.data);
-        //         } else if (error.request) {
-        //             console.error("getStudent - Network Error:", error.request);
-        //         }
-        //     } else {
-        //         console.error("getStudent - General Error:", error.message);
-        //     }
-        //     throw error;
-        // }
     }
 
 
@@ -85,7 +58,7 @@ class StudentFetcher implements IStudentFetcher {
     async editStudent(modifiedStudent: StudentWithUser) {
         try {
             const { data } = await axios.put<ApiResponse<StudentWithUser>>(
-                `${import.meta.env.VITE_WebsiteUrl}/admin/students/${modifiedStudent.id}`,
+                `/admin/students/${modifiedStudent.id}`,
                 modifiedStudent
             );
             return data;
@@ -104,24 +77,11 @@ class StudentFetcher implements IStudentFetcher {
     }
 
     async deleteStudent(id: string) {
-        // try {
         const { data } = await axios<ApiResponse<void>>({
             method: "DELETE",
-            url: `${import.meta.env.VITE_WebsiteUrl}/admin/students/${id}`,
+            url: `/admin/students/${id}`,
         });
         return data;
-        // } catch (error: any) {
-        //     if (axios.isAxiosError(error)) {
-        //         if (error.response) {
-        //             console.error("deleteStudent - Server Error:", error.response.status, error.response.data);
-        //         } else if (error.request) {
-        //             console.error("deleteStudent - Network Error:", error.request);
-        //         }
-        //     } else {
-        //         console.error("deleteStudent - General Error:", error.message);
-        //     }
-        //     throw error;
-        // }
     }
 }
 

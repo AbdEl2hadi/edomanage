@@ -4,11 +4,45 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-//import { zodResolver } from '@hookform/resolvers/zod'
-//import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { studentFetcher } from './fetcher'
-import type { StudentWithUser } from '@/lib/Types/StudentTypes'
+import type { AddStudentWithUser, StudentWithUser } from '@/lib/Types/StudentTypes'
 import type { Filters } from '@/lib/Types/FilterTypes'
+import { addStudentWithUserSchema } from '@/lib/Schemas/StudentSchemas'
+
+export const useAddStudent = () => {
+  const queryClient = useQueryClient()
+  const { mutate: addStudent } = useMutation({
+    mutationFn: studentFetcher.addStudent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['students'] })
+    },
+    onMutate: async (student) => {
+      await queryClient.cancelQueries({ queryKey: ['students'] })
+      const oldStudentsList = queryClient.getQueryData<Array<StudentWithUser>>([
+        'students',
+      ])
+      const newStudentsList = [...(oldStudentsList ?? []), student]
+      queryClient.setQueryData(['students'], newStudentsList)
+    },
+    // onError: (err, student, context) => {  // error handling can be done later
+    //   if (context?.oldStudentsList) {
+    //     queryClient.setQueryData(['students'], context.oldStudentsList)
+    //   }
+    // },
+  }
+  )
+
+  const studentForm = useForm<AddStudentWithUser>({
+    resolver: zodResolver(addStudentWithUserSchema),
+  })
+
+  function onSubmit(data: AddStudentWithUser) {
+    addStudent(data)
+  }
+  return { studentForm, onSubmit }
+}
 
 // // add student
 // export function useAddStudent() {
